@@ -8,7 +8,11 @@ import ClientRuntime
 ///
 /// * A participant token is a token that authenticates a participant when they join a stage.
 ///
-/// * A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID There is a 1:1 mapping between participant tokens and participants.
+/// * A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.
+///
+/// * Server-side composition: The composition process composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition endpoints support this process.
+///
+/// * Server-side composition: A composition controls the look of the outputs, including how participants are positioned in the video.
 ///
 ///
 /// Resources The following resources contain information about your IVS live stream (see [Getting Started with Amazon IVS Real-Time Streaming](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started.html)):
@@ -43,6 +47,39 @@ import ClientRuntime
 /// * [UpdateStage] — Updates a stage’s configuration.
 ///
 ///
+/// Composition Endpoints
+///
+/// * [GetComposition] — Gets information about the specified Composition resource.
+///
+/// * [ListCompositions] — Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
+///
+/// * [StartComposition] — Starts a Composition from a stage based on the configuration provided in the request.
+///
+/// * [StopComposition] — Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
+///
+///
+/// EncoderConfiguration Endpoints
+///
+/// * [CreateEncoderConfiguration] — Creates an EncoderConfiguration object.
+///
+/// * [DeleteEncoderConfiguration] — Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
+///
+/// * [GetEncoderConfiguration] — Gets information about the specified EncoderConfiguration resource.
+///
+/// * [ListEncoderConfigurations] — Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
+///
+///
+/// StorageConfiguration Endpoints
+///
+/// * [CreateStorageConfiguration] — Creates a new storage configuration, used to enable recording to Amazon S3.
+///
+/// * [DeleteStorageConfiguration] — Deletes the storage configuration for the specified ARN.
+///
+/// * [GetStorageConfiguration] — Gets the storage configuration for the specified ARN.
+///
+/// * [ListStorageConfigurations] — Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
+///
+///
 /// Tags Endpoints
 ///
 /// * [ListTagsForResource] — Gets information about AWS tags for the specified ARN.
@@ -51,6 +88,27 @@ import ClientRuntime
 ///
 /// * [UntagResource] — Removes tags from the resource with the specified ARN.
 public protocol IVSRealTimeClientProtocol {
+    /// Performs the `CreateEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Creates an EncoderConfiguration object.
+    ///
+    /// - Parameter CreateEncoderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEncoderConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func createEncoderConfiguration(input: CreateEncoderConfigurationInput) async throws -> CreateEncoderConfigurationOutput
+    /// Performs the `CreateParticipantToken` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     ///
     /// - Parameter CreateParticipantTokenInput : [no documentation found]
@@ -66,6 +124,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutput
+    /// Performs the `CreateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Creates a new stage (and optionally participant tokens).
     ///
     /// - Parameter CreateStageInput : [no documentation found]
@@ -80,6 +140,45 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ServiceQuotaExceededException` :
     /// - `ValidationException` :
     func createStage(input: CreateStageInput) async throws -> CreateStageOutput
+    /// Performs the `CreateStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
+    ///
+    /// - Parameter CreateStorageConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStorageConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func createStorageConfiguration(input: CreateStorageConfigurationInput) async throws -> CreateStorageConfigurationOutput
+    /// Performs the `DeleteEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
+    ///
+    /// - Parameter DeleteEncoderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEncoderConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func deleteEncoderConfiguration(input: DeleteEncoderConfigurationInput) async throws -> DeleteEncoderConfigurationOutput
+    /// Performs the `DeleteStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Shuts down and deletes the specified stage (disconnecting all participants).
     ///
     /// - Parameter DeleteStageInput : [no documentation found]
@@ -95,6 +194,26 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutput
+    /// Performs the `DeleteStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use [StopComposition] and wait for it to complete, then use DeleteStorageConfiguration.
+    ///
+    /// - Parameter DeleteStorageConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStorageConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func deleteStorageConfiguration(input: DeleteStorageConfigurationInput) async throws -> DeleteStorageConfigurationOutput
+    /// Performs the `DisconnectParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
     ///
     /// - Parameter DisconnectParticipantInput : [no documentation found]
@@ -109,6 +228,44 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutput
+    /// Performs the `GetComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Get information about the specified Composition resource.
+    ///
+    /// - Parameter GetCompositionInput : [no documentation found]
+    ///
+    /// - Returns: `GetCompositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func getComposition(input: GetCompositionInput) async throws -> GetCompositionOutput
+    /// Performs the `GetEncoderConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Gets information about the specified EncoderConfiguration resource.
+    ///
+    /// - Parameter GetEncoderConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetEncoderConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func getEncoderConfiguration(input: GetEncoderConfigurationInput) async throws -> GetEncoderConfigurationOutput
+    /// Performs the `GetParticipant` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets information about the specified participant token.
     ///
     /// - Parameter GetParticipantInput : [no documentation found]
@@ -122,6 +279,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutput
+    /// Performs the `GetStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets information for the specified stage.
     ///
     /// - Parameter GetStageInput : [no documentation found]
@@ -135,6 +294,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStage(input: GetStageInput) async throws -> GetStageOutput
+    /// Performs the `GetStageSession` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets information for the specified stage session.
     ///
     /// - Parameter GetStageSessionInput : [no documentation found]
@@ -148,6 +309,60 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutput
+    /// Performs the `GetStorageConfiguration` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Gets the storage configuration for the specified ARN.
+    ///
+    /// - Parameter GetStorageConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetStorageConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func getStorageConfiguration(input: GetStorageConfigurationInput) async throws -> GetStorageConfigurationOutput
+    /// Performs the `ListCompositions` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListCompositionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCompositionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func listCompositions(input: ListCompositionsInput) async throws -> ListCompositionsOutput
+    /// Performs the `ListEncoderConfigurations` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListEncoderConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEncoderConfigurationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func listEncoderConfigurations(input: ListEncoderConfigurationsInput) async throws -> ListEncoderConfigurationsOutput
+    /// Performs the `ListParticipantEvents` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
     /// - Parameter ListParticipantEventsInput : [no documentation found]
@@ -160,6 +375,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutput
+    /// Performs the `ListParticipants` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Lists all participants in a specified stage session.
     ///
     /// - Parameter ListParticipantsInput : [no documentation found]
@@ -172,6 +389,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutput
+    /// Performs the `ListStages` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
     /// - Parameter ListStagesInput : [no documentation found]
@@ -185,6 +404,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ConflictException` :
     /// - `ValidationException` :
     func listStages(input: ListStagesInput) async throws -> ListStagesOutput
+    /// Performs the `ListStageSessions` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets all sessions for a specified stage.
     ///
     /// - Parameter ListStageSessionsInput : [no documentation found]
@@ -197,6 +418,25 @@ public protocol IVSRealTimeClientProtocol {
     /// - `AccessDeniedException` :
     /// - `ValidationException` :
     func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutput
+    /// Performs the `ListStorageConfigurations` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListStorageConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStorageConfigurationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func listStorageConfigurations(input: ListStorageConfigurationsInput) async throws -> ListStorageConfigurationsOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Gets information about AWS tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -210,6 +450,55 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `StartComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this endpoint returns successfully. Composition stops and the resource is deleted:
+    ///
+    /// * When [StopComposition] is called.
+    ///
+    /// * After a 1-minute timeout, when all participants are disconnected from the stage.
+    ///
+    /// * After a 1-minute timeout, if there are no participants in the stage when StartComposition is called.
+    ///
+    /// * When broadcasting to the IVS channel fails and all retries are exhausted.
+    ///
+    /// * When broadcasting is disconnected and all attempts to reconnect are exhausted.
+    ///
+    /// - Parameter StartCompositionInput : [no documentation found]
+    ///
+    /// - Returns: `StartCompositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func startComposition(input: StartCompositionInput) async throws -> StartCompositionOutput
+    /// Performs the `StopComposition` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
+    /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
+    ///
+    /// - Parameter StopCompositionInput : [no documentation found]
+    ///
+    /// - Returns: `StopCompositionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
+    func stopComposition(input: StopCompositionInput) async throws -> StopCompositionOutput
+    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -223,6 +512,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -236,6 +527,8 @@ public protocol IVSRealTimeClientProtocol {
     /// - `ResourceNotFoundException` :
     /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateStage` operation on the `AmazonInteractiveVideoServiceRealTime` service.
+    ///
     /// Updates a stage’s configuration.
     ///
     /// - Parameter UpdateStageInput : [no documentation found]

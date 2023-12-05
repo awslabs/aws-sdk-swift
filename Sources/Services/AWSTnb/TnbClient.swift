@@ -67,6 +67,8 @@ public struct TnbClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension TnbClient: TnbClientProtocol {
+    /// Performs the `CancelSolNetworkOperation` operation on the `TNB` service.
+    ///
     /// Cancels a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
     /// - Parameter CancelSolNetworkOperationInput : [no documentation found]
@@ -97,21 +99,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>(id: "cancelSolNetworkOperation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>())
+        var operation = ClientRuntime.OperationStack<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>(id: "cancelSolNetworkOperation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelSolNetworkOperationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelSolNetworkOperationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationOutput, CancelSolNetworkOperationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSolNetworkOperationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelSolNetworkOperationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSolFunctionPackage` operation on the `TNB` service.
+    ///
     /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html) in the Amazon Web Services Telco Network Builder User Guide. Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
     ///
     /// - Parameter CreateSolFunctionPackageInput : [no documentation found]
@@ -142,24 +146,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>(id: "createSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(id: "createSolFunctionPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolFunctionPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput>(xmlName: "CreateSolFunctionPackageInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolFunctionPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageOutput, CreateSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolFunctionPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSolFunctionPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html).
     ///
     /// - Parameter CreateSolNetworkInstanceInput : [no documentation found]
@@ -191,24 +197,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>(id: "createSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(id: "createSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput>(xmlName: "CreateSolNetworkInstanceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceOutput, CreateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSolNetworkPackage` operation on the `TNB` service.
+    ///
     /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
     ///
     /// - Parameter CreateSolNetworkPackageInput : [no documentation found]
@@ -239,24 +247,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>(id: "createSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(id: "createSolNetworkPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSolNetworkPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput>(xmlName: "CreateSolNetworkPackageInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSolNetworkPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageOutput, CreateSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSolNetworkPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSolFunctionPackage` operation on the `TNB` service.
+    ///
     /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
     ///
     /// - Parameter DeleteSolFunctionPackageInput : [no documentation found]
@@ -287,21 +297,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>(id: "deleteSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>(id: "deleteSolFunctionPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolFunctionPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolFunctionPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageOutput, DeleteSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolFunctionPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSolFunctionPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html).
     ///
     /// - Parameter DeleteSolNetworkInstanceInput : [no documentation found]
@@ -332,21 +344,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>(id: "deleteSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>(id: "deleteSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceOutput, DeleteSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSolNetworkPackage` operation on the `TNB` service.
+    ///
     /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
     ///
     /// - Parameter DeleteSolNetworkPackageInput : [no documentation found]
@@ -377,21 +391,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>(id: "deleteSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>(id: "deleteSolNetworkPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSolNetworkPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSolNetworkPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageOutput, DeleteSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSolNetworkPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolFunctionInstance` operation on the `TNB` service.
+    ///
     /// Gets the details of a network function instance, including the instantation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package .
     ///
     /// - Parameter GetSolFunctionInstanceInput : [no documentation found]
@@ -422,21 +438,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>(id: "getSolFunctionInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>(id: "getSolFunctionInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceOutput, GetSolFunctionInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolFunctionInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolFunctionPackage` operation on the `TNB` service.
+    ///
     /// Gets the details of an individual function package, such as the operational state and whether the package is in use. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
     ///
     /// - Parameter GetSolFunctionPackageInput : [no documentation found]
@@ -467,21 +485,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageInput, GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>(id: "getSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>(id: "getSolFunctionPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageOutput, GetSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolFunctionPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolFunctionPackageContent` operation on the `TNB` service.
+    ///
     /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter GetSolFunctionPackageContentInput : [no documentation found]
@@ -512,22 +532,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>(id: "getSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>(id: "getSolFunctionPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentOutput, GetSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolFunctionPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolFunctionPackageDescriptor` operation on the `TNB` service.
+    ///
     /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter GetSolFunctionPackageDescriptorInput : [no documentation found]
@@ -558,22 +580,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>(id: "getSolFunctionPackageDescriptor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>(id: "getSolFunctionPackageDescriptor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolFunctionPackageDescriptorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolFunctionPackageDescriptorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorOutput, GetSolFunctionPackageDescriptorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageDescriptorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolFunctionPackageDescriptorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
     ///
     /// - Parameter GetSolNetworkInstanceInput : [no documentation found]
@@ -604,21 +628,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>(id: "getSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>(id: "getSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceOutput, GetSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolNetworkOperation` operation on the `TNB` service.
+    ///
     /// Gets the details of a network operation, including the tasks involved in the network operation and the status of the tasks. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
     /// - Parameter GetSolNetworkOperationInput : [no documentation found]
@@ -649,21 +675,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkOperationInput, GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>(id: "getSolNetworkOperation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>(id: "getSolNetworkOperation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkOperationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkOperationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkOperationOutput, GetSolNetworkOperationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkOperationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolNetworkOperationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkOperationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolNetworkPackage` operation on the `TNB` service.
+    ///
     /// Gets the details of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
     /// - Parameter GetSolNetworkPackageInput : [no documentation found]
@@ -694,21 +722,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageInput, GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>(id: "getSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>(id: "getSolNetworkPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageOutput, GetSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolNetworkPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolNetworkPackageContent` operation on the `TNB` service.
+    ///
     /// Gets the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
     /// - Parameter GetSolNetworkPackageContentInput : [no documentation found]
@@ -739,22 +769,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>(id: "getSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>(id: "getSolNetworkPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentOutput, GetSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolNetworkPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSolNetworkPackageDescriptor` operation on the `TNB` service.
+    ///
     /// Gets the content of the network service descriptor. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
     ///
     /// - Parameter GetSolNetworkPackageDescriptorInput : [no documentation found]
@@ -785,21 +817,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>(id: "getSolNetworkPackageDescriptor")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>(id: "getSolNetworkPackageDescriptor")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSolNetworkPackageDescriptorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSolNetworkPackageDescriptorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorOutput, GetSolNetworkPackageDescriptorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageDescriptorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSolNetworkPackageDescriptorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `InstantiateSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html).
     ///
     /// - Parameter InstantiateSolNetworkInstanceInput : [no documentation found]
@@ -831,25 +865,27 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>(id: "instantiateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(id: "instantiateSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InstantiateSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput>(xmlName: "InstantiateSolNetworkInstanceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InstantiateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceOutput, InstantiateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstantiateSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(InstantiateSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSolFunctionInstances` operation on the `TNB` service.
+    ///
     /// Lists network function instances. A network function instance is a function in a function package .
     ///
     /// - Parameter ListSolFunctionInstancesInput : [no documentation found]
@@ -879,22 +915,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>(id: "listSolFunctionInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>(id: "listSolFunctionInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolFunctionInstancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionInstancesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesOutput, ListSolFunctionInstancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionInstancesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSolFunctionInstancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSolFunctionPackages` operation on the `TNB` service.
+    ///
     /// Lists information about function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter ListSolFunctionPackagesInput : [no documentation found]
@@ -924,22 +962,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>(id: "listSolFunctionPackages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>(id: "listSolFunctionPackages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolFunctionPackagesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolFunctionPackagesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesOutput, ListSolFunctionPackagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionPackagesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSolFunctionPackagesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSolNetworkInstances` operation on the `TNB` service.
+    ///
     /// Lists your network instances. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
     ///
     /// - Parameter ListSolNetworkInstancesInput : [no documentation found]
@@ -969,22 +1009,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>(id: "listSolNetworkInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>(id: "listSolNetworkInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkInstancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkInstancesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesOutput, ListSolNetworkInstancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkInstancesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSolNetworkInstancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSolNetworkOperations` operation on the `TNB` service.
+    ///
     /// Lists details for a network operation, including when the operation started and the status of the operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     ///
     /// - Parameter ListSolNetworkOperationsInput : [no documentation found]
@@ -1014,22 +1056,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>(id: "listSolNetworkOperations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>(id: "listSolNetworkOperations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkOperationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkOperationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsOutput, ListSolNetworkOperationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkOperationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSolNetworkOperationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSolNetworkPackages` operation on the `TNB` service.
+    ///
     /// Lists network packages. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
     /// - Parameter ListSolNetworkPackagesInput : [no documentation found]
@@ -1059,22 +1103,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>(id: "listSolNetworkPackages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>(id: "listSolNetworkPackages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSolNetworkPackagesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSolNetworkPackagesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesOutput, ListSolNetworkPackagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkPackagesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSolNetworkPackagesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `TNB` service.
+    ///
     /// Lists tags for AWS TNB resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1105,21 +1151,23 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutSolFunctionPackageContent` operation on the `TNB` service.
+    ///
     /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter PutSolFunctionPackageContentInput : [no documentation found]
@@ -1150,25 +1198,27 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>(id: "putSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(id: "putSolFunctionPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSolFunctionPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: PutSolFunctionPackageContentInputBodyMiddleware())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutput>(keyPath: \.file))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentOutput, PutSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolFunctionPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutSolFunctionPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutSolNetworkPackageContent` operation on the `TNB` service.
+    ///
     /// Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
     /// - Parameter PutSolNetworkPackageContentInput : [no documentation found]
@@ -1199,25 +1249,27 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>(id: "putSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(id: "putSolNetworkPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSolNetworkPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: PutSolNetworkPackageContentInputBodyMiddleware())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutput>(keyPath: \.file))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentOutput, PutSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolNetworkPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutSolNetworkPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `TNB` service.
+    ///
     /// Tags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1248,24 +1300,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TerminateSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Terminates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. You must terminate a network instance before you can delete it.
     ///
     /// - Parameter TerminateSolNetworkInstanceInput : [no documentation found]
@@ -1297,24 +1351,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>(id: "terminateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(id: "terminateSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TerminateSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput>(xmlName: "TerminateSolNetworkInstanceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TerminateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceOutput, TerminateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TerminateSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `TNB` service.
+    ///
     /// Untags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1345,22 +1401,24 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSolFunctionPackage` operation on the `TNB` service.
+    ///
     /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter UpdateSolFunctionPackageInput : [no documentation found]
@@ -1391,24 +1449,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>(id: "updateSolFunctionPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(id: "updateSolFunctionPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolFunctionPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput>(xmlName: "UpdateSolFunctionPackageInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolFunctionPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageOutput, UpdateSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolFunctionPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSolFunctionPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSolNetworkInstance` operation on the `TNB` service.
+    ///
     /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
     ///
     /// - Parameter UpdateSolNetworkInstanceInput : [no documentation found]
@@ -1440,24 +1500,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>(id: "updateSolNetworkInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(id: "updateSolNetworkInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolNetworkInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput>(xmlName: "UpdateSolNetworkInstanceInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceOutput, UpdateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSolNetworkInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSolNetworkPackage` operation on the `TNB` service.
+    ///
     /// Updates the operational state of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
     ///
     /// - Parameter UpdateSolNetworkPackageInput : [no documentation found]
@@ -1488,24 +1550,26 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>(id: "updateSolNetworkPackage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(id: "updateSolNetworkPackage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSolNetworkPackageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput>(xmlName: "UpdateSolNetworkPackageInput"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSolNetworkPackageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageOutput, UpdateSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkPackageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSolNetworkPackageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ValidateSolFunctionPackageContent` operation on the `TNB` service.
+    ///
     /// Validates function package content. This can be used as a dry run before uploading function package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html). A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
     ///
     /// - Parameter ValidateSolFunctionPackageContentInput : [no documentation found]
@@ -1536,25 +1600,27 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>(id: "validateSolFunctionPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(id: "validateSolFunctionPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateSolFunctionPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ValidateSolFunctionPackageContentInputBodyMiddleware())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutput>(keyPath: \.file))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolFunctionPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentOutput, ValidateSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolFunctionPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(ValidateSolFunctionPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ValidateSolNetworkPackageContent` operation on the `TNB` service.
+    ///
     /// Validates network package content. This can be used as a dry run before uploading network package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html). A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
     ///
     /// - Parameter ValidateSolNetworkPackageContentInput : [no documentation found]
@@ -1585,21 +1651,21 @@ extension TnbClient: TnbClientProtocol {
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>(id: "validateSolNetworkPackageContent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>())
+        var operation = ClientRuntime.OperationStack<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(id: "validateSolNetworkPackageContent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateSolNetworkPackageContentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: ValidateSolNetworkPackageContentInputBodyMiddleware())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutput>(keyPath: \.file))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateSolNetworkPackageContentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentOutput, ValidateSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolNetworkPackageContentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutput>(responseClosure(decoder: decoder), responseErrorClosure(ValidateSolNetworkPackageContentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

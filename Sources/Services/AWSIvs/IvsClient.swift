@@ -67,6 +67,8 @@ public struct IvsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension IvsClient: IvsClientProtocol {
+    /// Performs the `BatchGetChannel` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Performs [GetChannel] on multiple ARNs simultaneously.
     ///
     /// - Parameter BatchGetChannelInput : [no documentation found]
@@ -88,24 +90,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetChannelInput, BatchGetChannelOutput, BatchGetChannelOutputError>(id: "batchGetChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetChannelInput, BatchGetChannelOutput, BatchGetChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchGetChannelInput, BatchGetChannelOutput>(id: "batchGetChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetChannelInput, BatchGetChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetChannelInput, BatchGetChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetChannelOutput, BatchGetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetChannelInput, BatchGetChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetChannelInput, BatchGetChannelOutput>(xmlName: "BatchGetChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetChannelInput, BatchGetChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetChannelOutput, BatchGetChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetChannelOutput, BatchGetChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetChannelOutput, BatchGetChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetChannelOutput, BatchGetChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchGetStreamKey` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
     ///
     /// - Parameter BatchGetStreamKeyInput : [no documentation found]
@@ -127,24 +131,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchGetStreamKeyInput, BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>(id: "batchGetStreamKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>(id: "batchGetStreamKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetStreamKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput>(xmlName: "BatchGetStreamKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchGetStreamKeyInput, BatchGetStreamKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchGetStreamKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetStreamKeyOutput, BatchGetStreamKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetStreamKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetStreamKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchGetStreamKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchGetStreamKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchStartViewerSessionRevocation` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
     ///
     /// - Parameter BatchStartViewerSessionRevocationInput : [no documentation found]
@@ -174,24 +180,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>(id: "batchStartViewerSessionRevocation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>(id: "batchStartViewerSessionRevocation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchStartViewerSessionRevocationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput>(xmlName: "BatchStartViewerSessionRevocationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchStartViewerSessionRevocationInput, BatchStartViewerSessionRevocationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchStartViewerSessionRevocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStartViewerSessionRevocationOutput, BatchStartViewerSessionRevocationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchStartViewerSessionRevocationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchStartViewerSessionRevocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchStartViewerSessionRevocationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchStartViewerSessionRevocationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannel` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Creates a new channel and an associated stream key to start streaming.
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
@@ -222,24 +230,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(id: "createChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput>(id: "createChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutput>(xmlName: "CreateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelInput, CreateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput, CreateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput, CreateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput, CreateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
     ///
     /// - Parameter CreateRecordingConfigurationInput : [no documentation found]
@@ -271,24 +281,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>(id: "createRecordingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>(id: "createRecordingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRecordingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput>(xmlName: "CreateRecordingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRecordingConfigurationInput, CreateRecordingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRecordingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecordingConfigurationOutput, CreateRecordingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecordingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecordingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRecordingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateStreamKey` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that [CreateChannel] creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [DeleteStreamKey] and then CreateStreamKey.
     ///
     /// - Parameter CreateStreamKeyInput : [no documentation found]
@@ -319,24 +331,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateStreamKeyInput, CreateStreamKeyOutput, CreateStreamKeyOutputError>(id: "createStreamKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput, CreateStreamKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateStreamKeyInput, CreateStreamKeyOutput>(id: "createStreamKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamKeyOutput, CreateStreamKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateStreamKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput>(xmlName: "CreateStreamKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateStreamKeyInput, CreateStreamKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamKeyOutput, CreateStreamKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateStreamKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamKeyOutput, CreateStreamKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamKeyOutput, CreateStreamKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamKeyOutput, CreateStreamKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateStreamKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateStreamKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannel` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call [StopStream], wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
@@ -367,24 +381,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>(id: "deleteChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput>(id: "deleteChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteChannelInput, DeleteChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteChannelInput, DeleteChannelOutput>(xmlName: "DeleteChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteChannelInput, DeleteChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput, DeleteChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput, DeleteChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput, DeleteChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter DeletePlaybackKeyPairInput : [no documentation found]
@@ -414,24 +430,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>(id: "deletePlaybackKeyPair")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>())
+        var operation = ClientRuntime.OperationStack<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>(id: "deletePlaybackKeyPair")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePlaybackKeyPairOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput>(xmlName: "DeletePlaybackKeyPairRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePlaybackKeyPairInput, DeletePlaybackKeyPairOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePlaybackKeyPairOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlaybackKeyPairOutput, DeletePlaybackKeyPairOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlaybackKeyPairOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlaybackKeyPairOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePlaybackKeyPairOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use [UpdateChannel] to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration.
     ///
     /// - Parameter DeleteRecordingConfigurationInput : [no documentation found]
@@ -462,24 +480,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>(id: "deleteRecordingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>(id: "deleteRecordingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRecordingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput>(xmlName: "DeleteRecordingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRecordingConfigurationInput, DeleteRecordingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRecordingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecordingConfigurationOutput, DeleteRecordingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecordingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecordingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRecordingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteStreamKey` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Deletes the stream key for the specified ARN, so it can no longer be used to stream.
     ///
     /// - Parameter DeleteStreamKeyInput : [no documentation found]
@@ -509,24 +529,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteStreamKeyInput, DeleteStreamKeyOutput, DeleteStreamKeyOutputError>(id: "deleteStreamKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput, DeleteStreamKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteStreamKeyInput, DeleteStreamKeyOutput>(id: "deleteStreamKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStreamKeyOutput, DeleteStreamKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteStreamKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput>(xmlName: "DeleteStreamKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteStreamKeyInput, DeleteStreamKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStreamKeyOutput, DeleteStreamKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteStreamKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamKeyOutput, DeleteStreamKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamKeyOutput, DeleteStreamKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamKeyOutput, DeleteStreamKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteStreamKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetChannel` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets the channel configuration for the specified channel ARN. See also [BatchGetChannel].
     ///
     /// - Parameter GetChannelInput : [no documentation found]
@@ -555,24 +577,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutput, GetChannelOutputError>(id: "getChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutput, GetChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutput>(id: "getChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutput, GetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetChannelInput, GetChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetChannelInput, GetChannelOutput>(xmlName: "GetChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetChannelInput, GetChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutput, GetChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutput, GetChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutput, GetChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutput, GetChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter GetPlaybackKeyPairInput : [no documentation found]
@@ -601,24 +625,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>(id: "getPlaybackKeyPair")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>(id: "getPlaybackKeyPair")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPlaybackKeyPairOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput>(xmlName: "GetPlaybackKeyPairRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPlaybackKeyPairInput, GetPlaybackKeyPairOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPlaybackKeyPairOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPlaybackKeyPairOutput, GetPlaybackKeyPairOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlaybackKeyPairOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlaybackKeyPairOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPlaybackKeyPairOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRecordingConfiguration` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets the recording configuration for the specified ARN.
     ///
     /// - Parameter GetRecordingConfigurationInput : [no documentation found]
@@ -648,24 +674,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRecordingConfigurationInput, GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>(id: "getRecordingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>(id: "getRecordingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecordingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput>(xmlName: "GetRecordingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRecordingConfigurationInput, GetRecordingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecordingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecordingConfigurationOutput, GetRecordingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecordingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecordingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRecordingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRecordingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetStream` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets information about the active (live) stream on a specified channel.
     ///
     /// - Parameter GetStreamInput : [no documentation found]
@@ -695,24 +723,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStreamInput, GetStreamOutput, GetStreamOutputError>(id: "getStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamInput, GetStreamOutput, GetStreamOutputError>())
+        var operation = ClientRuntime.OperationStack<GetStreamInput, GetStreamOutput>(id: "getStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamInput, GetStreamOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamInput, GetStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamOutput, GetStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStreamInput, GetStreamOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStreamInput, GetStreamOutput>(xmlName: "GetStreamRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetStreamInput, GetStreamOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamOutput, GetStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamOutput, GetStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamOutput, GetStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamOutput, GetStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetStreamOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetStreamKey` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets stream-key information for a specified ARN.
     ///
     /// - Parameter GetStreamKeyInput : [no documentation found]
@@ -741,24 +771,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStreamKeyInput, GetStreamKeyOutput, GetStreamKeyOutputError>(id: "getStreamKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamKeyInput, GetStreamKeyOutput, GetStreamKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetStreamKeyInput, GetStreamKeyOutput>(id: "getStreamKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamKeyInput, GetStreamKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamKeyInput, GetStreamKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamKeyOutput, GetStreamKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStreamKeyInput, GetStreamKeyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStreamKeyInput, GetStreamKeyOutput>(xmlName: "GetStreamKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetStreamKeyInput, GetStreamKeyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamKeyOutput, GetStreamKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamKeyOutput, GetStreamKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamKeyOutput, GetStreamKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamKeyOutput, GetStreamKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetStreamKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetStreamSession` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets metadata on a specified stream.
     ///
     /// - Parameter GetStreamSessionInput : [no documentation found]
@@ -787,24 +819,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetStreamSessionInput, GetStreamSessionOutput, GetStreamSessionOutputError>(id: "getStreamSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamSessionInput, GetStreamSessionOutput, GetStreamSessionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetStreamSessionInput, GetStreamSessionOutput>(id: "getStreamSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStreamSessionInput, GetStreamSessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStreamSessionInput, GetStreamSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamSessionOutput, GetStreamSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetStreamSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetStreamSessionInput, GetStreamSessionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetStreamSessionInput, GetStreamSessionOutput>(xmlName: "GetStreamSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetStreamSessionInput, GetStreamSessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamSessionOutput, GetStreamSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetStreamSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamSessionOutput, GetStreamSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamSessionOutput, GetStreamSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamSessionOutput, GetStreamSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStreamSessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStreamSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetStreamSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetStreamSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ImportPlaybackKeyPair` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter ImportPlaybackKeyPairInput : [no documentation found]
@@ -835,24 +869,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>(id: "importPlaybackKeyPair")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>())
+        var operation = ClientRuntime.OperationStack<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>(id: "importPlaybackKeyPair")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportPlaybackKeyPairOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput>(xmlName: "ImportPlaybackKeyPairRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ImportPlaybackKeyPairInput, ImportPlaybackKeyPairOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportPlaybackKeyPairOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportPlaybackKeyPairOutput, ImportPlaybackKeyPairOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportPlaybackKeyPairOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportPlaybackKeyPairOutput>(responseClosure(decoder: decoder), responseErrorClosure(ImportPlaybackKeyPairOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportPlaybackKeyPairOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannels` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
@@ -881,24 +917,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>(id: "listChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput>(id: "listChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListChannelsInput, ListChannelsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListChannelsInput, ListChannelsOutput>(xmlName: "ListChannelsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListChannelsInput, ListChannelsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput, ListChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput, ListChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput, ListChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPlaybackKeyPairs` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets summary information about playback key pairs. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter ListPlaybackKeyPairsInput : [no documentation found]
@@ -926,24 +964,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>(id: "listPlaybackKeyPairs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(id: "listPlaybackKeyPairs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPlaybackKeyPairsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput>(xmlName: "ListPlaybackKeyPairsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPlaybackKeyPairsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlaybackKeyPairsOutput, ListPlaybackKeyPairsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlaybackKeyPairsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlaybackKeyPairsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPlaybackKeyPairsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPlaybackKeyPairsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRecordingConfigurations` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     ///
     /// - Parameter ListRecordingConfigurationsInput : [no documentation found]
@@ -972,24 +1012,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>(id: "listRecordingConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(id: "listRecordingConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecordingConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput>(xmlName: "ListRecordingConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecordingConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordingConfigurationsOutput, ListRecordingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecordingConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecordingConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRecordingConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecordingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListStreamKeys` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets summary information about stream keys for the specified channel.
     ///
     /// - Parameter ListStreamKeysInput : [no documentation found]
@@ -1018,24 +1060,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStreamKeysInput, ListStreamKeysOutput, ListStreamKeysOutputError>(id: "listStreamKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamKeysInput, ListStreamKeysOutput, ListStreamKeysOutputError>())
+        var operation = ClientRuntime.OperationStack<ListStreamKeysInput, ListStreamKeysOutput>(id: "listStreamKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamKeysInput, ListStreamKeysOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamKeysInput, ListStreamKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamKeysOutput, ListStreamKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamKeysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStreamKeysInput, ListStreamKeysOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStreamKeysInput, ListStreamKeysOutput>(xmlName: "ListStreamKeysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStreamKeysInput, ListStreamKeysOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamKeysOutput, ListStreamKeysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamKeysOutput, ListStreamKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamKeysOutput, ListStreamKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamKeysOutput, ListStreamKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamKeysOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListStreamKeysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListStreamSessions` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
     ///
     /// - Parameter ListStreamSessionsInput : [no documentation found]
@@ -1064,24 +1108,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStreamSessionsInput, ListStreamSessionsOutput, ListStreamSessionsOutputError>(id: "listStreamSessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput, ListStreamSessionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListStreamSessionsInput, ListStreamSessionsOutput>(id: "listStreamSessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamSessionsOutput, ListStreamSessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamSessionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>(xmlName: "ListStreamSessionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamSessionsOutput, ListStreamSessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamSessionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamSessionsOutput, ListStreamSessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamSessionsOutput, ListStreamSessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamSessionsOutput, ListStreamSessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamSessionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamSessionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListStreamSessionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamSessionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListStreams` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     ///
     /// - Parameter ListStreamsInput : [no documentation found]
@@ -1109,24 +1155,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStreamsInput, ListStreamsOutput, ListStreamsOutputError>(id: "listStreams")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamsInput, ListStreamsOutput, ListStreamsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListStreamsInput, ListStreamsOutput>(id: "listStreams")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamsInput, ListStreamsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamsInput, ListStreamsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamsOutput, ListStreamsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStreamsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStreamsInput, ListStreamsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStreamsInput, ListStreamsOutput>(xmlName: "ListStreamsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStreamsInput, ListStreamsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamsOutput, ListStreamsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStreamsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamsOutput, ListStreamsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamsOutput, ListStreamsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamsOutput, ListStreamsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListStreamsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStreamsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Gets information about Amazon Web Services tags for the specified ARN.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1155,21 +1203,23 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutMetadata` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
     ///
     /// - Parameter PutMetadataInput : [no documentation found]
@@ -1200,24 +1250,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutMetadataInput, PutMetadataOutput, PutMetadataOutputError>(id: "putMetadata")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMetadataInput, PutMetadataOutput, PutMetadataOutputError>())
+        var operation = ClientRuntime.OperationStack<PutMetadataInput, PutMetadataOutput>(id: "putMetadata")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMetadataInput, PutMetadataOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMetadataInput, PutMetadataOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutMetadataOutput, PutMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutMetadataOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutMetadataInput, PutMetadataOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutMetadataInput, PutMetadataOutput>(xmlName: "PutMetadataRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutMetadataInput, PutMetadataOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutMetadataOutput, PutMetadataOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutMetadataOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMetadataOutput, PutMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMetadataOutput, PutMetadataOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMetadataOutput, PutMetadataOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMetadataOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMetadataOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutMetadataOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMetadataOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartViewerSessionRevocation` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
     ///
     /// - Parameter StartViewerSessionRevocationInput : [no documentation found]
@@ -1249,24 +1301,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>(id: "startViewerSessionRevocation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>())
+        var operation = ClientRuntime.OperationStack<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>(id: "startViewerSessionRevocation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartViewerSessionRevocationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput>(xmlName: "StartViewerSessionRevocationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartViewerSessionRevocationInput, StartViewerSessionRevocationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartViewerSessionRevocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartViewerSessionRevocationOutput, StartViewerSessionRevocationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartViewerSessionRevocationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartViewerSessionRevocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartViewerSessionRevocationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartViewerSessionRevocationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StopStream` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
     ///
     /// - Parameter StopStreamInput : [no documentation found]
@@ -1297,24 +1351,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopStreamInput, StopStreamOutput, StopStreamOutputError>(id: "stopStream")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStreamInput, StopStreamOutput, StopStreamOutputError>())
+        var operation = ClientRuntime.OperationStack<StopStreamInput, StopStreamOutput>(id: "stopStream")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopStreamInput, StopStreamOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopStreamInput, StopStreamOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopStreamOutput, StopStreamOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopStreamOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopStreamInput, StopStreamOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopStreamInput, StopStreamOutput>(xmlName: "StopStreamRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopStreamInput, StopStreamOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopStreamOutput, StopStreamOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopStreamOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopStreamOutput, StopStreamOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStreamOutput, StopStreamOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStreamOutput, StopStreamOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopStreamOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopStreamOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopStreamOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopStreamOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1343,24 +1399,26 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Removes tags from the resource with the specified ARN.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1389,22 +1447,24 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannel` operation on the `AmazonInteractiveVideoService` service.
+    ///
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
@@ -1435,20 +1495,20 @@ extension IvsClient: IvsClientProtocol {
                       .withSigningName(value: "ivs")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>(id: "updateChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput>(id: "updateChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutput>(xmlName: "UpdateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateChannelInput, UpdateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput, UpdateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput, UpdateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput, UpdateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

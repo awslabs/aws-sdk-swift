@@ -67,6 +67,8 @@ public struct EFSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EFSClient: EFSClientProtocol {
+    /// Performs the `CreateAccessPoint` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Creates an EFS access point. An access point is an application-specific view into an EFS file system that applies an operating system user and group, and a file system path, to any file system request made through the access point. The operating system user and group override any identity information provided by the NFS client. The file system path is exposed as the access point's root directory. Applications using the access point can only access data in the application's own directory and any subdirectories. To learn more, see [Mounting a file system using EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html). If multiple requests to create access points on the same file system are sent in quick succession, and the file system is near the limit of 1,000 access points, you may experience a throttling response for these requests. This is to ensure that the file system does not exceed the stated access point limit. This operation requires permissions for the elasticfilesystem:CreateAccessPoint action. Access points can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
     ///
     /// - Parameter CreateAccessPointInput : [no documentation found]
@@ -99,25 +101,27 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessPointInput, CreateAccessPointOutput, CreateAccessPointOutputError>(id: "createAccessPoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessPointInput, CreateAccessPointOutput, CreateAccessPointOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessPointInput, CreateAccessPointOutput, CreateAccessPointOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAccessPointInput, CreateAccessPointOutput>(id: "createAccessPoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessPointInput, CreateAccessPointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessPointInput, CreateAccessPointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessPointOutput, CreateAccessPointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessPointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(xmlName: "CreateAccessPointRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessPointInput, CreateAccessPointOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessPointOutput, CreateAccessPointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessPointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPointOutput, CreateAccessPointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPointOutput, CreateAccessPointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPointOutput, CreateAccessPointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPointOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessPointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateFileSystem` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Creates a new, empty file system. The operation requires a creation token in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's Amazon Web Services account with the specified creation token, this operation does the following:
     ///
     /// * Creates a new, empty file system. The file system will have an Amazon EFS assigned ID, and an initial lifecycle state creating.
@@ -125,7 +129,7 @@ extension EFSClient: EFSClientProtocol {
     /// * Returns with the description of the created file system.
     ///
     ///
-    /// Otherwise, this operation returns a FileSystemAlreadyExists error with the ID of the existing file system. For basic use cases, you can use a randomly generated UUID for the creation token. The idempotent operation allows you to retry a CreateFileSystem call without risk of creating an extra file system. This can happen when an initial call fails in a way that leaves it uncertain whether or not a file system was actually created. An example might be that a transport level timeout occurred or your connection was reset. As long as you use the same creation token, if the initial call had succeeded in creating a file system, the client can learn of its existence from the FileSystemAlreadyExists error. For more information, see [Creating a file system](https://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html#creating-using-create-fs-part1) in the Amazon EFS User Guide. The CreateFileSystem call returns while the file system's lifecycle state is still creating. You can check the file system creation status by calling the [DescribeFileSystems] operation, which among other things returns the file system state. This operation accepts an optional PerformanceMode parameter that you choose for your file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. For more information, see [Amazon EFS performance modes](https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html). You can set the throughput mode for the file system using the ThroughputMode parameter. After the file system is fully created, Amazon EFS sets its lifecycle state to available, at which point you can create one or more mount targets for the file system in your VPC. For more information, see [CreateMountTarget]. You mount your Amazon EFS file system on an EC2 instances in your VPC by using the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). This operation requires permissions for the elasticfilesystem:CreateFileSystem action. File systems can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
+    /// Otherwise, this operation returns a FileSystemAlreadyExists error with the ID of the existing file system. For basic use cases, you can use a randomly generated UUID for the creation token. The idempotent operation allows you to retry a CreateFileSystem call without risk of creating an extra file system. This can happen when an initial call fails in a way that leaves it uncertain whether or not a file system was actually created. An example might be that a transport level timeout occurred or your connection was reset. As long as you use the same creation token, if the initial call had succeeded in creating a file system, the client can learn of its existence from the FileSystemAlreadyExists error. For more information, see [Creating a file system](https://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html#creating-using-create-fs-part1) in the Amazon EFS User Guide. The CreateFileSystem call returns while the file system's lifecycle state is still creating. You can check the file system creation status by calling the [DescribeFileSystems] operation, which among other things returns the file system state. This operation accepts an optional PerformanceMode parameter that you choose for your file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO mode is a previous generation performance type that is designed for highly parallelized workloads that can tolerate higher latencies than the General Purpose mode. Max I/O mode is not supported for One Zone file systems or file systems that use Elastic throughput. Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems. The performance mode can't be changed after the file system has been created. For more information, see [Amazon EFS performance modes](https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html). You can set the throughput mode for the file system using the ThroughputMode parameter. After the file system is fully created, Amazon EFS sets its lifecycle state to available, at which point you can create one or more mount targets for the file system in your VPC. For more information, see [CreateMountTarget]. You mount your Amazon EFS file system on an EC2 instances in your VPC by using the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). This operation requires permissions for the elasticfilesystem:CreateFileSystem action. File systems can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
     ///
     /// - Parameter CreateFileSystemInput : [no documentation found]
     ///
@@ -157,26 +161,28 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFileSystemInput, CreateFileSystemOutput, CreateFileSystemOutputError>(id: "createFileSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFileSystemInput, CreateFileSystemOutput, CreateFileSystemOutputError>(keyPath: \.creationToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFileSystemInput, CreateFileSystemOutput, CreateFileSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateFileSystemInput, CreateFileSystemOutput>(id: "createFileSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(keyPath: \.creationToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFileSystemInput, CreateFileSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFileSystemInput, CreateFileSystemOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFileSystemOutput, CreateFileSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFileSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFileSystemInput, CreateFileSystemOutput>(xmlName: "CreateFileSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFileSystemInput, CreateFileSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFileSystemOutput, CreateFileSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFileSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFileSystemOutput, CreateFileSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFileSystemOutput, CreateFileSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFileSystemOutput, CreateFileSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFileSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFileSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFileSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFileSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple subnets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access their file system. You can create only one mount target for an EFS file system using One Zone storage classes. You must create that mount target in the same Availability Zone in which the file system is located. Use the AvailabilityZoneName and AvailabiltyZoneId properties in the [DescribeFileSystems] response object to get this information. Use the subnetId associated with the file system's Availability Zone when creating the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). To create a mount target for a file system, the file system's lifecycle state must be available. For more information, see [DescribeFileSystems]. In the request, provide the following:
+    /// Performs the `CreateMountTarget` operation on the `MagnolioAPIService_v20150201` service.
+    ///
+    /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple subnets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access their file system. You can create only one mount target for a One Zone file system. You must create that mount target in the same Availability Zone in which the file system is located. Use the AvailabilityZoneName and AvailabiltyZoneId properties in the [DescribeFileSystems] response object to get this information. Use the subnetId associated with the file system's Availability Zone when creating the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). To create a mount target for a file system, the file system's lifecycle state must be available. For more information, see [DescribeFileSystems]. In the request, provide the following:
     ///
     /// * The file system ID for which you are creating the mount target.
     ///
@@ -266,52 +272,56 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMountTargetInput, CreateMountTargetOutput, CreateMountTargetOutputError>(id: "createMountTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMountTargetInput, CreateMountTargetOutput, CreateMountTargetOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMountTargetInput, CreateMountTargetOutput>(id: "createMountTarget")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMountTargetInput, CreateMountTargetOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMountTargetInput, CreateMountTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMountTargetOutput, CreateMountTargetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMountTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMountTargetInput, CreateMountTargetOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMountTargetInput, CreateMountTargetOutput>(xmlName: "CreateMountTargetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMountTargetInput, CreateMountTargetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMountTargetOutput, CreateMountTargetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMountTargetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMountTargetOutput, CreateMountTargetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMountTargetOutput, CreateMountTargetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMountTargetOutput, CreateMountTargetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMountTargetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMountTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMountTargetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMountTargetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateReplicationConfiguration` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Creates a replication configuration that replicates an existing EFS file system to a new, read-only file system. For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html) in the Amazon EFS User Guide. The replication configuration specifies the following:
     ///
-    /// * Source file system - An existing EFS file system that you want replicated. The source file system cannot be a destination file system in an existing replication configuration.
+    /// * Source file system – The EFS file system that you want replicated. The source file system cannot be a destination file system in an existing replication configuration.
     ///
-    /// * Destination file system configuration - The configuration of the destination file system to which the source file system will be replicated. There can only be one destination file system in a replication configuration. The destination file system configuration consists of the following properties:
+    /// * Amazon Web Services Region – The Amazon Web Services Region in which the destination file system is created. Amazon EFS replication is available in all Amazon Web Services Regions in which EFS is available. The Region must be enabled. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) in the Amazon Web Services General Reference Reference Guide.
     ///
-    /// * Amazon Web Services Region - The Amazon Web Services Region in which the destination file system is created. Amazon EFS replication is available in all Amazon Web Services Regions in which EFS is available. To use EFS replication in a Region that is disabled by default, you must first opt in to the Region. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) in the Amazon Web Services General Reference Reference Guide
+    /// * Destination file system configuration – The configuration of the destination file system to which the source file system will be replicated. There can only be one destination file system in a replication configuration. Parameters for the replication configuration include:
     ///
-    /// * Availability Zone - If you want the destination file system to use EFS One Zone availability and durability, you must specify the Availability Zone to create the file system in. For more information about EFS storage classes, see [ Amazon EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
+    /// * File system ID – The ID of the destination file system for the replication. If no ID is provided, then EFS creates a new file system with the default settings. For existing file systems, the file system's replication overwrite protection must be disabled. For more information, see [ Replicating to an existing file system](https://docs.aws.amazon.com/efs/latest/ug/efs-replication#replicate-existing-destination).
     ///
-    /// * Encryption - All destination file systems are created with encryption at rest enabled. You can specify the Key Management Service (KMS) key that is used to encrypt the destination file system. If you don't specify a KMS key, your service-managed KMS key for Amazon EFS is used. After the file system is created, you cannot change the KMS key.
+    /// * Availability Zone – If you want the destination file system to use One Zone storage, you must specify the Availability Zone to create the file system in. For more information, see [ EFS file system types](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
+    ///
+    /// * Encryption – All destination file systems are created with encryption at rest enabled. You can specify the Key Management Service (KMS) key that is used to encrypt the destination file system. If you don't specify a KMS key, your service-managed KMS key for Amazon EFS is used. After the file system is created, you cannot change the KMS key.
     ///
     ///
     ///
     ///
     ///
-    /// The following properties are set by default:
+    /// After the file system is created, you cannot change the KMS key. For new destination file systems, the following properties are set by default:
     ///
     /// * Performance mode - The destination file system's performance mode matches that of the source file system, unless the destination file system uses EFS One Zone storage. In that case, the General Purpose performance mode is used. The performance mode cannot be changed.
     ///
     /// * Throughput mode - The destination file system's throughput mode matches that of the source file system. After the file system is created, you can modify the throughput mode.
     ///
     ///
-    /// The following properties are turned off by default:
     ///
-    /// * Lifecycle management - EFS lifecycle management and EFS Intelligent-Tiering are not enabled on the destination file system. After the destination file system is created, you can enable EFS lifecycle management and EFS Intelligent-Tiering.
     ///
-    /// * Automatic backups - Automatic daily backups are enabled on the destination file system. After the file system is created, you can change this setting.
+    /// * Lifecycle management – Lifecycle management is not enabled on the destination file system. After the destination file system is created, you can enable lifecycle management.
+    ///
+    /// * Automatic backups – Automatic daily backups are enabled on the destination file system. After the file system is created, you can change this setting.
     ///
     ///
     /// For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html) in the Amazon EFS User Guide.
@@ -324,6 +334,7 @@ extension EFSClient: EFSClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `ConflictException` : Returned if the source file system in a replication is encrypted but the destination file system is unencrypted.
     /// - `FileSystemLimitExceeded` : Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
@@ -349,24 +360,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>(id: "createReplicationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput>(id: "createReplicationConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateReplicationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput>(xmlName: "CreateReplicationConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateReplicationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationConfigurationOutput, CreateReplicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateReplicationConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateTags` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// DEPRECATED - CreateTags is deprecated and not maintained. To create tags for EFS resources, use the API action. Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the [DescribeFileSystems] operation. This operation requires permission for the elasticfilesystem:CreateTags action.
     @available(*, deprecated, message: "Use TagResource.")
     ///
@@ -396,24 +409,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutput, CreateTagsOutputError>(id: "createTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutput, CreateTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutput>(id: "createTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagsOutput, CreateTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTagsInput, CreateTagsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTagsInput, CreateTagsOutput>(xmlName: "CreateTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTagsInput, CreateTagsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagsOutput, CreateTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutput, CreateTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutput, CreateTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutput, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccessPoint` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Deletes the specified access point. After deletion is complete, new clients can no longer connect to the access points. Clients connected to the access point at the time of deletion will continue to function until they terminate their connection. This operation requires permissions for the elasticfilesystem:DeleteAccessPoint action.
     ///
     /// - Parameter DeleteAccessPointInput : [no documentation found]
@@ -442,21 +457,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessPointInput, DeleteAccessPointOutput, DeleteAccessPointOutputError>(id: "deleteAccessPoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput, DeleteAccessPointOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAccessPointInput, DeleteAccessPointOutput>(id: "deleteAccessPoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessPointOutput, DeleteAccessPointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessPointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessPointOutput, DeleteAccessPointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessPointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointOutput, DeleteAccessPointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutput, DeleteAccessPointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointOutput, DeleteAccessPointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessPointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteFileSystem` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Deletes a file system, permanently severing access to its contents. Upon return, the file system no longer exists and you can't access any contents of the deleted file system. You need to manually delete mount targets attached to a file system before you can delete an EFS file system. This step is performed for you when you use the Amazon Web Services console to delete a file system. You cannot delete a file system that is part of an EFS Replication configuration. You need to delete the replication configuration first. You can't delete a file system that is in use. That is, if the file system has any mount targets, you must first delete them. For more information, see [DescribeMountTargets] and [DeleteMountTarget]. The DeleteFileSystem call returns while the file system state is still deleting. You can check the file system deletion status by calling the [DescribeFileSystems] operation, which returns a list of file systems in your account. If you pass file system ID or creation token for the deleted file system, the [DescribeFileSystems] returns a 404 FileSystemNotFound error. This operation requires permissions for the elasticfilesystem:DeleteFileSystem action.
     ///
     /// - Parameter DeleteFileSystemInput :
@@ -486,21 +503,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFileSystemInput, DeleteFileSystemOutput, DeleteFileSystemOutputError>(id: "deleteFileSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput, DeleteFileSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteFileSystemInput, DeleteFileSystemOutput>(id: "deleteFileSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileSystemInput, DeleteFileSystemOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileSystemOutput, DeleteFileSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFileSystemOutput, DeleteFileSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFileSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemOutput, DeleteFileSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemOutput, DeleteFileSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemOutput, DeleteFileSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFileSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteFileSystemPolicy` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Deletes the FileSystemPolicy for the specified file system. The default FileSystemPolicy goes into effect once the existing policy is deleted. For more information about the default file system policy, see [Using Resource-based Policies with EFS](https://docs.aws.amazon.com/efs/latest/ug/res-based-policies-efs.html). This operation requires permissions for the elasticfilesystem:DeleteFileSystemPolicy action.
     ///
     /// - Parameter DeleteFileSystemPolicyInput : [no documentation found]
@@ -530,21 +549,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>(id: "deleteFileSystemPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutput>(id: "deleteFileSystemPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileSystemPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFileSystemPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemPolicyOutput, DeleteFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFileSystemPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMountTarget` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Deletes the specified mount target. This operation forcibly breaks any mounts of the file system by using the mount target that is being deleted, which might disrupt instances or applications using those mounts. To avoid applications getting cut off abruptly, you might consider unmounting any mounts of the mount target, if feasible. The operation also deletes the associated network interface. Uncommitted writes might be lost, but breaking a mount target using this operation does not corrupt the file system itself. The file system you created remains. You can mount an EC2 instance in your VPC by using another mount target. This operation requires permissions for the following action on the file system:
     ///
     /// * elasticfilesystem:DeleteMountTarget
@@ -581,22 +602,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMountTargetInput, DeleteMountTargetOutput, DeleteMountTargetOutputError>(id: "deleteMountTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMountTargetInput, DeleteMountTargetOutput, DeleteMountTargetOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteMountTargetInput, DeleteMountTargetOutput>(id: "deleteMountTarget")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMountTargetInput, DeleteMountTargetOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMountTargetInput, DeleteMountTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMountTargetOutput, DeleteMountTargetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMountTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMountTargetOutput, DeleteMountTargetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMountTargetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMountTargetOutput, DeleteMountTargetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMountTargetOutput, DeleteMountTargetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMountTargetOutput, DeleteMountTargetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMountTargetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMountTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMountTargetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMountTargetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes an existing replication configuration. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system is no longer read-only. You can write to the destination file system after its status becomes Writeable.
+    /// Performs the `DeleteReplicationConfiguration` operation on the `MagnolioAPIService_v20150201` service.
+    ///
+    /// Deletes a replication configuration. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replication overwrite protection is re-enabled. For more information, see [Delete a replication configuration](https://docs.aws.amazon.com/efs/latest/ug/delete-replications.html). This operation requires permissions for the elasticfilesystem:DeleteReplicationConfiguration action.
     ///
     /// - Parameter DeleteReplicationConfigurationInput : [no documentation found]
     ///
@@ -625,21 +648,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>(id: "deleteReplicationConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutput>(id: "deleteReplicationConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteReplicationConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteReplicationConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationConfigurationOutput, DeleteReplicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteReplicationConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTags` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// DEPRECATED - DeleteTags is deprecated and not maintained. To remove tags from EFS resources, use the API action. Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see [Tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide. This operation requires permissions for the elasticfilesystem:DeleteTags action.
     @available(*, deprecated, message: "Use UntagResource.")
     ///
@@ -669,24 +694,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutput, DeleteTagsOutputError>(id: "deleteTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutput, DeleteTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutput>(id: "deleteTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagsOutput, DeleteTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTagsInput, DeleteTagsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTagsInput, DeleteTagsOutput>(xmlName: "DeleteTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteTagsInput, DeleteTagsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagsOutput, DeleteTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutput, DeleteTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutput, DeleteTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutput, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAccessPoints` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
     ///
     /// - Parameter DescribeAccessPointsInput : [no documentation found]
@@ -716,22 +743,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccessPointsInput, DescribeAccessPointsOutput, DescribeAccessPointsOutputError>(id: "describeAccessPoints")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutput, DescribeAccessPointsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAccessPointsInput, DescribeAccessPointsOutput>(id: "describeAccessPoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccessPointsOutput, DescribeAccessPointsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccessPointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccessPointsOutput, DescribeAccessPointsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccessPointsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccessPointsOutput, DescribeAccessPointsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessPointsOutput, DescribeAccessPointsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessPointsOutput, DescribeAccessPointsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccessPointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessPointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccessPointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessPointsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAccountPreferences` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
     ///
     /// - Parameter DescribeAccountPreferencesInput : [no documentation found]
@@ -758,24 +787,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>(id: "describeAccountPreferences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput>(id: "describeAccountPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput>(xmlName: "DescribeAccountPreferencesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAccountPreferencesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountPreferencesOutput, DescribeAccountPreferencesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAccountPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountPreferencesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeBackupPolicy` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the backup policy for the specified EFS file system.
     ///
     /// - Parameter DescribeBackupPolicyInput : [no documentation found]
@@ -806,21 +837,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeBackupPolicyInput, DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>(id: "describeBackupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBackupPolicyInput, DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeBackupPolicyInput, DescribeBackupPolicyOutput>(id: "describeBackupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBackupPolicyInput, DescribeBackupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBackupPolicyInput, DescribeBackupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeBackupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeBackupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBackupPolicyOutput, DescribeBackupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBackupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBackupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeBackupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeBackupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeFileSystemPolicy` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the FileSystemPolicy for the specified EFS file system. This operation requires permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
     ///
     /// - Parameter DescribeFileSystemPolicyInput : [no documentation found]
@@ -850,21 +883,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>(id: "describeFileSystemPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutput>(id: "describeFileSystemPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFileSystemPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFileSystemPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemPolicyOutput, DescribeFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeFileSystemPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeFileSystems` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all file systems owned by the caller's Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally specify the MaxItems parameter to limit the number of descriptions in a response. This number is automatically set to 100. If more file system descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In this case, you should send a subsequent request with the Marker request parameter set to the value of NextMarker. To retrieve a list of your file system descriptions, this operation is used in an iterative process, where DescribeFileSystems is called first without the Marker and then the operation continues to call it with the Marker parameter set to the value of the NextMarker from the previous response until the response has no NextMarker. The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multi-call iteration is unspecified. This operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
     ///
     /// - Parameter DescribeFileSystemsInput :
@@ -893,23 +928,25 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFileSystemsInput, DescribeFileSystemsOutput, DescribeFileSystemsOutputError>(id: "describeFileSystems")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput, DescribeFileSystemsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeFileSystemsInput, DescribeFileSystemsOutput>(id: "describeFileSystems")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFileSystemsOutput, DescribeFileSystemsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFileSystemsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFileSystemsOutput, DescribeFileSystemsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFileSystemsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemsOutput, DescribeFileSystemsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemsOutput, DescribeFileSystemsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemsOutput, DescribeFileSystemsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeFileSystemsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Returns the current LifecycleConfiguration object for the specified Amazon EFS file system. EFS lifecycle management uses the LifecycleConfiguration object to identify which files to move to the EFS Infrequent Access (IA) storage class. For a file system without a LifecycleConfiguration object, the call returns an empty array in the response. When EFS Intelligent-Tiering is enabled, TransitionToPrimaryStorageClass has a value of AFTER_1_ACCESS. This operation requires permissions for the elasticfilesystem:DescribeLifecycleConfiguration operation.
+    /// Performs the `DescribeLifecycleConfiguration` operation on the `MagnolioAPIService_v20150201` service.
+    ///
+    /// Returns the current LifecycleConfiguration object for the specified Amazon EFS file system. Lifecycle management uses the LifecycleConfiguration object to identify when to move files between storage classes. For a file system without a LifecycleConfiguration object, the call returns an empty array in the response. This operation requires permissions for the elasticfilesystem:DescribeLifecycleConfiguration operation.
     ///
     /// - Parameter DescribeLifecycleConfigurationInput : [no documentation found]
     ///
@@ -937,21 +974,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>(id: "describeLifecycleConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutput>(id: "describeLifecycleConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLifecycleConfigurationOutput, DescribeLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLifecycleConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLifecycleConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeMountTargetSecurityGroups` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted. This operation requires permissions for the following actions:
     ///
     /// * elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system.
@@ -985,21 +1024,23 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>(id: "describeMountTargetSecurityGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutput>(id: "describeMountTargetSecurityGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMountTargetSecurityGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMountTargetSecurityGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetSecurityGroupsOutput, DescribeMountTargetSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetSecurityGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetSecurityGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeMountTargetSecurityGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeMountTargets` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Returns the descriptions of all the current mount targets, or a specific mount target, for a file system. When requesting all of the current mount targets, the order of mount targets returned in the response is unspecified. This operation requires permissions for the elasticfilesystem:DescribeMountTargets action, on either the file system ID that you specify in FileSystemId, or on the file system of the mount target that you specify in MountTargetId.
     ///
     /// - Parameter DescribeMountTargetsInput :
@@ -1030,22 +1071,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeMountTargetsInput, DescribeMountTargetsOutput, DescribeMountTargetsOutputError>(id: "describeMountTargets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutput, DescribeMountTargetsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeMountTargetsInput, DescribeMountTargetsOutput>(id: "describeMountTargets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMountTargetsOutput, DescribeMountTargetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMountTargetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMountTargetsOutput, DescribeMountTargetsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMountTargetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetsOutput, DescribeMountTargetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetsOutput, DescribeMountTargetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetsOutput, DescribeMountTargetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeMountTargetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeReplicationConfigurations` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Retrieves the replication configuration for a specific file system. If a file system is not specified, all of the replication configurations for the Amazon Web Services account in an Amazon Web Services Region are retrieved.
     ///
     /// - Parameter DescribeReplicationConfigurationsInput : [no documentation found]
@@ -1076,22 +1119,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>(id: "describeReplicationConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput>(id: "describeReplicationConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReplicationConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeReplicationConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationConfigurationsOutput, DescribeReplicationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeReplicationConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeTags` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// DEPRECATED - The DescribeTags action is deprecated and not maintained. To view tags associated with EFS resources, use the ListTagsForResource API action. Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multiple-call iteration (when using pagination) is unspecified. This operation requires permissions for the elasticfilesystem:DescribeTags action.
     @available(*, deprecated, message: "Use ListTagsForResource.")
     ///
@@ -1121,22 +1166,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutput, DescribeTagsOutputError>(id: "describeTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutput, DescribeTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutput>(id: "describeTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTagsOutput, DescribeTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeTagsInput, DescribeTagsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTagsOutput, DescribeTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutput, DescribeTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutput, DescribeTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutput, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1166,22 +1213,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ModifyMountTargetSecurityGroups` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see [CreateMountTarget]. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted. The operation requires permissions for the following actions:
     ///
     /// * elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.
@@ -1217,24 +1266,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>(id: "modifyMountTargetSecurityGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput>(id: "modifyMountTargetSecurityGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyMountTargetSecurityGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput>(xmlName: "ModifyMountTargetSecurityGroupsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyMountTargetSecurityGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyMountTargetSecurityGroupsOutput, ModifyMountTargetSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyMountTargetSecurityGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyMountTargetSecurityGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ModifyMountTargetSecurityGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyMountTargetSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutAccountPreferences` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see [Managing Amazon EFS resource IDs](https://docs.aws.amazon.com/efs/latest/ug/manage-efs-resource-ids.html). Starting in October, 2021, you will receive an error if you try to set the account preference to use the short 8 character format resource ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
     ///
     /// - Parameter PutAccountPreferencesInput : [no documentation found]
@@ -1262,24 +1313,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutAccountPreferencesInput, PutAccountPreferencesOutput, PutAccountPreferencesOutputError>(id: "putAccountPreferences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput, PutAccountPreferencesOutputError>())
+        var operation = ClientRuntime.OperationStack<PutAccountPreferencesInput, PutAccountPreferencesOutput>(id: "putAccountPreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountPreferencesOutput, PutAccountPreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAccountPreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput>(xmlName: "PutAccountPreferencesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAccountPreferencesOutput, PutAccountPreferencesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAccountPreferencesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountPreferencesOutput, PutAccountPreferencesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountPreferencesOutput, PutAccountPreferencesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccountPreferencesOutput, PutAccountPreferencesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountPreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountPreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutAccountPreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAccountPreferencesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutBackupPolicy` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
     ///
     /// - Parameter PutBackupPolicyInput : [no documentation found]
@@ -1310,24 +1363,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutBackupPolicyInput, PutBackupPolicyOutput, PutBackupPolicyOutputError>(id: "putBackupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput, PutBackupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutBackupPolicyInput, PutBackupPolicyOutput>(id: "putBackupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBackupPolicyOutput, PutBackupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutBackupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput>(xmlName: "PutBackupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutBackupPolicyInput, PutBackupPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBackupPolicyOutput, PutBackupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutBackupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBackupPolicyOutput, PutBackupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBackupPolicyOutput, PutBackupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBackupPolicyOutput, PutBackupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBackupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBackupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutBackupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutBackupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutFileSystemPolicy` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. EFS file system policies have a 20,000 character limit. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see [Default EFS File System Policy](https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy). EFS file system policies have a 20,000 character limit. This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.
     ///
     /// - Parameter PutFileSystemPolicyInput : [no documentation found]
@@ -1358,36 +1413,43 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutFileSystemPolicyInput, PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>(id: "putFileSystemPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutFileSystemPolicyInput, PutFileSystemPolicyOutput>(id: "putFileSystemPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFileSystemPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput>(xmlName: "PutFileSystemPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutFileSystemPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFileSystemPolicyOutput, PutFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileSystemPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileSystemPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutFileSystemPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutFileSystemPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Use this action to manage EFS lifecycle management and EFS Intelligent-Tiering. A LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the following:
+    /// Performs the `PutLifecycleConfiguration` operation on the `MagnolioAPIService_v20150201` service.
     ///
-    /// * EFS Lifecycle management - When Amazon EFS automatically transitions files in a file system into the lower-cost EFS Infrequent Access (IA) storage class. To enable EFS Lifecycle management, set the value of TransitionToIA to one of the available options.
+    /// Use this action to manage storage for your file system. A LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the following:
     ///
-    /// * EFS Intelligent-Tiering - When Amazon EFS automatically transitions files from IA back into the file system's primary storage class (EFS Standard or EFS One Zone Standard). To enable EFS Intelligent-Tiering, set the value of TransitionToPrimaryStorageClass to AFTER_1_ACCESS.
+    /// * TransitionToIA – When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access (IA) storage.
+    ///
+    /// * TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the Archive storage. File systems cannot transition into Archive storage before transitioning into IA storage. Therefore, TransitionToArchive must either not be set or must be later than TransitionToIA. The Archive storage class is available only for file systems that use the Elastic Throughput mode and the General Purpose Performance mode.
     ///
     ///
-    /// For more information, see [EFS Lifecycle Management](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html). Each Amazon EFS file system supports one lifecycle configuration, which applies to all files in the file system. If a LifecycleConfiguration object already exists for the specified file system, a PutLifecycleConfiguration call modifies the existing configuration. A PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body deletes any existing LifecycleConfiguration and turns off lifecycle management and EFS Intelligent-Tiering for the file system. In the request, specify the following:
     ///
-    /// * The ID for the file system for which you are enabling, disabling, or modifying lifecycle management and EFS Intelligent-Tiering.
     ///
-    /// * A LifecyclePolicies array of LifecyclePolicy objects that define when files are moved into IA storage, and when they are moved back to Standard storage. Amazon EFS requires that each LifecyclePolicy object have only have a single transition, so the LifecyclePolicies array needs to be structured with separate LifecyclePolicy objects. See the example requests in the following section for more information.
+    /// * TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.
+    ///
+    ///
+    /// For more information, see [ Managing file system storage](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html). Each Amazon EFS file system supports one lifecycle configuration, which applies to all files in the file system. If a LifecycleConfiguration object already exists for the specified file system, a PutLifecycleConfiguration call modifies the existing configuration. A PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body deletes any existing LifecycleConfiguration. In the request, specify the following:
+    ///
+    /// * The ID for the file system for which you are enabling, disabling, or modifying Lifecycle management.
+    ///
+    /// * A LifecyclePolicies array of LifecyclePolicy objects that define when to move files to IA storage, to Archive storage, and back to primary storage. Amazon EFS requires that each LifecyclePolicy object have only have a single transition, so the LifecyclePolicies array needs to be structured with separate LifecyclePolicy objects. See the example requests in the following section for more information.
     ///
     ///
     /// This operation requires permissions for the elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration object to an encrypted file system, you need the same Key Management Service permissions as when you created the encrypted file system.
@@ -1419,24 +1481,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>(id: "putLifecycleConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput>(id: "putLifecycleConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutLifecycleConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput>(xmlName: "PutLifecycleConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutLifecycleConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLifecycleConfigurationOutput, PutLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecycleConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecycleConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutLifecycleConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagResource action.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1466,24 +1530,26 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagResource action.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1513,22 +1579,24 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateFileSystem` operation on the `MagnolioAPIService_v20150201` service.
+    ///
     /// Updates the throughput mode or the amount of provisioned throughput of an existing file system.
     ///
     /// - Parameter UpdateFileSystemInput : [no documentation found]
@@ -1561,20 +1629,73 @@ extension EFSClient: EFSClientProtocol {
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFileSystemInput, UpdateFileSystemOutput, UpdateFileSystemOutputError>(id: "updateFileSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput, UpdateFileSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateFileSystemInput, UpdateFileSystemOutput>(id: "updateFileSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFileSystemOutput, UpdateFileSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFileSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput>(xmlName: "UpdateFileSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFileSystemInput, UpdateFileSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFileSystemOutput, UpdateFileSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFileSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFileSystemOutput, UpdateFileSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFileSystemOutput, UpdateFileSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFileSystemOutput, UpdateFileSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFileSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFileSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFileSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFileSystemOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateFileSystemProtection` operation on the `MagnolioAPIService_v20150201` service.
+    ///
+    /// Updates protection on the file system. This operation requires permissions for the elasticfilesystem:UpdateFileSystemProtection action.
+    ///
+    /// - Parameter UpdateFileSystemProtectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFileSystemProtectionOutput` : Describes the protection on a file system.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InsufficientThroughputCapacity` : Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ReplicationAlreadyExists` : Returned if the file system is already included in a replication configuration.>
+    /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
+    /// - `TooManyRequests` : Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
+    public func updateFileSystemProtection(input: UpdateFileSystemProtectionInput) async throws -> UpdateFileSystemProtectionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateFileSystemProtection")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "elasticfilesystem")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateFileSystemProtectionInput, UpdateFileSystemProtectionOutput>(id: "updateFileSystemProtection")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFileSystemProtectionInput, UpdateFileSystemProtectionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFileSystemProtectionInput, UpdateFileSystemProtectionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFileSystemProtectionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFileSystemProtectionInput, UpdateFileSystemProtectionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFileSystemProtectionInput, UpdateFileSystemProtectionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFileSystemProtectionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFileSystemProtectionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFileSystemProtectionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFileSystemProtectionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFileSystemProtectionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

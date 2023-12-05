@@ -67,6 +67,8 @@ public struct MediaPackageV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 }
 
 extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
+    /// Performs the `CreateChannel` operation on the `mediapackagev2` service.
+    ///
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
     ///
     /// - Parameter CreateChannelInput : [no documentation found]
@@ -99,26 +101,28 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(id: "createChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput>(id: "createChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelInput, CreateChannelOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelInput, CreateChannelOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutput>(xmlName: "CreateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelInput, CreateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput, CreateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput, CreateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput, CreateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannelGroup` operation on the `mediapackagev2` service.
+    ///
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
     ///
     /// - Parameter CreateChannelGroupInput : [no documentation found]
@@ -151,26 +155,28 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelGroupInput, CreateChannelGroupOutput, CreateChannelGroupOutputError>(id: "createChannelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput, CreateChannelGroupOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput, CreateChannelGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelGroupInput, CreateChannelGroupOutput>(id: "createChannelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelGroupOutput, CreateChannelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>(xmlName: "CreateChannelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelGroupOutput, CreateChannelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelGroupOutput, CreateChannelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelGroupOutput, CreateChannelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelGroupOutput, CreateChannelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateOriginEndpoint` operation on the `mediapackagev2` service.
+    ///
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
     ///
     /// - Parameter CreateOriginEndpointInput : [no documentation found]
@@ -203,26 +209,28 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateOriginEndpointInput, CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(id: "createOriginEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput, CreateOriginEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateOriginEndpointInput, CreateOriginEndpointOutput>(id: "createOriginEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOriginEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(xmlName: "CreateOriginEndpointRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOriginEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutput, CreateOriginEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginEndpointOutput, CreateOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateOriginEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannel` operation on the `mediapackagev2` service.
+    ///
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
     ///
     /// - Parameter DeleteChannelInput : [no documentation found]
@@ -253,21 +261,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>(id: "deleteChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput>(id: "deleteChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput, DeleteChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput, DeleteChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput, DeleteChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelGroup` operation on the `mediapackagev2` service.
+    ///
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
     ///
     /// - Parameter DeleteChannelGroupInput : [no documentation found]
@@ -298,21 +308,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelGroupInput, DeleteChannelGroupOutput, DeleteChannelGroupOutputError>(id: "deleteChannelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelGroupInput, DeleteChannelGroupOutput, DeleteChannelGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelGroupInput, DeleteChannelGroupOutput>(id: "deleteChannelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelGroupInput, DeleteChannelGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelGroupInput, DeleteChannelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelGroupOutput, DeleteChannelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelGroupOutput, DeleteChannelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelGroupOutput, DeleteChannelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelGroupOutput, DeleteChannelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelGroupOutput, DeleteChannelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Delete a channel policy.
     ///
     /// - Parameter DeleteChannelPolicyInput : [no documentation found]
@@ -343,21 +355,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelPolicyInput, DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>(id: "deleteChannelPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>(id: "deleteChannelPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelPolicyOutput, DeleteChannelPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteOriginEndpoint` operation on the `mediapackagev2` service.
+    ///
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
     ///
     /// - Parameter DeleteOriginEndpointInput : [no documentation found]
@@ -387,21 +401,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOriginEndpointInput, DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>(id: "deleteOriginEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>(id: "deleteOriginEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginEndpointOutput, DeleteOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOriginEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Delete an origin endpoint policy.
     ///
     /// - Parameter DeleteOriginEndpointPolicyInput : [no documentation found]
@@ -432,21 +448,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>(id: "deleteOriginEndpointPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput>(id: "deleteOriginEndpointPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOriginEndpointPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOriginEndpointPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginEndpointPolicyOutput, DeleteOriginEndpointPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginEndpointPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOriginEndpointPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetChannel` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
     /// - Parameter GetChannelInput : [no documentation found]
@@ -477,21 +495,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutput, GetChannelOutputError>(id: "getChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutput, GetChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<GetChannelInput, GetChannelOutput>(id: "getChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelInput, GetChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutput, GetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutput, GetChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutput, GetChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutput, GetChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutput, GetChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetChannelGroup` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
     /// - Parameter GetChannelGroupInput : [no documentation found]
@@ -522,21 +542,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelGroupInput, GetChannelGroupOutput, GetChannelGroupOutputError>(id: "getChannelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelGroupInput, GetChannelGroupOutput, GetChannelGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<GetChannelGroupInput, GetChannelGroupOutput>(id: "getChannelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelGroupInput, GetChannelGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelGroupInput, GetChannelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelGroupOutput, GetChannelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelGroupOutput, GetChannelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelGroupOutput, GetChannelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelGroupOutput, GetChannelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelGroupOutput, GetChannelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChannelGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetChannelPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
     ///
     /// - Parameter GetChannelPolicyInput : [no documentation found]
@@ -567,21 +589,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelPolicyInput, GetChannelPolicyOutput, GetChannelPolicyOutputError>(id: "getChannelPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput, GetChannelPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetChannelPolicyInput, GetChannelPolicyOutput>(id: "getChannelPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelPolicyOutput, GetChannelPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelPolicyOutput, GetChannelPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelPolicyOutput, GetChannelPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelPolicyOutput, GetChannelPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelPolicyOutput, GetChannelPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChannelPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetOriginEndpoint` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     ///
     /// - Parameter GetOriginEndpointInput : [no documentation found]
@@ -612,21 +636,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginEndpointInput, GetOriginEndpointOutput, GetOriginEndpointOutputError>(id: "getOriginEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginEndpointInput, GetOriginEndpointOutput, GetOriginEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<GetOriginEndpointInput, GetOriginEndpointOutput>(id: "getOriginEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginEndpointInput, GetOriginEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginEndpointInput, GetOriginEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginEndpointOutput, GetOriginEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginEndpointOutput, GetOriginEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginEndpointOutput, GetOriginEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginEndpointOutput, GetOriginEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginEndpointOutput, GetOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOriginEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter GetOriginEndpointPolicyInput : [no documentation found]
@@ -657,21 +683,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>(id: "getOriginEndpointPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput>(id: "getOriginEndpointPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOriginEndpointPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOriginEndpointPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginEndpointPolicyOutput, GetOriginEndpointPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOriginEndpointPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOriginEndpointPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOriginEndpointPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelGroups` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
     ///
     /// - Parameter ListChannelGroupsInput : [no documentation found]
@@ -701,22 +729,24 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelGroupsInput, ListChannelGroupsOutput, ListChannelGroupsOutputError>(id: "listChannelGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput, ListChannelGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelGroupsInput, ListChannelGroupsOutput>(id: "listChannelGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelGroupsOutput, ListChannelGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelGroupsOutput, ListChannelGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelGroupsOutput, ListChannelGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelGroupsOutput, ListChannelGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelGroupsOutput, ListChannelGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannels` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
@@ -747,22 +777,24 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>(id: "listChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput>(id: "listChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput, ListChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput, ListChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput, ListChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListOriginEndpoints` operation on the `mediapackagev2` service.
+    ///
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter ListOriginEndpointsInput : [no documentation found]
@@ -793,22 +825,24 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOriginEndpointsInput, ListOriginEndpointsOutput, ListOriginEndpointsOutputError>(id: "listOriginEndpoints")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput, ListOriginEndpointsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListOriginEndpointsInput, ListOriginEndpointsOutput>(id: "listOriginEndpoints")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginEndpointsOutput, ListOriginEndpointsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOriginEndpointsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginEndpointsOutput, ListOriginEndpointsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOriginEndpointsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginEndpointsOutput, ListOriginEndpointsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutput, ListOriginEndpointsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginEndpointsOutput, ListOriginEndpointsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginEndpointsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOriginEndpointsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOriginEndpointsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `mediapackagev2` service.
+    ///
     /// Lists the tags assigned to a resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -835,21 +869,23 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutChannelPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
     ///
     /// - Parameter PutChannelPolicyInput : [no documentation found]
@@ -881,24 +917,26 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutChannelPolicyInput, PutChannelPolicyOutput, PutChannelPolicyOutputError>(id: "putChannelPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput, PutChannelPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutChannelPolicyInput, PutChannelPolicyOutput>(id: "putChannelPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutChannelPolicyOutput, PutChannelPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutChannelPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>(xmlName: "PutChannelPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutChannelPolicyOutput, PutChannelPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutChannelPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutChannelPolicyOutput, PutChannelPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutChannelPolicyOutput, PutChannelPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutChannelPolicyOutput, PutChannelPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutChannelPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutChannelPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutChannelPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutChannelPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutOriginEndpointPolicy` operation on the `mediapackagev2` service.
+    ///
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
     /// - Parameter PutOriginEndpointPolicyInput : [no documentation found]
@@ -930,24 +968,26 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>(id: "putOriginEndpointPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>(id: "putOriginEndpointPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutOriginEndpointPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>(xmlName: "PutOriginEndpointPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutOriginEndpointPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOriginEndpointPolicyOutput, PutOriginEndpointPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutOriginEndpointPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutOriginEndpointPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutOriginEndpointPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `mediapackagev2` service.
+    ///
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -974,24 +1014,26 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `mediapackagev2` service.
+    ///
     /// Removes one or more tags from the specified resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1018,22 +1060,24 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannel` operation on the `mediapackagev2` service.
+    ///
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateChannelInput : [no documentation found]
@@ -1065,24 +1109,26 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>(id: "updateChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput>(id: "updateChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutput>(xmlName: "UpdateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateChannelInput, UpdateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput, UpdateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput, UpdateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput, UpdateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannelGroup` operation on the `mediapackagev2` service.
+    ///
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateChannelGroupInput : [no documentation found]
@@ -1114,24 +1160,26 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelGroupInput, UpdateChannelGroupOutput, UpdateChannelGroupOutputError>(id: "updateChannelGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput, UpdateChannelGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelGroupInput, UpdateChannelGroupOutput>(id: "updateChannelGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelGroupOutput, UpdateChannelGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>(xmlName: "UpdateChannelGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelGroupOutput, UpdateChannelGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelGroupOutput, UpdateChannelGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelGroupOutput, UpdateChannelGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelGroupOutput, UpdateChannelGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateOriginEndpoint` operation on the `mediapackagev2` service.
+    ///
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
     /// - Parameter UpdateOriginEndpointInput : [no documentation found]
@@ -1164,20 +1212,20 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
                       .withSigningName(value: "mediapackagev2")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateOriginEndpointInput, UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>(id: "updateOriginEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(id: "updateOriginEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOriginEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(xmlName: "UpdateOriginEndpointRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOriginEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginEndpointOutput, UpdateOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateOriginEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

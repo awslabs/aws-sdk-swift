@@ -67,6 +67,8 @@ public struct CodestarnotificationsClientLogHandlerFactory: ClientRuntime.SDKLog
 }
 
 extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
+    /// Performs the `CreateNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
     ///
     /// - Parameter CreateNotificationRuleInput : [no documentation found]
@@ -98,25 +100,27 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNotificationRuleInput, CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(id: "createNotificationRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput, CreateNotificationRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateNotificationRuleInput, CreateNotificationRuleOutput>(id: "createNotificationRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNotificationRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput>(xmlName: "CreateNotificationRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNotificationRuleInput, CreateNotificationRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNotificationRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotificationRuleOutput, CreateNotificationRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotificationRuleOutput, CreateNotificationRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotificationRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotificationRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNotificationRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Deletes a notification rule for a resource.
     ///
     /// - Parameter DeleteNotificationRuleInput : [no documentation found]
@@ -145,24 +149,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNotificationRuleInput, DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>(id: "deleteNotificationRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>(id: "deleteNotificationRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNotificationRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput>(xmlName: "DeleteNotificationRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteNotificationRuleInput, DeleteNotificationRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNotificationRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotificationRuleOutput, DeleteNotificationRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotificationRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotificationRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteNotificationRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNotificationRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTarget` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Deletes a specified target for notifications.
     ///
     /// - Parameter DeleteTargetInput : [no documentation found]
@@ -189,24 +195,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTargetInput, DeleteTargetOutput, DeleteTargetOutputError>(id: "deleteTarget")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTargetInput, DeleteTargetOutput, DeleteTargetOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteTargetInput, DeleteTargetOutput>(id: "deleteTarget")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTargetInput, DeleteTargetOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTargetInput, DeleteTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTargetOutput, DeleteTargetOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTargetOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTargetInput, DeleteTargetOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTargetInput, DeleteTargetOutput>(xmlName: "DeleteTargetRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteTargetInput, DeleteTargetOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTargetOutput, DeleteTargetOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTargetOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTargetOutput, DeleteTargetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTargetOutput, DeleteTargetOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTargetOutput, DeleteTargetOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTargetOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTargetOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTargetOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTargetOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Returns information about a specified notification rule.
     ///
     /// - Parameter DescribeNotificationRuleInput : [no documentation found]
@@ -234,24 +242,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeNotificationRuleInput, DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>(id: "describeNotificationRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>(id: "describeNotificationRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNotificationRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput>(xmlName: "DescribeNotificationRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeNotificationRuleInput, DescribeNotificationRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeNotificationRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNotificationRuleOutput, DescribeNotificationRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotificationRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotificationRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeNotificationRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNotificationRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListEventTypes` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Returns information about the event types available for configuring notifications.
     ///
     /// - Parameter ListEventTypesInput : [no documentation found]
@@ -279,24 +289,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventTypesInput, ListEventTypesOutput, ListEventTypesOutputError>(id: "listEventTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventTypesInput, ListEventTypesOutput, ListEventTypesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListEventTypesInput, ListEventTypesOutput>(id: "listEventTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventTypesInput, ListEventTypesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventTypesInput, ListEventTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventTypesOutput, ListEventTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventTypesInput, ListEventTypesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventTypesInput, ListEventTypesOutput>(xmlName: "ListEventTypesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEventTypesInput, ListEventTypesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventTypesOutput, ListEventTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventTypesOutput, ListEventTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventTypesOutput, ListEventTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventTypesOutput, ListEventTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEventTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNotificationRules` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Returns a list of the notification rules for an Amazon Web Services account.
     ///
     /// - Parameter ListNotificationRulesInput : [no documentation found]
@@ -324,24 +336,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNotificationRulesInput, ListNotificationRulesOutput, ListNotificationRulesOutputError>(id: "listNotificationRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput, ListNotificationRulesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListNotificationRulesInput, ListNotificationRulesOutput>(id: "listNotificationRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotificationRulesOutput, ListNotificationRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotificationRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput>(xmlName: "ListNotificationRulesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListNotificationRulesInput, ListNotificationRulesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotificationRulesOutput, ListNotificationRulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNotificationRulesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotificationRulesOutput, ListNotificationRulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotificationRulesOutput, ListNotificationRulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotificationRulesOutput, ListNotificationRulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotificationRulesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotificationRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNotificationRulesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNotificationRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Returns a list of the tags associated with a notification rule.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -369,24 +383,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTargets` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Returns a list of the notification rule targets for an Amazon Web Services account.
     ///
     /// - Parameter ListTargetsInput : [no documentation found]
@@ -414,24 +430,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTargetsInput, ListTargetsOutput, ListTargetsOutputError>(id: "listTargets")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTargetsInput, ListTargetsOutput, ListTargetsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTargetsInput, ListTargetsOutput>(id: "listTargets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTargetsInput, ListTargetsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTargetsInput, ListTargetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTargetsOutput, ListTargetsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTargetsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTargetsInput, ListTargetsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTargetsInput, ListTargetsOutput>(xmlName: "ListTargetsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTargetsInput, ListTargetsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTargetsOutput, ListTargetsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTargetsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTargetsOutput, ListTargetsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTargetsOutput, ListTargetsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTargetsOutput, ListTargetsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTargetsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTargetsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTargetsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTargetsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `Subscribe` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Creates an association between a notification rule and an Chatbot topic or Chatbot client so that the associated target can receive notifications when the events described in the rule are triggered.
     ///
     /// - Parameter SubscribeInput : [no documentation found]
@@ -460,24 +478,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SubscribeInput, SubscribeOutput, SubscribeOutputError>(id: "subscribe")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeInput, SubscribeOutput, SubscribeOutputError>())
+        var operation = ClientRuntime.OperationStack<SubscribeInput, SubscribeOutput>(id: "subscribe")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeInput, SubscribeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeInput, SubscribeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SubscribeOutput, SubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SubscribeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SubscribeInput, SubscribeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SubscribeInput, SubscribeOutput>(xmlName: "SubscribeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SubscribeInput, SubscribeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubscribeOutput, SubscribeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SubscribeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeOutput, SubscribeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeOutput, SubscribeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeOutput, SubscribeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeOutput>(responseClosure(decoder: decoder), responseErrorClosure(SubscribeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SubscribeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Associates a set of provided tags with a notification rule.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -507,24 +527,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `Unsubscribe` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Removes an association between a notification rule and an Chatbot topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     ///
     /// - Parameter UnsubscribeInput : [no documentation found]
@@ -551,24 +573,26 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UnsubscribeInput, UnsubscribeOutput, UnsubscribeOutputError>(id: "unsubscribe")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeInput, UnsubscribeOutput, UnsubscribeOutputError>())
+        var operation = ClientRuntime.OperationStack<UnsubscribeInput, UnsubscribeOutput>(id: "unsubscribe")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeInput, UnsubscribeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeInput, UnsubscribeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnsubscribeOutput, UnsubscribeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UnsubscribeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UnsubscribeInput, UnsubscribeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UnsubscribeInput, UnsubscribeOutput>(xmlName: "UnsubscribeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UnsubscribeInput, UnsubscribeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnsubscribeOutput, UnsubscribeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UnsubscribeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeOutput, UnsubscribeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeOutput, UnsubscribeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeOutput, UnsubscribeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeOutput>(responseClosure(decoder: decoder), responseErrorClosure(UnsubscribeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Removes the association between one or more provided tags and a notification rule.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -598,22 +622,24 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateNotificationRule` operation on the `CodeStarNotifications_20191015` service.
+    ///
     /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. To add or remove tags for a notification rule, you must use [TagResource] and [UntagResource].
     ///
     /// - Parameter UpdateNotificationRuleInput : [no documentation found]
@@ -642,20 +668,20 @@ extension CodestarnotificationsClient: CodestarnotificationsClientProtocol {
                       .withSigningName(value: "codestar-notifications")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNotificationRuleInput, UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>(id: "updateNotificationRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>(id: "updateNotificationRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNotificationRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput>(xmlName: "UpdateNotificationRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNotificationRuleInput, UpdateNotificationRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNotificationRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotificationRuleOutput, UpdateNotificationRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotificationRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotificationRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNotificationRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNotificationRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

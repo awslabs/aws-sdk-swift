@@ -12,7 +12,7 @@ extension DeviceFarmClient {
     ///     - input: A `[GetOfferingStatusInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetOfferingStatusOutput`
     public func getOfferingStatusPaginated(input: GetOfferingStatusInput) -> ClientRuntime.PaginatorSequence<GetOfferingStatusInput, GetOfferingStatusOutput> {
-        return ClientRuntime.PaginatorSequence<GetOfferingStatusInput, GetOfferingStatusOutput>(input: input, inputKey: \GetOfferingStatusInput.nextToken, outputKey: \GetOfferingStatusOutput.nextToken, paginationFunction: self.getOfferingStatus(input:))
+        return ClientRuntime.PaginatorSequence<GetOfferingStatusInput, GetOfferingStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOfferingStatus(input:))
     }
 }
 
@@ -32,7 +32,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListArtifactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListArtifactsOutput`
     public func listArtifactsPaginated(input: ListArtifactsInput) -> ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput> {
-        return ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput>(input: input, inputKey: \ListArtifactsInput.nextToken, outputKey: \ListArtifactsOutput.nextToken, paginationFunction: self.listArtifacts(input:))
+        return ClientRuntime.PaginatorSequence<ListArtifactsInput, ListArtifactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listArtifacts(input:))
     }
 }
 
@@ -45,7 +45,7 @@ extension ListArtifactsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListArtifactsInput, Output == ListArtifactsOutput {
+extension PaginatorSequence where OperationStackInput == ListArtifactsInput, OperationStackOutput == ListArtifactsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listArtifactsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Artifact]`
     /// - Returns: `[DeviceFarmClientTypes.Artifact]`
@@ -63,7 +63,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListDevicePoolsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevicePoolsOutput`
     public func listDevicePoolsPaginated(input: ListDevicePoolsInput) -> ClientRuntime.PaginatorSequence<ListDevicePoolsInput, ListDevicePoolsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDevicePoolsInput, ListDevicePoolsOutput>(input: input, inputKey: \ListDevicePoolsInput.nextToken, outputKey: \ListDevicePoolsOutput.nextToken, paginationFunction: self.listDevicePools(input:))
+        return ClientRuntime.PaginatorSequence<ListDevicePoolsInput, ListDevicePoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevicePools(input:))
     }
 }
 
@@ -76,7 +76,7 @@ extension ListDevicePoolsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDevicePoolsInput, Output == ListDevicePoolsOutput {
+extension PaginatorSequence where OperationStackInput == ListDevicePoolsInput, OperationStackOutput == ListDevicePoolsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDevicePoolsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.DevicePool]`
     /// - Returns: `[DeviceFarmClientTypes.DevicePool]`
@@ -94,7 +94,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListDevicesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDevicesOutput`
     public func listDevicesPaginated(input: ListDevicesInput) -> ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \ListDevicesInput.nextToken, outputKey: \ListDevicesOutput.nextToken, paginationFunction: self.listDevices(input:))
+        return ClientRuntime.PaginatorSequence<ListDevicesInput, ListDevicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDevices(input:))
     }
 }
 
@@ -107,7 +107,7 @@ extension ListDevicesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDevicesInput, Output == ListDevicesOutput {
+extension PaginatorSequence where OperationStackInput == ListDevicesInput, OperationStackOutput == ListDevicesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDevicesPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Device]`
     /// - Returns: `[DeviceFarmClientTypes.Device]`
@@ -125,7 +125,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutput`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutput.nextToken, paginationFunction: self.listJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listJobs(input:))
     }
 }
 
@@ -137,7 +137,7 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListJobsInput, OperationStackOutput == ListJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Job]`
     /// - Returns: `[DeviceFarmClientTypes.Job]`
@@ -155,7 +155,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListOfferingsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutput`
     public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutput.nextToken, paginationFunction: self.listOfferings(input:))
+        return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOfferings(input:))
     }
 }
 
@@ -166,7 +166,7 @@ extension ListOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutput {
+extension PaginatorSequence where OperationStackInput == ListOfferingsInput, OperationStackOutput == ListOfferingsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Offering]`
     /// - Returns: `[DeviceFarmClientTypes.Offering]`
@@ -184,7 +184,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListOfferingTransactionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingTransactionsOutput`
     public func listOfferingTransactionsPaginated(input: ListOfferingTransactionsInput) -> ClientRuntime.PaginatorSequence<ListOfferingTransactionsInput, ListOfferingTransactionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(input: input, inputKey: \ListOfferingTransactionsInput.nextToken, outputKey: \ListOfferingTransactionsOutput.nextToken, paginationFunction: self.listOfferingTransactions(input:))
+        return ClientRuntime.PaginatorSequence<ListOfferingTransactionsInput, ListOfferingTransactionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOfferingTransactions(input:))
     }
 }
 
@@ -195,7 +195,7 @@ extension ListOfferingTransactionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOfferingTransactionsInput, Output == ListOfferingTransactionsOutput {
+extension PaginatorSequence where OperationStackInput == ListOfferingTransactionsInput, OperationStackOutput == ListOfferingTransactionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOfferingTransactionsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.OfferingTransaction]`
     /// - Returns: `[DeviceFarmClientTypes.OfferingTransaction]`
@@ -213,7 +213,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutput`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
-        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutput.nextToken, paginationFunction: self.listProjects(input:))
+        return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProjects(input:))
     }
 }
 
@@ -225,7 +225,7 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutput {
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Project]`
     /// - Returns: `[DeviceFarmClientTypes.Project]`
@@ -243,7 +243,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListRunsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRunsOutput`
     public func listRunsPaginated(input: ListRunsInput) -> ClientRuntime.PaginatorSequence<ListRunsInput, ListRunsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRunsInput, ListRunsOutput>(input: input, inputKey: \ListRunsInput.nextToken, outputKey: \ListRunsOutput.nextToken, paginationFunction: self.listRuns(input:))
+        return ClientRuntime.PaginatorSequence<ListRunsInput, ListRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRuns(input:))
     }
 }
 
@@ -255,7 +255,7 @@ extension ListRunsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRunsInput, Output == ListRunsOutput {
+extension PaginatorSequence where OperationStackInput == ListRunsInput, OperationStackOutput == ListRunsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRunsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Run]`
     /// - Returns: `[DeviceFarmClientTypes.Run]`
@@ -273,7 +273,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListSamplesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSamplesOutput`
     public func listSamplesPaginated(input: ListSamplesInput) -> ClientRuntime.PaginatorSequence<ListSamplesInput, ListSamplesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSamplesInput, ListSamplesOutput>(input: input, inputKey: \ListSamplesInput.nextToken, outputKey: \ListSamplesOutput.nextToken, paginationFunction: self.listSamples(input:))
+        return ClientRuntime.PaginatorSequence<ListSamplesInput, ListSamplesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSamples(input:))
     }
 }
 
@@ -285,7 +285,7 @@ extension ListSamplesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSamplesInput, Output == ListSamplesOutput {
+extension PaginatorSequence where OperationStackInput == ListSamplesInput, OperationStackOutput == ListSamplesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSamplesPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Sample]`
     /// - Returns: `[DeviceFarmClientTypes.Sample]`
@@ -303,7 +303,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListSuitesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSuitesOutput`
     public func listSuitesPaginated(input: ListSuitesInput) -> ClientRuntime.PaginatorSequence<ListSuitesInput, ListSuitesOutput> {
-        return ClientRuntime.PaginatorSequence<ListSuitesInput, ListSuitesOutput>(input: input, inputKey: \ListSuitesInput.nextToken, outputKey: \ListSuitesOutput.nextToken, paginationFunction: self.listSuites(input:))
+        return ClientRuntime.PaginatorSequence<ListSuitesInput, ListSuitesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSuites(input:))
     }
 }
 
@@ -315,7 +315,7 @@ extension ListSuitesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSuitesInput, Output == ListSuitesOutput {
+extension PaginatorSequence where OperationStackInput == ListSuitesInput, OperationStackOutput == ListSuitesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSuitesPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Suite]`
     /// - Returns: `[DeviceFarmClientTypes.Suite]`
@@ -333,7 +333,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListTestGridProjectsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestGridProjectsOutput`
     public func listTestGridProjectsPaginated(input: ListTestGridProjectsInput) -> ClientRuntime.PaginatorSequence<ListTestGridProjectsInput, ListTestGridProjectsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestGridProjectsInput, ListTestGridProjectsOutput>(input: input, inputKey: \ListTestGridProjectsInput.nextToken, outputKey: \ListTestGridProjectsOutput.nextToken, paginationFunction: self.listTestGridProjects(input:))
+        return ClientRuntime.PaginatorSequence<ListTestGridProjectsInput, ListTestGridProjectsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestGridProjects(input:))
     }
 }
 
@@ -354,7 +354,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListTestGridSessionActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestGridSessionActionsOutput`
     public func listTestGridSessionActionsPaginated(input: ListTestGridSessionActionsInput) -> ClientRuntime.PaginatorSequence<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(input: input, inputKey: \ListTestGridSessionActionsInput.nextToken, outputKey: \ListTestGridSessionActionsOutput.nextToken, paginationFunction: self.listTestGridSessionActions(input:))
+        return ClientRuntime.PaginatorSequence<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestGridSessionActions(input:))
     }
 }
 
@@ -376,7 +376,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListTestGridSessionArtifactsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestGridSessionArtifactsOutput`
     public func listTestGridSessionArtifactsPaginated(input: ListTestGridSessionArtifactsInput) -> ClientRuntime.PaginatorSequence<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(input: input, inputKey: \ListTestGridSessionArtifactsInput.nextToken, outputKey: \ListTestGridSessionArtifactsOutput.nextToken, paginationFunction: self.listTestGridSessionArtifacts(input:))
+        return ClientRuntime.PaginatorSequence<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestGridSessionArtifacts(input:))
     }
 }
 
@@ -399,7 +399,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListTestGridSessionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestGridSessionsOutput`
     public func listTestGridSessionsPaginated(input: ListTestGridSessionsInput) -> ClientRuntime.PaginatorSequence<ListTestGridSessionsInput, ListTestGridSessionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestGridSessionsInput, ListTestGridSessionsOutput>(input: input, inputKey: \ListTestGridSessionsInput.nextToken, outputKey: \ListTestGridSessionsOutput.nextToken, paginationFunction: self.listTestGridSessions(input:))
+        return ClientRuntime.PaginatorSequence<ListTestGridSessionsInput, ListTestGridSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTestGridSessions(input:))
     }
 }
 
@@ -426,7 +426,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListTestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTestsOutput`
     public func listTestsPaginated(input: ListTestsInput) -> ClientRuntime.PaginatorSequence<ListTestsInput, ListTestsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTestsInput, ListTestsOutput>(input: input, inputKey: \ListTestsInput.nextToken, outputKey: \ListTestsOutput.nextToken, paginationFunction: self.listTests(input:))
+        return ClientRuntime.PaginatorSequence<ListTestsInput, ListTestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTests(input:))
     }
 }
 
@@ -438,7 +438,7 @@ extension ListTestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTestsInput, Output == ListTestsOutput {
+extension PaginatorSequence where OperationStackInput == ListTestsInput, OperationStackOutput == ListTestsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTestsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Test]`
     /// - Returns: `[DeviceFarmClientTypes.Test]`
@@ -456,7 +456,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListUniqueProblemsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUniqueProblemsOutput`
     public func listUniqueProblemsPaginated(input: ListUniqueProblemsInput) -> ClientRuntime.PaginatorSequence<ListUniqueProblemsInput, ListUniqueProblemsOutput> {
-        return ClientRuntime.PaginatorSequence<ListUniqueProblemsInput, ListUniqueProblemsOutput>(input: input, inputKey: \ListUniqueProblemsInput.nextToken, outputKey: \ListUniqueProblemsOutput.nextToken, paginationFunction: self.listUniqueProblems(input:))
+        return ClientRuntime.PaginatorSequence<ListUniqueProblemsInput, ListUniqueProblemsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUniqueProblems(input:))
     }
 }
 
@@ -468,7 +468,7 @@ extension ListUniqueProblemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUniqueProblemsInput, Output == ListUniqueProblemsOutput {
+extension PaginatorSequence where OperationStackInput == ListUniqueProblemsInput, OperationStackOutput == ListUniqueProblemsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUniqueProblemsPaginated`
     /// to access the nested member `[(String, [DeviceFarmClientTypes.UniqueProblem])]`
     /// - Returns: `[(String, [DeviceFarmClientTypes.UniqueProblem])]`
@@ -486,7 +486,7 @@ extension DeviceFarmClient {
     ///     - input: A `[ListUploadsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListUploadsOutput`
     public func listUploadsPaginated(input: ListUploadsInput) -> ClientRuntime.PaginatorSequence<ListUploadsInput, ListUploadsOutput> {
-        return ClientRuntime.PaginatorSequence<ListUploadsInput, ListUploadsOutput>(input: input, inputKey: \ListUploadsInput.nextToken, outputKey: \ListUploadsOutput.nextToken, paginationFunction: self.listUploads(input:))
+        return ClientRuntime.PaginatorSequence<ListUploadsInput, ListUploadsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUploads(input:))
     }
 }
 
@@ -499,7 +499,7 @@ extension ListUploadsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListUploadsInput, Output == ListUploadsOutput {
+extension PaginatorSequence where OperationStackInput == ListUploadsInput, OperationStackOutput == ListUploadsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listUploadsPaginated`
     /// to access the nested member `[DeviceFarmClientTypes.Upload]`
     /// - Returns: `[DeviceFarmClientTypes.Upload]`

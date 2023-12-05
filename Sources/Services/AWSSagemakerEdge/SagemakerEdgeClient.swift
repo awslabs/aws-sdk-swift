@@ -67,6 +67,8 @@ public struct SagemakerEdgeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
+    /// Performs the `GetDeployments` operation on the `AmazonSageMakerEdge` service.
+    ///
     /// Use to get the active deployments from a device.
     ///
     /// - Parameter GetDeploymentsInput : [no documentation found]
@@ -93,24 +95,26 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeploymentsInput, GetDeploymentsOutput, GetDeploymentsOutputError>(id: "getDeployments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeploymentsInput, GetDeploymentsOutput, GetDeploymentsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetDeploymentsInput, GetDeploymentsOutput>(id: "getDeployments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeploymentsInput, GetDeploymentsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeploymentsInput, GetDeploymentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeploymentsOutput, GetDeploymentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeploymentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(xmlName: "GetDeploymentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetDeploymentsInput, GetDeploymentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeploymentsOutput, GetDeploymentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeploymentsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeploymentsOutput, GetDeploymentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeploymentsOutput, GetDeploymentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeploymentsOutput, GetDeploymentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeploymentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeploymentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeploymentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeploymentsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDeviceRegistration` operation on the `AmazonSageMakerEdge` service.
+    ///
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
     /// - Parameter GetDeviceRegistrationInput : [no documentation found]
@@ -137,24 +141,26 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceRegistrationInput, GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>(id: "getDeviceRegistration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>(id: "getDeviceRegistration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceRegistrationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>(xmlName: "GetDeviceRegistrationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceRegistrationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceRegistrationOutput, GetDeviceRegistrationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceRegistrationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceRegistrationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeviceRegistrationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceRegistrationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SendHeartbeat` operation on the `AmazonSageMakerEdge` service.
+    ///
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
     /// - Parameter SendHeartbeatInput : [no documentation found]
@@ -181,20 +187,20 @@ extension SagemakerEdgeClient: SagemakerEdgeClientProtocol {
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendHeartbeatInput, SendHeartbeatOutput, SendHeartbeatOutputError>(id: "sendHeartbeat")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendHeartbeatInput, SendHeartbeatOutput, SendHeartbeatOutputError>())
+        var operation = ClientRuntime.OperationStack<SendHeartbeatInput, SendHeartbeatOutput>(id: "sendHeartbeat")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendHeartbeatInput, SendHeartbeatOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendHeartbeatInput, SendHeartbeatOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendHeartbeatOutput, SendHeartbeatOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendHeartbeatOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendHeartbeatInput, SendHeartbeatOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendHeartbeatInput, SendHeartbeatOutput>(xmlName: "SendHeartbeatRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendHeartbeatInput, SendHeartbeatOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendHeartbeatOutput, SendHeartbeatOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendHeartbeatOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendHeartbeatOutput, SendHeartbeatOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendHeartbeatOutput, SendHeartbeatOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendHeartbeatOutput, SendHeartbeatOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendHeartbeatOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendHeartbeatOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendHeartbeatOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendHeartbeatOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

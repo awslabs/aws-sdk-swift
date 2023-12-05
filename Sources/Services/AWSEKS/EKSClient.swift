@@ -67,6 +67,8 @@ public struct EKSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension EKSClient: EKSClientProtocol {
+    /// Performs the `AssociateEncryptionConfig` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Associate encryption configuration to an existing cluster. You can use this API to enable encryption on existing clusters which do not have encryption already enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
     ///
     /// - Parameter AssociateEncryptionConfigInput : [no documentation found]
@@ -76,7 +78,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -98,25 +100,27 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(id: "associateEncryptionConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>(id: "associateEncryptionConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateEncryptionConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>(xmlName: "AssociateEncryptionConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateEncryptionConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateEncryptionConfigOutput, AssociateEncryptionConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEncryptionConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEncryptionConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateEncryptionConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Associate an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes roles and clusterroles to assign permissions to the roles, and then bind the roles to the identities using Kubernetes rolebindings and clusterrolebindings. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
     ///
     /// - Parameter AssociateIdentityProviderConfigInput : [no documentation found]
@@ -126,7 +130,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -148,25 +152,27 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(id: "associateIdentityProviderConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>(id: "associateIdentityProviderConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateIdentityProviderConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>(xmlName: "AssociateIdentityProviderConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateIdentityProviderConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIdentityProviderConfigOutput, AssociateIdentityProviderConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateIdentityProviderConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateIdentityProviderConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateIdentityProviderConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAddon` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateAddonInput : [no documentation found]
@@ -176,7 +182,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -198,26 +204,28 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAddonInput, CreateAddonOutput, CreateAddonOutputError>(id: "createAddon")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAddonInput, CreateAddonOutput, CreateAddonOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAddonInput, CreateAddonOutput, CreateAddonOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAddonInput, CreateAddonOutput>(id: "createAddon")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAddonInput, CreateAddonOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAddonInput, CreateAddonOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAddonInput, CreateAddonOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAddonOutput, CreateAddonOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAddonOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAddonInput, CreateAddonOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAddonInput, CreateAddonOutput>(xmlName: "CreateAddonRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAddonInput, CreateAddonOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAddonOutput, CreateAddonOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAddonOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddonOutput, CreateAddonOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddonOutput, CreateAddonOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAddonOutput, CreateAddonOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddonOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddonOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAddonOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAddonOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Managing Cluster Authentication](https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
+    /// Performs the `CreateCluster` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Managing Cluster Authentication](https://docs.aws.amazon.com/eks/latest/userguide/managing-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -226,7 +234,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
@@ -249,26 +257,79 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutput, CreateClusterOutputError>(id: "createCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateClusterInput, CreateClusterOutput, CreateClusterOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput, CreateClusterOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutput>(id: "createCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateClusterInput, CreateClusterOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateClusterOutput, CreateClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateClusterInput, CreateClusterOutput>(xmlName: "CreateClusterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateClusterInput, CreateClusterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateClusterOutput, CreateClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutput, CreateClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutput, CreateClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutput, CreateClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/admin/authorization/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate Profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
+    /// Performs the `CreateEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Creates an EKS Anywhere subscription. When a subscription is created, it is a contract agreement for the length of the term specified in the request. Licenses that are used to validate support are provisioned in Amazon Web Services License Manager and the caller account is granted access to EKS Anywhere Curated Packages.
+    ///
+    /// - Parameter CreateEksAnywhereSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEksAnywhereSubscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
+    public func createEksAnywhereSubscription(input: CreateEksAnywhereSubscriptionInput) async throws -> CreateEksAnywhereSubscriptionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEksAnywhereSubscription")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>(id: "createEksAnywhereSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEksAnywhereSubscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEksAnywhereSubscriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEksAnywhereSubscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEksAnywhereSubscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateEksAnywhereSubscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateFargateProfile` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate Profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
     ///
     /// - Parameter CreateFargateProfileInput : [no documentation found]
     ///
@@ -277,7 +338,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
@@ -299,26 +360,28 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFargateProfileInput, CreateFargateProfileOutput, CreateFargateProfileOutputError>(id: "createFargateProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput, CreateFargateProfileOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput, CreateFargateProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateFargateProfileInput, CreateFargateProfileOutput>(id: "createFargateProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFargateProfileOutput, CreateFargateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFargateProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>(xmlName: "CreateFargateProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFargateProfileOutput, CreateFargateProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFargateProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFargateProfileOutput, CreateFargateProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFargateProfileOutput, CreateFargateProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFargateProfileOutput, CreateFargateProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFargateProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFargateProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFargateProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFargateProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see [Launch template support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Regions that support Windows Amazon EKS.
+    /// Performs the `CreateNodegroup` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Regions that support Windows Amazon EKS.
     ///
     /// - Parameter CreateNodegroupInput : [no documentation found]
     ///
@@ -327,7 +390,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -350,25 +413,79 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNodegroupInput, CreateNodegroupOutput, CreateNodegroupOutputError>(id: "createNodegroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNodegroupInput, CreateNodegroupOutput, CreateNodegroupOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNodegroupInput, CreateNodegroupOutput, CreateNodegroupOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateNodegroupInput, CreateNodegroupOutput>(id: "createNodegroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNodegroupInput, CreateNodegroupOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNodegroupInput, CreateNodegroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNodegroupInput, CreateNodegroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNodegroupOutput, CreateNodegroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNodegroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNodegroupInput, CreateNodegroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNodegroupInput, CreateNodegroupOutput>(xmlName: "CreateNodegroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNodegroupInput, CreateNodegroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNodegroupOutput, CreateNodegroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNodegroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNodegroupOutput, CreateNodegroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNodegroupOutput, CreateNodegroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNodegroupOutput, CreateNodegroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNodegroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNodegroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNodegroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNodegroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that 7EC2l instance profiles provide credentials to Amazon EC2 instances. If a pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for Pod Identity once, and reuse it across clusters.
+    ///
+    /// - Parameter CreatePodIdentityAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePodIdentityAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func createPodIdentityAssociation(input: CreatePodIdentityAssociationInput) async throws -> CreatePodIdentityAssociationOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPodIdentityAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>(id: "createPodIdentityAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePodIdentityAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePodIdentityAssociationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePodIdentityAssociationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePodIdentityAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePodIdentityAssociationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteAddon` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     ///
     /// - Parameter DeleteAddonInput : [no documentation found]
@@ -378,7 +495,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
@@ -399,22 +516,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAddonInput, DeleteAddonOutput, DeleteAddonOutputError>(id: "deleteAddon")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAddonInput, DeleteAddonOutput, DeleteAddonOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAddonInput, DeleteAddonOutput>(id: "deleteAddon")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAddonInput, DeleteAddonOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAddonInput, DeleteAddonOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAddonOutput, DeleteAddonOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAddonOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteAddonInput, DeleteAddonOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAddonOutput, DeleteAddonOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAddonOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAddonOutput, DeleteAddonOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAddonOutput, DeleteAddonOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAddonOutput, DeleteAddonOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAddonOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAddonOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAddonOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAddonOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteCluster` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Deletes the Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a Cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see [DeleteNodegroup] and [DeleteFargateProfile].
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
@@ -424,7 +543,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -445,21 +564,69 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutput, DeleteClusterOutputError>(id: "deleteCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutput, DeleteClusterOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutput>(id: "deleteCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClusterOutput, DeleteClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterOutput, DeleteClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutput, DeleteClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutput, DeleteClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutput, DeleteClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Deletes an expired or inactive subscription. Deleting inactive subscriptions removes them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can only be cancelled within 7 days of creation and are cancelled by creating a ticket in the Amazon Web Services Support Center.
+    ///
+    /// - Parameter DeleteEksAnywhereSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEksAnywhereSubscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func deleteEksAnywhereSubscription(input: DeleteEksAnywhereSubscriptionInput) async throws -> DeleteEksAnywhereSubscriptionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEksAnywhereSubscription")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput>(id: "deleteEksAnywhereSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEksAnywhereSubscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEksAnywhereSubscriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEksAnywhereSubscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEksAnywhereSubscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteEksAnywhereSubscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteFargateProfile` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate that were created with the profile are deleted. If those pods match another Fargate profile, then they are scheduled on Fargate with that profile. If they no longer match any Fargate profiles, then they are not scheduled on Fargate and they may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     ///
     /// - Parameter DeleteFargateProfileInput : [no documentation found]
@@ -469,7 +636,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -489,21 +656,23 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFargateProfileInput, DeleteFargateProfileOutput, DeleteFargateProfileOutputError>(id: "deleteFargateProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFargateProfileInput, DeleteFargateProfileOutput, DeleteFargateProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteFargateProfileInput, DeleteFargateProfileOutput>(id: "deleteFargateProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFargateProfileInput, DeleteFargateProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFargateProfileInput, DeleteFargateProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFargateProfileOutput, DeleteFargateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFargateProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFargateProfileOutput, DeleteFargateProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFargateProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFargateProfileOutput, DeleteFargateProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFargateProfileOutput, DeleteFargateProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFargateProfileOutput, DeleteFargateProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFargateProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFargateProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFargateProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFargateProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteNodegroup` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Deletes an Amazon EKS node group for a cluster.
     ///
     /// - Parameter DeleteNodegroupInput : [no documentation found]
@@ -513,7 +682,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
@@ -535,21 +704,69 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNodegroupInput, DeleteNodegroupOutput, DeleteNodegroupOutputError>(id: "deleteNodegroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNodegroupInput, DeleteNodegroupOutput, DeleteNodegroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteNodegroupInput, DeleteNodegroupOutput>(id: "deleteNodegroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNodegroupInput, DeleteNodegroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNodegroupInput, DeleteNodegroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNodegroupOutput, DeleteNodegroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNodegroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNodegroupOutput, DeleteNodegroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNodegroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNodegroupOutput, DeleteNodegroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNodegroupOutput, DeleteNodegroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNodegroupOutput, DeleteNodegroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNodegroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNodegroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteNodegroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNodegroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Deletes a EKS Pod Identity association. The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
+    ///
+    /// - Parameter DeletePodIdentityAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePodIdentityAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func deletePodIdentityAssociation(input: DeletePodIdentityAssociationInput) async throws -> DeletePodIdentityAssociationOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePodIdentityAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput>(id: "deletePodIdentityAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePodIdentityAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePodIdentityAssociationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePodIdentityAssociationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePodIdentityAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePodIdentityAssociationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeregisterCluster` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Deregisters a connected cluster to remove it from the Amazon EKS control plane.
     ///
     /// - Parameter DeregisterClusterInput : [no documentation found]
@@ -559,8 +776,8 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -581,21 +798,23 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterClusterInput, DeregisterClusterOutput, DeregisterClusterOutputError>(id: "deregisterCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterClusterInput, DeregisterClusterOutput, DeregisterClusterOutputError>())
+        var operation = ClientRuntime.OperationStack<DeregisterClusterInput, DeregisterClusterOutput>(id: "deregisterCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterClusterInput, DeregisterClusterOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterClusterInput, DeregisterClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterClusterOutput, DeregisterClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterClusterOutput, DeregisterClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterClusterOutput, DeregisterClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterClusterOutput, DeregisterClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterClusterOutput, DeregisterClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterClusterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAddon` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Describes an Amazon EKS add-on.
     ///
     /// - Parameter DescribeAddonInput : [no documentation found]
@@ -605,7 +824,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
@@ -626,21 +845,23 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAddonInput, DescribeAddonOutput, DescribeAddonOutputError>(id: "describeAddon")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonInput, DescribeAddonOutput, DescribeAddonOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAddonInput, DescribeAddonOutput>(id: "describeAddon")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonInput, DescribeAddonOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAddonInput, DescribeAddonOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonOutput, DescribeAddonOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonOutput, DescribeAddonOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonOutput, DescribeAddonOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonOutput, DescribeAddonOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonOutput, DescribeAddonOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAddonOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAddonConfiguration` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns configuration options.
     ///
     /// - Parameter DescribeAddonConfigurationInput : [no documentation found]
@@ -669,22 +890,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>(id: "describeAddonConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>(id: "describeAddonConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonConfigurationOutput, DescribeAddonConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAddonConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAddonVersions` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     ///
     /// - Parameter DescribeAddonVersionsInput : [no documentation found]
@@ -713,22 +936,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAddonVersionsInput, DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>(id: "describeAddonVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>(id: "describeAddonVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAddonVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAddonVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonVersionsOutput, DescribeAddonVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAddonVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAddonVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAddonVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAddonVersionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeCluster` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns descriptive information about an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Create a kubeconfig for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     ///
     /// - Parameter DescribeClusterInput : [no documentation found]
@@ -738,7 +963,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
@@ -758,21 +983,69 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeClusterInput, DescribeClusterOutput, DescribeClusterOutputError>(id: "describeCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutput, DescribeClusterOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeClusterInput, DescribeClusterOutput>(id: "describeCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClusterOutput, DescribeClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeClusterOutput, DescribeClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterOutput, DescribeClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterOutput, DescribeClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterOutput, DescribeClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClusterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Returns descriptive information about a subscription.
+    ///
+    /// - Parameter DescribeEksAnywhereSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEksAnywhereSubscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
+    public func describeEksAnywhereSubscription(input: DescribeEksAnywhereSubscriptionInput) async throws -> DescribeEksAnywhereSubscriptionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeEksAnywhereSubscription")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput>(id: "describeEksAnywhereSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEksAnywhereSubscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEksAnywhereSubscriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEksAnywhereSubscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEksAnywhereSubscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeEksAnywhereSubscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DescribeFargateProfile` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns descriptive information about an Fargate profile.
     ///
     /// - Parameter DescribeFargateProfileInput : [no documentation found]
@@ -782,7 +1055,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -802,21 +1075,23 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeFargateProfileInput, DescribeFargateProfileOutput, DescribeFargateProfileOutputError>(id: "describeFargateProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFargateProfileInput, DescribeFargateProfileOutput, DescribeFargateProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeFargateProfileInput, DescribeFargateProfileOutput>(id: "describeFargateProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFargateProfileInput, DescribeFargateProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFargateProfileInput, DescribeFargateProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFargateProfileOutput, DescribeFargateProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeFargateProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFargateProfileOutput, DescribeFargateProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeFargateProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFargateProfileOutput, DescribeFargateProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFargateProfileOutput, DescribeFargateProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFargateProfileOutput, DescribeFargateProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFargateProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFargateProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeFargateProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeFargateProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns descriptive information about an identity provider configuration.
     ///
     /// - Parameter DescribeIdentityProviderConfigInput : [no documentation found]
@@ -826,7 +1101,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -847,24 +1122,26 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>(id: "describeIdentityProviderConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>(id: "describeIdentityProviderConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityProviderConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>(xmlName: "DescribeIdentityProviderConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeIdentityProviderConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityProviderConfigOutput, DescribeIdentityProviderConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIdentityProviderConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeIdentityProviderConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeNodegroup` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns descriptive information about an Amazon EKS node group.
     ///
     /// - Parameter DescribeNodegroupInput : [no documentation found]
@@ -874,7 +1151,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -895,21 +1172,69 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeNodegroupInput, DescribeNodegroupOutput, DescribeNodegroupOutputError>(id: "describeNodegroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNodegroupInput, DescribeNodegroupOutput, DescribeNodegroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeNodegroupInput, DescribeNodegroupOutput>(id: "describeNodegroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNodegroupInput, DescribeNodegroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNodegroupInput, DescribeNodegroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNodegroupOutput, DescribeNodegroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeNodegroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeNodegroupOutput, DescribeNodegroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeNodegroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNodegroupOutput, DescribeNodegroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNodegroupOutput, DescribeNodegroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNodegroupOutput, DescribeNodegroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNodegroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNodegroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeNodegroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeNodegroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Returns descriptive information about an EKS Pod Identity association. This action requires the ID of the association. You can get the ID from the response to the CreatePodIdentityAssocation for newly created associations. Or, you can list the IDs for associations with ListPodIdentityAssociations and filter the list by namespace or service account.
+    ///
+    /// - Parameter DescribePodIdentityAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePodIdentityAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func describePodIdentityAssociation(input: DescribePodIdentityAssociationInput) async throws -> DescribePodIdentityAssociationOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describePodIdentityAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput>(id: "describePodIdentityAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePodIdentityAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribePodIdentityAssociationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePodIdentityAssociationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePodIdentityAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribePodIdentityAssociationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DescribeUpdate` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group or Amazon EKS add-on. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
     /// - Parameter DescribeUpdateInput : [no documentation found]
@@ -919,7 +1244,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -939,23 +1264,25 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeUpdateInput, DescribeUpdateOutput, DescribeUpdateOutputError>(id: "describeUpdate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateInput, DescribeUpdateOutput, DescribeUpdateOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeUpdateInput, DescribeUpdateOutput>(id: "describeUpdate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUpdateInput, DescribeUpdateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUpdateInput, DescribeUpdateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateOutput, DescribeUpdateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUpdateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeUpdateInput, DescribeUpdateOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateOutput, DescribeUpdateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeUpdateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateOutput, DescribeUpdateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateOutput, DescribeUpdateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateOutput, DescribeUpdateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUpdateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUpdateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeUpdateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeUpdateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with Amazon Web Services IAM users.
+    /// Performs the `DisassociateIdentityProviderConfig` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html).
     ///
     /// - Parameter DisassociateIdentityProviderConfigInput : [no documentation found]
     ///
@@ -964,7 +1291,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -986,26 +1313,28 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(id: "disassociateIdentityProviderConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>(id: "disassociateIdentityProviderConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateIdentityProviderConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>(xmlName: "DisassociateIdentityProviderConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateIdentityProviderConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIdentityProviderConfigOutput, DisassociateIdentityProviderConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateIdentityProviderConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateIdentityProviderConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateIdentityProviderConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the available add-ons.
+    /// Performs the `ListAddons` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Lists the installed add-ons.
     ///
     /// - Parameter ListAddonsInput : [no documentation found]
     ///
@@ -1014,7 +1343,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
@@ -1035,22 +1364,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAddonsInput, ListAddonsOutput, ListAddonsOutputError>(id: "listAddons")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAddonsInput, ListAddonsOutput, ListAddonsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAddonsInput, ListAddonsOutput>(id: "listAddons")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAddonsInput, ListAddonsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAddonsInput, ListAddonsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAddonsOutput, ListAddonsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAddonsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAddonsInput, ListAddonsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAddonsOutput, ListAddonsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAddonsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAddonsOutput, ListAddonsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAddonsOutput, ListAddonsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAddonsOutput, ListAddonsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAddonsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAddonsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAddonsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAddonsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListClusters` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
@@ -1060,7 +1391,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
     /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
@@ -1080,22 +1411,71 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutput, ListClustersOutputError>(id: "listClusters")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput, ListClustersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutput>(id: "listClusters")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListClustersOutput, ListClustersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListClustersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClustersOutput, ListClustersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListClustersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutput, ListClustersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutput, ListClustersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutput, ListClustersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListClustersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListEksAnywhereSubscriptions` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Displays the full description of the subscription.
+    ///
+    /// - Parameter ListEksAnywhereSubscriptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEksAnywhereSubscriptionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ServiceUnavailableException` : The service is unavailable. Back off and retry the operation.
+    public func listEksAnywhereSubscriptions(input: ListEksAnywhereSubscriptionsInput) async throws -> ListEksAnywhereSubscriptionsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEksAnywhereSubscriptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>(id: "listEksAnywhereSubscriptions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEksAnywhereSubscriptionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEksAnywhereSubscriptionsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEksAnywhereSubscriptionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEksAnywhereSubscriptionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEksAnywhereSubscriptionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEksAnywhereSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListFargateProfiles` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Region.
     ///
     /// - Parameter ListFargateProfilesInput : [no documentation found]
@@ -1105,7 +1485,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -1125,22 +1505,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFargateProfilesInput, ListFargateProfilesOutput, ListFargateProfilesOutputError>(id: "listFargateProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput, ListFargateProfilesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListFargateProfilesInput, ListFargateProfilesOutput>(id: "listFargateProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFargateProfilesOutput, ListFargateProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFargateProfilesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFargateProfilesOutput, ListFargateProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFargateProfilesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFargateProfilesOutput, ListFargateProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFargateProfilesOutput, ListFargateProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFargateProfilesOutput, ListFargateProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFargateProfilesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFargateProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFargateProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFargateProfilesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListIdentityProviderConfigs` operation on the `AWSWesleyFrontend` service.
+    ///
     /// A list of identity provider configurations.
     ///
     /// - Parameter ListIdentityProviderConfigsInput : [no documentation found]
@@ -1150,7 +1532,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -1171,22 +1553,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>(id: "listIdentityProviderConfigs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>(id: "listIdentityProviderConfigs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProviderConfigsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListIdentityProviderConfigsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProviderConfigsOutput, ListIdentityProviderConfigsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityProviderConfigsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityProviderConfigsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListIdentityProviderConfigsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityProviderConfigsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNodegroups` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Lists the Amazon EKS managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Region. Self-managed node groups are not listed.
     ///
     /// - Parameter ListNodegroupsInput : [no documentation found]
@@ -1196,7 +1580,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -1217,22 +1601,71 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNodegroupsInput, ListNodegroupsOutput, ListNodegroupsOutputError>(id: "listNodegroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodegroupsInput, ListNodegroupsOutput, ListNodegroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListNodegroupsInput, ListNodegroupsOutput>(id: "listNodegroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodegroupsInput, ListNodegroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNodegroupsInput, ListNodegroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNodegroupsOutput, ListNodegroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNodegroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNodegroupsInput, ListNodegroupsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNodegroupsOutput, ListNodegroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNodegroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodegroupsOutput, ListNodegroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodegroupsOutput, ListNodegroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNodegroupsOutput, ListNodegroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodegroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodegroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNodegroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNodegroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPodIdentityAssociations` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the association is in or the service account that the association uses.
+    ///
+    /// - Parameter ListPodIdentityAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPodIdentityAssociationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func listPodIdentityAssociations(input: ListPodIdentityAssociationsInput) async throws -> ListPodIdentityAssociationsOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPodIdentityAssociations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>(id: "listPodIdentityAssociations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPodIdentityAssociationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPodIdentityAssociationsOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPodIdentityAssociationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPodIdentityAssociationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPodIdentityAssociationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPodIdentityAssociationsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListTagsForResource` operation on the `AWSWesleyFrontend` service.
+    ///
     /// List the tags for an Amazon EKS resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -1260,21 +1693,23 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUpdates` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Lists the updates associated with an Amazon EKS cluster or managed node group in your Amazon Web Services account, in the specified Region.
     ///
     /// - Parameter ListUpdatesInput : [no documentation found]
@@ -1284,7 +1719,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
@@ -1304,22 +1739,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUpdatesInput, ListUpdatesOutput, ListUpdatesOutputError>(id: "listUpdates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUpdatesInput, ListUpdatesOutput, ListUpdatesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUpdatesInput, ListUpdatesOutput>(id: "listUpdates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUpdatesInput, ListUpdatesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUpdatesInput, ListUpdatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUpdatesOutput, ListUpdatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUpdatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUpdatesInput, ListUpdatesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUpdatesOutput, ListUpdatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUpdatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUpdatesOutput, ListUpdatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUpdatesOutput, ListUpdatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUpdatesOutput, ListUpdatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUpdatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUpdatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUpdatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUpdatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RegisterCluster` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest] to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the Manifest is updated and applied, then the connected cluster is visible to the Amazon EKS control plane. If the Manifest is not applied within three days, then the connected cluster will no longer be visible and must be deregistered. See [DeregisterCluster].
     ///
     /// - Parameter RegisterClusterInput : [no documentation found]
@@ -1329,8 +1766,8 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceLimitExceededException` : You have encountered a service limit on the specified resource.
@@ -1353,25 +1790,27 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegisterClusterInput, RegisterClusterOutput, RegisterClusterOutputError>(id: "registerCluster")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<RegisterClusterInput, RegisterClusterOutput, RegisterClusterOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterClusterInput, RegisterClusterOutput, RegisterClusterOutputError>())
+        var operation = ClientRuntime.OperationStack<RegisterClusterInput, RegisterClusterOutput>(id: "registerCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<RegisterClusterInput, RegisterClusterOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterClusterInput, RegisterClusterOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterClusterInput, RegisterClusterOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterClusterOutput, RegisterClusterOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterClusterOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterClusterInput, RegisterClusterOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterClusterInput, RegisterClusterOutput>(xmlName: "RegisterClusterRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RegisterClusterInput, RegisterClusterOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterClusterOutput, RegisterClusterOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegisterClusterOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterClusterOutput, RegisterClusterOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterClusterOutput, RegisterClusterOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterClusterOutput, RegisterClusterOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterClusterOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegisterClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterClusterOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. Tags that you create for Amazon EKS resources do not propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag does not automatically propagate to the subnets and nodes associated with the cluster.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -1399,24 +1838,26 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Deletes specified tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -1444,22 +1885,24 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAddon` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Updates an Amazon EKS add-on.
     ///
     /// - Parameter UpdateAddonInput : [no documentation found]
@@ -1469,7 +1912,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -1491,26 +1934,28 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAddonInput, UpdateAddonOutput, UpdateAddonOutputError>(id: "updateAddon")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateAddonInput, UpdateAddonOutput, UpdateAddonOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAddonInput, UpdateAddonOutput, UpdateAddonOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAddonInput, UpdateAddonOutput>(id: "updateAddon")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateAddonInput, UpdateAddonOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAddonInput, UpdateAddonOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAddonInput, UpdateAddonOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAddonOutput, UpdateAddonOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAddonOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAddonInput, UpdateAddonOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAddonInput, UpdateAddonOutput>(xmlName: "UpdateAddonRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAddonInput, UpdateAddonOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAddonOutput, UpdateAddonOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAddonOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAddonOutput, UpdateAddonOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAddonOutput, UpdateAddonOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAddonOutput, UpdateAddonOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAddonOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAddonOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAddonOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAddonOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can't update the subnets or security group IDs for an existing cluster. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
+    /// Performs the `UpdateClusterConfig` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see [https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) in the Amazon EKS User Guide . Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
     /// - Parameter UpdateClusterConfigInput : [no documentation found]
     ///
@@ -1519,7 +1964,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -1541,25 +1986,27 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateClusterConfigInput, UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(id: "updateClusterConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput, UpdateClusterConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateClusterConfigInput, UpdateClusterConfigOutput>(id: "updateClusterConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>(xmlName: "UpdateClusterConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateClusterConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterConfigOutput, UpdateClusterConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterConfigOutput, UpdateClusterConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateClusterConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateClusterVersion` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate] API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups’ Kubernetes versions must match the cluster’s Kubernetes version in order to update the cluster to a new Kubernetes version.
     ///
     /// - Parameter UpdateClusterVersionInput : [no documentation found]
@@ -1569,7 +2016,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -1591,25 +2038,78 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateClusterVersionInput, UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(id: "updateClusterVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput, UpdateClusterVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateClusterVersionInput, UpdateClusterVersionOutput>(id: "updateClusterVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>(xmlName: "UpdateClusterVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateClusterVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterVersionOutput, UpdateClusterVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterVersionOutput, UpdateClusterVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateClusterVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateEksAnywhereSubscription` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after subscription creation.
+    ///
+    /// - Parameter UpdateEksAnywhereSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEksAnywhereSubscriptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func updateEksAnywhereSubscription(input: UpdateEksAnywhereSubscriptionInput) async throws -> UpdateEksAnywhereSubscriptionOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEksAnywhereSubscription")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>(id: "updateEksAnywhereSubscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEksAnywhereSubscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEksAnywhereSubscriptionOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEksAnywhereSubscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEksAnywhereSubscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEksAnywhereSubscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateNodegroupConfig` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the [DescribeUpdate] API operation. Currently you can update the Kubernetes labels for a node group or the scaling configuration.
     ///
     /// - Parameter UpdateNodegroupConfigInput : [no documentation found]
@@ -1619,7 +2119,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -1641,25 +2141,27 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(id: "updateNodegroupConfig")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>(id: "updateNodegroupConfig")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNodegroupConfigOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>(xmlName: "UpdateNodegroupConfigRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNodegroupConfigOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodegroupConfigOutput, UpdateNodegroupConfigOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodegroupConfigOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodegroupConfigOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNodegroupConfigOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodegroupConfigOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateNodegroupVersion` operation on the `AWSWesleyFrontend` service.
+    ///
     /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
     ///
     /// - Parameter UpdateNodegroupVersionInput : [no documentation found]
@@ -1669,7 +2171,7 @@ extension EKSClient: EKSClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
@@ -1691,21 +2193,71 @@ extension EKSClient: EKSClientProtocol {
                       .withSigningName(value: "eks")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(id: "updateNodegroupVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>(id: "updateNodegroupVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNodegroupVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>(xmlName: "UpdateNodegroupVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNodegroupVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodegroupVersionOutput, UpdateNodegroupVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNodegroupVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNodegroupVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNodegroupVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNodegroupVersionOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdatePodIdentityAssociation` operation on the `AWSWesleyFrontend` service.
+    ///
+    /// Updates a EKS Pod Identity association. Only the IAM role can be changed; an association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to remove the association and then create a new association with your desired settings.
+    ///
+    /// - Parameter UpdatePodIdentityAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePodIdentityAssociationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with [ListClusters]. You can view your available managed node groups with [ListNodegroups]. Amazon EKS clusters and node groups are Region-specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    public func updatePodIdentityAssociation(input: UpdatePodIdentityAssociationInput) async throws -> UpdatePodIdentityAssociationOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePodIdentityAssociation")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>(id: "updatePodIdentityAssociation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePodIdentityAssociationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePodIdentityAssociationOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePodIdentityAssociationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePodIdentityAssociationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePodIdentityAssociationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

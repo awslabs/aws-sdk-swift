@@ -67,6 +67,8 @@ public struct ResiliencehubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 }
 
 extension ResiliencehubClient: ResiliencehubClientProtocol {
+    /// Performs the `AddDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources suported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
     ///
     /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
@@ -98,24 +100,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>(id: "addDraftAppVersionResourceMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>())
+        var operation = ClientRuntime.OperationStack<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>(id: "addDraftAppVersionResourceMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddDraftAppVersionResourceMappingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>(xmlName: "AddDraftAppVersionResourceMappingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddDraftAppVersionResourceMappingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsOutput, AddDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddDraftAppVersionResourceMappingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddDraftAppVersionResourceMappingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddDraftAppVersionResourceMappingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchUpdateRecommendationStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Enables you to include or exclude one or more operational recommendations.
     ///
     /// - Parameter BatchUpdateRecommendationStatusInput : [no documentation found]
@@ -146,24 +150,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>(id: "batchUpdateRecommendationStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>(id: "batchUpdateRecommendationStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateRecommendationStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>(xmlName: "BatchUpdateRecommendationStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateRecommendationStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateRecommendationStatusOutput, BatchUpdateRecommendationStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateRecommendationStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateRecommendationStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateRecommendationStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateRecommendationStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     ///
     /// - Parameter CreateAppInput : [no documentation found]
@@ -196,25 +202,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppInput, CreateAppOutput, CreateAppOutputError>(id: "createApp")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInput, CreateAppOutput, CreateAppOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInput, CreateAppOutput, CreateAppOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppInput, CreateAppOutput>(id: "createApp")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInput, CreateAppOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInput, CreateAppOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInput, CreateAppOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppOutput, CreateAppOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppInput, CreateAppOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppInput, CreateAppOutput>(xmlName: "CreateAppRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppInput, CreateAppOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppOutput, CreateAppOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppOutput, CreateAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppOutput, CreateAppOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutput, CreateAppOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter CreateAppVersionAppComponentInput : [no documentation found]
@@ -247,25 +255,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(id: "createAppVersionAppComponent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>(id: "createAppVersionAppComponent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppVersionAppComponentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>(xmlName: "CreateAppVersionAppComponentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppVersionAppComponentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionAppComponentOutput, CreateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionAppComponentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionAppComponentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppVersionAppComponentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -304,25 +314,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppVersionResourceInput, CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(id: "createAppVersionResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>(id: "createAppVersionResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppVersionResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>(xmlName: "CreateAppVersionResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppVersionResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionResourceOutput, CreateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppVersionResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new recommendation template for the Resilience Hub application.
     ///
     /// - Parameter CreateRecommendationTemplateInput : [no documentation found]
@@ -355,25 +367,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(id: "createRecommendationTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>(id: "createRecommendationTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRecommendationTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>(xmlName: "CreateRecommendationTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRecommendationTemplateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateOutput, CreateRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecommendationTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecommendationTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRecommendationTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
@@ -405,25 +419,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(id: "createResiliencyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>(id: "createResiliencyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResiliencyPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>(xmlName: "CreateResiliencyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateResiliencyPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyOutput, CreateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResiliencyPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResiliencyPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateResiliencyPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppInput : [no documentation found]
@@ -454,25 +470,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInput, DeleteAppOutput, DeleteAppOutputError>(id: "deleteApp")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppInput, DeleteAppOutput, DeleteAppOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInput, DeleteAppOutput, DeleteAppOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInput, DeleteAppOutput>(id: "deleteApp")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppInput, DeleteAppOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInput, DeleteAppOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInput, DeleteAppOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppOutput, DeleteAppOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppInput, DeleteAppOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppInput, DeleteAppOutput>(xmlName: "DeleteAppRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAppInput, DeleteAppOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppOutput, DeleteAppOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppOutput, DeleteAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppOutput, DeleteAppOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutput, DeleteAppOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteAppAssessmentInput : [no documentation found]
@@ -504,25 +522,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppAssessmentInput, DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(id: "deleteAppAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>(id: "deleteAppAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppAssessmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>(xmlName: "DeleteAppAssessmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppAssessmentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppAssessmentOutput, DeleteAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppAssessmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppAssessmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppAssessmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppAssessmentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppInputSource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     ///
     /// - Parameter DeleteAppInputSourceInput : [no documentation found]
@@ -554,25 +574,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInputSourceInput, DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(id: "deleteAppInputSource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>(id: "deleteAppInputSource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInputSourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>(xmlName: "DeleteAppInputSourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInputSourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInputSourceOutput, DeleteAppInputSourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInputSourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInputSourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppInputSourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInputSourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes an Application Component from the Resilience Hub application.
     ///
     /// * This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
@@ -608,25 +630,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(id: "deleteAppVersionAppComponent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>(id: "deleteAppVersionAppComponent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppVersionAppComponentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>(xmlName: "DeleteAppVersionAppComponentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppVersionAppComponentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionAppComponentOutput, DeleteAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionAppComponentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionAppComponentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppVersionAppComponentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resource from the Resilience Hub application.
     ///
     /// * You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.
@@ -664,25 +688,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(id: "deleteAppVersionResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>(id: "deleteAppVersionResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppVersionResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>(xmlName: "DeleteAppVersionResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppVersionResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceOutput, DeleteAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppVersionResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRecommendationTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteRecommendationTemplateInput : [no documentation found]
@@ -713,25 +739,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(id: "deleteRecommendationTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>(id: "deleteRecommendationTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRecommendationTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>(xmlName: "DeleteRecommendationTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRecommendationTemplateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateOutput, DeleteRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRecommendationTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
     ///
     /// - Parameter DeleteResiliencyPolicyInput : [no documentation found]
@@ -763,25 +791,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(id: "deleteResiliencyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>(id: "deleteResiliencyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResiliencyPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>(xmlName: "DeleteResiliencyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteResiliencyPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyOutput, DeleteResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResiliencyPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResiliencyPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteResiliencyPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Resilience Hub application.
     ///
     /// - Parameter DescribeAppInput : [no documentation found]
@@ -812,24 +842,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppInput, DescribeAppOutput, DescribeAppOutputError>(id: "describeApp")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInput, DescribeAppOutput, DescribeAppOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppInput, DescribeAppOutput>(id: "describeApp")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInput, DescribeAppOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInput, DescribeAppOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppOutput, DescribeAppOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppInput, DescribeAppOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppInput, DescribeAppOutput>(xmlName: "DescribeAppRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppInput, DescribeAppOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppOutput, DescribeAppOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppOutput, DescribeAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppOutput, DescribeAppOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutput, DescribeAppOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an assessment for an Resilience Hub application.
     ///
     /// - Parameter DescribeAppAssessmentInput : [no documentation found]
@@ -860,24 +892,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppAssessmentInput, DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>(id: "describeAppAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>(id: "describeAppAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppAssessmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>(xmlName: "DescribeAppAssessmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppAssessmentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppAssessmentOutput, DescribeAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppAssessmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppAssessmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppAssessmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppAssessmentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the Resilience Hub application version.
     ///
     /// - Parameter DescribeAppVersionInput : [no documentation found]
@@ -908,24 +942,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppVersionInput, DescribeAppVersionOutput, DescribeAppVersionOutputError>(id: "describeAppVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput, DescribeAppVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppVersionInput, DescribeAppVersionOutput>(id: "describeAppVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionOutput, DescribeAppVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>(xmlName: "DescribeAppVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionOutput, DescribeAppVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionOutput, DescribeAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionOutput, DescribeAppVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionOutput, DescribeAppVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes an Application Component in the Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionAppComponentInput : [no documentation found]
@@ -957,24 +993,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>(id: "describeAppVersionAppComponent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>(id: "describeAppVersionAppComponent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionAppComponentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>(xmlName: "DescribeAppVersionAppComponentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionAppComponentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionAppComponentOutput, DescribeAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionAppComponentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionAppComponentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppVersionAppComponentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
     ///
     /// * resourceName
@@ -1012,24 +1050,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>(id: "describeAppVersionResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>(id: "describeAppVersionResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>(xmlName: "DescribeAppVersionResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceOutput, DescribeAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppVersionResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppVersionResourcesResolutionStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
     ///
     /// - Parameter DescribeAppVersionResourcesResolutionStatusInput : [no documentation found]
@@ -1060,24 +1100,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>(id: "describeAppVersionResourcesResolutionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>(id: "describeAppVersionResourcesResolutionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionResourcesResolutionStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>(xmlName: "DescribeAppVersionResourcesResolutionStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionResourcesResolutionStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusOutput, DescribeAppVersionResourcesResolutionStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourcesResolutionStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourcesResolutionStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppVersionResourcesResolutionStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes details about an Resilience Hub application.
     ///
     /// - Parameter DescribeAppVersionTemplateInput : [no documentation found]
@@ -1108,24 +1150,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>(id: "describeAppVersionTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>(id: "describeAppVersionTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppVersionTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>(xmlName: "DescribeAppVersionTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppVersionTemplateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateOutput, DescribeAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppVersionTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeDraftAppVersionResourcesImportStatus` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     ///
     /// - Parameter DescribeDraftAppVersionResourcesImportStatusInput : [no documentation found]
@@ -1156,24 +1200,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>(id: "describeDraftAppVersionResourcesImportStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>(id: "describeDraftAppVersionResourcesImportStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>(xmlName: "DescribeDraftAppVersionResourcesImportStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDraftAppVersionResourcesImportStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput, DescribeDraftAppVersionResourcesImportStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDraftAppVersionResourcesImportStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeDraftAppVersionResourcesImportStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     ///
     /// - Parameter DescribeResiliencyPolicyInput : [no documentation found]
@@ -1204,24 +1250,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>(id: "describeResiliencyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>(id: "describeResiliencyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResiliencyPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>(xmlName: "DescribeResiliencyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeResiliencyPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyOutput, DescribeResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResiliencyPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResiliencyPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeResiliencyPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ImportResourcesToDraftAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ImportResourcesToDraftAppVersionInput : [no documentation found]
@@ -1254,24 +1302,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>(id: "importResourcesToDraftAppVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>(id: "importResourcesToDraftAppVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportResourcesToDraftAppVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>(xmlName: "ImportResourcesToDraftAppVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ImportResourcesToDraftAppVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionOutput, ImportResourcesToDraftAppVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportResourcesToDraftAppVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportResourcesToDraftAppVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(ImportResourcesToDraftAppVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAlarmRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the alarm recommendations for an Resilience Hub application.
     ///
     /// - Parameter ListAlarmRecommendationsInput : [no documentation found]
@@ -1302,24 +1352,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>(id: "listAlarmRecommendations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(id: "listAlarmRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAlarmRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(xmlName: "ListAlarmRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAlarmRecommendationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsOutput, ListAlarmRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlarmRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlarmRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAlarmRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppAssessmentComplianceDrifts` operation on the `AwsResilienceHub` service.
+    ///
     /// List of compliance drifts that were detected while running an assessment.
     ///
     /// - Parameter ListAppAssessmentComplianceDriftsInput : [no documentation found]
@@ -1349,24 +1401,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>(id: "listAppAssessmentComplianceDrifts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(id: "listAppAssessmentComplianceDrifts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppAssessmentComplianceDriftsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(xmlName: "ListAppAssessmentComplianceDriftsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppAssessmentComplianceDriftsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentComplianceDriftsOutput, ListAppAssessmentComplianceDriftsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentComplianceDriftsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentComplianceDriftsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppAssessmentComplianceDriftsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentComplianceDriftsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppAssessments` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
     /// - Parameter ListAppAssessmentsInput : [no documentation found]
@@ -1397,22 +1451,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppAssessmentsInput, ListAppAssessmentsOutput, ListAppAssessmentsOutputError>(id: "listAppAssessments")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput, ListAppAssessmentsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppAssessmentsInput, ListAppAssessmentsOutput>(id: "listAppAssessments")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppAssessmentsOutput, ListAppAssessmentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppAssessmentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppAssessmentsOutput, ListAppAssessmentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppAssessmentsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentsOutput, ListAppAssessmentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentsOutput, ListAppAssessmentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentsOutput, ListAppAssessmentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppAssessmentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppComponentCompliances` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the compliances for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentCompliancesInput : [no documentation found]
@@ -1443,24 +1499,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>(id: "listAppComponentCompliances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(id: "listAppComponentCompliances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppComponentCompliancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(xmlName: "ListAppComponentCompliancesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppComponentCompliancesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesOutput, ListAppComponentCompliancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentCompliancesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentCompliancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppComponentCompliancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppComponentRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendations for an Resilience Hub Application Component.
     ///
     /// - Parameter ListAppComponentRecommendationsInput : [no documentation found]
@@ -1491,24 +1549,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>(id: "listAppComponentRecommendations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(id: "listAppComponentRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppComponentRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(xmlName: "ListAppComponentRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppComponentRecommendationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsOutput, ListAppComponentRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppComponentRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppInputSources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
     /// - Parameter ListAppInputSourcesInput : [no documentation found]
@@ -1539,24 +1599,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppInputSourcesInput, ListAppInputSourcesOutput, ListAppInputSourcesOutputError>(id: "listAppInputSources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput, ListAppInputSourcesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppInputSourcesInput, ListAppInputSourcesOutput>(id: "listAppInputSources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInputSourcesOutput, ListAppInputSourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInputSourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>(xmlName: "ListAppInputSourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInputSourcesOutput, ListAppInputSourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInputSourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInputSourcesOutput, ListAppInputSourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInputSourcesOutput, ListAppInputSourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInputSourcesOutput, ListAppInputSourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInputSourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInputSourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppInputSourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInputSourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppVersionAppComponents` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the Application Components in the Resilience Hub application.
     ///
     /// - Parameter ListAppVersionAppComponentsInput : [no documentation found]
@@ -1588,24 +1650,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>(id: "listAppVersionAppComponents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(id: "listAppVersionAppComponents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionAppComponentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(xmlName: "ListAppVersionAppComponentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionAppComponentsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsOutput, ListAppVersionAppComponentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionAppComponentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionAppComponentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppVersionAppComponentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     ///
     /// - Parameter ListAppVersionResourceMappingsInput : [no documentation found]
@@ -1636,24 +1700,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>(id: "listAppVersionResourceMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(id: "listAppVersionResourceMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionResourceMappingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(xmlName: "ListAppVersionResourceMappingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionResourceMappingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsOutput, ListAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourceMappingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourceMappingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppVersionResourceMappingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists all the resources in an Resilience Hub application.
     ///
     /// - Parameter ListAppVersionResourcesInput : [no documentation found]
@@ -1685,24 +1751,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppVersionResourcesInput, ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>(id: "listAppVersionResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(id: "listAppVersionResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(xmlName: "ListAppVersionResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionResourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourcesOutput, ListAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppVersionResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppVersions` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the different versions for the Resilience Hub applications.
     ///
     /// - Parameter ListAppVersionsInput : [no documentation found]
@@ -1732,24 +1800,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppVersionsInput, ListAppVersionsOutput, ListAppVersionsOutputError>(id: "listAppVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionsInput, ListAppVersionsOutput, ListAppVersionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppVersionsInput, ListAppVersionsOutput>(id: "listAppVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppVersionsInput, ListAppVersionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppVersionsInput, ListAppVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionsOutput, ListAppVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAppVersionsInput, ListAppVersionsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAppVersionsInput, ListAppVersionsOutput>(xmlName: "ListAppVersionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAppVersionsInput, ListAppVersionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionsOutput, ListAppVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionsOutput, ListAppVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionsOutput, ListAppVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionsOutput, ListAppVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListApps` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
     /// - Parameter ListAppsInput : [no documentation found]
@@ -1779,22 +1849,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppsInput, ListAppsOutput, ListAppsOutputError>(id: "listApps")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppsInput, ListAppsOutput, ListAppsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppsInput, ListAppsOutput>(id: "listApps")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppsInput, ListAppsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppsInput, ListAppsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppsOutput, ListAppsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAppsInput, ListAppsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppsOutput, ListAppsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsOutput, ListAppsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsOutput, ListAppsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutput, ListAppsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRecommendationTemplates` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the recommendation templates for the Resilience Hub applications.
     ///
     /// - Parameter ListRecommendationTemplatesInput : [no documentation found]
@@ -1824,22 +1896,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>(id: "listRecommendationTemplates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(id: "listRecommendationTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRecommendationTemplatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRecommendationTemplatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesOutput, ListRecommendationTemplatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationTemplatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationTemplatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRecommendationTemplatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListResiliencyPoliciesInput : [no documentation found]
@@ -1870,22 +1944,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>(id: "listResiliencyPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(id: "listResiliencyPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResiliencyPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListResiliencyPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesOutput, ListResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResiliencyPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResiliencyPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListResiliencyPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSopRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     ///
     /// - Parameter ListSopRecommendationsInput : [no documentation found]
@@ -1917,24 +1993,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSopRecommendationsInput, ListSopRecommendationsOutput, ListSopRecommendationsOutputError>(id: "listSopRecommendations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput, ListSopRecommendationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSopRecommendationsInput, ListSopRecommendationsOutput>(id: "listSopRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSopRecommendationsOutput, ListSopRecommendationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSopRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>(xmlName: "ListSopRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSopRecommendationsOutput, ListSopRecommendationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSopRecommendationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSopRecommendationsOutput, ListSopRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSopRecommendationsOutput, ListSopRecommendationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSopRecommendationsOutput, ListSopRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSopRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSopRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSopRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSopRecommendationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSuggestedResiliencyPolicies` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
     ///
     /// - Parameter ListSuggestedResiliencyPoliciesInput : [no documentation found]
@@ -1965,22 +2043,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>(id: "listSuggestedResiliencyPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(id: "listSuggestedResiliencyPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSuggestedResiliencyPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSuggestedResiliencyPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesOutput, ListSuggestedResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuggestedResiliencyPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuggestedResiliencyPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSuggestedResiliencyPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the tags for your resources in your Resilience Hub applications.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -2011,21 +2091,23 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTestRecommendations` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the test recommendations for the Resilience Hub application.
     ///
     /// - Parameter ListTestRecommendationsInput : [no documentation found]
@@ -2057,24 +2139,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTestRecommendationsInput, ListTestRecommendationsOutput, ListTestRecommendationsOutputError>(id: "listTestRecommendations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput, ListTestRecommendationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTestRecommendationsInput, ListTestRecommendationsOutput>(id: "listTestRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestRecommendationsOutput, ListTestRecommendationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTestRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>(xmlName: "ListTestRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestRecommendationsOutput, ListTestRecommendationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTestRecommendationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestRecommendationsOutput, ListTestRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestRecommendationsOutput, ListTestRecommendationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestRecommendationsOutput, ListTestRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTestRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestRecommendationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUnsupportedAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
     /// - Parameter ListUnsupportedAppVersionResourcesInput : [no documentation found]
@@ -2106,24 +2190,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>(id: "listUnsupportedAppVersionResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(id: "listUnsupportedAppVersionResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUnsupportedAppVersionResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(xmlName: "ListUnsupportedAppVersionResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUnsupportedAppVersionResourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesOutput, ListUnsupportedAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUnsupportedAppVersionResourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUnsupportedAppVersionResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUnsupportedAppVersionResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PublishAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Publishes a new version of a specific Resilience Hub application.
     ///
     /// - Parameter PublishAppVersionInput : [no documentation found]
@@ -2155,24 +2241,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PublishAppVersionInput, PublishAppVersionOutput, PublishAppVersionOutputError>(id: "publishAppVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishAppVersionInput, PublishAppVersionOutput, PublishAppVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<PublishAppVersionInput, PublishAppVersionOutput>(id: "publishAppVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishAppVersionInput, PublishAppVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishAppVersionInput, PublishAppVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishAppVersionOutput, PublishAppVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PublishAppVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PublishAppVersionInput, PublishAppVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PublishAppVersionInput, PublishAppVersionOutput>(xmlName: "PublishAppVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PublishAppVersionInput, PublishAppVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishAppVersionOutput, PublishAppVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PublishAppVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishAppVersionOutput, PublishAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishAppVersionOutput, PublishAppVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishAppVersionOutput, PublishAppVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishAppVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishAppVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(PublishAppVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishAppVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutDraftAppVersionTemplate` operation on the `AwsResilienceHub` service.
+    ///
     /// Adds or updates the app template for an Resilience Hub application draft version.
     ///
     /// - Parameter PutDraftAppVersionTemplateInput : [no documentation found]
@@ -2204,24 +2292,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>(id: "putDraftAppVersionTemplate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>())
+        var operation = ClientRuntime.OperationStack<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>(id: "putDraftAppVersionTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutDraftAppVersionTemplateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>(xmlName: "PutDraftAppVersionTemplateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutDraftAppVersionTemplateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateOutput, PutDraftAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDraftAppVersionTemplateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDraftAppVersionTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutDraftAppVersionTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveDraftAppVersionResourceMappings` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes resource mappings from a draft application version.
     ///
     /// - Parameter RemoveDraftAppVersionResourceMappingsInput : [no documentation found]
@@ -2253,24 +2343,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>(id: "removeDraftAppVersionResourceMappings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>())
+        var operation = ClientRuntime.OperationStack<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>(id: "removeDraftAppVersionResourceMappings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveDraftAppVersionResourceMappingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>(xmlName: "RemoveDraftAppVersionResourceMappingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveDraftAppVersionResourceMappingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsOutput, RemoveDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveDraftAppVersionResourceMappingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveDraftAppVersionResourceMappingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveDraftAppVersionResourceMappingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResolveAppVersionResources` operation on the `AwsResilienceHub` service.
+    ///
     /// Resolves the resources for an application version.
     ///
     /// - Parameter ResolveAppVersionResourcesInput : [no documentation found]
@@ -2302,24 +2394,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>(id: "resolveAppVersionResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>())
+        var operation = ClientRuntime.OperationStack<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>(id: "resolveAppVersionResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResolveAppVersionResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>(xmlName: "ResolveAppVersionResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResolveAppVersionResourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesOutput, ResolveAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveAppVersionResourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveAppVersionResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResolveAppVersionResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartAppAssessment` operation on the `AwsResilienceHub` service.
+    ///
     /// Creates a new application assessment for an application.
     ///
     /// - Parameter StartAppAssessmentInput : [no documentation found]
@@ -2352,25 +2446,27 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartAppAssessmentInput, StartAppAssessmentOutput, StartAppAssessmentOutputError>(id: "startAppAssessment")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput, StartAppAssessmentOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput, StartAppAssessmentOutputError>())
+        var operation = ClientRuntime.OperationStack<StartAppAssessmentInput, StartAppAssessmentOutput>(id: "startAppAssessment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAppAssessmentOutput, StartAppAssessmentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAppAssessmentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>(xmlName: "StartAppAssessmentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartAppAssessmentOutput, StartAppAssessmentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartAppAssessmentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAppAssessmentOutput, StartAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAppAssessmentOutput, StartAppAssessmentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAppAssessmentOutput, StartAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAppAssessmentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAppAssessmentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartAppAssessmentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAppAssessmentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Applies one or more tags to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -2401,24 +2497,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -2449,22 +2547,24 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateApp` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an application.
     ///
     /// - Parameter UpdateAppInput : [no documentation found]
@@ -2496,24 +2596,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppInput, UpdateAppOutput, UpdateAppOutputError>(id: "updateApp")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInput, UpdateAppOutput, UpdateAppOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppInput, UpdateAppOutput>(id: "updateApp")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInput, UpdateAppOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInput, UpdateAppOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppOutput, UpdateAppOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppInput, UpdateAppOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppInput, UpdateAppOutput>(xmlName: "UpdateAppRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppInput, UpdateAppOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppOutput, UpdateAppOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppOutput, UpdateAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppOutput, UpdateAppOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppOutput, UpdateAppOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAppVersion` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionInput : [no documentation found]
@@ -2545,24 +2647,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppVersionInput, UpdateAppVersionOutput, UpdateAppVersionOutputError>(id: "updateAppVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput, UpdateAppVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppVersionInput, UpdateAppVersionOutput>(id: "updateAppVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionOutput, UpdateAppVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>(xmlName: "UpdateAppVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionOutput, UpdateAppVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionOutput, UpdateAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionOutput, UpdateAppVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionOutput, UpdateAppVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAppVersionAppComponent` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// - Parameter UpdateAppVersionAppComponentInput : [no documentation found]
@@ -2594,24 +2698,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>(id: "updateAppVersionAppComponent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>(id: "updateAppVersionAppComponent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionAppComponentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>(xmlName: "UpdateAppVersionAppComponentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionAppComponentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionAppComponentOutput, UpdateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionAppComponentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionAppComponentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppVersionAppComponentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAppVersionResource` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates the resource details in the Resilience Hub application.
     ///
     /// * This action has no effect outside Resilience Hub.
@@ -2650,24 +2756,26 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>(id: "updateAppVersionResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>(id: "updateAppVersionResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppVersionResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>(xmlName: "UpdateAppVersionResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppVersionResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceOutput, UpdateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppVersionResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateResiliencyPolicy` operation on the `AwsResilienceHub` service.
+    ///
     /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
     /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]
@@ -2699,20 +2807,20 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
                       .withSigningName(value: "resiliencehub")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>(id: "updateResiliencyPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>(id: "updateResiliencyPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResiliencyPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>(xmlName: "UpdateResiliencyPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResiliencyPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyOutput, UpdateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResiliencyPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResiliencyPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateResiliencyPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Amazon API Gateway Management API allows you to directly manage runtime aspects of your deployed APIs. To use it, you must explicitly set the SDK's endpoint to point to the endpoint of your deployed API. The endpoint will be of the form https://{api-id}.execute-api.{region}.amazonaws.com/{stage}, or will be the endpoint corresponding to your API's custom domain and base path, if applicable.
 public protocol ApiGatewayManagementApiClientProtocol {
+    /// Performs the `DeleteConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Delete the connection with the provided id.
     ///
     /// - Parameter DeleteConnectionInput : [no documentation found]
@@ -17,6 +19,8 @@ public protocol ApiGatewayManagementApiClientProtocol {
     /// - `GoneException` : The connection with the provided id no longer exists.
     /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutput
+    /// Performs the `GetConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Get information about the connection with the provided id.
     ///
     /// - Parameter GetConnectionInput : [no documentation found]
@@ -30,6 +34,8 @@ public protocol ApiGatewayManagementApiClientProtocol {
     /// - `GoneException` : The connection with the provided id no longer exists.
     /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutput
+    /// Performs the `PostToConnection` operation on the `ApiGatewayManagementApi` service.
+    ///
     /// Sends the provided data to the specified connection.
     ///
     /// - Parameter PostToConnectionInput : [no documentation found]

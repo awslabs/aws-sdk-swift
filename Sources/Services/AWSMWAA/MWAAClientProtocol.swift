@@ -37,6 +37,8 @@ import ClientRuntime
 ///
 /// Regions For a list of supported regions, see [Amazon MWAA endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/mwaa.html) in the Amazon Web Services General Reference.
 public protocol MWAAClientProtocol {
+    /// Performs the `CreateCliToken` operation on the `AmazonMWAA` service.
+    ///
     /// Creates a CLI token for the Airflow CLI. To learn more, see [Creating an Apache Airflow CLI token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-cli.html).
     ///
     /// - Parameter CreateCliTokenInput : [no documentation found]
@@ -48,6 +50,8 @@ public protocol MWAAClientProtocol {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     func createCliToken(input: CreateCliTokenInput) async throws -> CreateCliTokenOutput
+    /// Performs the `CreateEnvironment` operation on the `AmazonMWAA` service.
+    ///
     /// Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
     /// - Parameter CreateEnvironmentInput : This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
@@ -60,6 +64,8 @@ public protocol MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutput
+    /// Performs the `CreateWebLoginToken` operation on the `AmazonMWAA` service.
+    ///
     /// Creates a web login token for the Airflow Web UI. To learn more, see [Creating an Apache Airflow web login token](https://docs.aws.amazon.com/mwaa/latest/userguide/call-mwaa-apis-web.html).
     ///
     /// - Parameter CreateWebLoginTokenInput : [no documentation found]
@@ -74,6 +80,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func createWebLoginToken(input: CreateWebLoginTokenInput) async throws -> CreateWebLoginTokenOutput
+    /// Performs the `DeleteEnvironment` operation on the `AmazonMWAA` service.
+    ///
     /// Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
@@ -87,6 +95,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutput
+    /// Performs the `GetEnvironment` operation on the `AmazonMWAA` service.
+    ///
     /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
@@ -100,6 +110,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutput
+    /// Performs the `ListEnvironments` operation on the `AmazonMWAA` service.
+    ///
     /// Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
@@ -112,6 +124,8 @@ public protocol MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonMWAA` service.
+    ///
     /// Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -125,6 +139,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PublishMetrics` operation on the `AmazonMWAA` service.
+    ///
     /// Internal only. Publishes environment health metrics to Amazon CloudWatch.
     @available(*, deprecated, message: "This API is for internal use and not meant for public use, and is no longer available.")
     ///
@@ -138,6 +154,8 @@ public protocol MWAAClientProtocol {
     /// - `InternalServerException` : InternalServerException: An internal error has occurred.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func publishMetrics(input: PublishMetricsInput) async throws -> PublishMetricsOutput
+    /// Performs the `TagResource` operation on the `AmazonMWAA` service.
+    ///
     /// Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -151,6 +169,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonMWAA` service.
+    ///
     /// Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment. For example, "Environment": "Staging".
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -164,6 +184,8 @@ public protocol MWAAClientProtocol {
     /// - `ResourceNotFoundException` : ResourceNotFoundException: The resource is not available.
     /// - `ValidationException` : ValidationException: The provided input is not valid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateEnvironment` operation on the `AmazonMWAA` service.
+    ///
     /// Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]

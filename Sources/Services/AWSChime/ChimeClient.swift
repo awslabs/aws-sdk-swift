@@ -67,6 +67,8 @@ public struct ChimeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension ChimeClient: ChimeClientProtocol {
+    /// Performs the `AssociatePhoneNumberWithUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Associates a phone number with the specified Amazon Chime user.
     ///
     /// - Parameter AssociatePhoneNumberWithUserInput : [no documentation found]
@@ -100,25 +102,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>(id: "associatePhoneNumberWithUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>(id: "associatePhoneNumberWithUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumberWithUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>(xmlName: "AssociatePhoneNumberWithUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumberWithUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumberWithUserOutput, AssociatePhoneNumberWithUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumberWithUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumberWithUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociatePhoneNumberWithUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumberWithUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -153,25 +157,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>(id: "associatePhoneNumbersWithVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>(id: "associatePhoneNumbersWithVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput>(xmlName: "AssociatePhoneNumbersWithVoiceConnectorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumbersWithVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput, AssociatePhoneNumbersWithVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociatePhoneNumbersWithVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociatePhoneNumbersWithVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Associates phone numbers with the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [AssociatePhoneNumbersWithVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_AssociatePhoneNumbersWithVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by AssociatePhoneNumbersWithVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -206,25 +212,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(id: "associatePhoneNumbersWithVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(id: "associatePhoneNumbersWithVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(xmlName: "AssociatePhoneNumbersWithVoiceConnectorGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociatePhoneNumbersWithVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateSigninDelegateGroupsWithAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account.
     ///
     /// - Parameter AssociateSigninDelegateGroupsWithAccountInput : [no documentation found]
@@ -257,25 +265,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>(id: "associateSigninDelegateGroupsWithAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>(id: "associateSigninDelegateGroupsWithAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSigninDelegateGroupsWithAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>(xmlName: "AssociateSigninDelegateGroupsWithAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateSigninDelegateGroupsWithAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSigninDelegateGroupsWithAccountOutput, AssociateSigninDelegateGroupsWithAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSigninDelegateGroupsWithAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSigninDelegateGroupsWithAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateSigninDelegateGroupsWithAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateSigninDelegateGroupsWithAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchCreateAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_BatchCreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -310,25 +320,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchCreateAttendeeInput, BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>(id: "batchCreateAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>(id: "batchCreateAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>(xmlName: "BatchCreateAttendeeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateAttendeeOutput, BatchCreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchCreateAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchCreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds a specified number of users to a channel. This API is is no longer supported and will not be updated. We recommend using the latest version, [BatchCreateChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_BatchCreateChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by BatchCreateChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -361,26 +373,28 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>(id: "batchCreateChannelMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>(id: "batchCreateChannelMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateChannelMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput>(xmlName: "BatchCreateChannelMembershipRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateChannelMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateChannelMembershipOutput, BatchCreateChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateChannelMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateChannelMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchCreateChannelMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateChannelMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchCreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
     /// - Parameter BatchCreateRoomMembershipInput : [no documentation found]
@@ -413,25 +427,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>(id: "batchCreateRoomMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>(id: "batchCreateRoomMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateRoomMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>(xmlName: "BatchCreateRoomMembershipRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchCreateRoomMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateRoomMembershipOutput, BatchCreateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateRoomMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateRoomMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchCreateRoomMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchCreateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchDeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
@@ -464,25 +480,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>(id: "batchDeletePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>(id: "batchDeletePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeletePhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>(xmlName: "BatchDeletePhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchDeletePhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeletePhoneNumberOutput, BatchDeletePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeletePhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeletePhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchDeletePhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchSuspendUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the [InviteUsers] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the [BatchUnsuspendUser] action. To sign out users without suspending them, use the [LogoutUser] action.
     ///
     /// - Parameter BatchSuspendUserInput : [no documentation found]
@@ -515,25 +533,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchSuspendUserInput, BatchSuspendUserOutput, BatchSuspendUserOutputError>(id: "batchSuspendUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput, BatchSuspendUserOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchSuspendUserInput, BatchSuspendUserOutput>(id: "batchSuspendUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchSuspendUserOutput, BatchSuspendUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchSuspendUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>(xmlName: "BatchSuspendUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchSuspendUserOutput, BatchSuspendUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchSuspendUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchSuspendUserOutput, BatchSuspendUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchSuspendUserOutput, BatchSuspendUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchSuspendUserOutput, BatchSuspendUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchSuspendUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchSuspendUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchSuspendUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchSuspendUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchUnsuspendUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     ///
     /// - Parameter BatchUnsuspendUserInput : [no documentation found]
@@ -566,25 +586,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchUnsuspendUserInput, BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>(id: "batchUnsuspendUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>(id: "batchUnsuspendUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUnsuspendUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>(xmlName: "BatchUnsuspendUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUnsuspendUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUnsuspendUserOutput, BatchUnsuspendUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUnsuspendUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUnsuspendUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUnsuspendUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUnsuspendUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchUpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
@@ -617,25 +639,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>(id: "batchUpdatePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>(id: "batchUpdatePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdatePhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>(xmlName: "BatchUpdatePhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdatePhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdatePhoneNumberOutput, BatchUpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdatePhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdatePhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdatePhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `BatchUpdateUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates user details within the [UpdateUserRequestItem] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     ///
     /// - Parameter BatchUpdateUserInput : [no documentation found]
@@ -668,24 +692,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<BatchUpdateUserInput, BatchUpdateUserOutput, BatchUpdateUserOutputError>(id: "batchUpdateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput, BatchUpdateUserOutputError>())
+        var operation = ClientRuntime.OperationStack<BatchUpdateUserInput, BatchUpdateUserOutput>(id: "batchUpdateUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateUserOutput, BatchUpdateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>(xmlName: "BatchUpdateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateUserOutput, BatchUpdateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, BatchUpdateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateUserOutput, BatchUpdateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateUserOutput, BatchUpdateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateUserOutput, BatchUpdateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(BatchUpdateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter CreateAccountInput : [no documentation found]
@@ -718,24 +744,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccountInput, CreateAccountOutput, CreateAccountOutputError>(id: "createAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountInput, CreateAccountOutput, CreateAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAccountInput, CreateAccountOutput>(id: "createAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountInput, CreateAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountInput, CreateAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountOutput, CreateAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccountInput, CreateAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccountInput, CreateAccountOutput>(xmlName: "CreateAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccountInput, CreateAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountOutput, CreateAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountOutput, CreateAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountOutput, CreateAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountOutput, CreateAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -770,25 +798,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppInstanceInput, CreateAppInstanceOutput, CreateAppInstanceOutputError>(id: "createAppInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput, CreateAppInstanceOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput, CreateAppInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppInstanceInput, CreateAppInstanceOutput>(id: "createAppInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceOutput, CreateAppInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput>(xmlName: "CreateAppInstanceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppInstanceInput, CreateAppInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceOutput, CreateAppInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceOutput, CreateAppInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceOutput, CreateAppInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceOutput, CreateAppInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     ///
     /// * ChannelModerator actions across all channels in the AppInstance.
@@ -830,24 +860,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>(id: "createAppInstanceAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>(id: "createAppInstanceAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceAdminOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput>(xmlName: "CreateAppInstanceAdminRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceAdminOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceAdminOutput, CreateAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceAdminOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceAdminOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppInstanceAdminOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_CreateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -882,25 +914,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAppInstanceUserInput, CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(id: "createAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(id: "createAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput>(xmlName: "CreateAppInstanceUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAppInstanceUserInput, CreateAppInstanceUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceUserOutput, CreateAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -935,24 +969,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAttendeeInput, CreateAttendeeOutput, CreateAttendeeOutputError>(id: "createAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAttendeeInput, CreateAttendeeOutput, CreateAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAttendeeInput, CreateAttendeeOutput>(id: "createAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAttendeeInput, CreateAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAttendeeInput, CreateAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAttendeeOutput, CreateAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAttendeeInput, CreateAttendeeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAttendeeInput, CreateAttendeeOutput>(xmlName: "CreateAttendeeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAttendeeInput, CreateAttendeeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAttendeeOutput, CreateAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAttendeeOutput, CreateAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAttendeeOutput, CreateAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAttendeeOutput, CreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateBot` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a bot for an Amazon Chime Enterprise account.
     ///
     /// - Parameter CreateBotInput : [no documentation found]
@@ -986,24 +1022,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateBotInput, CreateBotOutput, CreateBotOutputError>(id: "createBot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBotInput, CreateBotOutput, CreateBotOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateBotInput, CreateBotOutput>(id: "createBot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBotInput, CreateBotOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBotInput, CreateBotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBotOutput, CreateBotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBotInput, CreateBotOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBotInput, CreateBotOutput>(xmlName: "CreateBotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateBotInput, CreateBotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBotOutput, CreateBotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateBotOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBotOutput, CreateBotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBotOutput, CreateBotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBotOutput, CreateBotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBotOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBotOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateBotOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateBotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannel` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1038,26 +1076,28 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(id: "createChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput, CreateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutput>(id: "createChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateChannelInput, CreateChannelOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelInput, CreateChannelOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutput>(xmlName: "CreateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelInput, CreateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput, CreateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput, CreateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput, CreateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_CreateChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -1092,25 +1132,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelBanInput, CreateChannelBanOutput, CreateChannelBanOutputError>(id: "createChannelBan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelBanInput, CreateChannelBanOutput, CreateChannelBanOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelBanInput, CreateChannelBanOutput>(id: "createChannelBan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelBanInput, CreateChannelBanOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelBanInput, CreateChannelBanOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelBanOutput, CreateChannelBanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelBanOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelBanInput, CreateChannelBanOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelBanInput, CreateChannelBanOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelBanInput, CreateChannelBanOutput>(xmlName: "CreateChannelBanRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelBanInput, CreateChannelBanOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelBanOutput, CreateChannelBanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelBanOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelBanOutput, CreateChannelBanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelBanOutput, CreateChannelBanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelBanOutput, CreateChannelBanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelBanOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelBanOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelBanOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelBanOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:
     ///
     /// * List messages
@@ -1165,25 +1207,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelMembershipInput, CreateChannelMembershipOutput, CreateChannelMembershipOutputError>(id: "createChannelMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput, CreateChannelMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelMembershipInput, CreateChannelMembershipOutput>(id: "createChannelMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelMembershipOutput, CreateChannelMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput>(xmlName: "CreateChannelMembershipRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelMembershipOutput, CreateChannelMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelMembershipOutput, CreateChannelMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelMembershipOutput, CreateChannelMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelMembershipOutput, CreateChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a new ChannelModerator. A channel moderator can:
     ///
     /// * Add and remove other members of the channel.
@@ -1231,25 +1275,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateChannelModeratorInput, CreateChannelModeratorOutput, CreateChannelModeratorOutputError>(id: "createChannelModerator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput, CreateChannelModeratorOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateChannelModeratorInput, CreateChannelModeratorOutput>(id: "createChannelModerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelModeratorOutput, CreateChannelModeratorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelModeratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput>(xmlName: "CreateChannelModeratorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelModeratorOutput, CreateChannelModeratorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateChannelModeratorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelModeratorOutput, CreateChannelModeratorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelModeratorOutput, CreateChannelModeratorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelModeratorOutput, CreateChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelModeratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelModeratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateChannelModeratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateChannelModeratorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_CreateMediaCapturePipeline), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -1283,25 +1329,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(id: "createMediaCapturePipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>(id: "createMediaCapturePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaCapturePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput>(xmlName: "CreateMediaCapturePipelineRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMediaCapturePipelineOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaCapturePipelineOutput, CreateMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaCapturePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaCapturePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMediaCapturePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaCapturePipelineOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -1335,25 +1383,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMeetingInput, CreateMeetingOutput, CreateMeetingOutputError>(id: "createMeeting")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMeetingInput, CreateMeetingOutput, CreateMeetingOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingInput, CreateMeetingOutput, CreateMeetingOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMeetingInput, CreateMeetingOutput>(id: "createMeeting")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMeetingInput, CreateMeetingOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingInput, CreateMeetingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMeetingInput, CreateMeetingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingOutput, CreateMeetingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMeetingInput, CreateMeetingOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMeetingInput, CreateMeetingOutput>(xmlName: "CreateMeetingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMeetingInput, CreateMeetingOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingOutput, CreateMeetingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingOutput, CreateMeetingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingOutput, CreateMeetingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingOutput, CreateMeetingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMeetingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMeetingDialOut` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is is not available in a dedicated namespace.
     ///
     /// - Parameter CreateMeetingDialOutInput : [no documentation found]
@@ -1387,24 +1437,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMeetingDialOutInput, CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>(id: "createMeetingDialOut")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>(id: "createMeetingDialOut")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingDialOutOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>(xmlName: "CreateMeetingDialOutRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingDialOutOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingDialOutOutput, CreateMeetingDialOutOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingDialOutOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingDialOutOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMeetingDialOutOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingDialOutOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMeetingWithAttendees` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide . This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeetingWithAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateMeetingWithAttendees in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -1438,26 +1490,28 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(id: "createMeetingWithAttendees")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>(id: "createMeetingWithAttendees")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMeetingWithAttendeesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>(xmlName: "CreateMeetingWithAttendeesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMeetingWithAttendeesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingWithAttendeesOutput, CreateMeetingWithAttendeesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingWithAttendeesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingWithAttendeesOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMeetingWithAttendeesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingWithAttendeesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     ///
     /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
@@ -1491,24 +1545,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>(id: "createPhoneNumberOrder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>())
+        var operation = ClientRuntime.OperationStack<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>(id: "createPhoneNumberOrder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePhoneNumberOrderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>(xmlName: "CreatePhoneNumberOrderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePhoneNumberOrderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePhoneNumberOrderOutput, CreatePhoneNumberOrderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePhoneNumberOrderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePhoneNumberOrderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePhoneNumberOrderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1542,24 +1598,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateProxySessionInput, CreateProxySessionOutput, CreateProxySessionOutputError>(id: "createProxySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProxySessionInput, CreateProxySessionOutput, CreateProxySessionOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateProxySessionInput, CreateProxySessionOutput>(id: "createProxySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProxySessionInput, CreateProxySessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProxySessionInput, CreateProxySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProxySessionOutput, CreateProxySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProxySessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateProxySessionInput, CreateProxySessionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateProxySessionInput, CreateProxySessionOutput>(xmlName: "CreateProxySessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateProxySessionInput, CreateProxySessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProxySessionOutput, CreateProxySessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateProxySessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProxySessionOutput, CreateProxySessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProxySessionOutput, CreateProxySessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProxySessionOutput, CreateProxySessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProxySessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProxySessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateProxySessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateProxySessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRoom` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a chat room for the specified Amazon Chime Enterprise account.
     ///
     /// - Parameter CreateRoomInput : [no documentation found]
@@ -1593,25 +1651,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>(id: "createRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomInput, CreateRoomOutput, CreateRoomOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutput>(id: "createRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateRoomInput, CreateRoomOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomInput, CreateRoomOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoomInput, CreateRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomOutput, CreateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRoomInput, CreateRoomOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRoomInput, CreateRoomOutput>(xmlName: "CreateRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRoomInput, CreateRoomOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomOutput, CreateRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutput, CreateRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutput, CreateRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutput, CreateRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRoomOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
     /// - Parameter CreateRoomMembershipInput : [no documentation found]
@@ -1646,24 +1706,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRoomMembershipInput, CreateRoomMembershipOutput, CreateRoomMembershipOutputError>(id: "createRoomMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput, CreateRoomMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateRoomMembershipInput, CreateRoomMembershipOutput>(id: "createRoomMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomMembershipOutput, CreateRoomMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoomMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>(xmlName: "CreateRoomMembershipRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomMembershipOutput, CreateRoomMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoomMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomMembershipOutput, CreateRoomMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomMembershipOutput, CreateRoomMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomMembershipOutput, CreateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRoomMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1699,24 +1761,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>(id: "createSipMediaApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>(id: "createSipMediaApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipMediaApplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput>(xmlName: "CreateSipMediaApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipMediaApplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationOutput, CreateSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSipMediaApplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1751,24 +1815,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>(id: "createSipMediaApplicationCall")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>(id: "createSipMediaApplicationCall")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipMediaApplicationCallOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput>(xmlName: "CreateSipMediaApplicationCallRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipMediaApplicationCallOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationCallOutput, CreateSipMediaApplicationCallOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationCallOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationCallOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSipMediaApplicationCallOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationCallOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1804,24 +1870,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSipRuleInput, CreateSipRuleOutput, CreateSipRuleOutputError>(id: "createSipRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipRuleInput, CreateSipRuleOutput, CreateSipRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSipRuleInput, CreateSipRuleOutput>(id: "createSipRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipRuleInput, CreateSipRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipRuleInput, CreateSipRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipRuleOutput, CreateSipRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSipRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSipRuleInput, CreateSipRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSipRuleInput, CreateSipRuleOutput>(xmlName: "CreateSipRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSipRuleInput, CreateSipRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipRuleOutput, CreateSipRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSipRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipRuleOutput, CreateSipRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipRuleOutput, CreateSipRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipRuleOutput, CreateSipRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSipRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSipRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates a user under the specified Amazon Chime account.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -1855,25 +1923,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput, CreateUserOutputError>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput, CreateUserOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput>(id: "createUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<CreateUserInput, CreateUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutput>(xmlName: "CreateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput, CreateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput, CreateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput, CreateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput, CreateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling [CreateVoiceConnectorRequest$RequireEncryption] configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1908,24 +1978,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateVoiceConnectorInput, CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>(id: "createVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>(id: "createVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput>(xmlName: "CreateVoiceConnectorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorOutput, CreateVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events. This API is is no longer supported and will not be updated. We recommend using the latest version, [CreateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by CreateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -1960,24 +2032,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>(id: "createVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>(id: "createVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput>(xmlName: "CreateVoiceConnectorGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorGroupOutput, CreateVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the [BatchSuspendUser] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     ///
     /// - Parameter DeleteAccountInput : [no documentation found]
@@ -2011,21 +2085,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccountInput, DeleteAccountOutput, DeleteAccountOutputError>(id: "deleteAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountInput, DeleteAccountOutput, DeleteAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAccountInput, DeleteAccountOutput>(id: "deleteAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountInput, DeleteAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountInput, DeleteAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountOutput, DeleteAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountOutput, DeleteAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountOutput, DeleteAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountOutput, DeleteAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountOutput, DeleteAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes an AppInstance and all associated data asynchronously. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2058,21 +2134,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInstanceInput, DeleteAppInstanceOutput, DeleteAppInstanceOutputError>(id: "deleteAppInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutput, DeleteAppInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInstanceInput, DeleteAppInstanceOutput>(id: "deleteAppInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceOutput, DeleteAppInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceOutput, DeleteAppInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceOutput, DeleteAppInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceOutput, DeleteAppInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceOutput, DeleteAppInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2106,21 +2184,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>(id: "deleteAppInstanceAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput>(id: "deleteAppInstanceAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceAdminOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceAdminOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceAdminOutput, DeleteAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceAdminOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceAdminOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppInstanceAdminOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2154,21 +2234,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>(id: "deleteAppInstanceStreamingConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutput>(id: "deleteAppInstanceStreamingConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceStreamingConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceStreamingConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceStreamingConfigurationsOutput, DeleteAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceStreamingConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceStreamingConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppInstanceStreamingConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceStreamingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DeleteAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -2201,21 +2283,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>(id: "deleteAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput>(id: "deleteAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceUserOutput, DeleteAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -2249,21 +2333,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAttendeeInput, DeleteAttendeeOutput, DeleteAttendeeOutputError>(id: "deleteAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttendeeInput, DeleteAttendeeOutput, DeleteAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAttendeeInput, DeleteAttendeeOutput>(id: "deleteAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttendeeInput, DeleteAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAttendeeInput, DeleteAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAttendeeOutput, DeleteAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAttendeeOutput, DeleteAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttendeeOutput, DeleteAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttendeeOutput, DeleteAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAttendeeOutput, DeleteAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannel` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2296,22 +2382,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>(id: "deleteChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput, DeleteChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutput>(id: "deleteChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteChannelInput, DeleteChannelOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput, DeleteChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput, DeleteChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput, DeleteChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Removes a user from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2344,22 +2432,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelBanInput, DeleteChannelBanOutput, DeleteChannelBanOutputError>(id: "deleteChannelBan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelBanInput, DeleteChannelBanOutput, DeleteChannelBanOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelBanInput, DeleteChannelBanOutput>(id: "deleteChannelBan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelBanInput, DeleteChannelBanOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelBanInput, DeleteChannelBanOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelBanOutput, DeleteChannelBanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelBanOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteChannelBanInput, DeleteChannelBanOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelBanOutput, DeleteChannelBanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelBanOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelBanOutput, DeleteChannelBanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelBanOutput, DeleteChannelBanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelBanOutput, DeleteChannelBanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelBanOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelBanOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelBanOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelBanOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2393,22 +2483,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelMembershipInput, DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>(id: "deleteChannelMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelMembershipInput, DeleteChannelMembershipOutput>(id: "deleteChannelMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMembershipOutput, DeleteChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2441,22 +2533,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelMessageInput, DeleteChannelMessageOutput, DeleteChannelMessageOutputError>(id: "deleteChannelMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutput, DeleteChannelMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelMessageInput, DeleteChannelMessageOutput>(id: "deleteChannelMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelMessageOutput, DeleteChannelMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelMessageOutput, DeleteChannelMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMessageOutput, DeleteChannelMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMessageOutput, DeleteChannelMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMessageOutput, DeleteChannelMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DeleteChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteChannelModerator in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -2489,22 +2583,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteChannelModeratorInput, DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>(id: "deleteChannelModerator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteChannelModeratorInput, DeleteChannelModeratorOutput>(id: "deleteChannelModerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelModeratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteChannelModeratorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelModeratorOutput, DeleteChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelModeratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelModeratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelModeratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelModeratorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     ///
     /// - Parameter DeleteEventsConfigurationInput : [no documentation found]
@@ -2536,21 +2632,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>(id: "deleteEventsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput>(id: "deleteEventsConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventsConfigurationOutput, DeleteEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventsConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteEventsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_DeleteMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -2584,21 +2682,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>(id: "deleteMediaCapturePipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput>(id: "deleteMediaCapturePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMediaCapturePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMediaCapturePipelineOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaCapturePipelineOutput, DeleteMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaCapturePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaCapturePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMediaCapturePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaCapturePipelineOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_DeleteMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -2632,21 +2732,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMeetingInput, DeleteMeetingOutput, DeleteMeetingOutputError>(id: "deleteMeeting")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMeetingInput, DeleteMeetingOutput, DeleteMeetingOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteMeetingInput, DeleteMeetingOutput>(id: "deleteMeeting")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMeetingInput, DeleteMeetingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMeetingInput, DeleteMeetingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMeetingOutput, DeleteMeetingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMeetingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMeetingOutput, DeleteMeetingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMeetingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMeetingOutput, DeleteMeetingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMeetingOutput, DeleteMeetingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMeetingOutput, DeleteMeetingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMeetingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMeetingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMeetingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMeetingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
     /// - Parameter DeletePhoneNumberInput : [no documentation found]
@@ -2679,21 +2781,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePhoneNumberInput, DeletePhoneNumberOutput, DeletePhoneNumberOutputError>(id: "deletePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput, DeletePhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<DeletePhoneNumberInput, DeletePhoneNumberOutput>(id: "deletePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePhoneNumberOutput, DeletePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePhoneNumberOutput, DeletePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePhoneNumberOutput, DeletePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePhoneNumberOutput, DeletePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePhoneNumberOutput, DeletePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified proxy session from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2727,21 +2831,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteProxySessionInput, DeleteProxySessionOutput, DeleteProxySessionOutputError>(id: "deleteProxySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProxySessionInput, DeleteProxySessionOutput, DeleteProxySessionOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteProxySessionInput, DeleteProxySessionOutput>(id: "deleteProxySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProxySessionInput, DeleteProxySessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProxySessionInput, DeleteProxySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProxySessionOutput, DeleteProxySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProxySessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProxySessionOutput, DeleteProxySessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteProxySessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProxySessionOutput, DeleteProxySessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProxySessionOutput, DeleteProxySessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProxySessionOutput, DeleteProxySessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProxySessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProxySessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteProxySessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteProxySessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRoom` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes a chat room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter DeleteRoomInput : [no documentation found]
@@ -2774,21 +2880,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutput, DeleteRoomOutputError>(id: "deleteRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutput, DeleteRoomOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutput>(id: "deleteRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomOutput, DeleteRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomOutput, DeleteRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutput, DeleteRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutput, DeleteRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutput, DeleteRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRoomOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Removes a member from a chat room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter DeleteRoomMembershipInput : [no documentation found]
@@ -2821,21 +2929,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRoomMembershipInput, DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>(id: "deleteRoomMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRoomMembershipInput, DeleteRoomMembershipOutput>(id: "deleteRoomMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoomMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoomMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomMembershipOutput, DeleteRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRoomMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes a SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2870,21 +2980,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>(id: "deleteSipMediaApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput>(id: "deleteSipMediaApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSipMediaApplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSipMediaApplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSipMediaApplicationOutput, DeleteSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipMediaApplicationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipMediaApplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSipMediaApplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes a SIP rule. You must disable a SIP rule before you can delete it. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2919,21 +3031,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSipRuleInput, DeleteSipRuleOutput, DeleteSipRuleOutputError>(id: "deleteSipRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipRuleInput, DeleteSipRuleOutput, DeleteSipRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSipRuleInput, DeleteSipRuleOutput>(id: "deleteSipRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipRuleInput, DeleteSipRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSipRuleInput, DeleteSipRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSipRuleOutput, DeleteSipRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSipRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSipRuleOutput, DeleteSipRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSipRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipRuleOutput, DeleteSipRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipRuleOutput, DeleteSipRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSipRuleOutput, DeleteSipRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSipRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSipRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -2968,21 +3082,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>(id: "deleteVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput>(id: "deleteVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOutput, DeleteVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3016,21 +3132,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "deleteVoiceConnectorEmergencyCallingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(id: "deleteVoiceConnectorEmergencyCallingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorEmergencyCallingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3065,21 +3183,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>(id: "deleteVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput>(id: "deleteVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorGroupOutput, DeleteVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3113,21 +3233,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>(id: "deleteVoiceConnectorOrigination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput>(id: "deleteVoiceConnectorOrigination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorOriginationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorOriginationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOriginationOutput, DeleteVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOriginationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOriginationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorOriginationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the proxy configuration from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3161,21 +3283,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>(id: "deleteVoiceConnectorProxy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput>(id: "deleteVoiceConnectorProxy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorProxyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorProxyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorProxyOutput, DeleteVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorProxyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorProxyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorProxyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the streaming configuration for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3209,21 +3333,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>(id: "deleteVoiceConnectorStreamingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput>(id: "deleteVoiceConnectorStreamingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorStreamingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput, DeleteVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorStreamingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorStreamingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3257,21 +3383,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>(id: "deleteVoiceConnectorTermination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput>(id: "deleteVoiceConnectorTermination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorTerminationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorTerminationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationOutput, DeleteVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorTerminationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination. This API is is no longer supported and will not be updated. We recommend using the latest version, [DeleteVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DeleteVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3305,25 +3433,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>(id: "deleteVoiceConnectorTerminationCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>(id: "deleteVoiceConnectorTerminationCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput>(xmlName: "DeleteVoiceConnectorTerminationCredentialsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVoiceConnectorTerminationCredentialsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput, DeleteVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationCredentialsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVoiceConnectorTerminationCredentialsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -3356,21 +3486,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppInstanceInput, DescribeAppInstanceOutput, DescribeAppInstanceOutputError>(id: "describeAppInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutput, DescribeAppInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppInstanceInput, DescribeAppInstanceOutput>(id: "describeAppInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceOutput, DescribeAppInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceOutput, DescribeAppInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceOutput, DescribeAppInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceOutput, DescribeAppInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceOutput, DescribeAppInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppInstanceAdmin` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of an AppInstanceAdmin. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceAdmin](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceAdmin.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceAdmin in the Amazon Chime SDK Identity Namespace")
     ///
@@ -3403,21 +3535,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>(id: "describeAppInstanceAdmin")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput>(id: "describeAppInstanceAdmin")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceAdminOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceAdminOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceAdminOutput, DescribeAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceAdminOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceAdminOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppInstanceAdminOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceAdminOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of an AppInstanceUser. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_DescribeAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -3450,21 +3584,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>(id: "describeAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput>(id: "describeAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceUserOutput, DescribeAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannel` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3497,22 +3633,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutput, DescribeChannelOutputError>(id: "describeChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutput, DescribeChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutput>(id: "describeChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelOutput, DescribeChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelInput, DescribeChannelOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelOutput, DescribeChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutput, DescribeChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutput, DescribeChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutput, DescribeChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannelBan` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelBan](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelBan.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelBan in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3546,22 +3684,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelBanInput, DescribeChannelBanOutput, DescribeChannelBanOutputError>(id: "describeChannelBan")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelBanInput, DescribeChannelBanOutput, DescribeChannelBanOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelBanInput, DescribeChannelBanOutput>(id: "describeChannelBan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelBanInput, DescribeChannelBanOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelBanInput, DescribeChannelBanOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelBanOutput, DescribeChannelBanOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelBanOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelBanInput, DescribeChannelBanOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelBanOutput, DescribeChannelBanOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelBanOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelBanOutput, DescribeChannelBanOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelBanOutput, DescribeChannelBanOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelBanOutput, DescribeChannelBanOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelBanOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelBanOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelBanOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelBanOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannelMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembership](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembership.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembership in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3595,22 +3735,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelMembershipInput, DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>(id: "describeChannelMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelMembershipInput, DescribeChannelMembershipOutput>(id: "describeChannelMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipOutput, DescribeChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannelMembershipForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the details of a channel based on the membership of the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelMembershipForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelMembershipForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelMembershipForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3643,23 +3785,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>(id: "describeChannelMembershipForAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput>(id: "describeChannelMembershipForAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelMembershipForAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelMembershipForAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipForAppInstanceUserOutput, DescribeChannelMembershipForAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipForAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipForAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelMembershipForAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipForAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannelModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of a channel moderated by the specified AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3692,23 +3836,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>(id: "describeChannelModeratedByAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput>(id: "describeChannelModeratedByAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelModeratedByAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelModeratedByAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratedByAppInstanceUserOutput, DescribeChannelModeratedByAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratedByAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratedByAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelModeratedByAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratedByAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeChannelModerator` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [DescribeChannelModerator](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_DescribeChannelModerator.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DescribeChannelModerator in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -3742,22 +3888,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeChannelModeratorInput, DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>(id: "describeChannelModerator")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeChannelModeratorInput, DescribeChannelModeratorOutput>(id: "describeChannelModerator")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeChannelModeratorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeChannelModeratorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratorOutput, DescribeChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeChannelModeratorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociatePhoneNumberFromUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Disassociates the primary provisioned phone number from the specified Amazon Chime user.
     ///
     /// - Parameter DisassociatePhoneNumberFromUserInput : [no documentation found]
@@ -3790,22 +3938,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>(id: "disassociatePhoneNumberFromUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>(id: "disassociatePhoneNumberFromUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumberFromUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumberFromUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumberFromUserOutput, DisassociatePhoneNumberFromUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumberFromUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumberFromUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociatePhoneNumberFromUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumberFromUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3839,25 +3989,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(id: "disassociatePhoneNumbersFromVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>(id: "disassociatePhoneNumbersFromVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput>(xmlName: "DisassociatePhoneNumbersFromVoiceConnectorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumbersFromVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociatePhoneNumbersFromVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociatePhoneNumbersFromVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group. This API is is no longer supported and will not be updated. We recommend using the latest version, [DisassociatePhoneNumbersFromVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DisassociatePhoneNumbersFromVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by DisassociatePhoneNumbersFromVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -3891,25 +4043,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(id: "disassociatePhoneNumbersFromVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(id: "disassociatePhoneNumbersFromVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(xmlName: "DisassociatePhoneNumbersFromVoiceConnectorGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateSigninDelegateGroupsFromAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
     ///
     /// - Parameter DisassociateSigninDelegateGroupsFromAccountInput : [no documentation found]
@@ -3942,25 +4096,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>(id: "disassociateSigninDelegateGroupsFromAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>(id: "disassociateSigninDelegateGroupsFromAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>(xmlName: "DisassociateSigninDelegateGroupsFromAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateSigninDelegateGroupsFromAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput, DisassociateSigninDelegateGroupsFromAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSigninDelegateGroupsFromAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateSigninDelegateGroupsFromAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
     ///
     /// - Parameter GetAccountInput : [no documentation found]
@@ -3993,21 +4149,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountInput, GetAccountOutput, GetAccountOutputError>(id: "getAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountInput, GetAccountOutput, GetAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccountInput, GetAccountOutput>(id: "getAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountInput, GetAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountOutput, GetAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountOutput, GetAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountOutput, GetAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountOutput, GetAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountOutput, GetAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccountSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
@@ -4040,21 +4198,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>(id: "getAccountSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput, GetAccountSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutput>(id: "getAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutput, GetAccountSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutput, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the retention settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_GetAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     ///
@@ -4088,21 +4248,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>(id: "getAppInstanceRetentionSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput>(id: "getAppInstanceRetentionSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAppInstanceRetentionSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAppInstanceRetentionSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceRetentionSettingsOutput, GetAppInstanceRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceRetentionSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceRetentionSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAppInstanceRetentionSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the streaming settings for an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -4136,21 +4298,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>(id: "getAppInstanceStreamingConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutput>(id: "getAppInstanceStreamingConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAppInstanceStreamingConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAppInstanceStreamingConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceStreamingConfigurationsOutput, GetAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceStreamingConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceStreamingConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAppInstanceStreamingConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceStreamingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetAttendee](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetAttendee.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetAttendee in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -4184,21 +4348,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAttendeeInput, GetAttendeeOutput, GetAttendeeOutputError>(id: "getAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttendeeInput, GetAttendeeOutput, GetAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAttendeeInput, GetAttendeeOutput>(id: "getAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttendeeInput, GetAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttendeeInput, GetAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAttendeeOutput, GetAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAttendeeOutput, GetAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttendeeOutput, GetAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttendeeOutput, GetAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttendeeOutput, GetAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetBot` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
     ///
     /// - Parameter GetBotInput : [no documentation found]
@@ -4231,21 +4397,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetBotInput, GetBotOutput, GetBotOutputError>(id: "getBot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBotInput, GetBotOutput, GetBotOutputError>())
+        var operation = ClientRuntime.OperationStack<GetBotInput, GetBotOutput>(id: "getBot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBotInput, GetBotOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBotInput, GetBotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBotOutput, GetBotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBotOutput, GetBotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetBotOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBotOutput, GetBotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBotOutput, GetBotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBotOutput, GetBotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBotOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBotOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetBotOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetBotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -4279,22 +4447,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetChannelMessageInput, GetChannelMessageOutput, GetChannelMessageOutputError>(id: "getChannelMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelMessageInput, GetChannelMessageOutput, GetChannelMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<GetChannelMessageInput, GetChannelMessageOutput>(id: "getChannelMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelMessageInput, GetChannelMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelMessageInput, GetChannelMessageOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelMessageOutput, GetChannelMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetChannelMessageInput, GetChannelMessageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelMessageOutput, GetChannelMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetChannelMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelMessageOutput, GetChannelMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelMessageOutput, GetChannelMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelMessageOutput, GetChannelMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetChannelMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetChannelMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
     ///
     /// - Parameter GetEventsConfigurationInput : [no documentation found]
@@ -4327,21 +4497,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEventsConfigurationInput, GetEventsConfigurationOutput, GetEventsConfigurationOutputError>(id: "getEventsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutput, GetEventsConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetEventsConfigurationInput, GetEventsConfigurationOutput>(id: "getEventsConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventsConfigurationOutput, GetEventsConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventsConfigurationOutput, GetEventsConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventsConfigurationOutput, GetEventsConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventsConfigurationOutput, GetEventsConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventsConfigurationOutput, GetEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventsConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEventsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
     /// - Parameter GetGlobalSettingsInput : [no documentation found]
@@ -4373,21 +4545,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGlobalSettingsInput, GetGlobalSettingsOutput, GetGlobalSettingsOutputError>(id: "getGlobalSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput, GetGlobalSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetGlobalSettingsInput, GetGlobalSettingsOutput>(id: "getGlobalSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGlobalSettingsOutput, GetGlobalSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGlobalSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGlobalSettingsOutput, GetGlobalSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGlobalSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGlobalSettingsOutput, GetGlobalSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutput, GetGlobalSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGlobalSettingsOutput, GetGlobalSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGlobalSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGlobalSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMediaCapturePipeline` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets an existing media capture pipeline. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMediaCapturePipeline](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_GetMediaCapturePipeline.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMediaCapturePipeline in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -4421,21 +4595,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>(id: "getMediaCapturePipeline")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput>(id: "getMediaCapturePipeline")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMediaCapturePipelineOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMediaCapturePipelineOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaCapturePipelineOutput, GetMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaCapturePipelineOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaCapturePipelineOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMediaCapturePipelineOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaCapturePipelineOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide .
     @available(*, deprecated, message: "Replaced by GetMeeting in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -4469,21 +4645,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMeetingInput, GetMeetingOutput, GetMeetingOutputError>(id: "getMeeting")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMeetingInput, GetMeetingOutput, GetMeetingOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMeetingInput, GetMeetingOutput>(id: "getMeeting")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMeetingInput, GetMeetingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMeetingInput, GetMeetingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMeetingOutput, GetMeetingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMeetingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMeetingOutput, GetMeetingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMeetingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMeetingOutput, GetMeetingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMeetingOutput, GetMeetingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMeetingOutput, GetMeetingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMeetingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMeetingOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMeetingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMeetingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMessagingSessionEndpoint` operation on the `UCBuzzConsoleService` service.
+    ///
     /// The details of the endpoint for the messaging session. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetMessagingSessionEndpoint](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_GetMessagingSessionEndpoint.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetMessagingSessionEndpoint in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -4515,21 +4693,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>(id: "getMessagingSessionEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>(id: "getMessagingSessionEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMessagingSessionEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMessagingSessionEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMessagingSessionEndpointOutput, GetMessagingSessionEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMessagingSessionEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMessagingSessionEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMessagingSessionEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMessagingSessionEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
     /// - Parameter GetPhoneNumberInput : [no documentation found]
@@ -4562,21 +4742,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPhoneNumberInput, GetPhoneNumberOutput, GetPhoneNumberOutputError>(id: "getPhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput, GetPhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPhoneNumberInput, GetPhoneNumberOutput>(id: "getPhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberOutput, GetPhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberOutput, GetPhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOutput, GetPhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOutput, GetPhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOutput, GetPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPhoneNumberOrder` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
     /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
@@ -4609,21 +4791,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>(id: "getPhoneNumberOrder")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>(id: "getPhoneNumberOrder")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberOrderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberOrderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOrderOutput, GetPhoneNumberOrderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOrderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOrderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPhoneNumberOrderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
     /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
@@ -4655,21 +4839,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>(id: "getPhoneNumberSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>(id: "getPhoneNumberSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPhoneNumberSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPhoneNumberSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberSettingsOutput, GetPhoneNumberSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPhoneNumberSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the specified proxy session details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -4703,21 +4889,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetProxySessionInput, GetProxySessionOutput, GetProxySessionOutputError>(id: "getProxySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProxySessionInput, GetProxySessionOutput, GetProxySessionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetProxySessionInput, GetProxySessionOutput>(id: "getProxySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProxySessionInput, GetProxySessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProxySessionInput, GetProxySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProxySessionOutput, GetProxySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetProxySessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProxySessionOutput, GetProxySessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetProxySessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProxySessionOutput, GetProxySessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProxySessionOutput, GetProxySessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProxySessionOutput, GetProxySessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProxySessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProxySessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetProxySessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetProxySessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter GetRetentionSettingsInput : [no documentation found]
@@ -4750,21 +4938,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRetentionSettingsInput, GetRetentionSettingsOutput, GetRetentionSettingsOutputError>(id: "getRetentionSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutput, GetRetentionSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetRetentionSettingsInput, GetRetentionSettingsOutput>(id: "getRetentionSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRetentionSettingsOutput, GetRetentionSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRetentionSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRetentionSettingsOutput, GetRetentionSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRetentionSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRetentionSettingsOutput, GetRetentionSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRetentionSettingsOutput, GetRetentionSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRetentionSettingsOutput, GetRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRetentionSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRetentionSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRetentionSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRoom` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter GetRoomInput : [no documentation found]
@@ -4797,21 +4987,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutput, GetRoomOutputError>(id: "getRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutput, GetRoomOutputError>())
+        var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutput>(id: "getRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomOutput, GetRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoomOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomOutput, GetRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoomOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutput, GetRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutput, GetRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutput, GetRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRoomOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -4845,21 +5037,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSipMediaApplicationInput, GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>(id: "getSipMediaApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSipMediaApplicationInput, GetSipMediaApplicationOutput>(id: "getSipMediaApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipMediaApplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipMediaApplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationOutput, GetSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSipMediaApplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -4893,21 +5087,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>(id: "getSipMediaApplicationLoggingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput>(id: "getSipMediaApplicationLoggingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipMediaApplicationLoggingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipMediaApplicationLoggingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationLoggingConfigurationOutput, GetSipMediaApplicationLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationLoggingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationLoggingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSipMediaApplicationLoggingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -4941,21 +5137,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSipRuleInput, GetSipRuleOutput, GetSipRuleOutputError>(id: "getSipRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipRuleInput, GetSipRuleOutput, GetSipRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSipRuleInput, GetSipRuleOutput>(id: "getSipRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipRuleInput, GetSipRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipRuleInput, GetSipRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipRuleOutput, GetSipRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSipRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipRuleOutput, GetSipRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSipRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipRuleOutput, GetSipRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipRuleOutput, GetSipRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipRuleOutput, GetSipRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSipRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSipRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the [ListUsers] action, and then filter by email address.
     ///
     /// - Parameter GetUserInput : [no documentation found]
@@ -4988,21 +5186,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutput, GetUserOutputError>(id: "getUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutput, GetUserOutputError>())
+        var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutput>(id: "getUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserOutput, GetUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserOutput, GetUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutput, GetUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput, GetUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutput, GetUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUserSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves settings for the specified user ID, such as any associated phone number settings.
     ///
     /// - Parameter GetUserSettingsInput : [no documentation found]
@@ -5035,21 +5235,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>(id: "getUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutput, GetUserSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutput>(id: "getUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserSettingsOutput, GetUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutput, GetUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutput, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5083,21 +5285,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorInput, GetVoiceConnectorOutput, GetVoiceConnectorOutputError>(id: "getVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutput, GetVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorInput, GetVoiceConnectorOutput>(id: "getVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorOutput, GetVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorOutput, GetVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOutput, GetVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOutput, GetVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOutput, GetVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5131,21 +5335,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "getVoiceConnectorEmergencyCallingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput>(id: "getVoiceConnectorEmergencyCallingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorEmergencyCallingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorEmergencyCallingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5179,21 +5385,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>(id: "getVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput>(id: "getVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorGroupOutput, GetVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5227,21 +5435,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>(id: "getVoiceConnectorLoggingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput>(id: "getVoiceConnectorLoggingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorLoggingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorLoggingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorLoggingConfigurationOutput, GetVoiceConnectorLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorLoggingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorLoggingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorLoggingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves origination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5275,21 +5485,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>(id: "getVoiceConnectorOrigination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput>(id: "getVoiceConnectorOrigination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorOriginationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorOriginationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOriginationOutput, GetVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOriginationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOriginationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorOriginationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Gets the proxy configuration details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5323,21 +5535,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>(id: "getVoiceConnectorProxy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput>(id: "getVoiceConnectorProxy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorProxyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorProxyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorProxyOutput, GetVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorProxyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorProxyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorProxyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5371,21 +5585,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>(id: "getVoiceConnectorStreamingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput>(id: "getVoiceConnectorStreamingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorStreamingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorStreamingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorStreamingConfigurationOutput, GetVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorStreamingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorStreamingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorStreamingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Retrieves termination setting details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5419,21 +5635,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>(id: "getVoiceConnectorTermination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput>(id: "getVoiceConnectorTermination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorTerminationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorTerminationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationOutput, GetVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorTerminationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetVoiceConnectorTerminationHealth` operation on the `UCBuzzConsoleService` service.
+    ///
     /// This API is is no longer supported and will not be updated. We recommend using the latest version, [GetVoiceConnectorTerminationHealth](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorTerminationHealth.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide. Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
     @available(*, deprecated, message: "Replaced by GetVoiceConnectorTerminationHealth in the Amazon Chime SDK Voice Namespace")
     ///
@@ -5467,21 +5685,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>(id: "getVoiceConnectorTerminationHealth")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>())
+        var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput>(id: "getVoiceConnectorTerminationHealth")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceConnectorTerminationHealthOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceConnectorTerminationHealthOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationHealthOutput, GetVoiceConnectorTerminationHealthOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationHealthOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationHealthOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetVoiceConnectorTerminationHealthOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationHealthOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `InviteUsers` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
     ///
     /// - Parameter InviteUsersInput : [no documentation found]
@@ -5514,25 +5734,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<InviteUsersInput, InviteUsersOutput, InviteUsersOutputError>(id: "inviteUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteUsersInput, InviteUsersOutput, InviteUsersOutputError>())
+        var operation = ClientRuntime.OperationStack<InviteUsersInput, InviteUsersOutput>(id: "inviteUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteUsersInput, InviteUsersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InviteUsersInput, InviteUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InviteUsersOutput, InviteUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InviteUsersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<InviteUsersInput, InviteUsersOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<InviteUsersInput, InviteUsersOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<InviteUsersInput, InviteUsersOutput>(xmlName: "InviteUsersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<InviteUsersInput, InviteUsersOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InviteUsersOutput, InviteUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, InviteUsersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteUsersOutput, InviteUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteUsersOutput, InviteUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InviteUsersOutput, InviteUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteUsersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(InviteUsersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InviteUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccounts` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
     /// - Parameter ListAccountsInput : [no documentation found]
@@ -5565,22 +5787,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountsInput, ListAccountsOutput, ListAccountsOutputError>(id: "listAccounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutput, ListAccountsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAccountsInput, ListAccountsOutput>(id: "listAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsInput, ListAccountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsOutput, ListAccountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccountsInput, ListAccountsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsOutput, ListAccountsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsOutput, ListAccountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutput, ListAccountsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutput, ListAccountsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppInstanceAdmins` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns a list of the administrators in the AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceAdmins](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceAdmins.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceAdmins in the Amazon Chime SDK Identity Namespace")
     ///
@@ -5613,22 +5837,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>(id: "listAppInstanceAdmins")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(id: "listAppInstanceAdmins")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstanceAdminsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstanceAdminsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceAdminsOutput, ListAppInstanceAdminsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceAdminsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceAdminsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppInstanceAdminsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceAdminsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppInstanceUsers` operation on the `UCBuzzConsoleService` service.
+    ///
     /// List all AppInstanceUsers created under a single AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstanceUsers](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstanceUsers.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstanceUsers in the Amazon Chime SDK Identity Namespace")
     ///
@@ -5661,22 +5887,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppInstanceUsersInput, ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>(id: "listAppInstanceUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(id: "listAppInstanceUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstanceUsersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstanceUsersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceUsersOutput, ListAppInstanceUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceUsersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppInstanceUsersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAppInstances` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all Amazon Chime AppInstances created under a single AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAppInstances](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_ListAppInstances.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAppInstances in the Amazon Chime SDK Identity Namespace")
     ///
@@ -5709,22 +5937,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAppInstancesInput, ListAppInstancesOutput, ListAppInstancesOutputError>(id: "listAppInstances")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstancesInput, ListAppInstancesOutput, ListAppInstancesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAppInstancesInput, ListAppInstancesOutput>(id: "listAppInstances")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstancesInput, ListAppInstancesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstancesInput, ListAppInstancesOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstancesOutput, ListAppInstancesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAppInstancesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAppInstancesInput, ListAppInstancesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstancesOutput, ListAppInstancesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAppInstancesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstancesOutput, ListAppInstancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstancesOutput, ListAppInstancesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstancesOutput, ListAppInstancesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstancesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstancesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAppInstancesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInstancesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAttendeeTags` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the tags applied to an Amazon Chime SDK attendee resource. ListAttendeeTags is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -5758,21 +5988,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAttendeeTagsInput, ListAttendeeTagsOutput, ListAttendeeTagsOutputError>(id: "listAttendeeTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeeTagsInput, ListAttendeeTagsOutput, ListAttendeeTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAttendeeTagsInput, ListAttendeeTagsOutput>(id: "listAttendeeTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeeTagsInput, ListAttendeeTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttendeeTagsInput, ListAttendeeTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttendeeTagsOutput, ListAttendeeTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttendeeTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttendeeTagsOutput, ListAttendeeTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttendeeTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeeTagsOutput, ListAttendeeTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeeTagsOutput, ListAttendeeTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttendeeTagsOutput, ListAttendeeTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeeTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeeTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttendeeTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttendeeTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAttendees` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListAttendees](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListAttendees.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListAttendees in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -5806,22 +6038,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAttendeesInput, ListAttendeesOutput, ListAttendeesOutputError>(id: "listAttendees")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeesInput, ListAttendeesOutput, ListAttendeesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAttendeesInput, ListAttendeesOutput>(id: "listAttendees")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeesInput, ListAttendeesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttendeesInput, ListAttendeesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttendeesOutput, ListAttendeesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttendeesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAttendeesInput, ListAttendeesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttendeesOutput, ListAttendeesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttendeesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeesOutput, ListAttendeesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeesOutput, ListAttendeesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttendeesOutput, ListAttendeesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttendeesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttendeesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListBots` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     ///
     /// - Parameter ListBotsInput : [no documentation found]
@@ -5854,22 +6088,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListBotsInput, ListBotsOutput, ListBotsOutputError>(id: "listBots")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBotsInput, ListBotsOutput, ListBotsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListBotsInput, ListBotsOutput>(id: "listBots")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBotsInput, ListBotsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBotsInput, ListBotsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBotsOutput, ListBotsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBotsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListBotsInput, ListBotsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBotsOutput, ListBotsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListBotsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBotsOutput, ListBotsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBotsOutput, ListBotsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBotsOutput, ListBotsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBotsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBotsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListBotsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListBotsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelBans` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all the users banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelBans](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelBans.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelBans in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -5902,23 +6138,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelBansInput, ListChannelBansOutput, ListChannelBansOutputError>(id: "listChannelBans")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelBansInput, ListChannelBansOutput, ListChannelBansOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelBansInput, ListChannelBansOutput>(id: "listChannelBans")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelBansInput, ListChannelBansOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelBansInput, ListChannelBansOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelBansOutput, ListChannelBansOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelBansOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelBansInput, ListChannelBansOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelBansInput, ListChannelBansOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelBansOutput, ListChannelBansOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelBansOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelBansOutput, ListChannelBansOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelBansOutput, ListChannelBansOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelBansOutput, ListChannelBansOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelBansOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelBansOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelBansOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelBansOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelMemberships` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMemberships](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMemberships.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMemberships in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -5951,23 +6189,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelMembershipsInput, ListChannelMembershipsOutput, ListChannelMembershipsOutputError>(id: "listChannelMemberships")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutput, ListChannelMembershipsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelMembershipsInput, ListChannelMembershipsOutput>(id: "listChannelMemberships")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMembershipsOutput, ListChannelMembershipsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMembershipsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMembershipsOutput, ListChannelMembershipsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMembershipsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsOutput, ListChannelMembershipsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsOutput, ListChannelMembershipsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsOutput, ListChannelMembershipsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelMembershipsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelMembershipsForAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMembershipsForAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -6000,23 +6240,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>(id: "listChannelMembershipsForAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>(id: "listChannelMembershipsForAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMembershipsForAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMembershipsForAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsForAppInstanceUserOutput, ListChannelMembershipsForAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsForAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsForAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelMembershipsForAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsForAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelMessages` operation on the `UCBuzzConsoleService` service.
+    ///
     /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelMessages](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMessages.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelMessages in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -6049,23 +6291,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelMessagesInput, ListChannelMessagesOutput, ListChannelMessagesOutputError>(id: "listChannelMessages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMessagesInput, ListChannelMessagesOutput, ListChannelMessagesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelMessagesInput, ListChannelMessagesOutput>(id: "listChannelMessages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMessagesInput, ListChannelMessagesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMessagesInput, ListChannelMessagesOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMessagesOutput, ListChannelMessagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelMessagesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelMessagesInput, ListChannelMessagesOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelMessagesInput, ListChannelMessagesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMessagesOutput, ListChannelMessagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelMessagesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMessagesOutput, ListChannelMessagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMessagesOutput, ListChannelMessagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMessagesOutput, ListChannelMessagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMessagesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMessagesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelMessagesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelMessagesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelModerators` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelModerators](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelModerators.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelModerators in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -6098,23 +6342,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelModeratorsInput, ListChannelModeratorsOutput, ListChannelModeratorsOutputError>(id: "listChannelModerators")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutput, ListChannelModeratorsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelModeratorsInput, ListChannelModeratorsOutput>(id: "listChannelModerators")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelModeratorsOutput, ListChannelModeratorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelModeratorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelModeratorsOutput, ListChannelModeratorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelModeratorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelModeratorsOutput, ListChannelModeratorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelModeratorsOutput, ListChannelModeratorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelModeratorsOutput, ListChannelModeratorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelModeratorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelModeratorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelModeratorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelModeratorsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannels` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results. Functionality & restrictions
     ///
     /// * Use privacy = PUBLIC to retrieve all public channels in the account.
@@ -6154,23 +6400,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>(id: "listChannels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput, ListChannelsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutput>(id: "listChannels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelsInput, ListChannelsOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput, ListChannelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput, ListChannelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput, ListChannelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListChannelsModeratedByAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListChannelsModeratedByAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelsModeratedByAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListChannelsModeratedByAppInstanceUser in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -6203,23 +6451,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>(id: "listChannelsModeratedByAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>(id: "listChannelsModeratedByAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsModeratedByAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListChannelsModeratedByAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsModeratedByAppInstanceUserOutput, ListChannelsModeratedByAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsModeratedByAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsModeratedByAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelsModeratedByAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsModeratedByAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMediaCapturePipelines` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Returns a list of media capture pipelines. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListMediaCapturePipelines](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_media-pipelines-chime_ListMediaCapturePipelines.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListMediaCapturePipelines in the Amazon Chime SDK Media Pipelines Namespace")
     ///
@@ -6252,22 +6502,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>(id: "listMediaCapturePipelines")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>(id: "listMediaCapturePipelines")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMediaCapturePipelinesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMediaCapturePipelinesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaCapturePipelinesOutput, ListMediaCapturePipelinesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaCapturePipelinesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaCapturePipelinesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMediaCapturePipelinesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaCapturePipelinesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMeetingTags` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the tags applied to an Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use ListTagsForResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -6301,21 +6553,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMeetingTagsInput, ListMeetingTagsOutput, ListMeetingTagsOutputError>(id: "listMeetingTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingTagsInput, ListMeetingTagsOutput, ListMeetingTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMeetingTagsInput, ListMeetingTagsOutput>(id: "listMeetingTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingTagsInput, ListMeetingTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMeetingTagsInput, ListMeetingTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMeetingTagsOutput, ListMeetingTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMeetingTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMeetingTagsOutput, ListMeetingTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMeetingTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingTagsOutput, ListMeetingTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingTagsOutput, ListMeetingTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMeetingTagsOutput, ListMeetingTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMeetingTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMeetingTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMeetings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists up to 100 active Amazon Chime SDK meetings. ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "ListMeetings is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -6348,22 +6602,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMeetingsInput, ListMeetingsOutput, ListMeetingsOutputError>(id: "listMeetings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingsInput, ListMeetingsOutput, ListMeetingsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMeetingsInput, ListMeetingsOutput>(id: "listMeetings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingsInput, ListMeetingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMeetingsInput, ListMeetingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMeetingsOutput, ListMeetingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMeetingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMeetingsInput, ListMeetingsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMeetingsOutput, ListMeetingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMeetingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingsOutput, ListMeetingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingsOutput, ListMeetingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMeetingsOutput, ListMeetingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMeetingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMeetingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPhoneNumberOrders` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the phone number orders for the administrator's Amazon Chime account.
     ///
     /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
@@ -6395,22 +6651,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>(id: "listPhoneNumberOrders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(id: "listPhoneNumberOrders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumberOrdersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumberOrdersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumberOrdersOutput, ListPhoneNumberOrdersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumberOrdersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumberOrdersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPhoneNumberOrdersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumberOrdersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     ///
     /// - Parameter ListPhoneNumbersInput : [no documentation found]
@@ -6443,22 +6701,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPhoneNumbersInput, ListPhoneNumbersOutput, ListPhoneNumbersOutputError>(id: "listPhoneNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput, ListPhoneNumbersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPhoneNumbersInput, ListPhoneNumbersOutput>(id: "listPhoneNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumbersOutput, ListPhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPhoneNumbersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumbersOutput, ListPhoneNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPhoneNumbersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOutput, ListPhoneNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutput, ListPhoneNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOutput, ListPhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPhoneNumbersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListProxySessions` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the proxy sessions for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListProxySessions](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListProxySessions in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6492,22 +6752,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListProxySessionsInput, ListProxySessionsOutput, ListProxySessionsOutputError>(id: "listProxySessions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProxySessionsInput, ListProxySessionsOutput, ListProxySessionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListProxySessionsInput, ListProxySessionsOutput>(id: "listProxySessions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProxySessionsInput, ListProxySessionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProxySessionsInput, ListProxySessionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProxySessionsOutput, ListProxySessionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProxySessionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProxySessionsInput, ListProxySessionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProxySessionsOutput, ListProxySessionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProxySessionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProxySessionsOutput, ListProxySessionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProxySessionsOutput, ListProxySessionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProxySessionsOutput, ListProxySessionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProxySessionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProxySessionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListProxySessionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProxySessionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRoomMemberships` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     ///
     /// - Parameter ListRoomMembershipsInput : [no documentation found]
@@ -6540,22 +6802,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRoomMembershipsInput, ListRoomMembershipsOutput, ListRoomMembershipsOutputError>(id: "listRoomMemberships")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput, ListRoomMembershipsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRoomMembershipsInput, ListRoomMembershipsOutput>(id: "listRoomMemberships")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoomMembershipsOutput, ListRoomMembershipsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoomMembershipsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoomMembershipsOutput, ListRoomMembershipsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoomMembershipsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomMembershipsOutput, ListRoomMembershipsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomMembershipsOutput, ListRoomMembershipsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoomMembershipsOutput, ListRoomMembershipsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomMembershipsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomMembershipsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRoomMembershipsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoomMembershipsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRooms` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     ///
     /// - Parameter ListRoomsInput : [no documentation found]
@@ -6588,22 +6852,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRoomsInput, ListRoomsOutput, ListRoomsOutputError>(id: "listRooms")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomsInput, ListRoomsOutput, ListRoomsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRoomsInput, ListRoomsOutput>(id: "listRooms")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomsInput, ListRoomsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoomsInput, ListRoomsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoomsOutput, ListRoomsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoomsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListRoomsInput, ListRoomsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoomsOutput, ListRoomsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoomsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomsOutput, ListRoomsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomsOutput, ListRoomsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoomsOutput, ListRoomsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRoomsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoomsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSipMediaApplications` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the SIP media applications under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipMediaApplications](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipMediaApplications.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipMediaApplications in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6636,22 +6902,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>(id: "listSipMediaApplications")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>(id: "listSipMediaApplications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSipMediaApplicationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSipMediaApplicationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSipMediaApplicationsOutput, ListSipMediaApplicationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipMediaApplicationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipMediaApplicationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSipMediaApplicationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSipMediaApplicationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSipRules` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the SIP rules under the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListSipRules](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListSipRules.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListSipRules in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6684,22 +6952,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSipRulesInput, ListSipRulesOutput, ListSipRulesOutputError>(id: "listSipRules")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipRulesInput, ListSipRulesOutput, ListSipRulesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSipRulesInput, ListSipRulesOutput>(id: "listSipRules")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipRulesInput, ListSipRulesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSipRulesInput, ListSipRulesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSipRulesOutput, ListSipRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSipRulesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSipRulesInput, ListSipRulesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSipRulesOutput, ListSipRulesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSipRulesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipRulesOutput, ListSipRulesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipRulesOutput, ListSipRulesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSipRulesOutput, ListSipRulesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipRulesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipRulesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSipRulesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSipRulesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSupportedPhoneNumberCountries` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists supported phone number countries.
     ///
     /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
@@ -6732,22 +7002,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>(id: "listSupportedPhoneNumberCountries")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>(id: "listSupportedPhoneNumberCountries")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSupportedPhoneNumberCountriesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSupportedPhoneNumberCountriesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSupportedPhoneNumberCountriesOutput, ListSupportedPhoneNumberCountriesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSupportedPhoneNumberCountriesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSupportedPhoneNumberCountriesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSupportedPhoneNumberCountriesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSupportedPhoneNumberCountriesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the tags applied to an Amazon Chime SDK meeting and messaging resources. This API is is no longer supported and will not be updated. We recommend using the applicable latest version in the Amazon Chime SDK.
     ///
     /// * For meetings: [ListTagsForResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_ListTagsForResource.html).
@@ -6787,22 +7059,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUsers` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
@@ -6835,22 +7109,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput, ListUsersOutputError>(id: "listUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput, ListUsersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput>(id: "listUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutput, ListUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput, ListUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput, ListUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput, ListUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput, ListUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUsersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVoiceConnectorGroups` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the Amazon Chime Voice Connector groups for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorGroups](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorGroups.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorGroups in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6883,22 +7159,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>(id: "listVoiceConnectorGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>(id: "listVoiceConnectorGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorGroupsOutput, ListVoiceConnectorGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVoiceConnectorGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6932,21 +7210,23 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>(id: "listVoiceConnectorTerminationCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput>(id: "listVoiceConnectorTerminationCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorTerminationCredentialsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorTerminationCredentialsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorTerminationCredentialsOutput, ListVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorTerminationCredentialsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorTerminationCredentialsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVoiceConnectorTerminationCredentialsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVoiceConnectors` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Lists the Amazon Chime Voice Connectors for the administrator's AWS account. This API is is no longer supported and will not be updated. We recommend using the latest version, [ListVoiceConnectors](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListVoiceConnectors.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ListVoiceConnectors in the Amazon Chime SDK Voice Namespace")
     ///
@@ -6979,22 +7259,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVoiceConnectorsInput, ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>(id: "listVoiceConnectors")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>(id: "listVoiceConnectors")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVoiceConnectorsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVoiceConnectorsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorsOutput, ListVoiceConnectorsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVoiceConnectorsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `LogoutUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Logs out the specified user from all of the devices they are currently logged into.
     ///
     /// - Parameter LogoutUserInput : [no documentation found]
@@ -7027,22 +7309,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<LogoutUserInput, LogoutUserOutput, LogoutUserOutputError>(id: "logoutUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LogoutUserInput, LogoutUserOutput, LogoutUserOutputError>())
+        var operation = ClientRuntime.OperationStack<LogoutUserInput, LogoutUserOutput>(id: "logoutUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LogoutUserInput, LogoutUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LogoutUserInput, LogoutUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LogoutUserOutput, LogoutUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LogoutUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<LogoutUserInput, LogoutUserOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LogoutUserOutput, LogoutUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, LogoutUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LogoutUserOutput, LogoutUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LogoutUserOutput, LogoutUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LogoutUserOutput, LogoutUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LogoutUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LogoutUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(LogoutUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LogoutUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutAppInstanceRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Sets the amount of time in days that a given AppInstance retains data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutAppInstanceRetentionSettings](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_PutAppInstanceRetentionSettings.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceRetentionSettings in the Amazon Chime SDK Identity Namespace")
     ///
@@ -7077,24 +7361,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>(id: "putAppInstanceRetentionSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>(id: "putAppInstanceRetentionSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAppInstanceRetentionSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput>(xmlName: "PutAppInstanceRetentionSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAppInstanceRetentionSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceRetentionSettingsOutput, PutAppInstanceRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceRetentionSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceRetentionSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutAppInstanceRetentionSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutAppInstanceStreamingConfigurations` operation on the `UCBuzzConsoleService` service.
+    ///
     /// The data streaming configurations of an AppInstance. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutMessagingStreamingConfigurations](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_PutMessagingStreamingConfigurations.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutAppInstanceStreamingConfigurations in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -7128,24 +7414,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>(id: "putAppInstanceStreamingConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput>(id: "putAppInstanceStreamingConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutAppInstanceStreamingConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput>(xmlName: "PutAppInstanceStreamingConfigurationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutAppInstanceStreamingConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceStreamingConfigurationsOutput, PutAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceStreamingConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceStreamingConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutAppInstanceStreamingConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceStreamingConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutEventsConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [Bot].
     ///
     /// - Parameter PutEventsConfigurationInput : [no documentation found]
@@ -7178,24 +7466,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutEventsConfigurationInput, PutEventsConfigurationOutput, PutEventsConfigurationOutputError>(id: "putEventsConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput, PutEventsConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutEventsConfigurationInput, PutEventsConfigurationOutput>(id: "putEventsConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEventsConfigurationOutput, PutEventsConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEventsConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>(xmlName: "PutEventsConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEventsConfigurationOutput, PutEventsConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEventsConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEventsConfigurationOutput, PutEventsConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEventsConfigurationOutput, PutEventsConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEventsConfigurationOutput, PutEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEventsConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEventsConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutEventsConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutRetentionSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter PutRetentionSettingsInput : [no documentation found]
@@ -7229,24 +7519,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRetentionSettingsInput, PutRetentionSettingsOutput, PutRetentionSettingsOutputError>(id: "putRetentionSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput, PutRetentionSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<PutRetentionSettingsInput, PutRetentionSettingsOutput>(id: "putRetentionSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRetentionSettingsOutput, PutRetentionSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRetentionSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>(xmlName: "PutRetentionSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRetentionSettingsOutput, PutRetentionSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRetentionSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRetentionSettingsOutput, PutRetentionSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRetentionSettingsOutput, PutRetentionSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRetentionSettingsOutput, PutRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRetentionSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRetentionSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRetentionSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutSipMediaApplicationLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the logging configuration for the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutSipMediaApplicationLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutSipMediaApplicationLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutSipMediaApplicationLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7280,24 +7572,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>(id: "putSipMediaApplicationLoggingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>(id: "putSipMediaApplicationLoggingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSipMediaApplicationLoggingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput>(xmlName: "PutSipMediaApplicationLoggingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutSipMediaApplicationLoggingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSipMediaApplicationLoggingConfigurationOutput, PutSipMediaApplicationLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSipMediaApplicationLoggingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSipMediaApplicationLoggingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutSipMediaApplicationLoggingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSipMediaApplicationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorEmergencyCallingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorEmergencyCallingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorEmergencyCallingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorEmergencyCallingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7331,24 +7625,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "putVoiceConnectorEmergencyCallingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>(id: "putVoiceConnectorEmergencyCallingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput>(xmlName: "PutVoiceConnectorEmergencyCallingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorEmergencyCallingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorEmergencyCallingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorLoggingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorLoggingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorLoggingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorLoggingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7382,24 +7678,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>(id: "putVoiceConnectorLoggingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>(id: "putVoiceConnectorLoggingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorLoggingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput>(xmlName: "PutVoiceConnectorLoggingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorLoggingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorLoggingConfigurationOutput, PutVoiceConnectorLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorLoggingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorLoggingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorLoggingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorOrigination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds origination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorOrigination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorOrigination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorOrigination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7433,24 +7731,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>(id: "putVoiceConnectorOrigination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>(id: "putVoiceConnectorOrigination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorOriginationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput>(xmlName: "PutVoiceConnectorOriginationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorOriginationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorOriginationOutput, PutVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorOriginationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorOriginationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorOriginationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorOriginationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorProxy` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Puts the specified proxy configuration to the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorProxy](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorProxy in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7485,24 +7785,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>(id: "putVoiceConnectorProxy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>(id: "putVoiceConnectorProxy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorProxyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput>(xmlName: "PutVoiceConnectorProxyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorProxyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorProxyOutput, PutVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorProxyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorProxyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorProxyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorProxyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorStreamingConfiguration` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorStreamingConfiguration](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorStreamingConfiguration.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorStreamingConfiguration in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7536,24 +7838,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>(id: "putVoiceConnectorStreamingConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>(id: "putVoiceConnectorStreamingConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorStreamingConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput>(xmlName: "PutVoiceConnectorStreamingConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorStreamingConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorStreamingConfigurationOutput, PutVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorStreamingConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorStreamingConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorStreamingConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorStreamingConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorTermination` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds termination settings for the specified Amazon Chime Voice Connector. If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTermination](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTermination.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTermination in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7588,24 +7892,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>(id: "putVoiceConnectorTermination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>(id: "putVoiceConnectorTermination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorTerminationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput>(xmlName: "PutVoiceConnectorTerminationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorTerminationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationOutput, PutVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorTerminationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutVoiceConnectorTerminationCredentials` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Adds termination SIP credentials for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [PutVoiceConnectorTerminationCredentials](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorTerminationCredentials.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by PutVoiceConnectorTerminationCredentials in the Amazon Chime SDK Voice Namespace")
     ///
@@ -7639,25 +7945,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>(id: "putVoiceConnectorTerminationCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>())
+        var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>(id: "putVoiceConnectorTerminationCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutVoiceConnectorTerminationCredentialsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput>(xmlName: "PutVoiceConnectorTerminationCredentialsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutVoiceConnectorTerminationCredentialsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationCredentialsOutput, PutVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationCredentialsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationCredentialsOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutVoiceConnectorTerminationCredentialsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationCredentialsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RedactChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [RedactChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_RedactChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by RedactChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -7690,23 +7998,25 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RedactChannelMessageInput, RedactChannelMessageOutput, RedactChannelMessageOutputError>(id: "redactChannelMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactChannelMessageInput, RedactChannelMessageOutput, RedactChannelMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<RedactChannelMessageInput, RedactChannelMessageOutput>(id: "redactChannelMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactChannelMessageInput, RedactChannelMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactChannelMessageInput, RedactChannelMessageOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactChannelMessageOutput, RedactChannelMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactChannelMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<RedactChannelMessageInput, RedactChannelMessageOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RedactChannelMessageInput, RedactChannelMessageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactChannelMessageOutput, RedactChannelMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactChannelMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactChannelMessageOutput, RedactChannelMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactChannelMessageOutput, RedactChannelMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactChannelMessageOutput, RedactChannelMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactChannelMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactChannelMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(RedactChannelMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactChannelMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RedactConversationMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Redacts the specified message from the specified Amazon Chime conversation.
     ///
     /// - Parameter RedactConversationMessageInput : [no documentation found]
@@ -7739,22 +8049,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RedactConversationMessageInput, RedactConversationMessageOutput, RedactConversationMessageOutputError>(id: "redactConversationMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput, RedactConversationMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<RedactConversationMessageInput, RedactConversationMessageOutput>(id: "redactConversationMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactConversationMessageOutput, RedactConversationMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactConversationMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactConversationMessageOutput, RedactConversationMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactConversationMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactConversationMessageOutput, RedactConversationMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactConversationMessageOutput, RedactConversationMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactConversationMessageOutput, RedactConversationMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactConversationMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactConversationMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(RedactConversationMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactConversationMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RedactRoomMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Redacts the specified message from the specified Amazon Chime channel.
     ///
     /// - Parameter RedactRoomMessageInput : [no documentation found]
@@ -7787,22 +8099,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RedactRoomMessageInput, RedactRoomMessageOutput, RedactRoomMessageOutputError>(id: "redactRoomMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput, RedactRoomMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<RedactRoomMessageInput, RedactRoomMessageOutput>(id: "redactRoomMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactRoomMessageOutput, RedactRoomMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RedactRoomMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactRoomMessageOutput, RedactRoomMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RedactRoomMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactRoomMessageOutput, RedactRoomMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactRoomMessageOutput, RedactRoomMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactRoomMessageOutput, RedactRoomMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactRoomMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactRoomMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(RedactRoomMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RedactRoomMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RegenerateSecurityToken` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Regenerates the security token for a bot.
     ///
     /// - Parameter RegenerateSecurityTokenInput : [no documentation found]
@@ -7835,22 +8149,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>(id: "regenerateSecurityToken")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>())
+        var operation = ClientRuntime.OperationStack<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>(id: "regenerateSecurityToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegenerateSecurityTokenOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RegenerateSecurityTokenOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegenerateSecurityTokenOutput, RegenerateSecurityTokenOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegenerateSecurityTokenOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegenerateSecurityTokenOutput>(responseClosure(decoder: decoder), responseErrorClosure(RegenerateSecurityTokenOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegenerateSecurityTokenOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetPersonalPIN` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the [User] object with the updated personal meeting PIN.
     ///
     /// - Parameter ResetPersonalPINInput : [no documentation found]
@@ -7883,22 +8199,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetPersonalPINInput, ResetPersonalPINOutput, ResetPersonalPINOutputError>(id: "resetPersonalPIN")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput, ResetPersonalPINOutputError>())
+        var operation = ClientRuntime.OperationStack<ResetPersonalPINInput, ResetPersonalPINOutput>(id: "resetPersonalPIN")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetPersonalPINOutput, ResetPersonalPINOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetPersonalPINOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetPersonalPINOutput, ResetPersonalPINOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetPersonalPINOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetPersonalPINOutput, ResetPersonalPINOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetPersonalPINOutput, ResetPersonalPINOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetPersonalPINOutput, ResetPersonalPINOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetPersonalPINOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetPersonalPINOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetPersonalPINOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetPersonalPINOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RestorePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Moves a phone number from the Deletion queue back into the phone number Inventory.
     ///
     /// - Parameter RestorePhoneNumberInput : [no documentation found]
@@ -7932,22 +8250,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RestorePhoneNumberInput, RestorePhoneNumberOutput, RestorePhoneNumberOutputError>(id: "restorePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput, RestorePhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<RestorePhoneNumberInput, RestorePhoneNumberOutput>(id: "restorePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestorePhoneNumberOutput, RestorePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestorePhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestorePhoneNumberOutput, RestorePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RestorePhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestorePhoneNumberOutput, RestorePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestorePhoneNumberOutput, RestorePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestorePhoneNumberOutput, RestorePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestorePhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestorePhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestorePhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestorePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SearchAvailablePhoneNumbers` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     ///
     /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
@@ -7980,22 +8300,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>(id: "searchAvailablePhoneNumbers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>())
+        var operation = ClientRuntime.OperationStack<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(id: "searchAvailablePhoneNumbers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SearchAvailablePhoneNumbersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SearchAvailablePhoneNumbersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersOutput, SearchAvailablePhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAvailablePhoneNumbersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutput>(responseClosure(decoder: decoder), responseErrorClosure(SearchAvailablePhoneNumbersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SendChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [SendChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_SendChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by SendChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -8029,26 +8351,28 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendChannelMessageInput, SendChannelMessageOutput, SendChannelMessageOutputError>(id: "sendChannelMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SendChannelMessageInput, SendChannelMessageOutput, SendChannelMessageOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendChannelMessageInput, SendChannelMessageOutput, SendChannelMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<SendChannelMessageInput, SendChannelMessageOutput>(id: "sendChannelMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SendChannelMessageInput, SendChannelMessageOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendChannelMessageInput, SendChannelMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendChannelMessageInput, SendChannelMessageOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendChannelMessageOutput, SendChannelMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendChannelMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<SendChannelMessageInput, SendChannelMessageOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendChannelMessageInput, SendChannelMessageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendChannelMessageInput, SendChannelMessageOutput>(xmlName: "SendChannelMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendChannelMessageInput, SendChannelMessageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendChannelMessageOutput, SendChannelMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendChannelMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendChannelMessageOutput, SendChannelMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendChannelMessageOutput, SendChannelMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendChannelMessageOutput, SendChannelMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendChannelMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendChannelMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendChannelMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendChannelMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. Amazon Chime SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject to the [AWS Service Terms](https://aws.amazon.com/service-terms/), including the terms specific to the AWS Machine Learning and Artificial Intelligence Services. This API is is no longer supported and will not be updated. We recommend using the latest version, [StartMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StartMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StartMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -8084,25 +8408,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>(id: "startMeetingTranscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>())
+        var operation = ClientRuntime.OperationStack<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>(id: "startMeetingTranscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMeetingTranscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>(xmlName: "StartMeetingTranscriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMeetingTranscriptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMeetingTranscriptionOutput, StartMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMeetingTranscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMeetingTranscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMeetingTranscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMeetingTranscriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StopMeetingTranscription` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Stops transcription for the specified meetingId. This API is is no longer supported and will not be updated. We recommend using the latest version, [StopMeetingTranscription](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_StopMeetingTranscription.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by StopMeetingTranscription in the Amazon Chime SDK Meetings Namespace")
     ///
@@ -8137,22 +8463,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>(id: "stopMeetingTranscription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>())
+        var operation = ClientRuntime.OperationStack<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>(id: "stopMeetingTranscription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopMeetingTranscriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopMeetingTranscriptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMeetingTranscriptionOutput, StopMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMeetingTranscriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMeetingTranscriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopMeetingTranscriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopMeetingTranscriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Applies the specified tags to the specified Amazon Chime attendee. TagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -8187,25 +8515,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagAttendeeInput, TagAttendeeOutput, TagAttendeeOutputError>(id: "tagAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagAttendeeInput, TagAttendeeOutput, TagAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<TagAttendeeInput, TagAttendeeOutput>(id: "tagAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagAttendeeInput, TagAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagAttendeeInput, TagAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagAttendeeOutput, TagAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagAttendeeInput, TagAttendeeOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagAttendeeInput, TagAttendeeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagAttendeeInput, TagAttendeeOutput>(xmlName: "TagAttendeeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagAttendeeInput, TagAttendeeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagAttendeeOutput, TagAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagAttendeeOutput, TagAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagAttendeeOutput, TagAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagAttendeeOutput, TagAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Applies the specified tags to the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use TagResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -8240,25 +8570,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagMeetingInput, TagMeetingOutput, TagMeetingOutputError>(id: "tagMeeting")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMeetingInput, TagMeetingOutput, TagMeetingOutputError>())
+        var operation = ClientRuntime.OperationStack<TagMeetingInput, TagMeetingOutput>(id: "tagMeeting")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMeetingInput, TagMeetingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagMeetingInput, TagMeetingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagMeetingOutput, TagMeetingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagMeetingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagMeetingInput, TagMeetingOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagMeetingInput, TagMeetingOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagMeetingInput, TagMeetingOutput>(xmlName: "TagMeetingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagMeetingInput, TagMeetingOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagMeetingOutput, TagMeetingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagMeetingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMeetingOutput, TagMeetingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMeetingOutput, TagMeetingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagMeetingOutput, TagMeetingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMeetingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMeetingOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagMeetingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagMeetingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [TagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_TagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by TagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     ///
@@ -8291,25 +8623,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagResourceInput, TagResourceOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagAttendee` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Untags the specified tags from the specified Amazon Chime SDK attendee. UntagAttendee is not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
     @available(*, deprecated, message: "Attendee Tags are not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.")
     ///
@@ -8343,25 +8677,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagAttendeeInput, UntagAttendeeOutput, UntagAttendeeOutputError>(id: "untagAttendee")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagAttendeeInput, UntagAttendeeOutput, UntagAttendeeOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagAttendeeInput, UntagAttendeeOutput>(id: "untagAttendee")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagAttendeeInput, UntagAttendeeOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagAttendeeInput, UntagAttendeeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagAttendeeOutput, UntagAttendeeOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagAttendeeOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagAttendeeInput, UntagAttendeeOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagAttendeeInput, UntagAttendeeOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagAttendeeInput, UntagAttendeeOutput>(xmlName: "UntagAttendeeRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagAttendeeInput, UntagAttendeeOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagAttendeeOutput, UntagAttendeeOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagAttendeeOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagAttendeeOutput, UntagAttendeeOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagAttendeeOutput, UntagAttendeeOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagAttendeeOutput, UntagAttendeeOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagAttendeeOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagAttendeeOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagAttendeeOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagAttendeeOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagMeeting` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Untags the specified tags from the specified Amazon Chime SDK meeting. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Use UntagResource in the Amazon Chime SDK Meetings Namespace.")
     ///
@@ -8395,25 +8731,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagMeetingInput, UntagMeetingOutput, UntagMeetingOutputError>(id: "untagMeeting")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMeetingInput, UntagMeetingOutput, UntagMeetingOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagMeetingInput, UntagMeetingOutput>(id: "untagMeeting")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMeetingInput, UntagMeetingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagMeetingInput, UntagMeetingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagMeetingOutput, UntagMeetingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagMeetingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagMeetingInput, UntagMeetingOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagMeetingInput, UntagMeetingOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagMeetingInput, UntagMeetingOutput>(xmlName: "UntagMeetingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagMeetingInput, UntagMeetingOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagMeetingOutput, UntagMeetingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagMeetingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMeetingOutput, UntagMeetingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMeetingOutput, UntagMeetingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagMeetingOutput, UntagMeetingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMeetingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMeetingOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagMeetingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagMeetingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the specified tags to the specified Amazon Chime SDK meeting resource. This API is is no longer supported and will not be updated. We recommend using the latest version, [UntagResource](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_UntagResource.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UntagResource in the Amazon Chime SDK Voice, Amazon Chime SDK Meetings, Amazon Chime SDK Identity, Amazon Chime SDK Messaging, and Amazon Chime SDK Media Pipelines Namespaces")
     ///
@@ -8446,25 +8784,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAccount` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     ///
     /// - Parameter UpdateAccountInput : [no documentation found]
@@ -8497,24 +8837,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccountInput, UpdateAccountOutput, UpdateAccountOutputError>(id: "updateAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountInput, UpdateAccountOutput, UpdateAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAccountInput, UpdateAccountOutput>(id: "updateAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountInput, UpdateAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountInput, UpdateAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountOutput, UpdateAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountInput, UpdateAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccountInput, UpdateAccountOutput>(xmlName: "UpdateAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccountInput, UpdateAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountOutput, UpdateAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountOutput, UpdateAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountOutput, UpdateAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountOutput, UpdateAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAccountSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
@@ -8548,24 +8890,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>(id: "updateAccountSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(id: "updateAccountSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(xmlName: "UpdateAccountSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutput, UpdateAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccountSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAppInstance` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates AppInstance metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstance](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstance.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstance in the Amazon Chime SDK Identity Namespace")
     ///
@@ -8599,24 +8943,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppInstanceInput, UpdateAppInstanceOutput, UpdateAppInstanceOutputError>(id: "updateAppInstance")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput, UpdateAppInstanceOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppInstanceInput, UpdateAppInstanceOutput>(id: "updateAppInstance")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppInstanceOutput, UpdateAppInstanceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppInstanceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput>(xmlName: "UpdateAppInstanceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppInstanceOutput, UpdateAppInstanceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppInstanceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceOutput, UpdateAppInstanceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceOutput, UpdateAppInstanceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceOutput, UpdateAppInstanceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppInstanceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAppInstanceUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the details of an AppInstanceUser. You can update names and metadata. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_identity-chime_UpdateAppInstanceUser.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateAppInstanceUser in the Amazon Chime SDK Identity Namespace")
     ///
@@ -8650,24 +8996,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>(id: "updateAppInstanceUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>(id: "updateAppInstanceUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>(hostPrefix: "identity-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAppInstanceUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput>(xmlName: "UpdateAppInstanceUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAppInstanceUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceUserOutput, UpdateAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAppInstanceUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateBot` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
     ///
     /// - Parameter UpdateBotInput : [no documentation found]
@@ -8700,24 +9048,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateBotInput, UpdateBotOutput, UpdateBotOutputError>(id: "updateBot")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBotInput, UpdateBotOutput, UpdateBotOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateBotInput, UpdateBotOutput>(id: "updateBot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBotInput, UpdateBotOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBotInput, UpdateBotOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBotOutput, UpdateBotOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateBotOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateBotInput, UpdateBotOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateBotInput, UpdateBotOutput>(xmlName: "UpdateBotRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateBotInput, UpdateBotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBotOutput, UpdateBotOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateBotOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBotOutput, UpdateBotOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBotOutput, UpdateBotOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBotOutput, UpdateBotOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBotOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBotOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateBotOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateBotOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannel` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannel](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannel.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannel in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -8751,25 +9101,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>(id: "updateChannel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput, UpdateChannelOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutput>(id: "updateChannel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutput>(xmlName: "UpdateChannelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateChannelInput, UpdateChannelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput, UpdateChannelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput, UpdateChannelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput, UpdateChannelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannelMessage` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelMessage](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelMessage.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelMessage in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -8803,25 +9155,27 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelMessageInput, UpdateChannelMessageOutput, UpdateChannelMessageOutputError>(id: "updateChannelMessage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput, UpdateChannelMessageOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelMessageInput, UpdateChannelMessageOutput>(id: "updateChannelMessage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelMessageOutput, UpdateChannelMessageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelMessageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput>(xmlName: "UpdateChannelMessageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelMessageOutput, UpdateChannelMessageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelMessageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelMessageOutput, UpdateChannelMessageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelMessageOutput, UpdateChannelMessageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelMessageOutput, UpdateChannelMessageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelMessageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelMessageOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelMessageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelMessageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateChannelReadMarker` operation on the `UCBuzzConsoleService` service.
+    ///
     /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateChannelReadMarker](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_UpdateChannelReadMarker.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateChannelReadMarker in the Amazon Chime SDK Messaging Namespace")
     ///
@@ -8855,22 +9209,24 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>(id: "updateChannelReadMarker")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput>(id: "updateChannelReadMarker")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput>(hostPrefix: "messaging-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelReadMarkerOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateChannelReadMarkerOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelReadMarkerOutput, UpdateChannelReadMarkerOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelReadMarkerOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelReadMarkerOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelReadMarkerOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelReadMarkerOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateGlobalSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
@@ -8902,24 +9258,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>(id: "updateGlobalSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(id: "updateGlobalSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGlobalSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(xmlName: "UpdateGlobalSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGlobalSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsOutput, UpdateGlobalSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGlobalSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGlobalSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePhoneNumber` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
     /// - Parameter UpdatePhoneNumberInput : [no documentation found]
@@ -8953,24 +9311,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(id: "updatePhoneNumber")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(id: "updatePhoneNumber")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(xmlName: "UpdatePhoneNumberRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberOutput, UpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePhoneNumberOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePhoneNumberSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
     /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
@@ -9002,24 +9362,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>(id: "updatePhoneNumberSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>(id: "updatePhoneNumberSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePhoneNumberSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>(xmlName: "UpdatePhoneNumberSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePhoneNumberSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberSettingsOutput, UpdatePhoneNumberSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePhoneNumberSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateProxySession` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateProxySession](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateProxySession in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9053,24 +9415,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateProxySessionInput, UpdateProxySessionOutput, UpdateProxySessionOutputError>(id: "updateProxySession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput, UpdateProxySessionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateProxySessionInput, UpdateProxySessionOutput>(id: "updateProxySession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProxySessionOutput, UpdateProxySessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateProxySessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput>(xmlName: "UpdateProxySessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateProxySessionInput, UpdateProxySessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProxySessionOutput, UpdateProxySessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateProxySessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProxySessionOutput, UpdateProxySessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProxySessionOutput, UpdateProxySessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProxySessionOutput, UpdateProxySessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProxySessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProxySessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateProxySessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateProxySessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRoom` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
     /// - Parameter UpdateRoomInput : [no documentation found]
@@ -9103,24 +9467,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutput, UpdateRoomOutputError>(id: "updateRoom")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutput, UpdateRoomOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutput>(id: "updateRoom")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomInput, UpdateRoomOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomOutput, UpdateRoomOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoomInput, UpdateRoomOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoomInput, UpdateRoomOutput>(xmlName: "UpdateRoomRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRoomInput, UpdateRoomOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomOutput, UpdateRoomOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutput, UpdateRoomOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutput, UpdateRoomOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutput, UpdateRoomOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoomOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRoomMembership` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
     ///
     /// - Parameter UpdateRoomMembershipInput : [no documentation found]
@@ -9153,24 +9519,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRoomMembershipInput, UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>(id: "updateRoomMembership")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>(id: "updateRoomMembership")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoomMembershipOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>(xmlName: "UpdateRoomMembershipRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoomMembershipOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomMembershipOutput, UpdateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomMembershipOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomMembershipOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoomMembershipOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSipMediaApplication` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the details of the specified SIP media application. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplication](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplication.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplication in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9205,24 +9573,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>(id: "updateSipMediaApplication")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>(id: "updateSipMediaApplication")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipMediaApplicationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput>(xmlName: "UpdateSipMediaApplicationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipMediaApplicationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationOutput, UpdateSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSipMediaApplicationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSipMediaApplicationCall` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipMediaApplicationCall](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipMediaApplicationCall.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipMediaApplicationCall in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9257,24 +9627,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>(id: "updateSipMediaApplicationCall")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>(id: "updateSipMediaApplicationCall")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipMediaApplicationCallOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput>(xmlName: "UpdateSipMediaApplicationCallRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipMediaApplicationCallOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationCallOutput, UpdateSipMediaApplicationCallOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationCallOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationCallOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSipMediaApplicationCallOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationCallOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSipRule` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the details of the specified SIP rule. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateSipRule](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateSipRule.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateSipRule in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9310,24 +9682,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSipRuleInput, UpdateSipRuleOutput, UpdateSipRuleOutputError>(id: "updateSipRule")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput, UpdateSipRuleOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSipRuleInput, UpdateSipRuleOutput>(id: "updateSipRule")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipRuleOutput, UpdateSipRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSipRuleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput>(xmlName: "UpdateSipRuleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSipRuleInput, UpdateSipRuleOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipRuleOutput, UpdateSipRuleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSipRuleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipRuleOutput, UpdateSipRuleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipRuleOutput, UpdateSipRuleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipRuleOutput, UpdateSipRuleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipRuleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipRuleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSipRuleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSipRuleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateUser` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
@@ -9360,24 +9734,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutput, UpdateUserOutputError>(id: "updateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput, UpdateUserOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutput>(id: "updateUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutput, UpdateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserInput, UpdateUserOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserInput, UpdateUserOutput>(xmlName: "UpdateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserInput, UpdateUserOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput, UpdateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput, UpdateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput, UpdateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateUserSettings` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates the settings for the specified user, such as phone number settings.
     ///
     /// - Parameter UpdateUserSettingsInput : [no documentation found]
@@ -9410,24 +9786,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(id: "updateUserSettings")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutput>(id: "updateUserSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserSettingsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(xmlName: "UpdateUserSettingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserSettingsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutput, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateVoiceConnector` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates details for the specified Amazon Chime Voice Connector. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnector](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnector.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnector in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9461,24 +9839,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>(id: "updateVoiceConnector")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>(id: "updateVoiceConnector")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVoiceConnectorOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput>(xmlName: "UpdateVoiceConnectorRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVoiceConnectorOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorOutput, UpdateVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateVoiceConnectorOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateVoiceConnectorGroup` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking. This API is is no longer supported and will not be updated. We recommend using the latest version, [UpdateVoiceConnectorGroup](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateVoiceConnectorGroup.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by UpdateVoiceConnectorGroup in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9513,24 +9893,26 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>(id: "updateVoiceConnectorGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>(id: "updateVoiceConnectorGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateVoiceConnectorGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput>(xmlName: "UpdateVoiceConnectorGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateVoiceConnectorGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorGroupOutput, UpdateVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateVoiceConnectorGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ValidateE911Address` operation on the `UCBuzzConsoleService` service.
+    ///
     /// Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point. This API is is no longer supported and will not be updated. We recommend using the latest version, [ValidateE911Address](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ValidateE911Address.html), in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more information, refer to [Migrating from the Amazon Chime namespace](https://docs.aws.amazon.com/chime-sdk/latest/dg/migrate-from-chm-namespace.html) in the Amazon Chime SDK Developer Guide.
     @available(*, deprecated, message: "Replaced by ValidateE911Address in the Amazon Chime SDK Voice Namespace")
     ///
@@ -9564,20 +9946,20 @@ extension ChimeClient: ChimeClientProtocol {
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ValidateE911AddressInput, ValidateE911AddressOutput, ValidateE911AddressOutputError>(id: "validateE911Address")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput, ValidateE911AddressOutputError>())
+        var operation = ClientRuntime.OperationStack<ValidateE911AddressInput, ValidateE911AddressOutput>(id: "validateE911Address")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateE911AddressOutput, ValidateE911AddressOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateE911AddressOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput>(xmlName: "ValidateE911AddressRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ValidateE911AddressInput, ValidateE911AddressOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateE911AddressOutput, ValidateE911AddressOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ValidateE911AddressOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateE911AddressOutput, ValidateE911AddressOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateE911AddressOutput, ValidateE911AddressOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateE911AddressOutput, ValidateE911AddressOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateE911AddressOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateE911AddressOutput>(responseClosure(decoder: decoder), responseErrorClosure(ValidateE911AddressOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateE911AddressOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -67,6 +67,8 @@ public struct DataSyncClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 }
 
 extension DataSyncClient: DataSyncClientProtocol {
+    /// Performs the `AddStorageSystem` operation on the `FmrsService` service.
+    ///
     /// Creates an Amazon Web Services resource for an on-premises storage system that you want DataSync Discovery to collect information about.
     ///
     /// - Parameter AddStorageSystemInput : [no documentation found]
@@ -94,26 +96,28 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>(id: "addStorageSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddStorageSystemInput, AddStorageSystemOutput, AddStorageSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<AddStorageSystemInput, AddStorageSystemOutput>(id: "addStorageSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddStorageSystemInput, AddStorageSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddStorageSystemOutput, AddStorageSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddStorageSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(xAmzTarget: "FmrsService.AddStorageSystem"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(xmlName: "AddStorageSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddStorageSystemInput, AddStorageSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddStorageSystemInput, AddStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddStorageSystemOutput, AddStorageSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddStorageSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddStorageSystemOutput, AddStorageSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddStorageSystemOutput, AddStorageSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddStorageSystemOutput, AddStorageSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddStorageSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddStorageSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddStorageSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddStorageSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CancelTaskExecution` operation on the `FmrsService` service.
+    ///
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     ///
     /// - Parameter CancelTaskExecutionInput : CancelTaskExecutionRequest
@@ -141,25 +145,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelTaskExecutionInput, CancelTaskExecutionOutput, CancelTaskExecutionOutputError>(id: "cancelTaskExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput, CancelTaskExecutionOutputError>())
+        var operation = ClientRuntime.OperationStack<CancelTaskExecutionInput, CancelTaskExecutionOutput>(id: "cancelTaskExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelTaskExecutionOutput, CancelTaskExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelTaskExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(xAmzTarget: "FmrsService.CancelTaskExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(xmlName: "CancelTaskExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelTaskExecutionInput, CancelTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelTaskExecutionOutput, CancelTaskExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelTaskExecutionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelTaskExecutionOutput, CancelTaskExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelTaskExecutionOutput, CancelTaskExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelTaskExecutionOutput, CancelTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelTaskExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelTaskExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelTaskExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAgent` operation on the `FmrsService` service.
+    ///
     /// Activates an DataSync agent that you've deployed in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see the following topics to learn more:
     ///
     /// * [Agent requirements](https://docs.aws.amazon.com/datasync/latest/userguide/agent-requirements.html)
@@ -194,25 +200,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAgentInput, CreateAgentOutput, CreateAgentOutputError>(id: "createAgent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAgentInput, CreateAgentOutput, CreateAgentOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAgentInput, CreateAgentOutput>(id: "createAgent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAgentInput, CreateAgentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAgentInput, CreateAgentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAgentOutput, CreateAgentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAgentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateAgentInput, CreateAgentOutput>(xAmzTarget: "FmrsService.CreateAgent"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAgentInput, CreateAgentOutput>(xmlName: "CreateAgentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAgentInput, CreateAgentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAgentInput, CreateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAgentOutput, CreateAgentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAgentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAgentOutput, CreateAgentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAgentOutput, CreateAgentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAgentOutput, CreateAgentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAgentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAgentOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAgentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAgentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationAzureBlob` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
     ///
     /// - Parameter CreateLocationAzureBlobInput : [no documentation found]
@@ -240,25 +248,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>(id: "createLocationAzureBlob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(id: "createLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationAzureBlobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(xAmzTarget: "FmrsService.CreateLocationAzureBlob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(xmlName: "CreateLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationAzureBlobInput, CreateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationAzureBlobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationAzureBlobOutput, CreateLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationAzureBlobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationAzureBlobOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationAzureBlobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationEfs` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see [Creating a location for Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
     ///
     /// - Parameter CreateLocationEfsInput : CreateLocationEfsRequest
@@ -286,25 +296,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationEfsInput, CreateLocationEfsOutput, CreateLocationEfsOutputError>(id: "createLocationEfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput, CreateLocationEfsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationEfsInput, CreateLocationEfsOutput>(id: "createLocationEfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationEfsOutput, CreateLocationEfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationEfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(xAmzTarget: "FmrsService.CreateLocationEfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(xmlName: "CreateLocationEfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationEfsInput, CreateLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationEfsOutput, CreateLocationEfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationEfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationEfsOutput, CreateLocationEfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationEfsOutput, CreateLocationEfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationEfsOutput, CreateLocationEfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationEfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationEfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationEfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationEfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationFsxLustre` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an Amazon FSx for Lustre file system.
     ///
     /// - Parameter CreateLocationFsxLustreInput : [no documentation found]
@@ -332,25 +344,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>(id: "createLocationFsxLustre")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(id: "createLocationFsxLustre")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxLustreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(xAmzTarget: "FmrsService.CreateLocationFsxLustre"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(xmlName: "CreateLocationFsxLustreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationFsxLustreInput, CreateLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxLustreOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxLustreOutput, CreateLocationFsxLustreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxLustreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxLustreOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationFsxLustreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxLustreOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationFsxOntap` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for ONTAP file system](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     ///
     /// - Parameter CreateLocationFsxOntapInput : [no documentation found]
@@ -378,25 +392,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>(id: "createLocationFsxOntap")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(id: "createLocationFsxOntap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxOntapOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(xAmzTarget: "FmrsService.CreateLocationFsxOntap"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(xmlName: "CreateLocationFsxOntapRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationFsxOntapInput, CreateLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxOntapOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOntapOutput, CreateLocationFsxOntapOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOntapOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOntapOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationFsxOntapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOntapOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationFsxOpenZfs` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for a transfer. For more information, see [Creating a location for FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     ///
     /// - Parameter CreateLocationFsxOpenZfsInput : [no documentation found]
@@ -424,25 +440,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>(id: "createLocationFsxOpenZfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(id: "createLocationFsxOpenZfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxOpenZfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(xAmzTarget: "FmrsService.CreateLocationFsxOpenZfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(xmlName: "CreateLocationFsxOpenZfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationFsxOpenZfsInput, CreateLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxOpenZfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOpenZfsOutput, CreateLocationFsxOpenZfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxOpenZfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxOpenZfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationFsxOpenZfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxOpenZfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationFsxWindows` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
     ///
     /// - Parameter CreateLocationFsxWindowsInput : [no documentation found]
@@ -470,25 +488,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>(id: "createLocationFsxWindows")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(id: "createLocationFsxWindows")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationFsxWindowsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(xAmzTarget: "FmrsService.CreateLocationFsxWindows"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(xmlName: "CreateLocationFsxWindowsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationFsxWindowsInput, CreateLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationFsxWindowsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxWindowsOutput, CreateLocationFsxWindowsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationFsxWindowsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationFsxWindowsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationFsxWindowsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationFsxWindowsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationHdfs` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
     ///
     /// - Parameter CreateLocationHdfsInput : [no documentation found]
@@ -516,25 +536,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationHdfsInput, CreateLocationHdfsOutput, CreateLocationHdfsOutputError>(id: "createLocationHdfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput, CreateLocationHdfsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationHdfsInput, CreateLocationHdfsOutput>(id: "createLocationHdfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationHdfsOutput, CreateLocationHdfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationHdfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(xAmzTarget: "FmrsService.CreateLocationHdfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(xmlName: "CreateLocationHdfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationHdfsInput, CreateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationHdfsOutput, CreateLocationHdfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationHdfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationHdfsOutput, CreateLocationHdfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationHdfsOutput, CreateLocationHdfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationHdfsOutput, CreateLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationHdfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationHdfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationHdfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationNfs` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for a Network File System (NFS) file server that DataSync can use for a data transfer. For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html). If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
     ///
     /// - Parameter CreateLocationNfsInput : CreateLocationNfsRequest
@@ -562,25 +584,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationNfsInput, CreateLocationNfsOutput, CreateLocationNfsOutputError>(id: "createLocationNfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput, CreateLocationNfsOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationNfsInput, CreateLocationNfsOutput>(id: "createLocationNfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationNfsOutput, CreateLocationNfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationNfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(xAmzTarget: "FmrsService.CreateLocationNfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(xmlName: "CreateLocationNfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationNfsInput, CreateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationNfsOutput, CreateLocationNfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationNfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationNfsOutput, CreateLocationNfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationNfsOutput, CreateLocationNfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationNfsOutput, CreateLocationNfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationNfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationNfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationNfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationNfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationObjectStorage` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     ///
     /// - Parameter CreateLocationObjectStorageInput : CreateLocationObjectStorageRequest
@@ -608,25 +632,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>(id: "createLocationObjectStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(id: "createLocationObjectStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationObjectStorageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(xAmzTarget: "FmrsService.CreateLocationObjectStorage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(xmlName: "CreateLocationObjectStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationObjectStorageInput, CreateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationObjectStorageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationObjectStorageOutput, CreateLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationObjectStorageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationObjectStorageOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationObjectStorageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationS3` operation on the `FmrsService` service.
+    ///
     /// A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a source or destination for copying data. Before you create your location, make sure that you read the following sections:
     ///
     /// * [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)
@@ -661,25 +687,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationS3Input, CreateLocationS3Output, CreateLocationS3OutputError>(id: "createLocationS3")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationS3Input, CreateLocationS3Output, CreateLocationS3OutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationS3Input, CreateLocationS3Output>(id: "createLocationS3")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationS3Input, CreateLocationS3Output>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationS3Input, CreateLocationS3Output>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationS3Output, CreateLocationS3OutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationS3Output>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationS3Input, CreateLocationS3Output>(xAmzTarget: "FmrsService.CreateLocationS3"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationS3Input, CreateLocationS3Output>(xmlName: "CreateLocationS3Request"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationS3Input, CreateLocationS3Output, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationS3Input, CreateLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationS3Output, CreateLocationS3OutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationS3Output>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationS3Output, CreateLocationS3OutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationS3Output, CreateLocationS3OutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationS3Output, CreateLocationS3OutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationS3Output>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationS3Output>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationS3OutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationS3Output>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLocationSmb` operation on the `FmrsService` service.
+    ///
     /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     ///
     /// - Parameter CreateLocationSmbInput : CreateLocationSmbRequest
@@ -707,25 +735,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLocationSmbInput, CreateLocationSmbOutput, CreateLocationSmbOutputError>(id: "createLocationSmb")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput, CreateLocationSmbOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLocationSmbInput, CreateLocationSmbOutput>(id: "createLocationSmb")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationSmbOutput, CreateLocationSmbOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLocationSmbOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(xAmzTarget: "FmrsService.CreateLocationSmb"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(xmlName: "CreateLocationSmbRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLocationSmbInput, CreateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationSmbOutput, CreateLocationSmbOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLocationSmbOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationSmbOutput, CreateLocationSmbOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationSmbOutput, CreateLocationSmbOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationSmbOutput, CreateLocationSmbOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLocationSmbOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLocationSmbOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLocationSmbOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLocationSmbOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateTask` operation on the `FmrsService` service.
+    ///
     /// Configures a transfer task, which defines where and how DataSync moves your data. A task includes a source location, destination location, and the options for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
     /// - Parameter CreateTaskInput : CreateTaskRequest
@@ -753,25 +783,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateTaskInput, CreateTaskOutput, CreateTaskOutputError>(id: "createTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTaskInput, CreateTaskOutput, CreateTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateTaskInput, CreateTaskOutput>(id: "createTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTaskInput, CreateTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTaskInput, CreateTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTaskOutput, CreateTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTaskInput, CreateTaskOutput>(xAmzTarget: "FmrsService.CreateTask"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTaskInput, CreateTaskOutput>(xmlName: "CreateTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateTaskInput, CreateTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTaskInput, CreateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTaskOutput, CreateTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTaskOutput, CreateTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTaskOutput, CreateTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTaskOutput, CreateTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAgent` operation on the `FmrsService` service.
+    ///
     /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to [activate a new agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     ///
     /// - Parameter DeleteAgentInput : DeleteAgentRequest
@@ -799,25 +831,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAgentInput, DeleteAgentOutput, DeleteAgentOutputError>(id: "deleteAgent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAgentInput, DeleteAgentOutput, DeleteAgentOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAgentInput, DeleteAgentOutput>(id: "deleteAgent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAgentInput, DeleteAgentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAgentInput, DeleteAgentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAgentOutput, DeleteAgentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAgentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteAgentInput, DeleteAgentOutput>(xAmzTarget: "FmrsService.DeleteAgent"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAgentInput, DeleteAgentOutput>(xmlName: "DeleteAgentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAgentInput, DeleteAgentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAgentInput, DeleteAgentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAgentOutput, DeleteAgentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAgentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAgentOutput, DeleteAgentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAgentOutput, DeleteAgentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAgentOutput, DeleteAgentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAgentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAgentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAgentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAgentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteLocation` operation on the `FmrsService` service.
+    ///
     /// Deletes the configuration of a location used by DataSync.
     ///
     /// - Parameter DeleteLocationInput : DeleteLocation
@@ -845,25 +879,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLocationInput, DeleteLocationOutput, DeleteLocationOutputError>(id: "deleteLocation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutput, DeleteLocationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteLocationInput, DeleteLocationOutput>(id: "deleteLocation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLocationInput, DeleteLocationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLocationOutput, DeleteLocationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLocationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteLocationInput, DeleteLocationOutput>(xAmzTarget: "FmrsService.DeleteLocation"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLocationInput, DeleteLocationOutput>(xmlName: "DeleteLocationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteLocationInput, DeleteLocationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLocationInput, DeleteLocationOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLocationOutput, DeleteLocationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLocationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLocationOutput, DeleteLocationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLocationOutput, DeleteLocationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLocationOutput, DeleteLocationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLocationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLocationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLocationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLocationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteTask` operation on the `FmrsService` service.
+    ///
     /// Deletes an DataSync transfer task.
     ///
     /// - Parameter DeleteTaskInput : DeleteTask
@@ -891,25 +927,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteTaskInput, DeleteTaskOutput, DeleteTaskOutputError>(id: "deleteTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTaskInput, DeleteTaskOutput, DeleteTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteTaskInput, DeleteTaskOutput>(id: "deleteTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTaskInput, DeleteTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTaskInput, DeleteTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTaskOutput, DeleteTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTaskInput, DeleteTaskOutput>(xAmzTarget: "FmrsService.DeleteTask"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTaskInput, DeleteTaskOutput>(xmlName: "DeleteTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteTaskInput, DeleteTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTaskInput, DeleteTaskOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTaskOutput, DeleteTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTaskOutput, DeleteTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTaskOutput, DeleteTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTaskOutput, DeleteTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeAgent` operation on the `FmrsService` service.
+    ///
     /// Returns information about an DataSync agent, such as its name, service endpoint type, and status.
     ///
     /// - Parameter DescribeAgentInput : DescribeAgent
@@ -937,25 +975,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeAgentInput, DescribeAgentOutput, DescribeAgentOutputError>(id: "describeAgent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAgentInput, DescribeAgentOutput, DescribeAgentOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeAgentInput, DescribeAgentOutput>(id: "describeAgent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAgentInput, DescribeAgentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAgentInput, DescribeAgentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAgentOutput, DescribeAgentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAgentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeAgentInput, DescribeAgentOutput>(xAmzTarget: "FmrsService.DescribeAgent"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeAgentInput, DescribeAgentOutput>(xmlName: "DescribeAgentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeAgentInput, DescribeAgentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeAgentInput, DescribeAgentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAgentOutput, DescribeAgentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeAgentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAgentOutput, DescribeAgentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAgentOutput, DescribeAgentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentOutput, DescribeAgentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAgentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAgentOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeAgentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeDiscoveryJob` operation on the `FmrsService` service.
+    ///
     /// Returns information about a DataSync discovery job.
     ///
     /// - Parameter DescribeDiscoveryJobInput : [no documentation found]
@@ -983,25 +1023,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>(id: "describeDiscoveryJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(id: "describeDiscoveryJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeDiscoveryJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(xAmzTarget: "FmrsService.DescribeDiscoveryJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(xmlName: "DescribeDiscoveryJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeDiscoveryJobInput, DescribeDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeDiscoveryJobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDiscoveryJobOutput, DescribeDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDiscoveryJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDiscoveryJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeDiscoveryJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationAzureBlob` operation on the `FmrsService` service.
+    ///
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
     ///
     /// - Parameter DescribeLocationAzureBlobInput : [no documentation found]
@@ -1029,25 +1071,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>(id: "describeLocationAzureBlob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(id: "describeLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationAzureBlobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(xAmzTarget: "FmrsService.DescribeLocationAzureBlob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(xmlName: "DescribeLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationAzureBlobInput, DescribeLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationAzureBlobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationAzureBlobOutput, DescribeLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationAzureBlobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationAzureBlobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationAzureBlobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationEfs` operation on the `FmrsService` service.
+    ///
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
     ///
     /// - Parameter DescribeLocationEfsInput : DescribeLocationEfsRequest
@@ -1075,25 +1119,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationEfsInput, DescribeLocationEfsOutput, DescribeLocationEfsOutputError>(id: "describeLocationEfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput, DescribeLocationEfsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationEfsInput, DescribeLocationEfsOutput>(id: "describeLocationEfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationEfsOutput, DescribeLocationEfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationEfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(xAmzTarget: "FmrsService.DescribeLocationEfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(xmlName: "DescribeLocationEfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationEfsInput, DescribeLocationEfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationEfsOutput, DescribeLocationEfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationEfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationEfsOutput, DescribeLocationEfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationEfsOutput, DescribeLocationEfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationEfsOutput, DescribeLocationEfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationEfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationEfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationEfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationEfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationFsxLustre` operation on the `FmrsService` service.
+    ///
     /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
     ///
     /// - Parameter DescribeLocationFsxLustreInput : [no documentation found]
@@ -1121,25 +1167,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>(id: "describeLocationFsxLustre")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(id: "describeLocationFsxLustre")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxLustreOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxLustre"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(xmlName: "DescribeLocationFsxLustreRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationFsxLustreInput, DescribeLocationFsxLustreOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxLustreOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxLustreOutput, DescribeLocationFsxLustreOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxLustreOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxLustreOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationFsxLustreOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxLustreOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationFsxOntap` operation on the `FmrsService` service.
+    ///
     /// Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     ///
     /// - Parameter DescribeLocationFsxOntapInput : [no documentation found]
@@ -1167,25 +1215,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>(id: "describeLocationFsxOntap")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(id: "describeLocationFsxOntap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxOntapOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxOntap"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(xmlName: "DescribeLocationFsxOntapRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationFsxOntapInput, DescribeLocationFsxOntapOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxOntapOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOntapOutput, DescribeLocationFsxOntapOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOntapOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOntapOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationFsxOntapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOntapOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationFsxOpenZfs` operation on the `FmrsService` service.
+    ///
     /// Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     ///
     /// - Parameter DescribeLocationFsxOpenZfsInput : [no documentation found]
@@ -1213,25 +1263,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>(id: "describeLocationFsxOpenZfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(id: "describeLocationFsxOpenZfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxOpenZfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxOpenZfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(xmlName: "DescribeLocationFsxOpenZfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationFsxOpenZfsInput, DescribeLocationFsxOpenZfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxOpenZfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOpenZfsOutput, DescribeLocationFsxOpenZfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxOpenZfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxOpenZfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationFsxOpenZfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxOpenZfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationFsxWindows` operation on the `FmrsService` service.
+    ///
     /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
     ///
     /// - Parameter DescribeLocationFsxWindowsInput : [no documentation found]
@@ -1259,25 +1311,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>(id: "describeLocationFsxWindows")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(id: "describeLocationFsxWindows")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationFsxWindowsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(xAmzTarget: "FmrsService.DescribeLocationFsxWindows"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(xmlName: "DescribeLocationFsxWindowsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationFsxWindowsInput, DescribeLocationFsxWindowsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationFsxWindowsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxWindowsOutput, DescribeLocationFsxWindowsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationFsxWindowsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationFsxWindowsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationFsxWindowsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationFsxWindowsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationHdfs` operation on the `FmrsService` service.
+    ///
     /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
     ///
     /// - Parameter DescribeLocationHdfsInput : [no documentation found]
@@ -1305,25 +1359,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>(id: "describeLocationHdfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(id: "describeLocationHdfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationHdfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(xAmzTarget: "FmrsService.DescribeLocationHdfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(xmlName: "DescribeLocationHdfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationHdfsInput, DescribeLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationHdfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationHdfsOutput, DescribeLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationHdfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationHdfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationHdfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationNfs` operation on the `FmrsService` service.
+    ///
     /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured.
     ///
     /// - Parameter DescribeLocationNfsInput : DescribeLocationNfsRequest
@@ -1351,25 +1407,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationNfsInput, DescribeLocationNfsOutput, DescribeLocationNfsOutputError>(id: "describeLocationNfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput, DescribeLocationNfsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationNfsInput, DescribeLocationNfsOutput>(id: "describeLocationNfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationNfsOutput, DescribeLocationNfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationNfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(xAmzTarget: "FmrsService.DescribeLocationNfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(xmlName: "DescribeLocationNfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationNfsInput, DescribeLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationNfsOutput, DescribeLocationNfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationNfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationNfsOutput, DescribeLocationNfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationNfsOutput, DescribeLocationNfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationNfsOutput, DescribeLocationNfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationNfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationNfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationNfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationNfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationObjectStorage` operation on the `FmrsService` service.
+    ///
     /// Returns metadata about your DataSync location for an object storage system.
     ///
     /// - Parameter DescribeLocationObjectStorageInput : DescribeLocationObjectStorageRequest
@@ -1397,25 +1455,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>(id: "describeLocationObjectStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(id: "describeLocationObjectStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationObjectStorageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(xAmzTarget: "FmrsService.DescribeLocationObjectStorage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(xmlName: "DescribeLocationObjectStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationObjectStorageInput, DescribeLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationObjectStorageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationObjectStorageOutput, DescribeLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationObjectStorageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationObjectStorageOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationObjectStorageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationS3` operation on the `FmrsService` service.
+    ///
     /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
     ///
     /// - Parameter DescribeLocationS3Input : DescribeLocationS3Request
@@ -1443,25 +1503,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationS3Input, DescribeLocationS3Output, DescribeLocationS3OutputError>(id: "describeLocationS3")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationS3Input, DescribeLocationS3Output, DescribeLocationS3OutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationS3Input, DescribeLocationS3Output>(id: "describeLocationS3")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationS3Output, DescribeLocationS3OutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationS3Output>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(xAmzTarget: "FmrsService.DescribeLocationS3"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(xmlName: "DescribeLocationS3Request"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationS3Input, DescribeLocationS3Output, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationS3Input, DescribeLocationS3Output>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationS3Output, DescribeLocationS3OutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationS3Output>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationS3Output, DescribeLocationS3OutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationS3Output, DescribeLocationS3OutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationS3Output, DescribeLocationS3OutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationS3Output>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationS3Output>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationS3OutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationS3Output>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeLocationSmb` operation on the `FmrsService` service.
+    ///
     /// Returns metadata, such as the path and user information about an SMB location.
     ///
     /// - Parameter DescribeLocationSmbInput : DescribeLocationSmbRequest
@@ -1489,25 +1551,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeLocationSmbInput, DescribeLocationSmbOutput, DescribeLocationSmbOutputError>(id: "describeLocationSmb")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput, DescribeLocationSmbOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeLocationSmbInput, DescribeLocationSmbOutput>(id: "describeLocationSmb")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationSmbOutput, DescribeLocationSmbOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeLocationSmbOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(xAmzTarget: "FmrsService.DescribeLocationSmb"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(xmlName: "DescribeLocationSmbRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeLocationSmbInput, DescribeLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationSmbOutput, DescribeLocationSmbOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeLocationSmbOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationSmbOutput, DescribeLocationSmbOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationSmbOutput, DescribeLocationSmbOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationSmbOutput, DescribeLocationSmbOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationSmbOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationSmbOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeLocationSmbOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationSmbOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeStorageSystem` operation on the `FmrsService` service.
+    ///
     /// Returns information about an on-premises storage system that you're using with DataSync Discovery.
     ///
     /// - Parameter DescribeStorageSystemInput : [no documentation found]
@@ -1535,25 +1599,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStorageSystemInput, DescribeStorageSystemOutput, DescribeStorageSystemOutputError>(id: "describeStorageSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput, DescribeStorageSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeStorageSystemInput, DescribeStorageSystemOutput>(id: "describeStorageSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemOutput, DescribeStorageSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(xAmzTarget: "FmrsService.DescribeStorageSystem"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(xmlName: "DescribeStorageSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStorageSystemInput, DescribeStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemOutput, DescribeStorageSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemOutput, DescribeStorageSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemOutput, DescribeStorageSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemOutput, DescribeStorageSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeStorageSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeStorageSystemResourceMetrics` operation on the `FmrsService` service.
+    ///
     /// Returns information, including performance data and capacity usage, which DataSync Discovery collects about a specific resource in your-premises storage system.
     ///
     /// - Parameter DescribeStorageSystemResourceMetricsInput : [no documentation found]
@@ -1581,25 +1647,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>(id: "describeStorageSystemResourceMetrics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(id: "describeStorageSystemResourceMetrics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemResourceMetricsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(xAmzTarget: "FmrsService.DescribeStorageSystemResourceMetrics"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(xmlName: "DescribeStorageSystemResourceMetricsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStorageSystemResourceMetricsInput, DescribeStorageSystemResourceMetricsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemResourceMetricsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourceMetricsOutput, DescribeStorageSystemResourceMetricsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemResourceMetricsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourceMetricsOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeStorageSystemResourceMetricsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourceMetricsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeStorageSystemResources` operation on the `FmrsService` service.
+    ///
     /// Returns information that DataSync Discovery collects about resources in your on-premises storage system.
     ///
     /// - Parameter DescribeStorageSystemResourcesInput : [no documentation found]
@@ -1627,25 +1695,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>(id: "describeStorageSystemResources")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(id: "describeStorageSystemResources")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeStorageSystemResourcesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(xAmzTarget: "FmrsService.DescribeStorageSystemResources"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(xmlName: "DescribeStorageSystemResourcesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeStorageSystemResourcesInput, DescribeStorageSystemResourcesOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeStorageSystemResourcesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourcesOutput, DescribeStorageSystemResourcesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStorageSystemResourcesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStorageSystemResourcesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeStorageSystemResourcesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeStorageSystemResourcesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeTask` operation on the `FmrsService` service.
+    ///
     /// Provides information about an DataSync transfer task.
     ///
     /// - Parameter DescribeTaskInput : DescribeTaskRequest
@@ -1673,25 +1743,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTaskInput, DescribeTaskOutput, DescribeTaskOutputError>(id: "describeTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskInput, DescribeTaskOutput, DescribeTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeTaskInput, DescribeTaskOutput>(id: "describeTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskInput, DescribeTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskInput, DescribeTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTaskOutput, DescribeTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskInput, DescribeTaskOutput>(xAmzTarget: "FmrsService.DescribeTask"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTaskInput, DescribeTaskOutput>(xmlName: "DescribeTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeTaskInput, DescribeTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTaskInput, DescribeTaskOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTaskOutput, DescribeTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskOutput, DescribeTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskOutput, DescribeTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskOutput, DescribeTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DescribeTaskExecution` operation on the `FmrsService` service.
+    ///
     /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing transfer or check the results of the transfer.
     ///
     /// - Parameter DescribeTaskExecutionInput : DescribeTaskExecutionRequest
@@ -1719,25 +1791,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>(id: "describeTaskExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>())
+        var operation = ClientRuntime.OperationStack<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(id: "describeTaskExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTaskExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(xAmzTarget: "FmrsService.DescribeTaskExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(xmlName: "DescribeTaskExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTaskExecutionInput, DescribeTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeTaskExecutionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskExecutionOutput, DescribeTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DescribeTaskExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GenerateRecommendations` operation on the `FmrsService` service.
+    ///
     /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation.
     ///
     /// - Parameter GenerateRecommendationsInput : [no documentation found]
@@ -1765,25 +1839,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateRecommendationsInput, GenerateRecommendationsOutput, GenerateRecommendationsOutputError>(id: "generateRecommendations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput, GenerateRecommendationsOutputError>())
+        var operation = ClientRuntime.OperationStack<GenerateRecommendationsInput, GenerateRecommendationsOutput>(id: "generateRecommendations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateRecommendationsOutput, GenerateRecommendationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateRecommendationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(xAmzTarget: "FmrsService.GenerateRecommendations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(xmlName: "GenerateRecommendationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateRecommendationsInput, GenerateRecommendationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateRecommendationsOutput, GenerateRecommendationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateRecommendationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateRecommendationsOutput, GenerateRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateRecommendationsOutput, GenerateRecommendationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateRecommendationsOutput, GenerateRecommendationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateRecommendationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateRecommendationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateRecommendationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateRecommendationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAgents` operation on the `FmrsService` service.
+    ///
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
     ///
     /// - Parameter ListAgentsInput : ListAgentsRequest
@@ -1811,25 +1887,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAgentsInput, ListAgentsOutput, ListAgentsOutputError>(id: "listAgents")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAgentsInput, ListAgentsOutput, ListAgentsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAgentsInput, ListAgentsOutput>(id: "listAgents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAgentsInput, ListAgentsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAgentsInput, ListAgentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAgentsOutput, ListAgentsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAgentsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAgentsInput, ListAgentsOutput>(xAmzTarget: "FmrsService.ListAgents"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAgentsInput, ListAgentsOutput>(xmlName: "ListAgentsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAgentsInput, ListAgentsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAgentsInput, ListAgentsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAgentsOutput, ListAgentsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAgentsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAgentsOutput, ListAgentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAgentsOutput, ListAgentsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAgentsOutput, ListAgentsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAgentsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAgentsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAgentsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAgentsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDiscoveryJobs` operation on the `FmrsService` service.
+    ///
     /// Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon Web Services account where you're using DataSync Discovery.
     ///
     /// - Parameter ListDiscoveryJobsInput : [no documentation found]
@@ -1857,25 +1935,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDiscoveryJobsInput, ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>(id: "listDiscoveryJobs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(id: "listDiscoveryJobs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDiscoveryJobsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(xAmzTarget: "FmrsService.ListDiscoveryJobs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(xmlName: "ListDiscoveryJobsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListDiscoveryJobsInput, ListDiscoveryJobsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDiscoveryJobsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDiscoveryJobsOutput, ListDiscoveryJobsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoveryJobsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoveryJobsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDiscoveryJobsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDiscoveryJobsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListLocations` operation on the `FmrsService` service.
+    ///
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     ///
     /// - Parameter ListLocationsInput : ListLocationsRequest
@@ -1903,25 +1983,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListLocationsInput, ListLocationsOutput, ListLocationsOutputError>(id: "listLocations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutput, ListLocationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListLocationsInput, ListLocationsOutput>(id: "listLocations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLocationsInput, ListLocationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLocationsInput, ListLocationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLocationsOutput, ListLocationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLocationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListLocationsInput, ListLocationsOutput>(xAmzTarget: "FmrsService.ListLocations"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLocationsInput, ListLocationsOutput>(xmlName: "ListLocationsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListLocationsInput, ListLocationsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLocationsInput, ListLocationsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLocationsOutput, ListLocationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLocationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLocationsOutput, ListLocationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLocationsOutput, ListLocationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLocationsOutput, ListLocationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLocationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLocationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListLocationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLocationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListStorageSystems` operation on the `FmrsService` service.
+    ///
     /// Lists the on-premises storage systems that you're using with DataSync Discovery.
     ///
     /// - Parameter ListStorageSystemsInput : [no documentation found]
@@ -1949,25 +2031,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListStorageSystemsInput, ListStorageSystemsOutput, ListStorageSystemsOutputError>(id: "listStorageSystems")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput, ListStorageSystemsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListStorageSystemsInput, ListStorageSystemsOutput>(id: "listStorageSystems")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStorageSystemsOutput, ListStorageSystemsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStorageSystemsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(xAmzTarget: "FmrsService.ListStorageSystems"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(xmlName: "ListStorageSystemsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStorageSystemsInput, ListStorageSystemsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStorageSystemsOutput, ListStorageSystemsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStorageSystemsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStorageSystemsOutput, ListStorageSystemsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStorageSystemsOutput, ListStorageSystemsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStorageSystemsOutput, ListStorageSystemsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStorageSystemsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStorageSystemsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListStorageSystemsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStorageSystemsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `FmrsService` service.
+    ///
     /// Returns all the tags associated with an Amazon Web Services resource.
     ///
     /// - Parameter ListTagsForResourceInput : ListTagsForResourceRequest
@@ -1995,25 +2079,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "FmrsService.ListTagsForResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xmlName: "ListTagsForResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTaskExecutions` operation on the `FmrsService` service.
+    ///
     /// Returns a list of executed tasks.
     ///
     /// - Parameter ListTaskExecutionsInput : ListTaskExecutions
@@ -2041,25 +2127,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTaskExecutionsInput, ListTaskExecutionsOutput, ListTaskExecutionsOutputError>(id: "listTaskExecutions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput, ListTaskExecutionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTaskExecutionsInput, ListTaskExecutionsOutput>(id: "listTaskExecutions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTaskExecutionsOutput, ListTaskExecutionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTaskExecutionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(xAmzTarget: "FmrsService.ListTaskExecutions"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(xmlName: "ListTaskExecutionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTaskExecutionsInput, ListTaskExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTaskExecutionsOutput, ListTaskExecutionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTaskExecutionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTaskExecutionsOutput, ListTaskExecutionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTaskExecutionsOutput, ListTaskExecutionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTaskExecutionsOutput, ListTaskExecutionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTaskExecutionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTaskExecutionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTaskExecutionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTaskExecutionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTasks` operation on the `FmrsService` service.
+    ///
     /// Returns a list of the DataSync tasks you created.
     ///
     /// - Parameter ListTasksInput : ListTasksRequest
@@ -2087,25 +2175,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTasksInput, ListTasksOutput, ListTasksOutputError>(id: "listTasks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutput, ListTasksOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTasksInput, ListTasksOutput>(id: "listTasks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTasksInput, ListTasksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTasksOutput, ListTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTasksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTasksInput, ListTasksOutput>(xAmzTarget: "FmrsService.ListTasks"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTasksInput, ListTasksOutput>(xmlName: "ListTasksRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListTasksInput, ListTasksOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTasksInput, ListTasksOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTasksOutput, ListTasksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTasksOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTasksOutput, ListTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTasksOutput, ListTasksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTasksOutput, ListTasksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTasksOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTasksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTasksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTasksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveStorageSystem` operation on the `FmrsService` service.
+    ///
     /// Permanently removes a storage system resource from DataSync Discovery, including the associated discovery jobs, collected data, and recommendations.
     ///
     /// - Parameter RemoveStorageSystemInput : [no documentation found]
@@ -2133,25 +2223,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveStorageSystemInput, RemoveStorageSystemOutput, RemoveStorageSystemOutputError>(id: "removeStorageSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput, RemoveStorageSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<RemoveStorageSystemInput, RemoveStorageSystemOutput>(id: "removeStorageSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveStorageSystemOutput, RemoveStorageSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveStorageSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(xAmzTarget: "FmrsService.RemoveStorageSystem"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(xmlName: "RemoveStorageSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveStorageSystemInput, RemoveStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveStorageSystemOutput, RemoveStorageSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveStorageSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveStorageSystemOutput, RemoveStorageSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveStorageSystemOutput, RemoveStorageSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveStorageSystemOutput, RemoveStorageSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveStorageSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveStorageSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveStorageSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveStorageSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartDiscoveryJob` operation on the `FmrsService` service.
+    ///
     /// Runs a DataSync discovery job on your on-premises storage system. If you haven't added the storage system to DataSync Discovery yet, do this first by using the [AddStorageSystem](https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html) operation.
     ///
     /// - Parameter StartDiscoveryJobInput : [no documentation found]
@@ -2179,26 +2271,28 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(id: "startDiscoveryJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(keyPath: \.clientToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>())
+        var operation = ClientRuntime.OperationStack<StartDiscoveryJobInput, StartDiscoveryJobOutput>(id: "startDiscoveryJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDiscoveryJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(xAmzTarget: "FmrsService.StartDiscoveryJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(xmlName: "StartDiscoveryJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartDiscoveryJobInput, StartDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDiscoveryJobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDiscoveryJobOutput, StartDiscoveryJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDiscoveryJobOutput, StartDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDiscoveryJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDiscoveryJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDiscoveryJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartTaskExecution` operation on the `FmrsService` service.
+    ///
     /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
     /// - Parameter StartTaskExecutionInput : StartTaskExecutionRequest
@@ -2226,25 +2320,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartTaskExecutionInput, StartTaskExecutionOutput, StartTaskExecutionOutputError>(id: "startTaskExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput, StartTaskExecutionOutputError>())
+        var operation = ClientRuntime.OperationStack<StartTaskExecutionInput, StartTaskExecutionOutput>(id: "startTaskExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartTaskExecutionOutput, StartTaskExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartTaskExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(xAmzTarget: "FmrsService.StartTaskExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(xmlName: "StartTaskExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartTaskExecutionInput, StartTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTaskExecutionOutput, StartTaskExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartTaskExecutionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTaskExecutionOutput, StartTaskExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTaskExecutionOutput, StartTaskExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTaskExecutionOutput, StartTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTaskExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTaskExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartTaskExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StopDiscoveryJob` operation on the `FmrsService` service.
+    ///
     /// Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's stopped before it's scheduled to end likely will provide you some information about your on-premises storage system resources. To get recommendations for a stopped job, you must use the [GenerateRecommendations](https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html) operation.
     ///
     /// - Parameter StopDiscoveryJobInput : [no documentation found]
@@ -2272,25 +2368,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StopDiscoveryJobInput, StopDiscoveryJobOutput, StopDiscoveryJobOutputError>(id: "stopDiscoveryJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput, StopDiscoveryJobOutputError>())
+        var operation = ClientRuntime.OperationStack<StopDiscoveryJobInput, StopDiscoveryJobOutput>(id: "stopDiscoveryJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDiscoveryJobOutput, StopDiscoveryJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopDiscoveryJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(xAmzTarget: "FmrsService.StopDiscoveryJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(xmlName: "StopDiscoveryJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopDiscoveryJobInput, StopDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDiscoveryJobOutput, StopDiscoveryJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopDiscoveryJobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDiscoveryJobOutput, StopDiscoveryJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDiscoveryJobOutput, StopDiscoveryJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDiscoveryJobOutput, StopDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDiscoveryJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDiscoveryJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopDiscoveryJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `FmrsService` service.
+    ///
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
     ///
     /// - Parameter TagResourceInput : TagResourceRequest
@@ -2318,25 +2416,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "FmrsService.TagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `FmrsService` service.
+    ///
     /// Removes tags from an Amazon Web Services resource.
     ///
     /// - Parameter UntagResourceInput : UntagResourceRequest
@@ -2364,25 +2464,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "FmrsService.UntagResource"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutput>(xmlName: "UntagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAgent` operation on the `FmrsService` service.
+    ///
     /// Updates the name of an DataSync agent.
     ///
     /// - Parameter UpdateAgentInput : UpdateAgentRequest
@@ -2410,25 +2512,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAgentInput, UpdateAgentOutput, UpdateAgentOutputError>(id: "updateAgent")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAgentInput, UpdateAgentOutput, UpdateAgentOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAgentInput, UpdateAgentOutput>(id: "updateAgent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAgentInput, UpdateAgentOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAgentInput, UpdateAgentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAgentOutput, UpdateAgentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAgentOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateAgentInput, UpdateAgentOutput>(xAmzTarget: "FmrsService.UpdateAgent"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAgentInput, UpdateAgentOutput>(xmlName: "UpdateAgentRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAgentInput, UpdateAgentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAgentInput, UpdateAgentOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAgentOutput, UpdateAgentOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAgentOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAgentOutput, UpdateAgentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAgentOutput, UpdateAgentOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAgentOutput, UpdateAgentOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAgentOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAgentOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAgentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAgentOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateDiscoveryJob` operation on the `FmrsService` service.
+    ///
     /// Edits a DataSync discovery job configuration.
     ///
     /// - Parameter UpdateDiscoveryJobInput : [no documentation found]
@@ -2456,25 +2560,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>(id: "updateDiscoveryJob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(id: "updateDiscoveryJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDiscoveryJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(xAmzTarget: "FmrsService.UpdateDiscoveryJob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(xmlName: "UpdateDiscoveryJobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDiscoveryJobInput, UpdateDiscoveryJobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDiscoveryJobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDiscoveryJobOutput, UpdateDiscoveryJobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDiscoveryJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDiscoveryJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateDiscoveryJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDiscoveryJobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLocationAzureBlob` operation on the `FmrsService` service.
+    ///
     /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
     ///
     /// - Parameter UpdateLocationAzureBlobInput : [no documentation found]
@@ -2502,25 +2608,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>(id: "updateLocationAzureBlob")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(id: "updateLocationAzureBlob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationAzureBlobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(xAmzTarget: "FmrsService.UpdateLocationAzureBlob"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(xmlName: "UpdateLocationAzureBlobRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationAzureBlobInput, UpdateLocationAzureBlobOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationAzureBlobOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationAzureBlobOutput, UpdateLocationAzureBlobOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationAzureBlobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationAzureBlobOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLocationAzureBlobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationAzureBlobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLocationHdfs` operation on the `FmrsService` service.
+    ///
     /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
     ///
     /// - Parameter UpdateLocationHdfsInput : [no documentation found]
@@ -2548,25 +2656,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>(id: "updateLocationHdfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(id: "updateLocationHdfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationHdfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(xAmzTarget: "FmrsService.UpdateLocationHdfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(xmlName: "UpdateLocationHdfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationHdfsInput, UpdateLocationHdfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationHdfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationHdfsOutput, UpdateLocationHdfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationHdfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationHdfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLocationHdfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationHdfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLocationNfs` operation on the `FmrsService` service.
+    ///
     /// Modifies some configurations of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
     ///
     /// - Parameter UpdateLocationNfsInput : [no documentation found]
@@ -2594,25 +2704,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLocationNfsInput, UpdateLocationNfsOutput, UpdateLocationNfsOutputError>(id: "updateLocationNfs")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput, UpdateLocationNfsOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLocationNfsInput, UpdateLocationNfsOutput>(id: "updateLocationNfs")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationNfsOutput, UpdateLocationNfsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationNfsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(xAmzTarget: "FmrsService.UpdateLocationNfs"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(xmlName: "UpdateLocationNfsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationNfsInput, UpdateLocationNfsOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationNfsOutput, UpdateLocationNfsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationNfsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationNfsOutput, UpdateLocationNfsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationNfsOutput, UpdateLocationNfsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationNfsOutput, UpdateLocationNfsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationNfsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationNfsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLocationNfsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationNfsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLocationObjectStorage` operation on the `FmrsService` service.
+    ///
     /// Updates some parameters of an existing object storage location that DataSync accesses for a transfer. For information about creating a self-managed object storage location, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     ///
     /// - Parameter UpdateLocationObjectStorageInput : [no documentation found]
@@ -2640,25 +2752,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>(id: "updateLocationObjectStorage")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(id: "updateLocationObjectStorage")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationObjectStorageOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(xAmzTarget: "FmrsService.UpdateLocationObjectStorage"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(xmlName: "UpdateLocationObjectStorageRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationObjectStorageInput, UpdateLocationObjectStorageOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationObjectStorageOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationObjectStorageOutput, UpdateLocationObjectStorageOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationObjectStorageOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationObjectStorageOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLocationObjectStorageOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationObjectStorageOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLocationSmb` operation on the `FmrsService` service.
+    ///
     /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
     ///
     /// - Parameter UpdateLocationSmbInput : [no documentation found]
@@ -2686,25 +2800,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLocationSmbInput, UpdateLocationSmbOutput, UpdateLocationSmbOutputError>(id: "updateLocationSmb")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput, UpdateLocationSmbOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLocationSmbInput, UpdateLocationSmbOutput>(id: "updateLocationSmb")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationSmbOutput, UpdateLocationSmbOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLocationSmbOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(xAmzTarget: "FmrsService.UpdateLocationSmb"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(xmlName: "UpdateLocationSmbRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLocationSmbInput, UpdateLocationSmbOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationSmbOutput, UpdateLocationSmbOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLocationSmbOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationSmbOutput, UpdateLocationSmbOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationSmbOutput, UpdateLocationSmbOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationSmbOutput, UpdateLocationSmbOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLocationSmbOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLocationSmbOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLocationSmbOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLocationSmbOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateStorageSystem` operation on the `FmrsService` service.
+    ///
     /// Modifies some configurations of an on-premises storage system resource that you're using with DataSync Discovery.
     ///
     /// - Parameter UpdateStorageSystemInput : [no documentation found]
@@ -2732,25 +2848,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateStorageSystemInput, UpdateStorageSystemOutput, UpdateStorageSystemOutputError>(id: "updateStorageSystem")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput, UpdateStorageSystemOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateStorageSystemInput, UpdateStorageSystemOutput>(id: "updateStorageSystem")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(hostPrefix: "discovery-"))
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStorageSystemOutput, UpdateStorageSystemOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateStorageSystemOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(xAmzTarget: "FmrsService.UpdateStorageSystem"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(xmlName: "UpdateStorageSystemRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateStorageSystemInput, UpdateStorageSystemOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStorageSystemOutput, UpdateStorageSystemOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateStorageSystemOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStorageSystemOutput, UpdateStorageSystemOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStorageSystemOutput, UpdateStorageSystemOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStorageSystemOutput, UpdateStorageSystemOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStorageSystemOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStorageSystemOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateStorageSystemOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateStorageSystemOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateTask` operation on the `FmrsService` service.
+    ///
     /// Updates the configuration of a DataSync transfer task.
     ///
     /// - Parameter UpdateTaskInput : UpdateTaskResponse
@@ -2778,25 +2896,27 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTaskInput, UpdateTaskOutput, UpdateTaskOutputError>(id: "updateTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskInput, UpdateTaskOutput, UpdateTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateTaskInput, UpdateTaskOutput>(id: "updateTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskInput, UpdateTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskInput, UpdateTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTaskOutput, UpdateTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskInput, UpdateTaskOutput>(xAmzTarget: "FmrsService.UpdateTask"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTaskInput, UpdateTaskOutput>(xmlName: "UpdateTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTaskInput, UpdateTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTaskInput, UpdateTaskOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTaskOutput, UpdateTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskOutput, UpdateTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskOutput, UpdateTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskOutput, UpdateTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateTaskExecution` operation on the `FmrsService` service.
+    ///
     /// Updates the configuration of a running DataSync task execution. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task execution.
     ///
     /// - Parameter UpdateTaskExecutionInput : [no documentation found]
@@ -2824,21 +2944,21 @@ extension DataSyncClient: DataSyncClientProtocol {
                       .withSigningName(value: "datasync")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>(id: "updateTaskExecution")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(id: "updateTaskExecution")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTaskExecutionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(xAmzTarget: "FmrsService.UpdateTaskExecution"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(xmlName: "UpdateTaskExecutionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTaskExecutionInput, UpdateTaskExecutionOutput>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateTaskExecutionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskExecutionOutput, UpdateTaskExecutionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskExecutionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskExecutionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateTaskExecutionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskExecutionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

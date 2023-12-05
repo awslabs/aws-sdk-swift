@@ -156,7 +156,7 @@ enum CreateCliTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateEnvironmentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "CreateEnvironmentInput(airflowVersion: \(Swift.String(describing: airflowVersion)), dagS3Path: \(Swift.String(describing: dagS3Path)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateEnvironmentInput: Swift.Encodable {
@@ -164,6 +164,7 @@ extension CreateEnvironmentInput: Swift.Encodable {
         case airflowConfigurationOptions = "AirflowConfigurationOptions"
         case airflowVersion = "AirflowVersion"
         case dagS3Path = "DagS3Path"
+        case endpointManagement = "EndpointManagement"
         case environmentClass = "EnvironmentClass"
         case executionRoleArn = "ExecutionRoleArn"
         case kmsKey = "KmsKey"
@@ -197,6 +198,9 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let dagS3Path = self.dagS3Path {
             try encodeContainer.encode(dagS3Path, forKey: .dagS3Path)
+        }
+        if let endpointManagement = self.endpointManagement {
+            try encodeContainer.encode(endpointManagement.rawValue, forKey: .endpointManagement)
         }
         if let environmentClass = self.environmentClass {
             try encodeContainer.encode(environmentClass, forKey: .environmentClass)
@@ -271,11 +275,13 @@ extension CreateEnvironmentInput: ClientRuntime.URLPathProvider {
 public struct CreateEnvironmentInput: Swift.Equatable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String:Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2.
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
     public var dagS3Path: Swift.String?
+    /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
+    public var endpointManagement: MWAAClientTypes.EndpointManagement?
     /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
     public var environmentClass: Swift.String?
     /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
@@ -318,7 +324,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     public var startupScriptS3Path: Swift.String?
     /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String:Swift.String]?
-    /// The Apache Airflow Web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
+    /// Defines the access mode for the Apache Airflow web server. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
     public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
     public var weeklyMaintenanceWindowStart: Swift.String?
@@ -327,6 +333,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         airflowConfigurationOptions: [Swift.String:Swift.String]? = nil,
         airflowVersion: Swift.String? = nil,
         dagS3Path: Swift.String? = nil,
+        endpointManagement: MWAAClientTypes.EndpointManagement? = nil,
         environmentClass: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         kmsKey: Swift.String? = nil,
@@ -351,6 +358,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
         self.airflowConfigurationOptions = airflowConfigurationOptions
         self.airflowVersion = airflowVersion
         self.dagS3Path = dagS3Path
+        self.endpointManagement = endpointManagement
         self.environmentClass = environmentClass
         self.executionRoleArn = executionRoleArn
         self.kmsKey = kmsKey
@@ -395,6 +403,7 @@ struct CreateEnvironmentInputBody: Swift.Equatable {
     let webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
     let minWorkers: Swift.Int?
     let schedulers: Swift.Int?
+    let endpointManagement: MWAAClientTypes.EndpointManagement?
 }
 
 extension CreateEnvironmentInputBody: Swift.Decodable {
@@ -402,6 +411,7 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         case airflowConfigurationOptions = "AirflowConfigurationOptions"
         case airflowVersion = "AirflowVersion"
         case dagS3Path = "DagS3Path"
+        case endpointManagement = "EndpointManagement"
         case environmentClass = "EnvironmentClass"
         case executionRoleArn = "ExecutionRoleArn"
         case kmsKey = "KmsKey"
@@ -484,6 +494,8 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
         minWorkers = minWorkersDecoded
         let schedulersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schedulers)
         schedulers = schedulersDecoded
+        let endpointManagementDecoded = try containerValues.decodeIfPresent(MWAAClientTypes.EndpointManagement.self, forKey: .endpointManagement)
+        endpointManagement = endpointManagementDecoded
     }
 }
 
@@ -741,13 +753,48 @@ extension MWAAClientTypes {
 
 }
 
+extension MWAAClientTypes {
+    public enum EndpointManagement: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customer
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointManagement] {
+            return [
+                .customer,
+                .service,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EndpointManagement(rawValue: rawValue) ?? EndpointManagement.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MWAAClientTypes.Environment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case airflowConfigurationOptions = "AirflowConfigurationOptions"
         case airflowVersion = "AirflowVersion"
         case arn = "Arn"
+        case celeryExecutorQueue = "CeleryExecutorQueue"
         case createdAt = "CreatedAt"
         case dagS3Path = "DagS3Path"
+        case databaseVpcEndpointService = "DatabaseVpcEndpointService"
+        case endpointManagement = "EndpointManagement"
         case environmentClass = "EnvironmentClass"
         case executionRoleArn = "ExecutionRoleArn"
         case kmsKey = "KmsKey"
@@ -770,6 +817,7 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         case tags = "Tags"
         case webserverAccessMode = "WebserverAccessMode"
         case webserverUrl = "WebserverUrl"
+        case webserverVpcEndpointService = "WebserverVpcEndpointService"
         case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
     }
 
@@ -787,11 +835,20 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
+        if let celeryExecutorQueue = self.celeryExecutorQueue {
+            try encodeContainer.encode(celeryExecutorQueue, forKey: .celeryExecutorQueue)
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
         }
         if let dagS3Path = self.dagS3Path {
             try encodeContainer.encode(dagS3Path, forKey: .dagS3Path)
+        }
+        if let databaseVpcEndpointService = self.databaseVpcEndpointService {
+            try encodeContainer.encode(databaseVpcEndpointService, forKey: .databaseVpcEndpointService)
+        }
+        if let endpointManagement = self.endpointManagement {
+            try encodeContainer.encode(endpointManagement.rawValue, forKey: .endpointManagement)
         }
         if let environmentClass = self.environmentClass {
             try encodeContainer.encode(environmentClass, forKey: .environmentClass)
@@ -861,6 +918,9 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         }
         if let webserverUrl = self.webserverUrl {
             try encodeContainer.encode(webserverUrl, forKey: .webserverUrl)
+        }
+        if let webserverVpcEndpointService = self.webserverVpcEndpointService {
+            try encodeContainer.encode(webserverVpcEndpointService, forKey: .webserverVpcEndpointService)
         }
         if let weeklyMaintenanceWindowStart = self.weeklyMaintenanceWindowStart {
             try encodeContainer.encode(weeklyMaintenanceWindowStart, forKey: .weeklyMaintenanceWindowStart)
@@ -943,12 +1003,20 @@ extension MWAAClientTypes.Environment: Swift.Codable {
         minWorkers = minWorkersDecoded
         let schedulersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .schedulers)
         schedulers = schedulersDecoded
+        let webserverVpcEndpointServiceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webserverVpcEndpointService)
+        webserverVpcEndpointService = webserverVpcEndpointServiceDecoded
+        let databaseVpcEndpointServiceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseVpcEndpointService)
+        databaseVpcEndpointService = databaseVpcEndpointServiceDecoded
+        let celeryExecutorQueueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .celeryExecutorQueue)
+        celeryExecutorQueue = celeryExecutorQueueDecoded
+        let endpointManagementDecoded = try containerValues.decodeIfPresent(MWAAClientTypes.EndpointManagement.self, forKey: .endpointManagement)
+        endpointManagement = endpointManagementDecoded
     }
 }
 
 extension MWAAClientTypes.Environment: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
+        "Environment(airflowVersion: \(Swift.String(describing: airflowVersion)), arn: \(Swift.String(describing: arn)), celeryExecutorQueue: \(Swift.String(describing: celeryExecutorQueue)), createdAt: \(Swift.String(describing: createdAt)), dagS3Path: \(Swift.String(describing: dagS3Path)), databaseVpcEndpointService: \(Swift.String(describing: databaseVpcEndpointService)), endpointManagement: \(Swift.String(describing: endpointManagement)), environmentClass: \(Swift.String(describing: environmentClass)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), kmsKey: \(Swift.String(describing: kmsKey)), lastUpdate: \(Swift.String(describing: lastUpdate)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), maxWorkers: \(Swift.String(describing: maxWorkers)), minWorkers: \(Swift.String(describing: minWorkers)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), pluginsS3ObjectVersion: \(Swift.String(describing: pluginsS3ObjectVersion)), pluginsS3Path: \(Swift.String(describing: pluginsS3Path)), requirementsS3ObjectVersion: \(Swift.String(describing: requirementsS3ObjectVersion)), requirementsS3Path: \(Swift.String(describing: requirementsS3Path)), schedulers: \(Swift.String(describing: schedulers)), serviceRoleArn: \(Swift.String(describing: serviceRoleArn)), sourceBucketArn: \(Swift.String(describing: sourceBucketArn)), startupScriptS3ObjectVersion: \(Swift.String(describing: startupScriptS3ObjectVersion)), startupScriptS3Path: \(Swift.String(describing: startupScriptS3Path)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), webserverAccessMode: \(Swift.String(describing: webserverAccessMode)), webserverUrl: \(Swift.String(describing: webserverUrl)), webserverVpcEndpointService: \(Swift.String(describing: webserverVpcEndpointService)), weeklyMaintenanceWindowStart: \(Swift.String(describing: weeklyMaintenanceWindowStart)), airflowConfigurationOptions: \"CONTENT_REDACTED\")"}
 }
 
 extension MWAAClientTypes {
@@ -960,10 +1028,16 @@ extension MWAAClientTypes {
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
+        /// The queue ARN for the environment's [Celery Executor](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/executor/celery.html). Amazon MWAA uses a Celery Executor to distribute tasks across multiple workers. When you create an environment in a shared VPC, you must provide access to the Celery Executor queue from your VPC.
+        public var celeryExecutorQueue: Swift.String?
         /// The day and time the environment was created.
         public var createdAt: ClientRuntime.Date?
         /// The relative path to the DAGs folder in your Amazon S3 bucket. For example, s3://mwaa-environment/dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
         public var dagS3Path: Swift.String?
+        /// The VPC endpoint for the environment's Amazon RDS database.
+        public var databaseVpcEndpointService: Swift.String?
+        /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints in your VPC.
+        public var endpointManagement: MWAAClientTypes.EndpointManagement?
         /// The environment class type. Valid values: mw1.small, mw1.medium, mw1.large. For more information, see [Amazon MWAA environment class](https://docs.aws.amazon.com/mwaa/latest/userguide/environment-class.html).
         public var environmentClass: Swift.String?
         /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see [Amazon MWAA Execution role](https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html).
@@ -1010,6 +1084,8 @@ extension MWAAClientTypes {
         ///
         /// * AVAILABLE - Indicates the request was successful and the environment is ready to use.
         ///
+        /// * PENDING - Indicates the request was successful, but the process to create the environment is paused until you create the required VPC endpoints in your VPC. After you create the VPC endpoints, the process resumes.
+        ///
         /// * UPDATING - Indicates the request to update the environment is in progress.
         ///
         /// * ROLLING_BACK - Indicates the request to update environment details, or upgrade the environment version, failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.
@@ -1027,10 +1103,12 @@ extension MWAAClientTypes {
         public var status: MWAAClientTypes.EnvironmentStatus?
         /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
         public var tags: [Swift.String:Swift.String]?
-        /// The Apache Airflow Web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
+        /// The Apache Airflow web server access mode. For more information, see [Apache Airflow access modes](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-networking.html).
         public var webserverAccessMode: MWAAClientTypes.WebserverAccessMode?
         /// The Apache Airflow Web server host name for the Amazon MWAA environment. For more information, see [Accessing the Apache Airflow UI](https://docs.aws.amazon.com/mwaa/latest/userguide/access-airflow-ui.html).
         public var webserverUrl: Swift.String?
+        /// The VPC endpoint for the environment's web server.
+        public var webserverVpcEndpointService: Swift.String?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public var weeklyMaintenanceWindowStart: Swift.String?
 
@@ -1038,8 +1116,11 @@ extension MWAAClientTypes {
             airflowConfigurationOptions: [Swift.String:Swift.String]? = nil,
             airflowVersion: Swift.String? = nil,
             arn: Swift.String? = nil,
+            celeryExecutorQueue: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             dagS3Path: Swift.String? = nil,
+            databaseVpcEndpointService: Swift.String? = nil,
+            endpointManagement: MWAAClientTypes.EndpointManagement? = nil,
             environmentClass: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
             kmsKey: Swift.String? = nil,
@@ -1062,14 +1143,18 @@ extension MWAAClientTypes {
             tags: [Swift.String:Swift.String]? = nil,
             webserverAccessMode: MWAAClientTypes.WebserverAccessMode? = nil,
             webserverUrl: Swift.String? = nil,
+            webserverVpcEndpointService: Swift.String? = nil,
             weeklyMaintenanceWindowStart: Swift.String? = nil
         )
         {
             self.airflowConfigurationOptions = airflowConfigurationOptions
             self.airflowVersion = airflowVersion
             self.arn = arn
+            self.celeryExecutorQueue = celeryExecutorQueue
             self.createdAt = createdAt
             self.dagS3Path = dagS3Path
+            self.databaseVpcEndpointService = databaseVpcEndpointService
+            self.endpointManagement = endpointManagement
             self.environmentClass = environmentClass
             self.executionRoleArn = executionRoleArn
             self.kmsKey = kmsKey
@@ -1092,6 +1177,7 @@ extension MWAAClientTypes {
             self.tags = tags
             self.webserverAccessMode = webserverAccessMode
             self.webserverUrl = webserverUrl
+            self.webserverVpcEndpointService = webserverVpcEndpointService
             self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
         }
     }
@@ -1106,6 +1192,7 @@ extension MWAAClientTypes {
         case creatingSnapshot
         case deleted
         case deleting
+        case pending
         case rollingBack
         case unavailable
         case updateFailed
@@ -1120,6 +1207,7 @@ extension MWAAClientTypes {
                 .creatingSnapshot,
                 .deleted,
                 .deleting,
+                .pending,
                 .rollingBack,
                 .unavailable,
                 .updateFailed,
@@ -1139,6 +1227,7 @@ extension MWAAClientTypes {
             case .creatingSnapshot: return "CREATING_SNAPSHOT"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .pending: return "PENDING"
             case .rollingBack: return "ROLLING_BACK"
             case .unavailable: return "UNAVAILABLE"
             case .updateFailed: return "UPDATE_FAILED"

@@ -611,7 +611,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         case errors = "Errors"
         case lastUpdatedTime = "LastUpdatedTime"
         case name = "Name"
-        case options = "Options"
         case sheets = "Sheets"
         case status = "Status"
         case themeArn = "ThemeArn"
@@ -645,9 +644,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -712,8 +708,6 @@ extension QuickSightClientTypes.Analysis: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -734,8 +728,6 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The descriptive name of the analysis.
         public var name: Swift.String?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Status associated with the analysis.
@@ -751,7 +743,6 @@ extension QuickSightClientTypes {
             errors: [QuickSightClientTypes.AnalysisError]? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
             themeArn: Swift.String? = nil
@@ -764,7 +755,6 @@ extension QuickSightClientTypes {
             self.errors = errors
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
-            self.options = options
             self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
@@ -2194,6 +2184,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific Analysis resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobAnalysisOverrideProperties: Swift.Equatable {
         /// The ARN of the specific Analysis resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of Analysis resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2281,6 +2272,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific Dashboard resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobDashboardOverrideProperties: Swift.Equatable {
         /// The ARN of the specific Dashboard resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of Dashboard resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2368,6 +2360,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific DataSet resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobDataSetOverrideProperties: Swift.Equatable {
         /// The ARN of the specific DataSet resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of DataSet resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2455,6 +2448,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific DataSource resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobDataSourceOverrideProperties: Swift.Equatable {
         /// The ARN of the specific DataSource resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of DataSource resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2645,6 +2639,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific RefreshSchedule resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobRefreshScheduleOverrideProperties: Swift.Equatable {
         /// The ARN of the specific RefreshSchedule resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of RefreshSchedule resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2771,6 +2766,8 @@ extension QuickSightClientTypes.AssetBundleExportJobSummary: Swift.Codable {
         case createdTime = "CreatedTime"
         case exportFormat = "ExportFormat"
         case includeAllDependencies = "IncludeAllDependencies"
+        case includePermissions = "IncludePermissions"
+        case includeTags = "IncludeTags"
         case jobStatus = "JobStatus"
     }
 
@@ -2791,6 +2788,12 @@ extension QuickSightClientTypes.AssetBundleExportJobSummary: Swift.Codable {
         if includeAllDependencies != false {
             try encodeContainer.encode(includeAllDependencies, forKey: .includeAllDependencies)
         }
+        if includePermissions != false {
+            try encodeContainer.encode(includePermissions, forKey: .includePermissions)
+        }
+        if includeTags != false {
+            try encodeContainer.encode(includeTags, forKey: .includeTags)
+        }
         if let jobStatus = self.jobStatus {
             try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
         }
@@ -2810,6 +2813,10 @@ extension QuickSightClientTypes.AssetBundleExportJobSummary: Swift.Codable {
         includeAllDependencies = includeAllDependenciesDecoded
         let exportFormatDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportFormat.self, forKey: .exportFormat)
         exportFormat = exportFormatDecoded
+        let includePermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePermissions) ?? false
+        includePermissions = includePermissionsDecoded
+        let includeTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeTags) ?? false
+        includeTags = includeTagsDecoded
     }
 }
 
@@ -2826,6 +2833,10 @@ extension QuickSightClientTypes {
         public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
         /// The flag that determines the inclusion of resource dependencies in the returned asset bundle.
         public var includeAllDependencies: Swift.Bool
+        /// The flag that determines the inclusion of permissions associated with each resource ARN.
+        public var includePermissions: Swift.Bool
+        /// The flag that determines the inclusion of tags associated with each resource ARN.
+        public var includeTags: Swift.Bool
         /// The current status of the export job.
         public var jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
 
@@ -2835,6 +2846,8 @@ extension QuickSightClientTypes {
             createdTime: ClientRuntime.Date? = nil,
             exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
             includeAllDependencies: Swift.Bool = false,
+            includePermissions: Swift.Bool = false,
+            includeTags: Swift.Bool = false,
             jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil
         )
         {
@@ -2843,6 +2856,8 @@ extension QuickSightClientTypes {
             self.createdTime = createdTime
             self.exportFormat = exportFormat
             self.includeAllDependencies = includeAllDependencies
+            self.includePermissions = includePermissions
+            self.includeTags = includeTags
             self.jobStatus = jobStatus
         }
     }
@@ -2890,6 +2905,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific Theme resource is parameterized in the returned CloudFormation template.
     public struct AssetBundleExportJobThemeOverrideProperties: Swift.Equatable {
         /// The ARN of the specific Theme resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of Theme resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -2977,6 +2993,7 @@ extension QuickSightClientTypes {
     /// Controls how a specific VPCConnection resource is parameterized in the outputted CloudFormation template.
     public struct AssetBundleExportJobVPCConnectionOverrideProperties: Swift.Equatable {
         /// The ARN of the specific VPCConnection resource whose override properties are configured in this structure.
+        /// This member is required.
         public var arn: Swift.String?
         /// A list of VPCConnection resource properties to generate variables for in the returned CloudFormation template.
         /// This member is required.
@@ -3027,6 +3044,86 @@ extension QuickSightClientTypes {
             self = AssetBundleExportJobVPCConnectionPropertyToOverride(rawValue: rawValue) ?? AssetBundleExportJobVPCConnectionPropertyToOverride.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobValidationStrategy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case strictModeForAllResources = "StrictModeForAllResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if strictModeForAllResources != false {
+            try encodeContainer.encode(strictModeForAllResources, forKey: .strictModeForAllResources)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let strictModeForAllResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .strictModeForAllResources) ?? false
+        strictModeForAllResources = strictModeForAllResourcesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The option to relax the validation that is required to export each asset. When StrictModeForAllResource is set to true, validation is skipped for specific UI errors.
+    public struct AssetBundleExportJobValidationStrategy: Swift.Equatable {
+        /// A Boolean value that indicates whether to export resources under strict or lenient mode.
+        public var strictModeForAllResources: Swift.Bool
+
+        public init(
+            strictModeForAllResources: Swift.Bool = false
+        )
+        {
+            self.strictModeForAllResources = strictModeForAllResources
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleExportJobWarning: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Describes a warning that occurred during an Asset Bundle export job.
+    public struct AssetBundleExportJobWarning: Swift.Equatable {
+        /// The ARN of the resource whose processing caused a warning.
+        public var arn: Swift.String?
+        /// A description of the warning.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.message = message
+        }
+    }
+
 }
 
 extension QuickSightClientTypes {
@@ -3107,6 +3204,136 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisIds = "AnalysisIds"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisIds = analysisIds {
+            var analysisIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisIds)
+            for assetbundlerestrictiveresourceid0 in analysisIds {
+                try analysisIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .analysisIds)
+        var analysisIdsDecoded0:[Swift.String]? = nil
+        if let analysisIdsContainer = analysisIdsContainer {
+            analysisIdsDecoded0 = [Swift.String]()
+            for string0 in analysisIdsContainer {
+                if let string0 = string0 {
+                    analysisIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        analysisIds = analysisIdsDecoded0
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of permissions to be applied to a list of analysis IDs.
+    public struct AssetBundleImportJobAnalysisOverridePermissions: Swift.Equatable {
+        /// A list of analysis IDs that you want to apply overrides to. You can use * to override all analyses in this asset bundle.
+        /// This member is required.
+        public var analysisIds: [Swift.String]?
+        /// A list of permissions for the analyses that you want to apply overrides to.
+        /// This member is required.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            analysisIds: [Swift.String]? = nil,
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.analysisIds = analysisIds
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisIds = "AnalysisIds"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisIds = analysisIds {
+            var analysisIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analysisIds)
+            for assetbundlerestrictiveresourceid0 in analysisIds {
+                try analysisIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .analysisIds)
+        var analysisIdsDecoded0:[Swift.String]? = nil
+        if let analysisIdsContainer = analysisIdsContainer {
+            analysisIdsDecoded0 = [Swift.String]()
+            for string0 in analysisIdsContainer {
+                if let string0 = string0 {
+                    analysisIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        analysisIds = analysisIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of analysis IDs.
+    public struct AssetBundleImportJobAnalysisOverrideTags: Swift.Equatable {
+        /// A list of analysis IDs that you want to apply overrides to. You can use * to override all analyses in this asset bundle.
+        /// This member is required.
+        public var analysisIds: [Swift.String]?
+        /// A list of tags for the analyses that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+
+        public init(
+            analysisIds: [Swift.String]? = nil,
+            tags: [QuickSightClientTypes.Tag]? = nil
+        )
+        {
+            self.analysisIds = analysisIds
+            self.tags = tags
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboardId = "DashboardId"
@@ -3153,6 +3380,145 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dashboardIds = "DashboardIds"
+        case linkSharingConfiguration = "LinkSharingConfiguration"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dashboardIds = dashboardIds {
+            var dashboardIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboardIds)
+            for assetbundlerestrictiveresourceid0 in dashboardIds {
+                try dashboardIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let linkSharingConfiguration = self.linkSharingConfiguration {
+            try encodeContainer.encode(linkSharingConfiguration, forKey: .linkSharingConfiguration)
+        }
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dashboardIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dashboardIds)
+        var dashboardIdsDecoded0:[Swift.String]? = nil
+        if let dashboardIdsContainer = dashboardIdsContainer {
+            dashboardIdsDecoded0 = [Swift.String]()
+            for string0 in dashboardIdsContainer {
+                if let string0 = string0 {
+                    dashboardIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dashboardIds = dashboardIdsDecoded0
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+        let linkSharingConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
+        linkSharingConfiguration = linkSharingConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of permissions to be applied to a list of dashboard IDs.
+    public struct AssetBundleImportJobDashboardOverridePermissions: Swift.Equatable {
+        /// A list of dashboard IDs that you want to apply overrides to. You can use * to override all dashboards in this asset bundle.
+        /// This member is required.
+        public var dashboardIds: [Swift.String]?
+        /// A structure that contains the link sharing configurations that you want to apply overrides to.
+        public var linkSharingConfiguration: QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration?
+        /// A list of permissions for the dashboards that you want to apply overrides to.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            dashboardIds: [Swift.String]? = nil,
+            linkSharingConfiguration: QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration? = nil,
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.dashboardIds = dashboardIds
+            self.linkSharingConfiguration = linkSharingConfiguration
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dashboardIds = "DashboardIds"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dashboardIds = dashboardIds {
+            var dashboardIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboardIds)
+            for assetbundlerestrictiveresourceid0 in dashboardIds {
+                try dashboardIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dashboardIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dashboardIds)
+        var dashboardIdsDecoded0:[Swift.String]? = nil
+        if let dashboardIdsContainer = dashboardIdsContainer {
+            dashboardIdsDecoded0 = [Swift.String]()
+            for string0 in dashboardIdsContainer {
+                if let string0 = string0 {
+                    dashboardIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dashboardIds = dashboardIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of dashboard IDs.
+    public struct AssetBundleImportJobDashboardOverrideTags: Swift.Equatable {
+        /// A list of dashboard IDs that you want to apply overrides to. You can use * to override all dashboards in this asset bundle.
+        /// This member is required.
+        public var dashboardIds: [Swift.String]?
+        /// A list of tags for the dashboards that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+
+        public init(
+            dashboardIds: [Swift.String]? = nil,
+            tags: [QuickSightClientTypes.Tag]? = nil
+        )
+        {
+            self.dashboardIds = dashboardIds
+            self.tags = tags
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSetId = "DataSetId"
@@ -3194,6 +3560,136 @@ extension QuickSightClientTypes {
         {
             self.dataSetId = dataSetId
             self.name = name
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetIds = "DataSetIds"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetIds = dataSetIds {
+            var dataSetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetIds)
+            for assetbundlerestrictiveresourceid0 in dataSetIds {
+                try dataSetIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dataSetIds)
+        var dataSetIdsDecoded0:[Swift.String]? = nil
+        if let dataSetIdsContainer = dataSetIdsContainer {
+            dataSetIdsDecoded0 = [Swift.String]()
+            for string0 in dataSetIdsContainer {
+                if let string0 = string0 {
+                    dataSetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dataSetIds = dataSetIdsDecoded0
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of permissions to be applied to a list of dataset IDs.
+    public struct AssetBundleImportJobDataSetOverridePermissions: Swift.Equatable {
+        /// A list of dataset IDs that you want to apply overrides to. You can use * to override all datasets in this asset bundle.
+        /// This member is required.
+        public var dataSetIds: [Swift.String]?
+        /// A list of permissions for the datasets that you want to apply overrides to.
+        /// This member is required.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            dataSetIds: [Swift.String]? = nil,
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.dataSetIds = dataSetIds
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetIds = "DataSetIds"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetIds = dataSetIds {
+            var dataSetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSetIds)
+            for assetbundlerestrictiveresourceid0 in dataSetIds {
+                try dataSetIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSetIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dataSetIds)
+        var dataSetIdsDecoded0:[Swift.String]? = nil
+        if let dataSetIdsContainer = dataSetIdsContainer {
+            dataSetIdsDecoded0 = [Swift.String]()
+            for string0 in dataSetIdsContainer {
+                if let string0 = string0 {
+                    dataSetIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dataSetIds = dataSetIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of dataset IDs.
+    public struct AssetBundleImportJobDataSetOverrideTags: Swift.Equatable {
+        /// A list of dataset IDs that you want to apply overrides to. You can use * to override all datasets in this asset bundle.
+        /// This member is required.
+        public var dataSetIds: [Swift.String]?
+        /// A list of tags for the datasets that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+
+        public init(
+            dataSetIds: [Swift.String]? = nil,
+            tags: [QuickSightClientTypes.Tag]? = nil
+        )
+        {
+            self.dataSetIds = dataSetIds
+            self.tags = tags
         }
     }
 
@@ -3383,6 +3879,136 @@ extension QuickSightClientTypes {
             self.name = name
             self.sslProperties = sslProperties
             self.vpcConnectionProperties = vpcConnectionProperties
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceIds = "DataSourceIds"
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceIds = dataSourceIds {
+            var dataSourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSourceIds)
+            for assetbundlerestrictiveresourceid0 in dataSourceIds {
+                try dataSourceIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dataSourceIds)
+        var dataSourceIdsDecoded0:[Swift.String]? = nil
+        if let dataSourceIdsContainer = dataSourceIdsContainer {
+            dataSourceIdsDecoded0 = [Swift.String]()
+            for string0 in dataSourceIdsContainer {
+                if let string0 = string0 {
+                    dataSourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dataSourceIds = dataSourceIdsDecoded0
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of permissions to be applied to a list of data source IDs.
+    public struct AssetBundleImportJobDataSourceOverridePermissions: Swift.Equatable {
+        /// A list of data source IDs that you want to apply overrides to. You can use * to override all data sources in this asset bundle.
+        /// This member is required.
+        public var dataSourceIds: [Swift.String]?
+        /// A list of permissions for the data source that you want to apply overrides to.
+        /// This member is required.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            dataSourceIds: [Swift.String]? = nil,
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.dataSourceIds = dataSourceIds
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceIds = "DataSourceIds"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceIds = dataSourceIds {
+            var dataSourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSourceIds)
+            for assetbundlerestrictiveresourceid0 in dataSourceIds {
+                try dataSourceIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dataSourceIds)
+        var dataSourceIdsDecoded0:[Swift.String]? = nil
+        if let dataSourceIdsContainer = dataSourceIdsContainer {
+            dataSourceIdsDecoded0 = [Swift.String]()
+            for string0 in dataSourceIdsContainer {
+                if let string0 = string0 {
+                    dataSourceIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        dataSourceIds = dataSourceIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of data source IDs.
+    public struct AssetBundleImportJobDataSourceOverrideTags: Swift.Equatable {
+        /// A list of data source IDs that you want to apply overrides to. You can use * to override all data sources in this asset bundle.
+        /// This member is required.
+        public var dataSourceIds: [Swift.String]?
+        /// A list of tags for the data source that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+
+        public init(
+            dataSourceIds: [Swift.String]? = nil,
+            tags: [QuickSightClientTypes.Tag]? = nil
+        )
+        {
+            self.dataSourceIds = dataSourceIds
+            self.tags = tags
         }
     }
 
@@ -3627,6 +4253,333 @@ extension QuickSightClientTypes {
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
             self.vpcConnections = vpcConnections
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyses = "Analyses"
+        case dashboards = "Dashboards"
+        case dataSets = "DataSets"
+        case dataSources = "DataSources"
+        case themes = "Themes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyses = analyses {
+            var analysesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analyses)
+            for assetbundleimportjobanalysisoverridepermissions0 in analyses {
+                try analysesContainer.encode(assetbundleimportjobanalysisoverridepermissions0)
+            }
+        }
+        if let dashboards = dashboards {
+            var dashboardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboards)
+            for assetbundleimportjobdashboardoverridepermissions0 in dashboards {
+                try dashboardsContainer.encode(assetbundleimportjobdashboardoverridepermissions0)
+            }
+        }
+        if let dataSets = dataSets {
+            var dataSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSets)
+            for assetbundleimportjobdatasetoverridepermissions0 in dataSets {
+                try dataSetsContainer.encode(assetbundleimportjobdatasetoverridepermissions0)
+            }
+        }
+        if let dataSources = dataSources {
+            var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
+            for assetbundleimportjobdatasourceoverridepermissions0 in dataSources {
+                try dataSourcesContainer.encode(assetbundleimportjobdatasourceoverridepermissions0)
+            }
+        }
+        if let themes = themes {
+            var themesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themes)
+            for assetbundleimportjobthemeoverridepermissions0 in themes {
+                try themesContainer.encode(assetbundleimportjobthemeoverridepermissions0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourcesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions?].self, forKey: .dataSources)
+        var dataSourcesDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]? = nil
+        if let dataSourcesContainer = dataSourcesContainer {
+            dataSourcesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]()
+            for structure0 in dataSourcesContainer {
+                if let structure0 = structure0 {
+                    dataSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSources = dataSourcesDecoded0
+        let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions?].self, forKey: .dataSets)
+        var dataSetsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]? = nil
+        if let dataSetsContainer = dataSetsContainer {
+            dataSetsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]()
+            for structure0 in dataSetsContainer {
+                if let structure0 = structure0 {
+                    dataSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSets = dataSetsDecoded0
+        let themesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions?].self, forKey: .themes)
+        var themesDecoded0:[QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil
+        if let themesContainer = themesContainer {
+            themesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]()
+            for structure0 in themesContainer {
+                if let structure0 = structure0 {
+                    themesDecoded0?.append(structure0)
+                }
+            }
+        }
+        themes = themesDecoded0
+        let analysesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions?].self, forKey: .analyses)
+        var analysesDecoded0:[QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]? = nil
+        if let analysesContainer = analysesContainer {
+            analysesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]()
+            for structure0 in analysesContainer {
+                if let structure0 = structure0 {
+                    analysesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyses = analysesDecoded0
+        let dashboardsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions?].self, forKey: .dashboards)
+        var dashboardsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions]? = nil
+        if let dashboardsContainer = dashboardsContainer {
+            dashboardsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions]()
+            for structure0 in dashboardsContainer {
+                if let structure0 = structure0 {
+                    dashboardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashboards = dashboardsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the override permission configurations that modify the permissions for specified resources before the resource is imported.
+    public struct AssetBundleImportJobOverridePermissions: Swift.Equatable {
+        /// A list of permissions overrides for any Analysis resources that are present in the asset bundle that is imported.
+        public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]?
+        /// A list of permissions overrides for any Dashboard resources that are present in the asset bundle that is imported.
+        public var dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions]?
+        /// A list of permissions overrides for any DataSet resources that are present in the asset bundle that is imported.
+        public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]?
+        /// A list of permissions overrides for any DataSource resources that are present in the asset bundle that is imported.
+        public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]?
+        /// A list of permissions overrides for any Theme resources that are present in the asset bundle that is imported.
+        public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]?
+
+        public init(
+            analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverridePermissions]? = nil,
+            dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverridePermissions]? = nil,
+            dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverridePermissions]? = nil,
+            dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverridePermissions]? = nil,
+            themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions]? = nil
+        )
+        {
+            self.analyses = analyses
+            self.dashboards = dashboards
+            self.dataSets = dataSets
+            self.dataSources = dataSources
+            self.themes = themes
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analyses = "Analyses"
+        case dashboards = "Dashboards"
+        case dataSets = "DataSets"
+        case dataSources = "DataSources"
+        case themes = "Themes"
+        case vpcConnections = "VPCConnections"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analyses = analyses {
+            var analysesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .analyses)
+            for assetbundleimportjobanalysisoverridetags0 in analyses {
+                try analysesContainer.encode(assetbundleimportjobanalysisoverridetags0)
+            }
+        }
+        if let dashboards = dashboards {
+            var dashboardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashboards)
+            for assetbundleimportjobdashboardoverridetags0 in dashboards {
+                try dashboardsContainer.encode(assetbundleimportjobdashboardoverridetags0)
+            }
+        }
+        if let dataSets = dataSets {
+            var dataSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSets)
+            for assetbundleimportjobdatasetoverridetags0 in dataSets {
+                try dataSetsContainer.encode(assetbundleimportjobdatasetoverridetags0)
+            }
+        }
+        if let dataSources = dataSources {
+            var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
+            for assetbundleimportjobdatasourceoverridetags0 in dataSources {
+                try dataSourcesContainer.encode(assetbundleimportjobdatasourceoverridetags0)
+            }
+        }
+        if let themes = themes {
+            var themesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themes)
+            for assetbundleimportjobthemeoverridetags0 in themes {
+                try themesContainer.encode(assetbundleimportjobthemeoverridetags0)
+            }
+        }
+        if let vpcConnections = vpcConnections {
+            var vpcConnectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConnections)
+            for assetbundleimportjobvpcconnectionoverridetags0 in vpcConnections {
+                try vpcConnectionsContainer.encode(assetbundleimportjobvpcconnectionoverridetags0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags?].self, forKey: .vpcConnections)
+        var vpcConnectionsDecoded0:[QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]? = nil
+        if let vpcConnectionsContainer = vpcConnectionsContainer {
+            vpcConnectionsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]()
+            for structure0 in vpcConnectionsContainer {
+                if let structure0 = structure0 {
+                    vpcConnectionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        vpcConnections = vpcConnectionsDecoded0
+        let dataSourcesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags?].self, forKey: .dataSources)
+        var dataSourcesDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]? = nil
+        if let dataSourcesContainer = dataSourcesContainer {
+            dataSourcesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]()
+            for structure0 in dataSourcesContainer {
+                if let structure0 = structure0 {
+                    dataSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSources = dataSourcesDecoded0
+        let dataSetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags?].self, forKey: .dataSets)
+        var dataSetsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]? = nil
+        if let dataSetsContainer = dataSetsContainer {
+            dataSetsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]()
+            for structure0 in dataSetsContainer {
+                if let structure0 = structure0 {
+                    dataSetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataSets = dataSetsDecoded0
+        let themesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags?].self, forKey: .themes)
+        var themesDecoded0:[QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]? = nil
+        if let themesContainer = themesContainer {
+            themesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]()
+            for structure0 in themesContainer {
+                if let structure0 = structure0 {
+                    themesDecoded0?.append(structure0)
+                }
+            }
+        }
+        themes = themesDecoded0
+        let analysesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags?].self, forKey: .analyses)
+        var analysesDecoded0:[QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags]? = nil
+        if let analysesContainer = analysesContainer {
+            analysesDecoded0 = [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags]()
+            for structure0 in analysesContainer {
+                if let structure0 = structure0 {
+                    analysesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analyses = analysesDecoded0
+        let dashboardsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags?].self, forKey: .dashboards)
+        var dashboardsDecoded0:[QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags]? = nil
+        if let dashboardsContainer = dashboardsContainer {
+            dashboardsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags]()
+            for structure0 in dashboardsContainer {
+                if let structure0 = structure0 {
+                    dashboardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashboards = dashboardsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the override tag configuration that modify the tags that are assigned to specified resources before the resource is imported.
+    public struct AssetBundleImportJobOverrideTags: Swift.Equatable {
+        /// A list of tag overrides for any Analysis resources that are present in the asset bundle that is imported.
+        public var analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags]?
+        /// A list of tag overrides for any Dashboard resources that are present in the asset bundle that is imported.
+        public var dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags]?
+        /// A list of tag overrides for any DataSet resources that are present in the asset bundle that is imported.
+        public var dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]?
+        /// A list of tag overrides for any DataSource resources that are present in the asset bundle that is imported.
+        public var dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]?
+        /// A list of tag overrides for any Theme resources that are present in the asset bundle that is imported.
+        public var themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]?
+        /// A list of tag overrides for any VPCConnection resources that are present in the asset bundle that is imported.
+        public var vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]?
+
+        public init(
+            analyses: [QuickSightClientTypes.AssetBundleImportJobAnalysisOverrideTags]? = nil,
+            dashboards: [QuickSightClientTypes.AssetBundleImportJobDashboardOverrideTags]? = nil,
+            dataSets: [QuickSightClientTypes.AssetBundleImportJobDataSetOverrideTags]? = nil,
+            dataSources: [QuickSightClientTypes.AssetBundleImportJobDataSourceOverrideTags]? = nil,
+            themes: [QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags]? = nil,
+            vpcConnections: [QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags]? = nil
+        )
+        {
+            self.analyses = analyses
+            self.dashboards = dashboards
+            self.dataSets = dataSets
+            self.dataSources = dataSources
+            self.themes = themes
+            self.vpcConnections = vpcConnections
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case strictModeForAllResources = "StrictModeForAllResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if strictModeForAllResources != false {
+            try encodeContainer.encode(strictModeForAllResources, forKey: .strictModeForAllResources)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let strictModeForAllResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .strictModeForAllResources) ?? false
+        strictModeForAllResources = strictModeForAllResourcesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An optional parameter that overrides the validation strategy for all analyses and dashboards before the resource is imported.
+    public struct AssetBundleImportJobOverrideValidationStrategy: Swift.Equatable {
+        /// A Boolean value that indicates whether to import all analyses and dashboards under strict or lenient mode.
+        public var strictModeForAllResources: Swift.Bool
+
+        public init(
+            strictModeForAllResources: Swift.Bool = false
+        )
+        {
+            self.strictModeForAllResources = strictModeForAllResources
         }
     }
 
@@ -3892,6 +4845,136 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AssetBundleImportJobThemeOverridePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case permissions = "Permissions"
+        case themeIds = "ThemeIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+        if let themeIds = themeIds {
+            var themeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themeIds)
+            for assetbundlerestrictiveresourceid0 in themeIds {
+                try themeIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let themeIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .themeIds)
+        var themeIdsDecoded0:[Swift.String]? = nil
+        if let themeIdsContainer = themeIdsContainer {
+            themeIdsDecoded0 = [Swift.String]()
+            for string0 in themeIdsContainer {
+                if let string0 = string0 {
+                    themeIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        themeIds = themeIdsDecoded0
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of permissions to be applied to a list of theme IDs.
+    public struct AssetBundleImportJobThemeOverridePermissions: Swift.Equatable {
+        /// A list of permissions for the themes that you want to apply overrides to.
+        /// This member is required.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+        /// A list of theme IDs that you want to apply overrides to. You can use * to override all themes in this asset bundle.
+        /// This member is required.
+        public var themeIds: [Swift.String]?
+
+        public init(
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil,
+            themeIds: [Swift.String]? = nil
+        )
+        {
+            self.permissions = permissions
+            self.themeIds = themeIds
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobThemeOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case themeIds = "ThemeIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let themeIds = themeIds {
+            var themeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .themeIds)
+            for assetbundlerestrictiveresourceid0 in themeIds {
+                try themeIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let themeIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .themeIds)
+        var themeIdsDecoded0:[Swift.String]? = nil
+        if let themeIdsContainer = themeIdsContainer {
+            themeIdsDecoded0 = [Swift.String]()
+            for string0 in themeIdsContainer {
+                if let string0 = string0 {
+                    themeIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        themeIds = themeIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of theme IDs.
+    public struct AssetBundleImportJobThemeOverrideTags: Swift.Equatable {
+        /// A list of tags for the themes that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+        /// A list of theme IDs that you want to apply overrides to. You can use * to override all themes in this asset bundle.
+        /// This member is required.
+        public var themeIds: [Swift.String]?
+
+        public init(
+            tags: [QuickSightClientTypes.Tag]? = nil,
+            themeIds: [Swift.String]? = nil
+        )
+        {
+            self.tags = tags
+            self.themeIds = themeIds
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dnsResolvers = "DnsResolvers"
@@ -4014,6 +5097,77 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AssetBundleImportJobVPCConnectionOverrideTags: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+        case vpcConnectionIds = "VPCConnectionIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let vpcConnectionIds = vpcConnectionIds {
+            var vpcConnectionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConnectionIds)
+            for assetbundlerestrictiveresourceid0 in vpcConnectionIds {
+                try vpcConnectionIdsContainer.encode(assetbundlerestrictiveresourceid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let vpcConnectionIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcConnectionIds)
+        var vpcConnectionIdsDecoded0:[Swift.String]? = nil
+        if let vpcConnectionIdsContainer = vpcConnectionIdsContainer {
+            vpcConnectionIdsDecoded0 = [Swift.String]()
+            for string0 in vpcConnectionIdsContainer {
+                if let string0 = string0 {
+                    vpcConnectionIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcConnectionIds = vpcConnectionIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An object that contains a list of tags to be assigned to a list of VPC connection IDs.
+    public struct AssetBundleImportJobVPCConnectionOverrideTags: Swift.Equatable {
+        /// A list of tags for the VPC connections that you want to apply overrides to.
+        /// This member is required.
+        public var tags: [QuickSightClientTypes.Tag]?
+        /// A list of VPC connection IDs that you want to apply overrides to. You can use * to override all VPC connections in this asset bundle.
+        /// This member is required.
+        public var vpcConnectionIds: [Swift.String]?
+
+        public init(
+            tags: [QuickSightClientTypes.Tag]? = nil,
+            vpcConnectionIds: [Swift.String]? = nil
+        )
+        {
+            self.tags = tags
+            self.vpcConnectionIds = vpcConnectionIds
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.AssetBundleImportSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"
@@ -4089,6 +5243,11 @@ extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.Codabl
     }
 }
 
+extension QuickSightClientTypes.AssetBundleImportSourceDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssetBundleImportSourceDescription(s3Uri: \(Swift.String(describing: s3Uri)), body: \"CONTENT_REDACTED\")"}
+}
+
 extension QuickSightClientTypes {
     /// A description of the import source that you provide at the start of an import job. This value is set to either Body or S3Uri, depending on how the StartAssetBundleImportJobRequest is configured.
     public struct AssetBundleImportSourceDescription: Swift.Equatable {
@@ -4104,6 +5263,112 @@ extension QuickSightClientTypes {
         {
             self.body = body
             self.s3Uri = s3Uri
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleResourceLinkSharingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case permissions = "Permissions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let permissions = self.permissions {
+            try encodeContainer.encode(permissions, forKey: .permissions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let permissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleResourcePermissions.self, forKey: .permissions)
+        permissions = permissionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the configuration of a shared link to an Amazon QuickSight dashboard.
+    public struct AssetBundleResourceLinkSharingConfiguration: Swift.Equatable {
+        /// A list of link sharing permissions for the dashboards that you want to apply overrides to.
+        public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
+
+        public init(
+            permissions: QuickSightClientTypes.AssetBundleResourcePermissions? = nil
+        )
+        {
+            self.permissions = permissions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleResourcePermissions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case principals = "Principals"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for string0 in actions {
+                try actionsContainer.encode(string0)
+            }
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for principal0 in principals {
+                try principalsContainer.encode(principal0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .principals)
+        var principalsDecoded0:[Swift.String]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [Swift.String]()
+            for string0 in principalsContainer {
+                if let string0 = string0 {
+                    principalsDecoded0?.append(string0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let actionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actions)
+        var actionsDecoded0:[Swift.String]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [Swift.String]()
+            for string0 in actionsContainer {
+                if let string0 = string0 {
+                    actionsDecoded0?.append(string0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A structure that contains the permissions for the resource that you want to override in an asset bundle import job.
+    public struct AssetBundleResourcePermissions: Swift.Equatable {
+        /// A list of IAM actions to grant permissions on.
+        /// This member is required.
+        public var actions: [Swift.String]?
+        /// A list of principals to grant permissions on.
+        /// This member is required.
+        public var principals: [Swift.String]?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            principals: [Swift.String]? = nil
+        )
+        {
+            self.actions = actions
+            self.principals = principals
         }
     }
 
@@ -4495,6 +5760,63 @@ extension QuickSightClientTypes {
             self = AuthorSpecifiedAggregation(rawValue: rawValue) ?? AuthorSpecifiedAggregation.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.AuthorizedTargetsByService: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+        case service = "Service"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedTargets = authorizedTargets {
+            var authorizedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTargets)
+            for string0 in authorizedTargets {
+                try authorizedTargetsContainer.encode(string0)
+            }
+        }
+        if let service = self.service {
+            try encodeContainer.encode(service.rawValue, forKey: .service)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ServiceType.self, forKey: .service)
+        service = serviceDecoded
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The authorized targets that are associated with a service.
+    public struct AuthorizedTargetsByService: Swift.Equatable {
+        /// Aist of authorized targets that are represented by IAM Identity Center application ARNs.
+        public var authorizedTargets: [Swift.String]?
+        /// The name of the Amazon Web Services service.
+        public var service: QuickSightClientTypes.ServiceType?
+
+        public init(
+            authorizedTargets: [Swift.String]? = nil,
+            service: QuickSightClientTypes.ServiceType? = nil
+        )
+        {
+            self.authorizedTargets = authorizedTargets
+            self.service = service
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.AwsIotAnalyticsParameters: Swift.Codable {
@@ -5787,6 +7109,52 @@ extension QuickSightClientTypes {
             self = BaseMapStyleType(rawValue: rawValue) ?? BaseMapStyleType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.BigQueryParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSetRegion = "DataSetRegion"
+        case projectId = "ProjectId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSetRegion = self.dataSetRegion {
+            try encodeContainer.encode(dataSetRegion, forKey: .dataSetRegion)
+        }
+        if let projectId = self.projectId {
+            try encodeContainer.encode(projectId, forKey: .projectId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let projectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .projectId)
+        projectId = projectIdDecoded
+        let dataSetRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSetRegion)
+        dataSetRegion = dataSetRegionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The parameters that are required to connect to a Google BigQuery data source.
+    public struct BigQueryParameters: Swift.Equatable {
+        /// The storage location where you create a Google BigQuery data source.
+        public var dataSetRegion: Swift.String?
+        /// The Google Cloud Platform project ID where your datasource was created.
+        /// This member is required.
+        public var projectId: Swift.String?
+
+        public init(
+            dataSetRegion: Swift.String? = nil,
+            projectId: Swift.String? = nil
+        )
+        {
+            self.dataSetRegion = dataSetRegion
+            self.projectId = projectId
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.BinCountOptions: Swift.Codable {
@@ -10618,12 +11986,12 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
     public var accountName: Swift.String?
     /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
     public var activeDirectoryName: Swift.String?
-    /// The admin group associated with your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The admin group associated with your Active Directory or IAM Identity Center account. This field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var adminGroup: [Swift.String]?
-    /// The method that you want to use to authenticate your Amazon QuickSight account. Currently, the valid values for this parameter are IAM_AND_QUICKSIGHT, IAM_ONLY, and ACTIVE_DIRECTORY. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory.
+    /// The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
     /// This member is required.
     public var authenticationMethod: QuickSightClientTypes.AuthenticationMethodOption?
-    /// The author group associated with your Active Directory. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var authorGroup: [Swift.String]?
     /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
     /// This member is required.
@@ -10652,7 +12020,7 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
     /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
     /// This member is required.
     public var notificationEmail: Swift.String?
-    /// The reader group associated with your Active Direcrtory. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
     public var readerGroup: [Swift.String]?
     /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
     public var realm: Swift.String?
@@ -11212,6 +12580,7 @@ extension CreateDashboardInput: Swift.Encodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
+        case linkSharingConfiguration = "LinkSharingConfiguration"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -11235,6 +12604,9 @@ extension CreateDashboardInput: Swift.Encodable {
             for arn0 in folderArns {
                 try folderArnsContainer.encode(arn0)
             }
+        }
+        if let linkSharingConfiguration = self.linkSharingConfiguration {
+            try encodeContainer.encode(linkSharingConfiguration, forKey: .linkSharingConfiguration)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -11300,6 +12672,8 @@ public struct CreateDashboardInput: Swift.Equatable {
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
     /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
     public var folderArns: [Swift.String]?
+    /// A structure that contains the permissions of a shareable link to the dashboard.
+    public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
     /// The display name of the dashboard.
     /// This member is required.
     public var name: Swift.String?
@@ -11324,6 +12698,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
         definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
         folderArns: [Swift.String]? = nil,
+        linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration? = nil,
         name: Swift.String? = nil,
         parameters: QuickSightClientTypes.Parameters? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
@@ -11339,6 +12714,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
         self.folderArns = folderArns
+        self.linkSharingConfiguration = linkSharingConfiguration
         self.name = name
         self.parameters = parameters
         self.permissions = permissions
@@ -11362,6 +12738,7 @@ struct CreateDashboardInputBody: Swift.Equatable {
     let definition: QuickSightClientTypes.DashboardVersionDefinition?
     let validationStrategy: QuickSightClientTypes.ValidationStrategy?
     let folderArns: [Swift.String]?
+    let linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
 }
 
 extension CreateDashboardInputBody: Swift.Decodable {
@@ -11369,6 +12746,7 @@ extension CreateDashboardInputBody: Swift.Decodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
+        case linkSharingConfiguration = "LinkSharingConfiguration"
         case name = "Name"
         case parameters = "Parameters"
         case permissions = "Permissions"
@@ -11430,6 +12808,8 @@ extension CreateDashboardInputBody: Swift.Decodable {
             }
         }
         folderArns = folderArnsDecoded0
+        let linkSharingConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
+        linkSharingConfiguration = linkSharingConfigurationDecoded
     }
 }
 
@@ -13733,6 +15113,127 @@ enum CreateRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceExistsException": return try await ResourceExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateRoleMembershipInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        guard let memberName = memberName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
+    }
+}
+
+public struct CreateRoleMembershipInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the group that you want to add to the role.
+    /// This member is required.
+    public var memberName: Swift.String?
+    /// The namespace that the role belongs to.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The role that you want to add a group to.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        memberName: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.memberName = memberName
+        self.namespace = namespace
+        self.role = role
+    }
+}
+
+struct CreateRoleMembershipInputBody: Swift.Equatable {
+}
+
+extension CreateRoleMembershipInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CreateRoleMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateRoleMembershipOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct CreateRoleMembershipOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct CreateRoleMembershipOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension CreateRoleMembershipOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum CreateRoleMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -17078,7 +18579,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
         case dataSetArns = "DataSetArns"
         case description = "Description"
         case errors = "Errors"
-        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -17108,9 +18608,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             for dashboarderror0 in errors {
                 try errorsContainer.encode(dashboarderror0)
             }
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -17181,8 +18678,6 @@ extension QuickSightClientTypes.DashboardVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -17199,8 +18694,6 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this dashboard version.
         public var errors: [QuickSightClientTypes.DashboardError]?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// Source entity ARN.
@@ -17218,7 +18711,6 @@ extension QuickSightClientTypes {
             dataSetArns: [Swift.String]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.DashboardError]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -17231,7 +18723,6 @@ extension QuickSightClientTypes {
             self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
-            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -19809,6 +21300,7 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
         case auroraparameters = "AuroraParameters"
         case aurorapostgresqlparameters = "AuroraPostgreSqlParameters"
         case awsiotanalyticsparameters = "AwsIotAnalyticsParameters"
+        case bigqueryparameters = "BigQueryParameters"
         case databricksparameters = "DatabricksParameters"
         case exasolparameters = "ExasolParameters"
         case jiraparameters = "JiraParameters"
@@ -19846,6 +21338,8 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
                 try container.encode(aurorapostgresqlparameters, forKey: .aurorapostgresqlparameters)
             case let .awsiotanalyticsparameters(awsiotanalyticsparameters):
                 try container.encode(awsiotanalyticsparameters, forKey: .awsiotanalyticsparameters)
+            case let .bigqueryparameters(bigqueryparameters):
+                try container.encode(bigqueryparameters, forKey: .bigqueryparameters)
             case let .databricksparameters(databricksparameters):
                 try container.encode(databricksparameters, forKey: .databricksparameters)
             case let .exasolparameters(exasolparameters):
@@ -20016,6 +21510,11 @@ extension QuickSightClientTypes.DataSourceParameters: Swift.Codable {
             self = .trinoparameters(trinoparameters)
             return
         }
+        let bigqueryparametersDecoded = try values.decodeIfPresent(QuickSightClientTypes.BigQueryParameters.self, forKey: .bigqueryparameters)
+        if let bigqueryparameters = bigqueryparametersDecoded {
+            self = .bigqueryparameters(bigqueryparameters)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -20073,6 +21572,8 @@ extension QuickSightClientTypes {
         case starburstparameters(QuickSightClientTypes.StarburstParameters)
         /// The parameters that are required to connect to a Trino data source.
         case trinoparameters(QuickSightClientTypes.TrinoParameters)
+        /// The parameters that are required to connect to a Google BigQuery data source.
+        case bigqueryparameters(QuickSightClientTypes.BigQueryParameters)
         case sdkUnknown(Swift.String)
     }
 
@@ -20238,6 +21739,7 @@ extension QuickSightClientTypes {
         case aurora
         case auroraPostgresql
         case awsIotAnalytics
+        case bigquery
         case databricks
         case exasol
         case github
@@ -20254,8 +21756,10 @@ extension QuickSightClientTypes {
         case snowflake
         case spark
         case sqlserver
+        case starburst
         case teradata
         case timestream
+        case trino
         case twitter
         case sdkUnknown(Swift.String)
 
@@ -20268,6 +21772,7 @@ extension QuickSightClientTypes {
                 .aurora,
                 .auroraPostgresql,
                 .awsIotAnalytics,
+                .bigquery,
                 .databricks,
                 .exasol,
                 .github,
@@ -20284,8 +21789,10 @@ extension QuickSightClientTypes {
                 .snowflake,
                 .spark,
                 .sqlserver,
+                .starburst,
                 .teradata,
                 .timestream,
+                .trino,
                 .twitter,
                 .sdkUnknown("")
             ]
@@ -20303,6 +21810,7 @@ extension QuickSightClientTypes {
             case .aurora: return "AURORA"
             case .auroraPostgresql: return "AURORA_POSTGRESQL"
             case .awsIotAnalytics: return "AWS_IOT_ANALYTICS"
+            case .bigquery: return "BIGQUERY"
             case .databricks: return "DATABRICKS"
             case .exasol: return "EXASOL"
             case .github: return "GITHUB"
@@ -20319,8 +21827,10 @@ extension QuickSightClientTypes {
             case .snowflake: return "SNOWFLAKE"
             case .spark: return "SPARK"
             case .sqlserver: return "SQLSERVER"
+            case .starburst: return "STARBURST"
             case .teradata: return "TERADATA"
             case .timestream: return "TIMESTREAM"
+            case .trino: return "TRINO"
             case .twitter: return "TWITTER"
             case let .sdkUnknown(s): return s
             }
@@ -23757,6 +25267,109 @@ enum DeleteIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension DeleteIdentityPropagationConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let service = service else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config/\(service.rawValue.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteIdentityPropagationConfigInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that you want to delete an identity propagation configuration from.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from.
+    /// This member is required.
+    public var service: QuickSightClientTypes.ServiceType?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        service: QuickSightClientTypes.ServiceType? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.service = service
+    }
+}
+
+struct DeleteIdentityPropagationConfigInputBody: Swift.Equatable {
+}
+
+extension DeleteIdentityPropagationConfigInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteIdentityPropagationConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteIdentityPropagationConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteIdentityPropagationConfigOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DeleteIdentityPropagationConfigOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteIdentityPropagationConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum DeleteIdentityPropagationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteNamespaceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -23988,6 +25601,241 @@ enum DeleteRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
+    }
+}
+
+public struct DeleteRoleCustomPermissionInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The namespace that includes the role.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The role that you want to remove permissions from.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.role = role
+    }
+}
+
+struct DeleteRoleCustomPermissionInputBody: Swift.Equatable {
+}
+
+extension DeleteRoleCustomPermissionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRoleCustomPermissionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+            self.status = output.status
+        } else {
+            self.requestId = nil
+            self.status = 0
+        }
+    }
+}
+
+public struct DeleteRoleCustomPermissionOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DeleteRoleCustomPermissionOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteRoleCustomPermissionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum DeleteRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteRoleMembershipInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        guard let memberName = memberName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members/\(memberName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteRoleMembershipInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the group.
+    /// This member is required.
+    public var memberName: Swift.String?
+    /// The namespace that contains the role.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The role that you want to remove permissions from.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        memberName: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.memberName = memberName
+        self.namespace = namespace
+        self.role = role
+    }
+}
+
+struct DeleteRoleMembershipInputBody: Swift.Equatable {
+}
+
+extension DeleteRoleMembershipInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteRoleMembershipOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteRoleMembershipOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct DeleteRoleMembershipOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DeleteRoleMembershipOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DeleteRoleMembershipOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum DeleteRoleMembershipOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -26068,6 +27916,11 @@ extension DescribeAssetBundleExportJobInputBody: Swift.Decodable {
     }
 }
 
+extension DescribeAssetBundleExportJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeAssetBundleExportJobOutput(arn: \(Swift.String(describing: arn)), assetBundleExportJobId: \(Swift.String(describing: assetBundleExportJobId)), awsAccountId: \(Swift.String(describing: awsAccountId)), cloudFormationOverridePropertyConfiguration: \(Swift.String(describing: cloudFormationOverridePropertyConfiguration)), createdTime: \(Swift.String(describing: createdTime)), errors: \(Swift.String(describing: errors)), exportFormat: \(Swift.String(describing: exportFormat)), includeAllDependencies: \(Swift.String(describing: includeAllDependencies)), includePermissions: \(Swift.String(describing: includePermissions)), includeTags: \(Swift.String(describing: includeTags)), jobStatus: \(Swift.String(describing: jobStatus)), requestId: \(Swift.String(describing: requestId)), resourceArns: \(Swift.String(describing: resourceArns)), status: \(Swift.String(describing: status)), validationStrategy: \(Swift.String(describing: validationStrategy)), warnings: \(Swift.String(describing: warnings)), downloadUrl: \"CONTENT_REDACTED\")"}
+}
+
 extension DescribeAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -26082,9 +27935,13 @@ extension DescribeAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding 
             self.errors = output.errors
             self.exportFormat = output.exportFormat
             self.includeAllDependencies = output.includeAllDependencies
+            self.includePermissions = output.includePermissions
+            self.includeTags = output.includeTags
             self.jobStatus = output.jobStatus
             self.requestId = output.requestId
             self.resourceArns = output.resourceArns
+            self.validationStrategy = output.validationStrategy
+            self.warnings = output.warnings
         } else {
             self.arn = nil
             self.assetBundleExportJobId = nil
@@ -26095,9 +27952,13 @@ extension DescribeAssetBundleExportJobOutput: ClientRuntime.HttpResponseBinding 
             self.errors = nil
             self.exportFormat = nil
             self.includeAllDependencies = false
+            self.includePermissions = false
+            self.includeTags = false
             self.jobStatus = nil
             self.requestId = nil
             self.resourceArns = nil
+            self.validationStrategy = nil
+            self.warnings = nil
         }
         self.status = httpResponse.statusCode.rawValue
     }
@@ -26122,6 +27983,10 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// The include dependencies flag.
     public var includeAllDependencies: Swift.Bool
+    /// The include permissions flag.
+    public var includePermissions: Swift.Bool
+    /// The include tags flag.
+    public var includeTags: Swift.Bool
     /// Indicates the status of a job through its queuing and execution. Poll this DescribeAssetBundleExportApi until JobStatus is either SUCCESSFUL or FAILED.
     public var jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus?
     /// The Amazon Web Services request ID for this operation.
@@ -26130,6 +27995,10 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
     public var resourceArns: [Swift.String]?
     /// The HTTP status of the response.
     public var status: Swift.Int
+    /// The validation strategy that is used to export the analysis or dashboard.
+    public var validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy?
+    /// An array of warning records that describe the analysis or dashboard that is exported. This array includes UI errors that can be skipped during the validation process. This property only appears if StrictModeForAllResources in ValidationStrategy is set to FALSE.
+    public var warnings: [QuickSightClientTypes.AssetBundleExportJobWarning]?
 
     public init(
         arn: Swift.String? = nil,
@@ -26141,10 +28010,14 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
         errors: [QuickSightClientTypes.AssetBundleExportJobError]? = nil,
         exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
         includeAllDependencies: Swift.Bool = false,
+        includePermissions: Swift.Bool = false,
+        includeTags: Swift.Bool = false,
         jobStatus: QuickSightClientTypes.AssetBundleExportJobStatus? = nil,
         requestId: Swift.String? = nil,
         resourceArns: [Swift.String]? = nil,
-        status: Swift.Int = 0
+        status: Swift.Int = 0,
+        validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy? = nil,
+        warnings: [QuickSightClientTypes.AssetBundleExportJobWarning]? = nil
     )
     {
         self.arn = arn
@@ -26156,10 +28029,14 @@ public struct DescribeAssetBundleExportJobOutput: Swift.Equatable {
         self.errors = errors
         self.exportFormat = exportFormat
         self.includeAllDependencies = includeAllDependencies
+        self.includePermissions = includePermissions
+        self.includeTags = includeTags
         self.jobStatus = jobStatus
         self.requestId = requestId
         self.resourceArns = resourceArns
         self.status = status
+        self.validationStrategy = validationStrategy
+        self.warnings = warnings
     }
 }
 
@@ -26177,6 +28054,10 @@ struct DescribeAssetBundleExportJobOutputBody: Swift.Equatable {
     let cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
     let requestId: Swift.String?
     let status: Swift.Int
+    let includePermissions: Swift.Bool
+    let includeTags: Swift.Bool
+    let validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy?
+    let warnings: [QuickSightClientTypes.AssetBundleExportJobWarning]?
 }
 
 extension DescribeAssetBundleExportJobOutputBody: Swift.Decodable {
@@ -26190,10 +28071,14 @@ extension DescribeAssetBundleExportJobOutputBody: Swift.Decodable {
         case errors = "Errors"
         case exportFormat = "ExportFormat"
         case includeAllDependencies = "IncludeAllDependencies"
+        case includePermissions = "IncludePermissions"
+        case includeTags = "IncludeTags"
         case jobStatus = "JobStatus"
         case requestId = "RequestId"
         case resourceArns = "ResourceArns"
         case status = "Status"
+        case validationStrategy = "ValidationStrategy"
+        case warnings = "Warnings"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -26242,6 +28127,23 @@ extension DescribeAssetBundleExportJobOutputBody: Swift.Decodable {
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
         status = statusDecoded
+        let includePermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePermissions) ?? false
+        includePermissions = includePermissionsDecoded
+        let includeTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeTags) ?? false
+        includeTags = includeTagsDecoded
+        let validationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportJobValidationStrategy.self, forKey: .validationStrategy)
+        validationStrategy = validationStrategyDecoded
+        let warningsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleExportJobWarning?].self, forKey: .warnings)
+        var warningsDecoded0:[QuickSightClientTypes.AssetBundleExportJobWarning]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [QuickSightClientTypes.AssetBundleExportJobWarning]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
     }
 }
 
@@ -26311,6 +28213,9 @@ extension DescribeAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding 
             self.failureAction = output.failureAction
             self.jobStatus = output.jobStatus
             self.overrideParameters = output.overrideParameters
+            self.overridePermissions = output.overridePermissions
+            self.overrideTags = output.overrideTags
+            self.overrideValidationStrategy = output.overrideValidationStrategy
             self.requestId = output.requestId
             self.rollbackErrors = output.rollbackErrors
         } else {
@@ -26323,6 +28228,9 @@ extension DescribeAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding 
             self.failureAction = nil
             self.jobStatus = nil
             self.overrideParameters = nil
+            self.overridePermissions = nil
+            self.overrideTags = nil
+            self.overrideValidationStrategy = nil
             self.requestId = nil
             self.rollbackErrors = nil
         }
@@ -26355,8 +28263,14 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
     ///
     /// * FAILED_ROLLBACK_ERROR
     public var jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus?
-    /// Optional overrides to be applied to the resource configuration before import.
+    /// Optional overrides that are applied to the resource configuration before import.
     public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+    /// Optional permission overrides that are applied to the resource configuration before import.
+    public var overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions?
+    /// Optional tag overrides that are applied to the resource configuration before import.
+    public var overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags?
+    /// An optional validation strategy override for all analyses and dashboards to be applied to the resource configuration before import.
+    public var overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// An array of error records that describes any failures that occurred while an import job was attempting a rollback. Error records accumulate while the job is still running. The complete set of error records is available after the job has completed and failed.
@@ -26374,6 +28288,9 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
         failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
         jobStatus: QuickSightClientTypes.AssetBundleImportJobStatus? = nil,
         overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters? = nil,
+        overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions? = nil,
+        overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags? = nil,
+        overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy? = nil,
         requestId: Swift.String? = nil,
         rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]? = nil,
         status: Swift.Int = 0
@@ -26388,6 +28305,9 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
         self.failureAction = failureAction
         self.jobStatus = jobStatus
         self.overrideParameters = overrideParameters
+        self.overridePermissions = overridePermissions
+        self.overrideTags = overrideTags
+        self.overrideValidationStrategy = overrideValidationStrategy
         self.requestId = requestId
         self.rollbackErrors = rollbackErrors
         self.status = status
@@ -26407,6 +28327,9 @@ struct DescribeAssetBundleImportJobOutputBody: Swift.Equatable {
     let failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
     let requestId: Swift.String?
     let status: Swift.Int
+    let overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions?
+    let overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags?
+    let overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy?
 }
 
 extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
@@ -26420,6 +28343,9 @@ extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
         case failureAction = "FailureAction"
         case jobStatus = "JobStatus"
         case overrideParameters = "OverrideParameters"
+        case overridePermissions = "OverridePermissions"
+        case overrideTags = "OverrideTags"
+        case overrideValidationStrategy = "OverrideValidationStrategy"
         case requestId = "RequestId"
         case rollbackErrors = "RollbackErrors"
         case status = "Status"
@@ -26469,6 +28395,12 @@ extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
         requestId = requestIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
         status = statusDecoded
+        let overridePermissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverridePermissions.self, forKey: .overridePermissions)
+        overridePermissions = overridePermissionsDecoded
+        let overrideTagsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideTags.self, forKey: .overrideTags)
+        overrideTags = overrideTagsDecoded
+        let overrideValidationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy.self, forKey: .overrideValidationStrategy)
+        overrideValidationStrategy = overrideValidationStrategyDecoded
     }
 }
 
@@ -29374,6 +31306,130 @@ enum DescribeRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
+    }
+}
+
+public struct DescribeRoleCustomPermissionInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The namespace that contains the role.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The name of the role whose permissions you want described.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.role = role
+    }
+}
+
+struct DescribeRoleCustomPermissionInputBody: Swift.Equatable {
+}
+
+extension DescribeRoleCustomPermissionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeRoleCustomPermissionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.customPermissionsName = output.customPermissionsName
+            self.requestId = output.requestId
+            self.status = output.status
+        } else {
+            self.customPermissionsName = nil
+            self.requestId = nil
+            self.status = 0
+        }
+    }
+}
+
+public struct DescribeRoleCustomPermissionOutput: Swift.Equatable {
+    /// The name of the custom permission that is described.
+    public var customPermissionsName: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customPermissionsName: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.customPermissionsName = customPermissionsName
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct DescribeRoleCustomPermissionOutputBody: Swift.Equatable {
+    let customPermissionsName: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension DescribeRoleCustomPermissionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customPermissionsName = "CustomPermissionsName"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customPermissionsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customPermissionsName)
+        customPermissionsName = customPermissionsNameDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum DescribeRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -40620,6 +42676,41 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.IdentityCenterConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableIdentityPropagation = "EnableIdentityPropagation"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableIdentityPropagation = self.enableIdentityPropagation {
+            try encodeContainer.encode(enableIdentityPropagation, forKey: .enableIdentityPropagation)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableIdentityPropagationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableIdentityPropagation)
+        enableIdentityPropagation = enableIdentityPropagationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The parameters for an IAM Identity Center configuration.
+    public struct IdentityCenterConfiguration: Swift.Equatable {
+        /// A Boolean option that controls whether Trusted Identity Propagation should be used.
+        public var enableIdentityPropagation: Swift.Bool?
+
+        public init(
+            enableIdentityPropagation: Swift.Bool? = nil
+        )
+        {
+            self.enableIdentityPropagation = enableIdentityPropagation
+        }
+    }
+
+}
+
 extension QuickSightClientTypes {
     public enum IdentityStore: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case quicksight
@@ -46942,6 +49033,155 @@ enum ListIAMPolicyAssignmentsOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension ListIdentityPropagationConfigsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListIdentityPropagationConfigsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config"
+    }
+}
+
+public struct ListIdentityPropagationConfigsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contain the identity propagation configurations of.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIdentityPropagationConfigsInputBody: Swift.Equatable {
+}
+
+extension ListIdentityPropagationConfigsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListIdentityPropagationConfigsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIdentityPropagationConfigsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+            self.services = output.services
+        } else {
+            self.nextToken = nil
+            self.requestId = nil
+            self.services = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListIdentityPropagationConfigsOutput: Swift.Equatable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// A list of services and their authorized targets that the Amazon QuickSight IAM Identity Center application can access.
+    public var services: [QuickSightClientTypes.AuthorizedTargetsByService]?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        services: [QuickSightClientTypes.AuthorizedTargetsByService]? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.services = services
+        self.status = status
+    }
+}
+
+struct ListIdentityPropagationConfigsOutputBody: Swift.Equatable {
+    let services: [QuickSightClientTypes.AuthorizedTargetsByService]?
+    let nextToken: Swift.String?
+    let status: Swift.Int
+    let requestId: Swift.String?
+}
+
+extension ListIdentityPropagationConfigsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case services = "Services"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let servicesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AuthorizedTargetsByService?].self, forKey: .services)
+        var servicesDecoded0:[QuickSightClientTypes.AuthorizedTargetsByService]? = nil
+        if let servicesContainer = servicesContainer {
+            servicesDecoded0 = [QuickSightClientTypes.AuthorizedTargetsByService]()
+            for structure0 in servicesContainer {
+                if let structure0 = structure0 {
+                    servicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        services = servicesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+    }
+}
+
+enum ListIdentityPropagationConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListIngestionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -47370,6 +49610,175 @@ enum ListRefreshSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListRoleMembershipsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListRoleMembershipsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/members"
+    }
+}
+
+public struct ListRoleMembershipsInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The namespace that includes the role.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// The name of the role.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.role = role
+    }
+}
+
+struct ListRoleMembershipsInputBody: Swift.Equatable {
+}
+
+extension ListRoleMembershipsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListRoleMembershipsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListRoleMembershipsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.membersList = output.membersList
+            self.nextToken = output.nextToken
+            self.requestId = output.requestId
+        } else {
+            self.membersList = nil
+            self.nextToken = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct ListRoleMembershipsOutput: Swift.Equatable {
+    /// The list of groups associated with a role
+    public var membersList: [Swift.String]?
+    /// A pagination token that can be used in a subsequent request.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        membersList: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.membersList = membersList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct ListRoleMembershipsOutputBody: Swift.Equatable {
+    let membersList: [Swift.String]?
+    let nextToken: Swift.String?
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension ListRoleMembershipsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case membersList = "MembersList"
+        case nextToken = "NextToken"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let membersListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .membersList)
+        var membersListDecoded0:[Swift.String]? = nil
+        if let membersListContainer = membersListContainer {
+            membersListDecoded0 = [Swift.String]()
+            for string0 in membersListContainer {
+                if let string0 = string0 {
+                    membersListDecoded0?.append(string0)
+                }
+            }
+        }
+        membersList = membersListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum ListRoleMembershipsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -57605,6 +60014,7 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         case database = "Database"
         case host = "Host"
         case iamParameters = "IAMParameters"
+        case identityCenterConfiguration = "IdentityCenterConfiguration"
         case port = "Port"
     }
 
@@ -57621,6 +60031,9 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         }
         if let iamParameters = self.iamParameters {
             try encodeContainer.encode(iamParameters, forKey: .iamParameters)
+        }
+        if let identityCenterConfiguration = self.identityCenterConfiguration {
+            try encodeContainer.encode(identityCenterConfiguration, forKey: .identityCenterConfiguration)
         }
         if port != 0 {
             try encodeContainer.encode(port, forKey: .port)
@@ -57639,6 +60052,8 @@ extension QuickSightClientTypes.RedshiftParameters: Swift.Codable {
         clusterId = clusterIdDecoded
         let iamParametersDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RedshiftIAMParameters.self, forKey: .iamParameters)
         iamParameters = iamParametersDecoded
+        let identityCenterConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.IdentityCenterConfiguration.self, forKey: .identityCenterConfiguration)
+        identityCenterConfiguration = identityCenterConfigurationDecoded
     }
 }
 
@@ -57654,6 +60069,8 @@ extension QuickSightClientTypes {
         public var host: Swift.String?
         /// An optional parameter that uses IAM authentication to grant Amazon QuickSight access to your cluster. This parameter can be used instead of [DataSourceCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DataSourceCredentials.html).
         public var iamParameters: QuickSightClientTypes.RedshiftIAMParameters?
+        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your cluster. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
         /// Port. This field can be blank if the ClusterId is provided.
         public var port: Swift.Int
 
@@ -57662,6 +60079,7 @@ extension QuickSightClientTypes {
             database: Swift.String? = nil,
             host: Swift.String? = nil,
             iamParameters: QuickSightClientTypes.RedshiftIAMParameters? = nil,
+            identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration? = nil,
             port: Swift.Int = 0
         )
         {
@@ -57669,6 +60087,7 @@ extension QuickSightClientTypes {
             self.database = database
             self.host = host
             self.iamParameters = iamParameters
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.port = port
         }
     }
@@ -60107,6 +62526,41 @@ enum RestoreAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedUserEditionException": return try await UnsupportedUserEditionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+    public enum Role: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case admin
+        case author
+        case reader
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Role] {
+            return [
+                .admin,
+                .author,
+                .reader,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .admin: return "ADMIN"
+            case .author: return "AUTHOR"
+            case .reader: return "READER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Role(rawValue: rawValue) ?? Role.sdkUnknown(rawValue)
         }
     }
 }
@@ -63754,6 +66208,35 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum ServiceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case redshift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceType] {
+            return [
+                .redshift,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .redshift: return "REDSHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServiceType(rawValue: rawValue) ?? ServiceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SessionLifetimeInMinutesInvalidException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -66654,7 +69137,10 @@ extension StartAssetBundleExportJobInput: Swift.Encodable {
         case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
         case exportFormat = "ExportFormat"
         case includeAllDependencies = "IncludeAllDependencies"
+        case includePermissions = "IncludePermissions"
+        case includeTags = "IncludeTags"
         case resourceArns = "ResourceArns"
+        case validationStrategy = "ValidationStrategy"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -66671,11 +69157,20 @@ extension StartAssetBundleExportJobInput: Swift.Encodable {
         if let includeAllDependencies = self.includeAllDependencies {
             try encodeContainer.encode(includeAllDependencies, forKey: .includeAllDependencies)
         }
+        if let includePermissions = self.includePermissions {
+            try encodeContainer.encode(includePermissions, forKey: .includePermissions)
+        }
+        if let includeTags = self.includeTags {
+            try encodeContainer.encode(includeTags, forKey: .includeTags)
+        }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
             for arn0 in resourceArns {
                 try resourceArnsContainer.encode(arn0)
             }
+        }
+        if let validationStrategy = self.validationStrategy {
+            try encodeContainer.encode(validationStrategy, forKey: .validationStrategy)
         }
     }
 }
@@ -66703,6 +69198,10 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
     public var exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
     public var includeAllDependencies: Swift.Bool?
+    /// A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE, any permissions associated with each resource are exported.
+    public var includePermissions: Swift.Bool?
+    /// A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE, any tags associated with each resource are exported.
+    public var includeTags: Swift.Bool?
     /// An array of resource ARNs to export. The following resources are supported.
     ///
     /// * Analysis
@@ -66723,6 +69222,8 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
     /// The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     /// This member is required.
     public var resourceArns: [Swift.String]?
+    /// An optional parameter that determines which validation strategy to use for the export job. If StrictModeForAllResources is set to TRUE, strict validation for every error is enforced. If it is set to FALSE, validation is skipped for specific UI errors that are shown as warnings. The default value for StrictModeForAllResources is FALSE.
+    public var validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy?
 
     public init(
         assetBundleExportJobId: Swift.String? = nil,
@@ -66730,7 +69231,10 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
         cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration? = nil,
         exportFormat: QuickSightClientTypes.AssetBundleExportFormat? = nil,
         includeAllDependencies: Swift.Bool? = nil,
-        resourceArns: [Swift.String]? = nil
+        includePermissions: Swift.Bool? = nil,
+        includeTags: Swift.Bool? = nil,
+        resourceArns: [Swift.String]? = nil,
+        validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy? = nil
     )
     {
         self.assetBundleExportJobId = assetBundleExportJobId
@@ -66738,7 +69242,10 @@ public struct StartAssetBundleExportJobInput: Swift.Equatable {
         self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
         self.exportFormat = exportFormat
         self.includeAllDependencies = includeAllDependencies
+        self.includePermissions = includePermissions
+        self.includeTags = includeTags
         self.resourceArns = resourceArns
+        self.validationStrategy = validationStrategy
     }
 }
 
@@ -66748,6 +69255,9 @@ struct StartAssetBundleExportJobInputBody: Swift.Equatable {
     let includeAllDependencies: Swift.Bool?
     let exportFormat: QuickSightClientTypes.AssetBundleExportFormat?
     let cloudFormationOverridePropertyConfiguration: QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration?
+    let includePermissions: Swift.Bool?
+    let includeTags: Swift.Bool?
+    let validationStrategy: QuickSightClientTypes.AssetBundleExportJobValidationStrategy?
 }
 
 extension StartAssetBundleExportJobInputBody: Swift.Decodable {
@@ -66756,7 +69266,10 @@ extension StartAssetBundleExportJobInputBody: Swift.Decodable {
         case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
         case exportFormat = "ExportFormat"
         case includeAllDependencies = "IncludeAllDependencies"
+        case includePermissions = "IncludePermissions"
+        case includeTags = "IncludeTags"
         case resourceArns = "ResourceArns"
+        case validationStrategy = "ValidationStrategy"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -66780,6 +69293,12 @@ extension StartAssetBundleExportJobInputBody: Swift.Decodable {
         exportFormat = exportFormatDecoded
         let cloudFormationOverridePropertyConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleCloudFormationOverridePropertyConfiguration.self, forKey: .cloudFormationOverridePropertyConfiguration)
         cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfigurationDecoded
+        let includePermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includePermissions)
+        includePermissions = includePermissionsDecoded
+        let includeTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeTags)
+        includeTags = includeTagsDecoded
+        let validationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleExportJobValidationStrategy.self, forKey: .validationStrategy)
+        validationStrategy = validationStrategyDecoded
     }
 }
 
@@ -66875,6 +69394,9 @@ extension StartAssetBundleImportJobInput: Swift.Encodable {
         case assetBundleImportSource = "AssetBundleImportSource"
         case failureAction = "FailureAction"
         case overrideParameters = "OverrideParameters"
+        case overridePermissions = "OverridePermissions"
+        case overrideTags = "OverrideTags"
+        case overrideValidationStrategy = "OverrideValidationStrategy"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -66890,6 +69412,15 @@ extension StartAssetBundleImportJobInput: Swift.Encodable {
         }
         if let overrideParameters = self.overrideParameters {
             try encodeContainer.encode(overrideParameters, forKey: .overrideParameters)
+        }
+        if let overridePermissions = self.overridePermissions {
+            try encodeContainer.encode(overridePermissions, forKey: .overridePermissions)
+        }
+        if let overrideTags = self.overrideTags {
+            try encodeContainer.encode(overrideTags, forKey: .overrideTags)
+        }
+        if let overrideValidationStrategy = self.overrideValidationStrategy {
+            try encodeContainer.encode(overrideValidationStrategy, forKey: .overrideValidationStrategy)
         }
     }
 }
@@ -66915,15 +69446,24 @@ public struct StartAssetBundleImportJobInput: Swift.Equatable {
     public var awsAccountId: Swift.String?
     /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
     public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
-    /// Optional overrides to be applied to the resource configuration before import.
+    /// Optional overrides that are applied to the resource configuration before import.
     public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
+    /// Optional permission overrides that are applied to the resource configuration before import.
+    public var overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions?
+    /// Optional tag overrides that are applied to the resource configuration before import.
+    public var overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags?
+    /// An optional validation strategy override for all analyses and dashboards that is applied to the resource configuration before import.
+    public var overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy?
 
     public init(
         assetBundleImportJobId: Swift.String? = nil,
         assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource? = nil,
         awsAccountId: Swift.String? = nil,
         failureAction: QuickSightClientTypes.AssetBundleImportFailureAction? = nil,
-        overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters? = nil
+        overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters? = nil,
+        overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions? = nil,
+        overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags? = nil,
+        overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy? = nil
     )
     {
         self.assetBundleImportJobId = assetBundleImportJobId
@@ -66931,6 +69471,9 @@ public struct StartAssetBundleImportJobInput: Swift.Equatable {
         self.awsAccountId = awsAccountId
         self.failureAction = failureAction
         self.overrideParameters = overrideParameters
+        self.overridePermissions = overridePermissions
+        self.overrideTags = overrideTags
+        self.overrideValidationStrategy = overrideValidationStrategy
     }
 }
 
@@ -66939,6 +69482,9 @@ struct StartAssetBundleImportJobInputBody: Swift.Equatable {
     let assetBundleImportSource: QuickSightClientTypes.AssetBundleImportSource?
     let overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
     let failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
+    let overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions?
+    let overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags?
+    let overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy?
 }
 
 extension StartAssetBundleImportJobInputBody: Swift.Decodable {
@@ -66947,6 +69493,9 @@ extension StartAssetBundleImportJobInputBody: Swift.Decodable {
         case assetBundleImportSource = "AssetBundleImportSource"
         case failureAction = "FailureAction"
         case overrideParameters = "OverrideParameters"
+        case overridePermissions = "OverridePermissions"
+        case overrideTags = "OverrideTags"
+        case overrideValidationStrategy = "OverrideValidationStrategy"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -66959,6 +69508,12 @@ extension StartAssetBundleImportJobInputBody: Swift.Decodable {
         overrideParameters = overrideParametersDecoded
         let failureActionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportFailureAction.self, forKey: .failureAction)
         failureAction = failureActionDecoded
+        let overridePermissionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverridePermissions.self, forKey: .overridePermissions)
+        overridePermissions = overridePermissionsDecoded
+        let overrideTagsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideTags.self, forKey: .overrideTags)
+        overrideTags = overrideTagsDecoded
+        let overrideValidationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy.self, forKey: .overrideValidationStrategy)
+        overrideValidationStrategy = overrideValidationStrategyDecoded
     }
 }
 
@@ -70338,7 +72893,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
         case dataSetConfigurations = "DataSetConfigurations"
         case description = "Description"
         case errors = "Errors"
-        case options = "Options"
         case sheets = "Sheets"
         case sourceEntityArn = "SourceEntityArn"
         case status = "Status"
@@ -70365,9 +72919,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             for templateerror0 in errors {
                 try errorsContainer.encode(templateerror0)
             }
-        }
-        if let options = self.options {
-            try encodeContainer.encode(options, forKey: .options)
         }
         if let sheets = sheets {
             var sheetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sheets)
@@ -70436,8 +72987,6 @@ extension QuickSightClientTypes.TemplateVersion: Swift.Codable {
             }
         }
         sheets = sheetsDecoded0
-        let optionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetOptions.self, forKey: .options)
-        options = optionsDecoded
     }
 }
 
@@ -70452,8 +73001,6 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// Errors associated with this template version.
         public var errors: [QuickSightClientTypes.TemplateError]?
-        /// An array of analysis level configurations.
-        public var options: QuickSightClientTypes.AssetOptions?
         /// A list of the associated sheets with the unique identifier and name of each sheet.
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
@@ -70484,7 +73031,6 @@ extension QuickSightClientTypes {
             dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]? = nil,
             description: Swift.String? = nil,
             errors: [QuickSightClientTypes.TemplateError]? = nil,
-            options: QuickSightClientTypes.AssetOptions? = nil,
             sheets: [QuickSightClientTypes.Sheet]? = nil,
             sourceEntityArn: Swift.String? = nil,
             status: QuickSightClientTypes.ResourceStatus? = nil,
@@ -70496,7 +73042,6 @@ extension QuickSightClientTypes {
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
-            self.options = options
             self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
@@ -79299,6 +81844,145 @@ enum UpdateIAMPolicyAssignmentOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension UpdateIdentityPropagationConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedTargets = authorizedTargets {
+            var authorizedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTargets)
+            for string0 in authorizedTargets {
+                try authorizedTargetsContainer.encode(string0)
+            }
+        }
+    }
+}
+
+extension UpdateIdentityPropagationConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let service = service else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-propagation-config/\(service.rawValue.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateIdentityPropagationConfigInput: Swift.Equatable {
+    /// Specifies a list of application ARNs that represent the authorized targets for a service.
+    public var authorizedTargets: [Swift.String]?
+    /// The ID of the Amazon Web Services account that contains the identity propagation configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the Amazon Web Services service that contains the authorized targets that you want to add or update.
+    /// This member is required.
+    public var service: QuickSightClientTypes.ServiceType?
+
+    public init(
+        authorizedTargets: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        service: QuickSightClientTypes.ServiceType? = nil
+    )
+    {
+        self.authorizedTargets = authorizedTargets
+        self.awsAccountId = awsAccountId
+        self.service = service
+    }
+}
+
+struct UpdateIdentityPropagationConfigInputBody: Swift.Equatable {
+    let authorizedTargets: [Swift.String]?
+}
+
+extension UpdateIdentityPropagationConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+    }
+}
+
+extension UpdateIdentityPropagationConfigOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateIdentityPropagationConfigOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+        } else {
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateIdentityPropagationConfigOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct UpdateIdentityPropagationConfigOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension UpdateIdentityPropagationConfigOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum UpdateIdentityPropagationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateIpRestrictionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -79717,6 +82401,145 @@ enum UpdateRefreshScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRoleCustomPermissionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customPermissionsName = "CustomPermissionsName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customPermissionsName = self.customPermissionsName {
+            try encodeContainer.encode(customPermissionsName, forKey: .customPermissionsName)
+        }
+    }
+}
+
+extension UpdateRoleCustomPermissionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let namespace = namespace else {
+            return nil
+        }
+        guard let role = role else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
+    }
+}
+
+public struct UpdateRoleCustomPermissionInput: Swift.Equatable {
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the custom permission that you want to update the role with.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+    /// The namespace that contains the role that you want to update.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The name of role tht you want to update.
+    /// This member is required.
+    public var role: QuickSightClientTypes.Role?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customPermissionsName: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        role: QuickSightClientTypes.Role? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.customPermissionsName = customPermissionsName
+        self.namespace = namespace
+        self.role = role
+    }
+}
+
+struct UpdateRoleCustomPermissionInputBody: Swift.Equatable {
+    let customPermissionsName: Swift.String?
+}
+
+extension UpdateRoleCustomPermissionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customPermissionsName = "CustomPermissionsName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customPermissionsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customPermissionsName)
+        customPermissionsName = customPermissionsNameDecoded
+    }
+}
+
+extension UpdateRoleCustomPermissionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateRoleCustomPermissionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.requestId = output.requestId
+            self.status = output.status
+        } else {
+            self.requestId = nil
+            self.status = 0
+        }
+    }
+}
+
+public struct UpdateRoleCustomPermissionOutput: Swift.Equatable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct UpdateRoleCustomPermissionOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+}
+
+extension UpdateRoleCustomPermissionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+    }
+}
+
+enum UpdateRoleCustomPermissionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionNotMetException": return try await PreconditionNotMetException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -82627,7 +85450,7 @@ extension QuickSightClientTypes.ValidationStrategy: Swift.Codable {
 extension QuickSightClientTypes {
     /// The option to relax the validation that is required to create and update analyses, dashboards, and templates with definition objects. When you set this value to LENIENT, validation is skipped for specific errors.
     public struct ValidationStrategy: Swift.Equatable {
-        /// The mode of validation for the asset to be creaed or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
+        /// The mode of validation for the asset to be created or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
         /// This member is required.
         public var mode: QuickSightClientTypes.ValidationStrategyMode?
 

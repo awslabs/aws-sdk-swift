@@ -1222,6 +1222,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -1327,6 +1330,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies whether the cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard  When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    public var storageType: Swift.String?
     /// The tags to be assigned to the cluster.
     public var tags: [DocDBClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with this cluster.
@@ -1351,6 +1356,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil,
+        storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -1373,6 +1379,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.storageEncrypted = storageEncrypted
+        self.storageType = storageType
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -1399,6 +1406,7 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let enableCloudwatchLogsExports: [Swift.String]?
     let deletionProtection: Swift.Bool?
     let globalClusterIdentifier: Swift.String?
+    let storageType: Swift.String?
 }
 
 extension CreateDBClusterInputBody: Swift.Decodable {
@@ -1421,6 +1429,7 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -1535,6 +1544,8 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         deletionProtection = deletionProtectionDecoded
         let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
         globalClusterIdentifier = globalClusterIdentifierDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -2865,6 +2876,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         case replicationSourceIdentifier = "ReplicationSourceIdentifier"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case vpcSecurityGroups = "VpcSecurityGroups"
     }
 
@@ -3007,6 +3019,9 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
+        }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
             if !vpcSecurityGroups.isEmpty {
@@ -3190,6 +3205,8 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
         }
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -3258,6 +3275,8 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// Specifies whether the cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// Storage type associated with your cluster Storage type associated with your cluster For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+        public var storageType: Swift.String?
         /// Provides a list of virtual private cloud (VPC) security groups that the cluster belongs to.
         public var vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]?
 
@@ -3293,6 +3312,7 @@ extension DocDBClientTypes {
             replicationSourceIdentifier: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageType: Swift.String? = nil,
             vpcSecurityGroups: [DocDBClientTypes.VpcSecurityGroupMembership]? = nil
         )
         {
@@ -3327,6 +3347,7 @@ extension DocDBClientTypes {
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -3748,6 +3769,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageType = "StorageType"
         case vpcId = "VpcId"
     }
 
@@ -3810,6 +3832,9 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let vpcId = vpcId {
             try container.encode(vpcId, forKey: ClientRuntime.Key("VpcId"))
         }
@@ -3868,6 +3893,8 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
         dbClusterSnapshotArn = dbClusterSnapshotArnDecoded
         let sourceDBClusterSnapshotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceDBClusterSnapshotArn)
         sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArnDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -3906,6 +3933,8 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// Specifies whether the cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// Storage type associated with your cluster snapshot For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+        public var storageType: Swift.String?
         /// Provides the virtual private cloud (VPC) ID that is associated with the cluster snapshot.
         public var vpcId: Swift.String?
 
@@ -3926,6 +3955,7 @@ extension DocDBClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
         )
         {
@@ -3945,6 +3975,7 @@ extension DocDBClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageType = storageType
             self.vpcId = vpcId
         }
     }
@@ -11774,6 +11805,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         if let preferredMaintenanceWindow = preferredMaintenanceWindow {
             try container.encode(preferredMaintenanceWindow, forKey: ClientRuntime.Key("PreferredMaintenanceWindow"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             if !vpcSecurityGroupIds.isEmpty {
                 var vpcSecurityGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("VpcSecurityGroupIds"))
@@ -11847,6 +11881,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+    public var storageType: Swift.String?
     /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
@@ -11864,6 +11900,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         port: Swift.Int? = nil,
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
+        storageType: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
@@ -11880,6 +11917,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.port = port
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        self.storageType = storageType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
 }
@@ -11899,6 +11937,7 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let engineVersion: Swift.String?
     let allowMajorVersionUpgrade: Swift.Bool?
     let deletionProtection: Swift.Bool?
+    let storageType: Swift.String?
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
@@ -11916,6 +11955,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case port = "Port"
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+        case storageType = "StorageType"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
 
@@ -11966,6 +12006,8 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -13064,6 +13106,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case licenseModel = "LicenseModel"
+        case storageType = "StorageType"
         case vpc = "Vpc"
     }
 
@@ -13092,6 +13135,9 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         }
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
+        }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
         if let vpc = vpc {
             try container.encode(vpc, forKey: ClientRuntime.Key("Vpc"))
@@ -13129,6 +13175,8 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Codable {
         }
         let vpcDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .vpc)
         vpc = vpcDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -13145,6 +13193,8 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// The license model for an instance.
         public var licenseModel: Swift.String?
+        /// The storage type to associate with the DB cluster
+        public var storageType: Swift.String?
         /// Indicates whether an instance is in a virtual private cloud (VPC).
         public var vpc: Swift.Bool?
 
@@ -13154,6 +13204,7 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
+            storageType: Swift.String? = nil,
             vpc: Swift.Bool? = nil
         )
         {
@@ -13162,6 +13213,7 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.licenseModel = licenseModel
+            self.storageType = storageType
             self.vpc = vpc
         }
     }
@@ -14418,6 +14470,9 @@ extension RestoreDBClusterFromSnapshotInput: Swift.Encodable {
         if let snapshotIdentifier = snapshotIdentifier {
             try container.encode(snapshotIdentifier, forKey: ClientRuntime.Key("SnapshotIdentifier"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -14495,6 +14550,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     /// * Must match the identifier of an existing snapshot.
     /// This member is required.
     public var snapshotIdentifier: Swift.String?
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+    public var storageType: Swift.String?
     /// The tags to be assigned to the restored cluster.
     public var tags: [DocDBClientTypes.Tag]?
     /// A list of virtual private cloud (VPC) security groups that the new cluster will belong to.
@@ -14512,6 +14569,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         kmsKeyId: Swift.String? = nil,
         port: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil,
+        storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
@@ -14527,6 +14585,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
         self.kmsKeyId = kmsKeyId
         self.port = port
         self.snapshotIdentifier = snapshotIdentifier
+        self.storageType = storageType
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -14546,6 +14605,7 @@ struct RestoreDBClusterFromSnapshotInputBody: Swift.Equatable {
     let enableCloudwatchLogsExports: [Swift.String]?
     let deletionProtection: Swift.Bool?
     let dbClusterParameterGroupName: Swift.String?
+    let storageType: Swift.String?
 }
 
 extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
@@ -14561,6 +14621,7 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         case kmsKeyId = "KmsKeyId"
         case port = "Port"
         case snapshotIdentifier = "SnapshotIdentifier"
+        case storageType = "StorageType"
         case tags = "Tags"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
     }
@@ -14661,6 +14722,8 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
         deletionProtection = deletionProtectionDecoded
         let dbClusterParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterParameterGroupName)
         dbClusterParameterGroupName = dbClusterParameterGroupNameDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 
@@ -14767,6 +14830,9 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
         if let sourceDBClusterIdentifier = sourceDBClusterIdentifier {
             try container.encode(sourceDBClusterIdentifier, forKey: ClientRuntime.Key("SourceDBClusterIdentifier"))
         }
+        if let storageType = storageType {
+            try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -14860,6 +14926,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// * Must match the identifier of an existing DBCluster.
     /// This member is required.
     public var sourceDBClusterIdentifier: Swift.String?
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard
+    public var storageType: Swift.String?
     /// The tags to be assigned to the restored cluster.
     public var tags: [DocDBClientTypes.Tag]?
     /// A value that is set to true to restore the cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if the RestoreToTime parameter is provided.
@@ -14877,6 +14945,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         restoreToTime: ClientRuntime.Date? = nil,
         restoreType: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
+        storageType: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -14891,6 +14960,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         self.restoreToTime = restoreToTime
         self.restoreType = restoreType
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
+        self.storageType = storageType
         self.tags = tags
         self.useLatestRestorableTime = useLatestRestorableTime
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -14910,6 +14980,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let kmsKeyId: Swift.String?
     let enableCloudwatchLogsExports: [Swift.String]?
     let deletionProtection: Swift.Bool?
+    let storageType: Swift.String?
 }
 
 extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
@@ -14923,6 +14994,7 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         case restoreToTime = "RestoreToTime"
         case restoreType = "RestoreType"
         case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
+        case storageType = "StorageType"
         case tags = "Tags"
         case useLatestRestorableTime = "UseLatestRestorableTime"
         case vpcSecurityGroupIds = "VpcSecurityGroupIds"
@@ -15005,6 +15077,8 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
         }
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
+        let storageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storageType)
+        storageType = storageTypeDecoded
     }
 }
 

@@ -128,7 +128,7 @@ extension TranscribeStreamingClientTypes.AudioStream: ClientRuntime.MessageMarsh
         case .configurationevent(let value):
             headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
             headers.append(.init(name: ":content-type", value: .string("application/json")))
-            payload = try encoder.encode(value)
+            payload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(value, JSONReadWrite.writingClosure())
         case .sdkUnknown(_):
             throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
         }
@@ -2429,49 +2429,6 @@ extension TranscribeStreamingClientTypes {
     }
 }
 
-public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartCallAnalyticsStreamTranscriptionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let audioStream = input.operationInput.audioStream {
-                guard let messageEncoder = context.getMessageEncoder() else {
-                    fatalError("Message encoder is required for streaming payload")
-                }
-                guard let messageSigner = context.getMessageSigner() else {
-                    fatalError("Message signer is required for streaming payload")
-                }
-                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
-                input.builder.withBody(.stream(encoderStream))
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let audioStreamData = "{}".data(using: .utf8)!
-                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                    input.builder.withBody(audioStreamBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -2766,49 +2723,6 @@ enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpRespons
     }
 }
 
-public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartMedicalStreamTranscriptionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let audioStream = input.operationInput.audioStream {
-                guard let messageEncoder = context.getMessageEncoder() else {
-                    fatalError("Message encoder is required for streaming payload")
-                }
-                guard let messageSigner = context.getMessageSigner() else {
-                    fatalError("Message signer is required for streaming payload")
-                }
-                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
-                input.builder.withBody(.stream(encoderStream))
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let audioStreamData = "{}".data(using: .utf8)!
-                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                    input.builder.withBody(audioStreamBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3073,49 +2987,6 @@ enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseError
     }
 }
 
-public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "StartStreamTranscriptionInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let audioStream = input.operationInput.audioStream {
-                guard let messageEncoder = context.getMessageEncoder() else {
-                    fatalError("Message encoder is required for streaming payload")
-                }
-                guard let messageSigner = context.getMessageSigner() else {
-                    fatalError("Message signer is required for streaming payload")
-                }
-                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
-                input.builder.withBody(.stream(encoderStream))
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let audioStreamData = "{}".data(using: .utf8)!
-                    let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                    input.builder.withBody(audioStreamBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<StartStreamTranscriptionOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -3133,6 +3004,9 @@ extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
         }
         if let identifyLanguage = identifyLanguage {
             items.add(Header(name: "x-amzn-transcribe-identify-language", value: Swift.String(identifyLanguage)))
+        }
+        if let identifyMultipleLanguages = identifyMultipleLanguages {
+            items.add(Header(name: "x-amzn-transcribe-identify-multiple-languages", value: Swift.String(identifyMultipleLanguages)))
         }
         if let languageCode = languageCode {
             items.add(Header(name: "x-amzn-transcribe-language-code", value: Swift.String(languageCode.rawValue)))
@@ -3204,8 +3078,10 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     public var enableChannelIdentification: Swift.Bool?
     /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
     public var enablePartialResultsStabilization: Swift.Bool?
-    /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your audio stream. Including language options can improve transcription accuracy. You can also include a preferred language using PreferredLanguage. Adding a preferred language can help Amazon Transcribe identify the language faster than if you omit this parameter. If you have multi-channel audio that contains different languages on each channel, and you've enabled channel identification, automatic language identification identifies the dominant language on each audio channel. Note that you must include either LanguageCode or IdentifyLanguage in your request. If you include both parameters, your request fails. Streaming language identification can't be combined with custom language models or redaction.
+    /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your audio stream. Including language options can improve transcription accuracy. You can also include a preferred language using PreferredLanguage. Adding a preferred language can help Amazon Transcribe identify the language faster than if you omit this parameter. If you have multi-channel audio that contains different languages on each channel, and you've enabled channel identification, automatic language identification identifies the dominant language on each audio channel. Note that you must include either LanguageCode or IdentifyLanguage or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. Streaming language identification can't be combined with custom language models or redaction.
     public var identifyLanguage: Swift.Bool?
+    /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your stream contains more than one language. If your stream contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your stream. Including LanguageOptions restricts IdentifyMultipleLanguages to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic multiple language identification request, include VocabularyNames or VocabularyFilterNames. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
+    public var identifyMultipleLanguages: Swift.Bool?
     /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
     /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
@@ -3257,6 +3133,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
         enableChannelIdentification: Swift.Bool? = nil,
         enablePartialResultsStabilization: Swift.Bool? = nil,
         identifyLanguage: Swift.Bool? = nil,
+        identifyMultipleLanguages: Swift.Bool? = nil,
         languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
         languageModelName: Swift.String? = nil,
         languageOptions: Swift.String? = nil,
@@ -3281,6 +3158,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
         self.enableChannelIdentification = enableChannelIdentification
         self.enablePartialResultsStabilization = enablePartialResultsStabilization
         self.identifyLanguage = identifyLanguage
+        self.identifyMultipleLanguages = identifyMultipleLanguages
         self.languageCode = languageCode
         self.languageModelName = languageModelName
         self.languageOptions = languageOptions
@@ -3326,6 +3204,11 @@ extension StartStreamTranscriptionOutput: ClientRuntime.HttpResponseBinding {
             self.identifyLanguage = Swift.Bool(identifyLanguageHeaderValue) ?? false
         } else {
             self.identifyLanguage = false
+        }
+        if let identifyMultipleLanguagesHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-identify-multiple-languages") {
+            self.identifyMultipleLanguages = Swift.Bool(identifyMultipleLanguagesHeaderValue) ?? false
+        } else {
+            self.identifyMultipleLanguages = false
         }
         if let languageCodeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-language-code") {
             self.languageCode = TranscribeStreamingClientTypes.LanguageCode(rawValue: languageCodeHeaderValue)
@@ -3433,6 +3316,8 @@ public struct StartStreamTranscriptionOutput: Swift.Equatable {
     public var enablePartialResultsStabilization: Swift.Bool
     /// Shows whether automatic language identification was enabled for your transcription.
     public var identifyLanguage: Swift.Bool
+    /// Shows whether automatic multi-language identification was enabled for your transcription.
+    public var identifyMultipleLanguages: Swift.Bool
     /// Provides the language code that you specified in your request.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
     /// Provides the name of the custom language model that you specified in your request.
@@ -3476,6 +3361,7 @@ public struct StartStreamTranscriptionOutput: Swift.Equatable {
         enableChannelIdentification: Swift.Bool = false,
         enablePartialResultsStabilization: Swift.Bool = false,
         identifyLanguage: Swift.Bool = false,
+        identifyMultipleLanguages: Swift.Bool = false,
         languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
         languageModelName: Swift.String? = nil,
         languageOptions: Swift.String? = nil,
@@ -3501,6 +3387,7 @@ public struct StartStreamTranscriptionOutput: Swift.Equatable {
         self.enableChannelIdentification = enableChannelIdentification
         self.enablePartialResultsStabilization = enablePartialResultsStabilization
         self.identifyLanguage = identifyLanguage
+        self.identifyMultipleLanguages = identifyMultipleLanguages
         self.languageCode = languageCode
         self.languageModelName = languageModelName
         self.languageOptions = languageOptions

@@ -39,6 +39,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
 extension ServiceCatalogAppRegistryClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationTag
         case arn
         case creationTime
         case description
@@ -50,6 +51,12 @@ extension ServiceCatalogAppRegistryClientTypes.Application: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationTag = applicationTag {
+            var applicationTagContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .applicationTag)
+            for (dictKey0, applicationTagDefinition0) in applicationTag {
+                try applicationTagContainer.encode(applicationTagDefinition0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
@@ -101,12 +108,25 @@ extension ServiceCatalogAppRegistryClientTypes.Application: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let applicationTagContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .applicationTag)
+        var applicationTagDecoded0: [Swift.String:Swift.String]? = nil
+        if let applicationTagContainer = applicationTagContainer {
+            applicationTagDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in applicationTagContainer {
+                if let tagvalue0 = tagvalue0 {
+                    applicationTagDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        applicationTag = applicationTagDecoded0
     }
 }
 
 extension ServiceCatalogAppRegistryClientTypes {
     /// Represents a Amazon Web Services Service Catalog AppRegistry application that is the top-level node in a hierarchy of related cloud resource abstractions.
     public struct Application: Swift.Equatable {
+        /// A key-value pair that identifies an associated resource.
+        public var applicationTag: [Swift.String:Swift.String]?
         /// The Amazon resource name (ARN) that specifies the application across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was created.
@@ -123,6 +143,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            applicationTag: [Swift.String:Swift.String]? = nil,
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
@@ -132,6 +153,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.applicationTag = applicationTag
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -227,6 +249,118 @@ extension ServiceCatalogAppRegistryClientTypes {
         }
     }
 
+}
+
+extension ServiceCatalogAppRegistryClientTypes.ApplicationTagResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationTagStatus
+        case errorMessage
+        case nextToken
+        case resources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationTagStatus = self.applicationTagStatus {
+            try encodeContainer.encode(applicationTagStatus.rawValue, forKey: .applicationTagStatus)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resources = resources {
+            var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
+            for resourceslistitem0 in resources {
+                try resourcesContainer.encode(resourceslistitem0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationTagStatusDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ApplicationTagStatus.self, forKey: .applicationTagStatus)
+        applicationTagStatus = applicationTagStatusDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let resourcesContainer = try containerValues.decodeIfPresent([ServiceCatalogAppRegistryClientTypes.ResourcesListItem?].self, forKey: .resources)
+        var resourcesDecoded0:[ServiceCatalogAppRegistryClientTypes.ResourcesListItem]? = nil
+        if let resourcesContainer = resourcesContainer {
+            resourcesDecoded0 = [ServiceCatalogAppRegistryClientTypes.ResourcesListItem]()
+            for structure0 in resourcesContainer {
+                if let structure0 = structure0 {
+                    resourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        resources = resourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    /// The result of the application tag that's applied to a resource.
+    public struct ApplicationTagResult: Swift.Equatable {
+        /// The application tag is in the process of being applied to a resource, was successfully applied to a resource, or failed to apply to a resource.
+        public var applicationTagStatus: ServiceCatalogAppRegistryClientTypes.ApplicationTagStatus?
+        /// The message returned if the call fails.
+        public var errorMessage: Swift.String?
+        /// A unique pagination token for each page of results. Make the call again with the returned token to retrieve the next page of results.
+        public var nextToken: Swift.String?
+        /// The resources associated with an application
+        public var resources: [ServiceCatalogAppRegistryClientTypes.ResourcesListItem]?
+
+        public init(
+            applicationTagStatus: ServiceCatalogAppRegistryClientTypes.ApplicationTagStatus? = nil,
+            errorMessage: Swift.String? = nil,
+            nextToken: Swift.String? = nil,
+            resources: [ServiceCatalogAppRegistryClientTypes.ResourcesListItem]? = nil
+        )
+        {
+            self.applicationTagStatus = applicationTagStatus
+            self.errorMessage = errorMessage
+            self.nextToken = nextToken
+            self.resources = resources
+        }
+    }
+
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    public enum ApplicationTagStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failure
+        case inProgress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationTagStatus] {
+            return [
+                .failure,
+                .inProgress,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failure: return "FAILURE"
+            case .inProgress: return "IN_PROGRESS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationTagStatus(rawValue: rawValue) ?? ApplicationTagStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AssociateAttributeGroupInput: ClientRuntime.URLPathProvider {
@@ -333,6 +467,22 @@ enum AssociateAttributeGroupOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension AssociateResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case options
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for associationoption0 in options {
+                try optionsContainer.encode(associationoption0.rawValue)
+            }
+        }
+    }
+}
+
 extension AssociateResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let application = application else {
@@ -352,6 +502,8 @@ public struct AssociateResourceInput: Swift.Equatable {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
+    /// Determines whether an application tag is applied or skipped.
+    public var options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
     /// The name or ID of the resource of which the application will be associated.
     /// This member is required.
     public var resource: Swift.String?
@@ -361,22 +513,40 @@ public struct AssociateResourceInput: Swift.Equatable {
 
     public init(
         application: Swift.String? = nil,
+        options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resource: Swift.String? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
     )
     {
         self.application = application
+        self.options = options
         self.resource = resource
         self.resourceType = resourceType
     }
 }
 
 struct AssociateResourceInputBody: Swift.Equatable {
+    let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
 }
 
 extension AssociateResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case options
+    }
 
     public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsContainer = try containerValues.decodeIfPresent([ServiceCatalogAppRegistryClientTypes.AssociationOption?].self, forKey: .options)
+        var optionsDecoded0:[ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ServiceCatalogAppRegistryClientTypes.AssociationOption]()
+            for enum0 in optionsContainer {
+                if let enum0 = enum0 {
+                    optionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        options = optionsDecoded0
     }
 }
 
@@ -386,9 +556,11 @@ extension AssociateResourceOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: AssociateResourceOutputBody = try responseDecoder.decode(responseBody: data)
             self.applicationArn = output.applicationArn
+            self.options = output.options
             self.resourceArn = output.resourceArn
         } else {
             self.applicationArn = nil
+            self.options = nil
             self.resourceArn = nil
         }
     }
@@ -397,15 +569,19 @@ extension AssociateResourceOutput: ClientRuntime.HttpResponseBinding {
 public struct AssociateResourceOutput: Swift.Equatable {
     /// The Amazon resource name (ARN) of the application that was augmented with attributes.
     public var applicationArn: Swift.String?
+    /// Determines whether an application tag is applied or skipped.
+    public var options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
     /// The Amazon resource name (ARN) that specifies the resource.
     public var resourceArn: Swift.String?
 
     public init(
         applicationArn: Swift.String? = nil,
+        options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resourceArn: Swift.String? = nil
     )
     {
         self.applicationArn = applicationArn
+        self.options = options
         self.resourceArn = resourceArn
     }
 }
@@ -413,11 +589,13 @@ public struct AssociateResourceOutput: Swift.Equatable {
 struct AssociateResourceOutputBody: Swift.Equatable {
     let applicationArn: Swift.String?
     let resourceArn: Swift.String?
+    let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
 }
 
 extension AssociateResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationArn
+        case options
         case resourceArn
     }
 
@@ -427,6 +605,17 @@ extension AssociateResourceOutputBody: Swift.Decodable {
         applicationArn = applicationArnDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([ServiceCatalogAppRegistryClientTypes.AssociationOption?].self, forKey: .options)
+        var optionsDecoded0:[ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ServiceCatalogAppRegistryClientTypes.AssociationOption]()
+            for enum0 in optionsContainer {
+                if let enum0 = enum0 {
+                    optionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        options = optionsDecoded0
     }
 }
 
@@ -442,6 +631,38 @@ enum AssociateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    public enum AssociationOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case applyApplicationTag
+        case skipApplicationTag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationOption] {
+            return [
+                .applyApplicationTag,
+                .skipApplicationTag,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .applyApplicationTag: return "APPLY_APPLICATION_TAG"
+            case .skipApplicationTag: return "SKIP_APPLICATION_TAG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssociationOption(rawValue: rawValue) ?? AssociationOption.sdkUnknown(rawValue)
         }
     }
 }
@@ -600,7 +821,6 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The unique identifier of the attribute group.
         public var id: Swift.String?
         /// This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication. The name of the attribute group.
-        @available(*, deprecated, message: "This field is deprecated. We recommend not using the field when using ListAttributeGroupsForApplication.")
         public var name: Swift.String?
 
         public init(
@@ -1502,6 +1722,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetApplicationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationTag = output.applicationTag
             self.arn = output.arn
             self.associatedResourceCount = output.associatedResourceCount
             self.creationTime = output.creationTime
@@ -1512,6 +1733,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.tags = output.tags
         } else {
+            self.applicationTag = nil
             self.arn = nil
             self.associatedResourceCount = 0
             self.creationTime = nil
@@ -1526,6 +1748,8 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetApplicationOutput: Swift.Equatable {
+    /// A key-value pair that identifies an associated resource.
+    public var applicationTag: [Swift.String:Swift.String]?
     /// The Amazon resource name (ARN) that specifies the application across services.
     public var arn: Swift.String?
     /// The number of top-level resources that were registered as part of this application.
@@ -1546,6 +1770,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        applicationTag: [Swift.String:Swift.String]? = nil,
         arn: Swift.String? = nil,
         associatedResourceCount: Swift.Int = 0,
         creationTime: ClientRuntime.Date? = nil,
@@ -1557,6 +1782,7 @@ public struct GetApplicationOutput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.applicationTag = applicationTag
         self.arn = arn
         self.associatedResourceCount = associatedResourceCount
         self.creationTime = creationTime
@@ -1579,10 +1805,12 @@ struct GetApplicationOutputBody: Swift.Equatable {
     let associatedResourceCount: Swift.Int
     let tags: [Swift.String:Swift.String]?
     let integrations: ServiceCatalogAppRegistryClientTypes.Integrations?
+    let applicationTag: [Swift.String:Swift.String]?
 }
 
 extension GetApplicationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationTag
         case arn
         case associatedResourceCount
         case creationTime
@@ -1623,6 +1851,17 @@ extension GetApplicationOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let integrationsDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.Integrations.self, forKey: .integrations)
         integrations = integrationsDecoded
+        let applicationTagContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .applicationTag)
+        var applicationTagDecoded0: [Swift.String:Swift.String]? = nil
+        if let applicationTagContainer = applicationTagContainer {
+            applicationTagDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in applicationTagContainer {
+                if let tagvalue0 = tagvalue0 {
+                    applicationTagDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        applicationTag = applicationTagDecoded0
     }
 }
 
@@ -1636,6 +1875,29 @@ enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetAssociatedResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let resourceTagStatus = resourceTagStatus {
+                resourceTagStatus.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "resourceTagStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
         }
     }
 }
@@ -1659,21 +1921,33 @@ public struct GetAssociatedResourceInput: Swift.Equatable {
     /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
+    /// The maximum number of results to return. If the parameter is omitted, it defaults to 25. The value is optional.
+    public var maxResults: Swift.Int?
+    /// A unique pagination token for each page of results. Make the call again with the returned token to retrieve the next page of results.
+    public var nextToken: Swift.String?
     /// The name or ID of the resource associated with the application.
     /// This member is required.
     public var resource: Swift.String?
+    /// States whether an application tag is applied, not applied, in the process of being applied, or skipped.
+    public var resourceTagStatus: [ServiceCatalogAppRegistryClientTypes.ResourceItemStatus]?
     /// The type of resource associated with the application.
     /// This member is required.
     public var resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType?
 
     public init(
         application: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         resource: Swift.String? = nil,
+        resourceTagStatus: [ServiceCatalogAppRegistryClientTypes.ResourceItemStatus]? = nil,
         resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
     )
     {
         self.application = application
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.resource = resource
+        self.resourceTagStatus = resourceTagStatus
         self.resourceType = resourceType
     }
 }
@@ -1692,31 +1966,47 @@ extension GetAssociatedResourceOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetAssociatedResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationTagResult = output.applicationTagResult
+            self.options = output.options
             self.resource = output.resource
         } else {
+            self.applicationTagResult = nil
+            self.options = nil
             self.resource = nil
         }
     }
 }
 
 public struct GetAssociatedResourceOutput: Swift.Equatable {
+    /// The result of the application that's tag applied to a resource.
+    public var applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult?
+    /// Determines whether an application tag is applied or skipped.
+    public var options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
     /// The resource associated with the application.
     public var resource: ServiceCatalogAppRegistryClientTypes.Resource?
 
     public init(
+        applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult? = nil,
+        options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
         resource: ServiceCatalogAppRegistryClientTypes.Resource? = nil
     )
     {
+        self.applicationTagResult = applicationTagResult
+        self.options = options
         self.resource = resource
     }
 }
 
 struct GetAssociatedResourceOutputBody: Swift.Equatable {
     let resource: ServiceCatalogAppRegistryClientTypes.Resource?
+    let options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
+    let applicationTagResult: ServiceCatalogAppRegistryClientTypes.ApplicationTagResult?
 }
 
 extension GetAssociatedResourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationTagResult
+        case options
         case resource
     }
 
@@ -1724,6 +2014,19 @@ extension GetAssociatedResourceOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.Resource.self, forKey: .resource)
         resource = resourceDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([ServiceCatalogAppRegistryClientTypes.AssociationOption?].self, forKey: .options)
+        var optionsDecoded0:[ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ServiceCatalogAppRegistryClientTypes.AssociationOption]()
+            for enum0 in optionsContainer {
+                if let enum0 = enum0 {
+                    optionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        options = optionsDecoded0
+        let applicationTagResultDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ApplicationTagResult.self, forKey: .applicationTagResult)
+        applicationTagResult = applicationTagResultDecoded
     }
 }
 
@@ -1987,11 +2290,15 @@ enum GetConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension ServiceCatalogAppRegistryClientTypes.Integrations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationTagResourceGroup
         case resourceGroup
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationTagResourceGroup = self.applicationTagResourceGroup {
+            try encodeContainer.encode(applicationTagResourceGroup, forKey: .applicationTagResourceGroup)
+        }
         if let resourceGroup = self.resourceGroup {
             try encodeContainer.encode(resourceGroup, forKey: .resourceGroup)
         }
@@ -2001,6 +2308,8 @@ extension ServiceCatalogAppRegistryClientTypes.Integrations: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceGroupDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ResourceGroup.self, forKey: .resourceGroup)
         resourceGroup = resourceGroupDecoded
+        let applicationTagResourceGroupDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ResourceGroup.self, forKey: .applicationTagResourceGroup)
+        applicationTagResourceGroup = applicationTagResourceGroupDecoded
     }
 }
 
@@ -2008,12 +2317,16 @@ extension ServiceCatalogAppRegistryClientTypes {
     /// The information about the service integration.
     public struct Integrations: Swift.Equatable {
         /// The information about the resource group integration.
+        public var applicationTagResourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup?
+        /// The information about the resource group integration.
         public var resourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup?
 
         public init(
+            applicationTagResourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup? = nil,
             resourceGroup: ServiceCatalogAppRegistryClientTypes.ResourceGroup? = nil
         )
         {
+            self.applicationTagResourceGroup = applicationTagResourceGroup
             self.resourceGroup = resourceGroup
         }
     }
@@ -3064,6 +3377,7 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case name
+        case options
         case resourceDetails
         case resourceType
     }
@@ -3075,6 +3389,12 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let options = options {
+            var optionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .options)
+            for associationoption0 in options {
+                try optionsContainer.encode(associationoption0.rawValue)
+            }
         }
         if let resourceDetails = self.resourceDetails {
             try encodeContainer.encode(resourceDetails, forKey: .resourceDetails)
@@ -3094,6 +3414,17 @@ extension ServiceCatalogAppRegistryClientTypes.ResourceInfo: Swift.Codable {
         resourceType = resourceTypeDecoded
         let resourceDetailsDecoded = try containerValues.decodeIfPresent(ServiceCatalogAppRegistryClientTypes.ResourceDetails.self, forKey: .resourceDetails)
         resourceDetails = resourceDetailsDecoded
+        let optionsContainer = try containerValues.decodeIfPresent([ServiceCatalogAppRegistryClientTypes.AssociationOption?].self, forKey: .options)
+        var optionsDecoded0:[ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil
+        if let optionsContainer = optionsContainer {
+            optionsDecoded0 = [ServiceCatalogAppRegistryClientTypes.AssociationOption]()
+            for enum0 in optionsContainer {
+                if let enum0 = enum0 {
+                    optionsDecoded0?.append(enum0)
+                }
+            }
+        }
+        options = optionsDecoded0
     }
 }
 
@@ -3104,6 +3435,8 @@ extension ServiceCatalogAppRegistryClientTypes {
         public var arn: Swift.String?
         /// The name of the resource.
         public var name: Swift.String?
+        /// Determines whether an application tag is applied or skipped.
+        public var options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]?
         /// The details related to the resource.
         public var resourceDetails: ServiceCatalogAppRegistryClientTypes.ResourceDetails?
         /// Provides information about the Service Catalog App Registry resource type.
@@ -3112,12 +3445,14 @@ extension ServiceCatalogAppRegistryClientTypes {
         public init(
             arn: Swift.String? = nil,
             name: Swift.String? = nil,
+            options: [ServiceCatalogAppRegistryClientTypes.AssociationOption]? = nil,
             resourceDetails: ServiceCatalogAppRegistryClientTypes.ResourceDetails? = nil,
             resourceType: ServiceCatalogAppRegistryClientTypes.ResourceType? = nil
         )
         {
             self.arn = arn
             self.name = name
+            self.options = options
             self.resourceDetails = resourceDetails
             self.resourceType = resourceType
         }
@@ -3158,6 +3493,44 @@ extension ServiceCatalogAppRegistryClientTypes {
         }
     }
 
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    public enum ResourceItemStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case skipped
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceItemStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .skipped,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .skipped: return "SKIPPED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceItemStatus(rawValue: rawValue) ?? ResourceItemStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResourceNotFoundException {
@@ -3245,6 +3618,71 @@ extension ServiceCatalogAppRegistryClientTypes {
             self = ResourceType(rawValue: rawValue) ?? ResourceType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ServiceCatalogAppRegistryClientTypes.ResourcesListItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorMessage
+        case resourceArn
+        case resourceType
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType, forKey: .resourceType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+    }
+}
+
+extension ServiceCatalogAppRegistryClientTypes {
+    /// The resource in a list of resources.
+    public struct ResourcesListItem: Swift.Equatable {
+        /// The message returned if the call fails.
+        public var errorMessage: Swift.String?
+        /// The Amazon resource name (ARN) of the resource.
+        public var resourceArn: Swift.String?
+        /// Provides information about the AppRegistry resource type.
+        public var resourceType: Swift.String?
+        /// The status of the list item.
+        public var status: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.status = status
+        }
+    }
+
 }
 
 extension ServiceQuotaExceededException {

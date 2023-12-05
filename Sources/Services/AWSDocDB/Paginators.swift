@@ -12,7 +12,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeCertificatesOutput`
     public func describeCertificatesPaginated(input: DescribeCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \DescribeCertificatesInput.marker, outputKey: \DescribeCertificatesOutput.marker, paginationFunction: self.describeCertificates(input:))
+        return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeCertificates(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension DescribeCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeCertificatesInput, Output == DescribeCertificatesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeCertificatesInput, OperationStackOutput == DescribeCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeCertificatesPaginated`
     /// to access the nested member `[DocDBClientTypes.Certificate]`
     /// - Returns: `[DocDBClientTypes.Certificate]`
@@ -44,7 +44,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutput`
     public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutput.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension DescribeDBClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBClusterParameterGroupsInput, OperationStackOutput == DescribeDBClusterParameterGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
     /// to access the nested member `[DocDBClientTypes.DBClusterParameterGroup]`
     /// - Returns: `[DocDBClientTypes.DBClusterParameterGroup]`
@@ -76,7 +76,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutput`
     public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutput.marker, paginationFunction: self.describeDBClusterParameters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterParameters(input:))
     }
 }
 
@@ -91,7 +91,7 @@ extension DescribeDBClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBClusterParametersInput, OperationStackOutput == DescribeDBClusterParametersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
     /// to access the nested member `[DocDBClientTypes.Parameter]`
     /// - Returns: `[DocDBClientTypes.Parameter]`
@@ -109,7 +109,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutput`
     public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutput.marker, paginationFunction: self.describeDBClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusters(input:))
     }
 }
 
@@ -123,7 +123,7 @@ extension DescribeDBClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBClustersInput, OperationStackOutput == DescribeDBClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
     /// to access the nested member `[DocDBClientTypes.DBCluster]`
     /// - Returns: `[DocDBClientTypes.DBCluster]`
@@ -141,7 +141,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutput`
     public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutput.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
     }
 }
 
@@ -159,7 +159,7 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBClusterSnapshotsInput, OperationStackOutput == DescribeDBClusterSnapshotsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
     /// to access the nested member `[DocDBClientTypes.DBClusterSnapshot]`
     /// - Returns: `[DocDBClientTypes.DBClusterSnapshot]`
@@ -177,7 +177,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutput`
     public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutput.marker, paginationFunction: self.describeDBEngineVersions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBEngineVersions(input:))
     }
 }
 
@@ -196,7 +196,7 @@ extension DescribeDBEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBEngineVersionsInput, OperationStackOutput == DescribeDBEngineVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
     /// to access the nested member `[DocDBClientTypes.DBEngineVersion]`
     /// - Returns: `[DocDBClientTypes.DBEngineVersion]`
@@ -214,7 +214,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBInstancesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutput`
     public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutput.marker, paginationFunction: self.describeDBInstances(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBInstances(input:))
     }
 }
 
@@ -228,7 +228,7 @@ extension DescribeDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBInstancesInput, OperationStackOutput == DescribeDBInstancesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
     /// to access the nested member `[DocDBClientTypes.DBInstance]`
     /// - Returns: `[DocDBClientTypes.DBInstance]`
@@ -246,7 +246,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutput`
     public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutput.marker, paginationFunction: self.describeDBSubnetGroups(input:))
+        return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBSubnetGroups(input:))
     }
 }
 
@@ -260,7 +260,7 @@ extension DescribeDBSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeDBSubnetGroupsInput, OperationStackOutput == DescribeDBSubnetGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
     /// to access the nested member `[DocDBClientTypes.DBSubnetGroup]`
     /// - Returns: `[DocDBClientTypes.DBSubnetGroup]`
@@ -278,7 +278,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeEventsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutput`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutput.marker, paginationFunction: self.describeEvents(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEvents(input:))
     }
 }
 
@@ -297,7 +297,7 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeEventsInput, OperationStackOutput == DescribeEventsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
     /// to access the nested member `[DocDBClientTypes.Event]`
     /// - Returns: `[DocDBClientTypes.Event]`
@@ -315,7 +315,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutput`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutput.marker, paginationFunction: self.describeEventSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
 }
 
@@ -329,7 +329,7 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeEventSubscriptionsInput, OperationStackOutput == DescribeEventSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
     /// to access the nested member `[DocDBClientTypes.EventSubscription]`
     /// - Returns: `[DocDBClientTypes.EventSubscription]`
@@ -347,7 +347,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeGlobalClustersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutput`
     public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutput.marker, paginationFunction: self.describeGlobalClusters(input:))
+        return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeGlobalClusters(input:))
     }
 }
 
@@ -361,7 +361,7 @@ extension DescribeGlobalClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutput {
+extension PaginatorSequence where OperationStackInput == DescribeGlobalClustersInput, OperationStackOutput == DescribeGlobalClustersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
     /// to access the nested member `[DocDBClientTypes.GlobalCluster]`
     /// - Returns: `[DocDBClientTypes.GlobalCluster]`
@@ -379,7 +379,7 @@ extension DocDBClient {
     ///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutput`
     public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutput.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
+        return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
     }
 }
 
@@ -397,7 +397,7 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribeOrderableDBInstanceOptionsInput, OperationStackOutput == DescribeOrderableDBInstanceOptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
     /// to access the nested member `[DocDBClientTypes.OrderableDBInstanceOption]`
     /// - Returns: `[DocDBClientTypes.OrderableDBInstanceOption]`
@@ -415,7 +415,7 @@ extension DocDBClient {
     ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutput`
     public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput> {
-        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutput.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
+        return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
     }
 }
 
@@ -429,7 +429,7 @@ extension DescribePendingMaintenanceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutput {
+extension PaginatorSequence where OperationStackInput == DescribePendingMaintenanceActionsInput, OperationStackOutput == DescribePendingMaintenanceActionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
     /// to access the nested member `[DocDBClientTypes.ResourcePendingMaintenanceActions]`
     /// - Returns: `[DocDBClientTypes.ResourcePendingMaintenanceActions]`

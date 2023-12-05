@@ -69,6 +69,7 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         case fullyQualifiedName
         case max
         case min
+        case structFullyQualifiedName
         case unit
     }
 
@@ -103,6 +104,9 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         }
         if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
+        }
+        if let structFullyQualifiedName = self.structFullyQualifiedName {
+            try encodeContainer.encode(structFullyQualifiedName, forKey: .structFullyQualifiedName)
         }
         if let unit = self.unit {
             try encodeContainer.encode(unit, forKey: .unit)
@@ -140,6 +144,8 @@ extension IoTFleetWiseClientTypes.Actuator: Swift.Codable {
         deprecationMessage = deprecationMessageDecoded
         let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
         comment = commentDecoded
+        let structFullyQualifiedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .structFullyQualifiedName)
+        structFullyQualifiedName = structFullyQualifiedNameDecoded
     }
 }
 
@@ -167,6 +173,8 @@ extension IoTFleetWiseClientTypes {
         public var max: Swift.Double?
         /// The specified possible minimum value of an actuator.
         public var min: Swift.Double?
+        /// The fully qualified name of the struct node for the actuator if the data type of the actuator is Struct or StructArray. For example, the struct fully qualified name of an actuator might be Vehicle.Door.LockStruct.
+        public var structFullyQualifiedName: Swift.String?
         /// The scientific unit for the actuator.
         public var unit: Swift.String?
 
@@ -180,6 +188,7 @@ extension IoTFleetWiseClientTypes {
             fullyQualifiedName: Swift.String? = nil,
             max: Swift.Double? = nil,
             min: Swift.Double? = nil,
+            structFullyQualifiedName: Swift.String? = nil,
             unit: Swift.String? = nil
         )
         {
@@ -192,6 +201,7 @@ extension IoTFleetWiseClientTypes {
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
             self.min = min
+            self.structFullyQualifiedName = structFullyQualifiedName
             self.unit = unit
         }
     }
@@ -270,6 +280,7 @@ enum AssociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -994,7 +1005,7 @@ extension IoTFleetWiseClientTypes.CanDbcDefinition: Swift.Codable {
 extension IoTFleetWiseClientTypes {
     /// Configurations used to create a decoder manifest.
     public struct CanDbcDefinition: Swift.Equatable {
-        /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list.
+        /// A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB.
         /// This member is required.
         public var canDbcFiles: [ClientRuntime.Data]?
         /// Contains information about a network interface.
@@ -2944,6 +2955,169 @@ extension IoTFleetWiseClientTypes {
 
 }
 
+extension IoTFleetWiseClientTypes.CustomProperty: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+        case dataEncoding
+        case dataType
+        case deprecationMessage
+        case description
+        case fullyQualifiedName
+        case structFullyQualifiedName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
+        if let dataEncoding = self.dataEncoding {
+            try encodeContainer.encode(dataEncoding.rawValue, forKey: .dataEncoding)
+        }
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let fullyQualifiedName = self.fullyQualifiedName {
+            try encodeContainer.encode(fullyQualifiedName, forKey: .fullyQualifiedName)
+        }
+        if let structFullyQualifiedName = self.structFullyQualifiedName {
+            try encodeContainer.encode(structFullyQualifiedName, forKey: .structFullyQualifiedName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fullyQualifiedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fullyQualifiedName)
+        fullyQualifiedName = fullyQualifiedNameDecoded
+        let dataTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.NodeDataType.self, forKey: .dataType)
+        dataType = dataTypeDecoded
+        let dataEncodingDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.NodeDataEncoding.self, forKey: .dataEncoding)
+        dataEncoding = dataEncodingDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
+        let structFullyQualifiedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .structFullyQualifiedName)
+        structFullyQualifiedName = structFullyQualifiedNameDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// Represents a member of the complex data structure. The data type of the property can be either primitive or another struct.
+    public struct CustomProperty: Swift.Equatable {
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
+        /// Indicates whether the property is binary data.
+        public var dataEncoding: IoTFleetWiseClientTypes.NodeDataEncoding?
+        /// The data type for the custom property.
+        /// This member is required.
+        public var dataType: IoTFleetWiseClientTypes.NodeDataType?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
+        /// A brief description of the custom property.
+        public var description: Swift.String?
+        /// The fully qualified name of the custom property. For example, the fully qualified name of a custom property might be ComplexDataTypes.VehicleDataTypes.SVMCamera.FPS.
+        /// This member is required.
+        public var fullyQualifiedName: Swift.String?
+        /// The fully qualified name of the struct node for the custom property if the data type of the custom property is Struct or StructArray.
+        public var structFullyQualifiedName: Swift.String?
+
+        public init(
+            comment: Swift.String? = nil,
+            dataEncoding: IoTFleetWiseClientTypes.NodeDataEncoding? = nil,
+            dataType: IoTFleetWiseClientTypes.NodeDataType? = nil,
+            deprecationMessage: Swift.String? = nil,
+            description: Swift.String? = nil,
+            fullyQualifiedName: Swift.String? = nil,
+            structFullyQualifiedName: Swift.String? = nil
+        )
+        {
+            self.comment = comment
+            self.dataEncoding = dataEncoding
+            self.dataType = dataType
+            self.deprecationMessage = deprecationMessage
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+            self.structFullyQualifiedName = structFullyQualifiedName
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes.CustomStruct: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comment
+        case deprecationMessage
+        case description
+        case fullyQualifiedName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comment = self.comment {
+            try encodeContainer.encode(comment, forKey: .comment)
+        }
+        if let deprecationMessage = self.deprecationMessage {
+            try encodeContainer.encode(deprecationMessage, forKey: .deprecationMessage)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let fullyQualifiedName = self.fullyQualifiedName {
+            try encodeContainer.encode(fullyQualifiedName, forKey: .fullyQualifiedName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fullyQualifiedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fullyQualifiedName)
+        fullyQualifiedName = fullyQualifiedNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let deprecationMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationMessage)
+        deprecationMessage = deprecationMessageDecoded
+        let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
+        comment = commentDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The custom structure represents a complex or higher-order data structure.
+    public struct CustomStruct: Swift.Equatable {
+        /// A comment in addition to the description.
+        public var comment: Swift.String?
+        /// The deprecation message for the node or the branch that was moved or deleted.
+        public var deprecationMessage: Swift.String?
+        /// A brief description of the custom structure.
+        public var description: Swift.String?
+        /// The fully qualified name of the custom structure. For example, the fully qualified name of a custom structure might be ComplexDataTypes.VehicleDataTypes.SVMCamera.
+        /// This member is required.
+        public var fullyQualifiedName: Swift.String?
+
+        public init(
+            comment: Swift.String? = nil,
+            deprecationMessage: Swift.String? = nil,
+            description: Swift.String? = nil,
+            fullyQualifiedName: Swift.String? = nil
+        )
+        {
+            self.comment = comment
+            self.deprecationMessage = deprecationMessage
+            self.description = description
+            self.fullyQualifiedName = fullyQualifiedName
+        }
+    }
+
+}
+
 extension IoTFleetWiseClientTypes.DataDestinationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3config = "s3Config"
@@ -3029,6 +3203,7 @@ extension IoTFleetWiseClientTypes.DecoderManifestSummary: Swift.Codable {
         case creationTime
         case description
         case lastModificationTime
+        case message
         case modelManifestArn
         case name
         case status
@@ -3047,6 +3222,9 @@ extension IoTFleetWiseClientTypes.DecoderManifestSummary: Swift.Codable {
         }
         if let lastModificationTime = self.lastModificationTime {
             try encodeContainer.encodeTimestamp(lastModificationTime, format: .epochSeconds, forKey: .lastModificationTime)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
         }
         if let modelManifestArn = self.modelManifestArn {
             try encodeContainer.encode(modelManifestArn, forKey: .modelManifestArn)
@@ -3075,6 +3253,8 @@ extension IoTFleetWiseClientTypes.DecoderManifestSummary: Swift.Codable {
         creationTime = creationTimeDecoded
         let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
         lastModificationTime = lastModificationTimeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -3091,6 +3271,8 @@ extension IoTFleetWiseClientTypes {
         /// The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
         /// This member is required.
         public var lastModificationTime: ClientRuntime.Date?
+        /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
+        public var message: Swift.String?
         /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
         public var modelManifestArn: Swift.String?
         /// The name of the decoder manifest.
@@ -3103,6 +3285,7 @@ extension IoTFleetWiseClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             lastModificationTime: ClientRuntime.Date? = nil,
+            message: Swift.String? = nil,
             modelManifestArn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: IoTFleetWiseClientTypes.ManifestStatus? = nil
@@ -3112,6 +3295,7 @@ extension IoTFleetWiseClientTypes {
             self.creationTime = creationTime
             self.description = description
             self.lastModificationTime = lastModificationTime
+            self.message = message
             self.modelManifestArn = modelManifestArn
             self.name = name
             self.status = status
@@ -4485,6 +4669,7 @@ extension GetDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = output.creationTime
             self.description = output.description
             self.lastModificationTime = output.lastModificationTime
+            self.message = output.message
             self.modelManifestArn = output.modelManifestArn
             self.name = output.name
             self.status = output.status
@@ -4493,6 +4678,7 @@ extension GetDecoderManifestOutput: ClientRuntime.HttpResponseBinding {
             self.creationTime = nil
             self.description = nil
             self.lastModificationTime = nil
+            self.message = nil
             self.modelManifestArn = nil
             self.name = nil
             self.status = nil
@@ -4512,6 +4698,8 @@ public struct GetDecoderManifestOutput: Swift.Equatable {
     /// The time the decoder manifest was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
     /// This member is required.
     public var lastModificationTime: ClientRuntime.Date?
+    /// The detailed message for the decoder manifest. When a decoder manifest is in an INVALID status, the message contains detailed reason and help information.
+    public var message: Swift.String?
     /// The ARN of a vehicle model (model manifest) associated with the decoder manifest.
     public var modelManifestArn: Swift.String?
     /// The name of the decoder manifest.
@@ -4525,6 +4713,7 @@ public struct GetDecoderManifestOutput: Swift.Equatable {
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         lastModificationTime: ClientRuntime.Date? = nil,
+        message: Swift.String? = nil,
         modelManifestArn: Swift.String? = nil,
         name: Swift.String? = nil,
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
@@ -4534,6 +4723,7 @@ public struct GetDecoderManifestOutput: Swift.Equatable {
         self.creationTime = creationTime
         self.description = description
         self.lastModificationTime = lastModificationTime
+        self.message = message
         self.modelManifestArn = modelManifestArn
         self.name = name
         self.status = status
@@ -4548,6 +4738,7 @@ struct GetDecoderManifestOutputBody: Swift.Equatable {
     let status: IoTFleetWiseClientTypes.ManifestStatus?
     let creationTime: ClientRuntime.Date?
     let lastModificationTime: ClientRuntime.Date?
+    let message: Swift.String?
 }
 
 extension GetDecoderManifestOutputBody: Swift.Decodable {
@@ -4556,6 +4747,7 @@ extension GetDecoderManifestOutputBody: Swift.Decodable {
         case creationTime
         case description
         case lastModificationTime
+        case message
         case modelManifestArn
         case name
         case status
@@ -4577,6 +4769,8 @@ extension GetDecoderManifestOutputBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
         lastModificationTime = lastModificationTimeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -4652,7 +4846,7 @@ public struct GetEncryptionConfigurationOutput: Swift.Equatable {
     /// The encryption status.
     /// This member is required.
     public var encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
-    /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+    /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use a KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
     /// This member is required.
     public var encryptionType: IoTFleetWiseClientTypes.EncryptionType?
     /// The error message that describes why encryption settings couldn't be configured, if applicable.
@@ -6332,12 +6526,16 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes.InvalidSignalDecoder: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hint
         case name
         case reason
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hint = self.hint {
+            try encodeContainer.encode(hint, forKey: .hint)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -6352,22 +6550,28 @@ extension IoTFleetWiseClientTypes.InvalidSignalDecoder: Swift.Codable {
         name = nameDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.SignalDecoderFailureReason.self, forKey: .reason)
         reason = reasonDecoded
+        let hintDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hint)
+        hint = hintDecoded
     }
 }
 
 extension IoTFleetWiseClientTypes {
     /// A reason that a signal decoder isn't valid.
     public struct InvalidSignalDecoder: Swift.Equatable {
+        /// The possible cause for the invalid signal decoder.
+        public var hint: Swift.String?
         /// The name of a signal decoder that isn't valid.
         public var name: Swift.String?
         /// A message about why the signal decoder isn't valid.
         public var reason: IoTFleetWiseClientTypes.SignalDecoderFailureReason?
 
         public init(
+            hint: Swift.String? = nil,
             name: Swift.String? = nil,
             reason: IoTFleetWiseClientTypes.SignalDecoderFailureReason? = nil
         )
         {
+            self.hint = hint
             self.name = name
             self.reason = reason
         }
@@ -8213,12 +8417,16 @@ extension IoTFleetWiseClientTypes {
     public enum ManifestStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case draft
+        case invalid
+        case validating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManifestStatus] {
             return [
                 .active,
                 .draft,
+                .invalid,
+                .validating,
                 .sdkUnknown("")
             ]
         }
@@ -8230,6 +8438,8 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .draft: return "DRAFT"
+            case .invalid: return "INVALID"
+            case .validating: return "VALIDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8239,6 +8449,53 @@ extension IoTFleetWiseClientTypes {
             self = ManifestStatus(rawValue: rawValue) ?? ManifestStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension IoTFleetWiseClientTypes.MessageSignal: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case structuredMessage
+        case topicName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let structuredMessage = self.structuredMessage {
+            try encodeContainer.encode(structuredMessage, forKey: .structuredMessage)
+        }
+        if let topicName = self.topicName {
+            try encodeContainer.encode(topicName, forKey: .topicName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
+        topicName = topicNameDecoded
+        let structuredMessageDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.StructuredMessage.self, forKey: .structuredMessage)
+        structuredMessage = structuredMessageDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The decoding information for a specific message which support higher order data types.
+    public struct MessageSignal: Swift.Equatable {
+        /// The structured message for the message signal. It can be defined with either a primitiveMessageDefinition, structuredMessageListDefinition, or structuredMessageDefinition recursively.
+        /// This member is required.
+        public var structuredMessage: IoTFleetWiseClientTypes.StructuredMessage?
+        /// The topic name for the message signal. It corresponds to topics in ROS 2.
+        /// This member is required.
+        public var topicName: Swift.String?
+
+        public init(
+            structuredMessage: IoTFleetWiseClientTypes.StructuredMessage? = nil,
+            topicName: Swift.String? = nil
+        )
+        {
+            self.structuredMessage = structuredMessage
+            self.topicName = topicName
+        }
+    }
+
 }
 
 extension IoTFleetWiseClientTypes.ModelManifestSummary: Swift.Codable {
@@ -8381,6 +8638,7 @@ extension IoTFleetWiseClientTypes.NetworkInterface: Swift.Codable {
         case interfaceId
         case obdInterface
         case type
+        case vehicleMiddleware
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8397,6 +8655,9 @@ extension IoTFleetWiseClientTypes.NetworkInterface: Swift.Codable {
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
+        if let vehicleMiddleware = self.vehicleMiddleware {
+            try encodeContainer.encode(vehicleMiddleware, forKey: .vehicleMiddleware)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8409,6 +8670,8 @@ extension IoTFleetWiseClientTypes.NetworkInterface: Swift.Codable {
         canInterface = canInterfaceDecoded
         let obdInterfaceDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.ObdInterface.self, forKey: .obdInterface)
         obdInterface = obdInterfaceDecoded
+        let vehicleMiddlewareDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.VehicleMiddleware.self, forKey: .vehicleMiddleware)
+        vehicleMiddleware = vehicleMiddlewareDecoded
     }
 }
 
@@ -8425,18 +8688,22 @@ extension IoTFleetWiseClientTypes {
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         /// This member is required.
         public var type: IoTFleetWiseClientTypes.NetworkInterfaceType?
+        /// The vehicle middleware defined as a type of network interface. Examples of vehicle middleware include ROS2 and SOME/IP.
+        public var vehicleMiddleware: IoTFleetWiseClientTypes.VehicleMiddleware?
 
         public init(
             canInterface: IoTFleetWiseClientTypes.CanInterface? = nil,
             interfaceId: Swift.String? = nil,
             obdInterface: IoTFleetWiseClientTypes.ObdInterface? = nil,
-            type: IoTFleetWiseClientTypes.NetworkInterfaceType? = nil
+            type: IoTFleetWiseClientTypes.NetworkInterfaceType? = nil,
+            vehicleMiddleware: IoTFleetWiseClientTypes.VehicleMiddleware? = nil
         )
         {
             self.canInterface = canInterface
             self.interfaceId = interfaceId
             self.obdInterface = obdInterface
             self.type = type
+            self.vehicleMiddleware = vehicleMiddleware
         }
     }
 
@@ -8446,20 +8713,24 @@ extension IoTFleetWiseClientTypes {
     public enum NetworkInterfaceFailureReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canNetworkInterfaceInfoIsNull
         case conflictingNetworkInterface
+        case customerDecodedSignalNetworkInterfaceInfoIsNull
         case duplicateInterface
         case networkInterfaceToAddAlreadyExists
         case networkInterfaceToRemoveAssociatedWithSignals
         case obdNetworkInterfaceInfoIsNull
+        case vehicleMiddlewareNetworkInterfaceInfoIsNull
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NetworkInterfaceFailureReason] {
             return [
                 .canNetworkInterfaceInfoIsNull,
                 .conflictingNetworkInterface,
+                .customerDecodedSignalNetworkInterfaceInfoIsNull,
                 .duplicateInterface,
                 .networkInterfaceToAddAlreadyExists,
                 .networkInterfaceToRemoveAssociatedWithSignals,
                 .obdNetworkInterfaceInfoIsNull,
+                .vehicleMiddlewareNetworkInterfaceInfoIsNull,
                 .sdkUnknown("")
             ]
         }
@@ -8471,10 +8742,12 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canNetworkInterfaceInfoIsNull: return "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
             case .conflictingNetworkInterface: return "CONFLICTING_NETWORK_INTERFACE"
+            case .customerDecodedSignalNetworkInterfaceInfoIsNull: return "CUSTOMER_DECODED_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
             case .duplicateInterface: return "DUPLICATE_NETWORK_INTERFACE"
             case .networkInterfaceToAddAlreadyExists: return "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
             case .networkInterfaceToRemoveAssociatedWithSignals: return "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
             case .obdNetworkInterfaceInfoIsNull: return "OBD_NETWORK_INTERFACE_INFO_IS_NULL"
+            case .vehicleMiddlewareNetworkInterfaceInfoIsNull: return "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8489,13 +8762,17 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes {
     public enum NetworkInterfaceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canInterface
+        case customerDecodedInterface
         case obdInterface
+        case vehicleMiddleware
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NetworkInterfaceType] {
             return [
                 .canInterface,
+                .customerDecodedInterface,
                 .obdInterface,
+                .vehicleMiddleware,
                 .sdkUnknown("")
             ]
         }
@@ -8506,7 +8783,9 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canInterface: return "CAN_INTERFACE"
+            case .customerDecodedInterface: return "CUSTOMER_DECODED_INTERFACE"
             case .obdInterface: return "OBD_INTERFACE"
+            case .vehicleMiddleware: return "VEHICLE_MIDDLEWARE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8523,8 +8802,10 @@ extension IoTFleetWiseClientTypes.Node: Swift.Codable {
         case actuator
         case attribute
         case branch
+        case property
         case sdkUnknown
         case sensor
+        case `struct` = "struct"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8536,8 +8817,12 @@ extension IoTFleetWiseClientTypes.Node: Swift.Codable {
                 try container.encode(attribute, forKey: .attribute)
             case let .branch(branch):
                 try container.encode(branch, forKey: .branch)
+            case let .property(property):
+                try container.encode(property, forKey: .property)
             case let .sensor(sensor):
                 try container.encode(sensor, forKey: .sensor)
+            case let .`struct`(`struct`):
+                try container.encode(`struct`, forKey: .`struct`)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -8565,6 +8850,16 @@ extension IoTFleetWiseClientTypes.Node: Swift.Codable {
             self = .attribute(attribute)
             return
         }
+        let structDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.CustomStruct.self, forKey: .struct)
+        if let `struct` = structDecoded {
+            self = .`struct`(`struct`)
+            return
+        }
+        let propertyDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.CustomProperty.self, forKey: .property)
+        if let property = propertyDecoded {
+            self = .property(property)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -8580,6 +8875,10 @@ extension IoTFleetWiseClientTypes {
         case actuator(IoTFleetWiseClientTypes.Actuator)
         /// Information about a node specified as an attribute. An attribute represents static information about a vehicle.
         case attribute(IoTFleetWiseClientTypes.Attribute)
+        /// Represents a complex or higher-order data structure.
+        case `struct`(IoTFleetWiseClientTypes.CustomStruct)
+        /// Represents a member of the complex data structure. The datatype of the property can be either primitive or another struct.
+        case property(IoTFleetWiseClientTypes.CustomProperty)
         case sdkUnknown(Swift.String)
     }
 
@@ -8591,7 +8890,9 @@ extension IoTFleetWiseClientTypes.NodeCounts: Swift.Codable {
         case totalAttributes
         case totalBranches
         case totalNodes
+        case totalProperties
         case totalSensors
+        case totalStructs
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8608,8 +8909,14 @@ extension IoTFleetWiseClientTypes.NodeCounts: Swift.Codable {
         if totalNodes != 0 {
             try encodeContainer.encode(totalNodes, forKey: .totalNodes)
         }
+        if totalProperties != 0 {
+            try encodeContainer.encode(totalProperties, forKey: .totalProperties)
+        }
         if totalSensors != 0 {
             try encodeContainer.encode(totalSensors, forKey: .totalSensors)
+        }
+        if totalStructs != 0 {
+            try encodeContainer.encode(totalStructs, forKey: .totalStructs)
         }
     }
 
@@ -8625,6 +8932,10 @@ extension IoTFleetWiseClientTypes.NodeCounts: Swift.Codable {
         totalAttributes = totalAttributesDecoded
         let totalActuatorsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalActuators) ?? 0
         totalActuators = totalActuatorsDecoded
+        let totalStructsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStructs) ?? 0
+        totalStructs = totalStructsDecoded
+        let totalPropertiesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalProperties) ?? 0
+        totalProperties = totalPropertiesDecoded
     }
 }
 
@@ -8639,25 +8950,65 @@ extension IoTFleetWiseClientTypes {
         public var totalBranches: Swift.Int
         /// The total number of nodes in a vehicle network.
         public var totalNodes: Swift.Int
+        /// The total properties for the node.
+        public var totalProperties: Swift.Int
         /// The total number of nodes in a vehicle network that represent sensors.
         public var totalSensors: Swift.Int
+        /// The total structure for the node.
+        public var totalStructs: Swift.Int
 
         public init(
             totalActuators: Swift.Int = 0,
             totalAttributes: Swift.Int = 0,
             totalBranches: Swift.Int = 0,
             totalNodes: Swift.Int = 0,
-            totalSensors: Swift.Int = 0
+            totalProperties: Swift.Int = 0,
+            totalSensors: Swift.Int = 0,
+            totalStructs: Swift.Int = 0
         )
         {
             self.totalActuators = totalActuators
             self.totalAttributes = totalAttributes
             self.totalBranches = totalBranches
             self.totalNodes = totalNodes
+            self.totalProperties = totalProperties
             self.totalSensors = totalSensors
+            self.totalStructs = totalStructs
         }
     }
 
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum NodeDataEncoding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case binary
+        case typed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeDataEncoding] {
+            return [
+                .binary,
+                .typed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .typed: return "TYPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NodeDataEncoding(rawValue: rawValue) ?? NodeDataEncoding.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTFleetWiseClientTypes {
@@ -8678,6 +9029,8 @@ extension IoTFleetWiseClientTypes {
         case int8Array
         case string
         case stringArray
+        case `struct`
+        case structArray
         case uint16
         case uint16Array
         case uint32
@@ -8709,6 +9062,8 @@ extension IoTFleetWiseClientTypes {
                 .int8Array,
                 .string,
                 .stringArray,
+                .struct,
+                .structArray,
                 .uint16,
                 .uint16Array,
                 .uint32,
@@ -8745,6 +9100,8 @@ extension IoTFleetWiseClientTypes {
             case .int8Array: return "INT8_ARRAY"
             case .string: return "STRING"
             case .stringArray: return "STRING_ARRAY"
+            case .struct: return "STRUCT"
+            case .structArray: return "STRUCT_ARRAY"
             case .uint16: return "UINT16"
             case .uint16Array: return "UINT16_ARRAY"
             case .uint32: return "UINT32"
@@ -8894,7 +9251,7 @@ extension IoTFleetWiseClientTypes.ObdSignal: Swift.Codable {
         if pid != 0 {
             try encodeContainer.encode(pid, forKey: .pid)
         }
-        if pidResponseLength != 0 {
+        if let pidResponseLength = self.pidResponseLength {
             try encodeContainer.encode(pidResponseLength, forKey: .pidResponseLength)
         }
         if let scaling = self.scaling {
@@ -8910,7 +9267,7 @@ extension IoTFleetWiseClientTypes.ObdSignal: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let pidResponseLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pidResponseLength) ?? 0
+        let pidResponseLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pidResponseLength)
         pidResponseLength = pidResponseLengthDecoded
         let serviceModeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serviceMode) ?? 0
         serviceMode = serviceModeDecoded
@@ -8949,7 +9306,7 @@ extension IoTFleetWiseClientTypes {
         public var pid: Swift.Int
         /// The length of the requested data.
         /// This member is required.
-        public var pidResponseLength: Swift.Int
+        public var pidResponseLength: Swift.Int?
         /// A multiplier used to decode the message.
         /// This member is required.
         public var scaling: Swift.Double?
@@ -8966,7 +9323,7 @@ extension IoTFleetWiseClientTypes {
             byteLength: Swift.Int? = nil,
             offset: Swift.Double? = nil,
             pid: Swift.Int = 0,
-            pidResponseLength: Swift.Int = 0,
+            pidResponseLength: Swift.Int? = nil,
             scaling: Swift.Double? = nil,
             serviceMode: Swift.Int = 0,
             startByte: Swift.Int = 0
@@ -8982,6 +9339,43 @@ extension IoTFleetWiseClientTypes {
             self.serviceMode = serviceMode
             self.startByte = startByte
         }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes.PrimitiveMessageDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ros2primitivemessagedefinition = "ros2PrimitiveMessageDefinition"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .ros2primitivemessagedefinition(ros2primitivemessagedefinition):
+                try container.encode(ros2primitivemessagedefinition, forKey: .ros2primitivemessagedefinition)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let ros2primitivemessagedefinitionDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition.self, forKey: .ros2primitivemessagedefinition)
+        if let ros2primitivemessagedefinition = ros2primitivemessagedefinitionDecoded {
+            self = .ros2primitivemessagedefinition(ros2primitivemessagedefinition)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// Represents a primitive type node of the complex data structure.
+    public enum PrimitiveMessageDefinition: Swift.Equatable {
+        /// Information about a PrimitiveMessage using a ROS 2 compliant primitive type message of the complex data structure.
+        case ros2primitivemessagedefinition(IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition)
+        case sdkUnknown(Swift.String)
     }
 
 }
@@ -9197,6 +9591,143 @@ enum PutLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case offset
+        case primitiveType
+        case scaling
+        case upperBound
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let offset = self.offset {
+            try encodeContainer.encode(offset, forKey: .offset)
+        }
+        if let primitiveType = self.primitiveType {
+            try encodeContainer.encode(primitiveType.rawValue, forKey: .primitiveType)
+        }
+        if let scaling = self.scaling {
+            try encodeContainer.encode(scaling, forKey: .scaling)
+        }
+        if let upperBound = self.upperBound {
+            try encodeContainer.encode(upperBound, forKey: .upperBound)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let primitiveTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.ROS2PrimitiveType.self, forKey: .primitiveType)
+        primitiveType = primitiveTypeDecoded
+        let offsetDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .offset)
+        offset = offsetDecoded
+        let scalingDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .scaling)
+        scaling = scalingDecoded
+        let upperBoundDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .upperBound)
+        upperBound = upperBoundDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// Represents a ROS 2 compliant primitive type message of the complex data structure.
+    public struct ROS2PrimitiveMessageDefinition: Swift.Equatable {
+        /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
+        public var offset: Swift.Double?
+        /// The primitive type (integer, floating point, boolean, etc.) for the ROS 2 primitive message definition.
+        /// This member is required.
+        public var primitiveType: IoTFleetWiseClientTypes.ROS2PrimitiveType?
+        /// A multiplier used to decode the message.
+        public var scaling: Swift.Double?
+        /// An optional attribute specifying the upper bound for STRING and WSTRING.
+        public var upperBound: Swift.Int?
+
+        public init(
+            offset: Swift.Double? = nil,
+            primitiveType: IoTFleetWiseClientTypes.ROS2PrimitiveType? = nil,
+            scaling: Swift.Double? = nil,
+            upperBound: Swift.Int? = nil
+        )
+        {
+            self.offset = offset
+            self.primitiveType = primitiveType
+            self.scaling = scaling
+            self.upperBound = upperBound
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum ROS2PrimitiveType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bool
+        case byte
+        case char
+        case float32
+        case float64
+        case int16
+        case int32
+        case int64
+        case int8
+        case string
+        case uint16
+        case uint32
+        case uint64
+        case uint8
+        case wstring
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ROS2PrimitiveType] {
+            return [
+                .bool,
+                .byte,
+                .char,
+                .float32,
+                .float64,
+                .int16,
+                .int32,
+                .int64,
+                .int8,
+                .string,
+                .uint16,
+                .uint32,
+                .uint64,
+                .uint8,
+                .wstring,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bool: return "BOOL"
+            case .byte: return "BYTE"
+            case .char: return "CHAR"
+            case .float32: return "FLOAT32"
+            case .float64: return "FLOAT64"
+            case .int16: return "INT16"
+            case .int32: return "INT32"
+            case .int64: return "INT64"
+            case .int8: return "INT8"
+            case .string: return "STRING"
+            case .uint16: return "UINT16"
+            case .uint32: return "UINT32"
+            case .uint64: return "UINT64"
+            case .uint8: return "UINT8"
+            case .wstring: return "WSTRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ROS2PrimitiveType(rawValue: rawValue) ?? ROS2PrimitiveType.sdkUnknown(rawValue)
         }
     }
 }
@@ -9557,6 +10088,7 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
         case fullyQualifiedName
         case max
         case min
+        case structFullyQualifiedName
         case unit
     }
 
@@ -9588,6 +10120,9 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
         }
         if let min = self.min {
             try encodeContainer.encode(min, forKey: .min)
+        }
+        if let structFullyQualifiedName = self.structFullyQualifiedName {
+            try encodeContainer.encode(structFullyQualifiedName, forKey: .structFullyQualifiedName)
         }
         if let unit = self.unit {
             try encodeContainer.encode(unit, forKey: .unit)
@@ -9623,6 +10158,8 @@ extension IoTFleetWiseClientTypes.Sensor: Swift.Codable {
         deprecationMessage = deprecationMessageDecoded
         let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
         comment = commentDecoded
+        let structFullyQualifiedNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .structFullyQualifiedName)
+        structFullyQualifiedName = structFullyQualifiedNameDecoded
     }
 }
 
@@ -9647,6 +10184,8 @@ extension IoTFleetWiseClientTypes {
         public var max: Swift.Double?
         /// The specified possible minimum value of the sensor.
         public var min: Swift.Double?
+        /// The fully qualified name of the struct node for a sensor if the data type of the actuator is Struct or StructArray. For example, the struct fully qualified name of a sensor might be Vehicle.ADAS.CameraStruct.
+        public var structFullyQualifiedName: Swift.String?
         /// The scientific unit of measurement for data collected by the sensor.
         public var unit: Swift.String?
 
@@ -9659,6 +10198,7 @@ extension IoTFleetWiseClientTypes {
             fullyQualifiedName: Swift.String? = nil,
             max: Swift.Double? = nil,
             min: Swift.Double? = nil,
+            structFullyQualifiedName: Swift.String? = nil,
             unit: Swift.String? = nil
         )
         {
@@ -9670,6 +10210,7 @@ extension IoTFleetWiseClientTypes {
             self.fullyQualifiedName = fullyQualifiedName
             self.max = max
             self.min = min
+            self.structFullyQualifiedName = structFullyQualifiedName
             self.unit = unit
         }
     }
@@ -9746,6 +10287,7 @@ extension IoTFleetWiseClientTypes.SignalDecoder: Swift.Codable {
         case canSignal
         case fullyQualifiedName
         case interfaceId
+        case messageSignal
         case obdSignal
         case type
     }
@@ -9760,6 +10302,9 @@ extension IoTFleetWiseClientTypes.SignalDecoder: Swift.Codable {
         }
         if let interfaceId = self.interfaceId {
             try encodeContainer.encode(interfaceId, forKey: .interfaceId)
+        }
+        if let messageSignal = self.messageSignal {
+            try encodeContainer.encode(messageSignal, forKey: .messageSignal)
         }
         if let obdSignal = self.obdSignal {
             try encodeContainer.encode(obdSignal, forKey: .obdSignal)
@@ -9781,6 +10326,8 @@ extension IoTFleetWiseClientTypes.SignalDecoder: Swift.Codable {
         canSignal = canSignalDecoded
         let obdSignalDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.ObdSignal.self, forKey: .obdSignal)
         obdSignal = obdSignalDecoded
+        let messageSignalDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.MessageSignal.self, forKey: .messageSignal)
+        messageSignal = messageSignalDecoded
     }
 }
 
@@ -9795,6 +10342,8 @@ extension IoTFleetWiseClientTypes {
         /// The ID of a network interface that specifies what network protocol a vehicle follows.
         /// This member is required.
         public var interfaceId: Swift.String?
+        /// The decoding information for a specific message which supports higher order data types.
+        public var messageSignal: IoTFleetWiseClientTypes.MessageSignal?
         /// Information about signal decoder using the On-board diagnostic (OBD) II protocol.
         public var obdSignal: IoTFleetWiseClientTypes.ObdSignal?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
@@ -9805,6 +10354,7 @@ extension IoTFleetWiseClientTypes {
             canSignal: IoTFleetWiseClientTypes.CanSignal? = nil,
             fullyQualifiedName: Swift.String? = nil,
             interfaceId: Swift.String? = nil,
+            messageSignal: IoTFleetWiseClientTypes.MessageSignal? = nil,
             obdSignal: IoTFleetWiseClientTypes.ObdSignal? = nil,
             type: IoTFleetWiseClientTypes.SignalDecoderType? = nil
         )
@@ -9812,6 +10362,7 @@ extension IoTFleetWiseClientTypes {
             self.canSignal = canSignal
             self.fullyQualifiedName = fullyQualifiedName
             self.interfaceId = interfaceId
+            self.messageSignal = messageSignal
             self.obdSignal = obdSignal
             self.type = type
         }
@@ -9823,26 +10374,40 @@ extension IoTFleetWiseClientTypes {
     public enum SignalDecoderFailureReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canSignalInfoIsNull
         case conflictingSignal
+        case customerDecodedSignalInfoIsNull
         case duplicateSignal
+        case emptyMessageSignal
+        case messageSignalInfoIsNull
         case networkInterfaceTypeIncompatibleWithSignalDecoderType
         case noDecoderInfoForSignalInModel
+        case noSignalInCatalogForDecoderSignal
         case obdSignalInfoIsNull
+        case signalDecoderIncompatibleWithSignalCatalog
+        case signalDecoderTypeIncompatibleWithMessageSignalType
         case signalNotAssociatedWithNetworkInterface
         case signalNotInModel
         case signalToAddAlreadyExists
+        case structSizeMismatch
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SignalDecoderFailureReason] {
             return [
                 .canSignalInfoIsNull,
                 .conflictingSignal,
+                .customerDecodedSignalInfoIsNull,
                 .duplicateSignal,
+                .emptyMessageSignal,
+                .messageSignalInfoIsNull,
                 .networkInterfaceTypeIncompatibleWithSignalDecoderType,
                 .noDecoderInfoForSignalInModel,
+                .noSignalInCatalogForDecoderSignal,
                 .obdSignalInfoIsNull,
+                .signalDecoderIncompatibleWithSignalCatalog,
+                .signalDecoderTypeIncompatibleWithMessageSignalType,
                 .signalNotAssociatedWithNetworkInterface,
                 .signalNotInModel,
                 .signalToAddAlreadyExists,
+                .structSizeMismatch,
                 .sdkUnknown("")
             ]
         }
@@ -9854,13 +10419,20 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canSignalInfoIsNull: return "CAN_SIGNAL_INFO_IS_NULL"
             case .conflictingSignal: return "CONFLICTING_SIGNAL"
+            case .customerDecodedSignalInfoIsNull: return "CUSTOMER_DECODED_SIGNAL_INFO_IS_NULL"
             case .duplicateSignal: return "DUPLICATE_SIGNAL"
+            case .emptyMessageSignal: return "EMPTY_MESSAGE_SIGNAL"
+            case .messageSignalInfoIsNull: return "MESSAGE_SIGNAL_INFO_IS_NULL"
             case .networkInterfaceTypeIncompatibleWithSignalDecoderType: return "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE"
             case .noDecoderInfoForSignalInModel: return "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL"
+            case .noSignalInCatalogForDecoderSignal: return "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL"
             case .obdSignalInfoIsNull: return "OBD_SIGNAL_INFO_IS_NULL"
+            case .signalDecoderIncompatibleWithSignalCatalog: return "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG"
+            case .signalDecoderTypeIncompatibleWithMessageSignalType: return "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE"
             case .signalNotAssociatedWithNetworkInterface: return "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE"
             case .signalNotInModel: return "SIGNAL_NOT_IN_MODEL"
             case .signalToAddAlreadyExists: return "SIGNAL_TO_ADD_ALREADY_EXISTS"
+            case .structSizeMismatch: return "STRUCT_SIZE_MISMATCH"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9875,12 +10447,16 @@ extension IoTFleetWiseClientTypes {
 extension IoTFleetWiseClientTypes {
     public enum SignalDecoderType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canSignal
+        case customerDecodedSignal
+        case messageSignal
         case obdSignal
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SignalDecoderType] {
             return [
                 .canSignal,
+                .customerDecodedSignal,
+                .messageSignal,
                 .obdSignal,
                 .sdkUnknown("")
             ]
@@ -9892,6 +10468,8 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canSignal: return "CAN_SIGNAL"
+            case .customerDecodedSignal: return "CUSTOMER_DECODED_SIGNAL"
+            case .messageSignal: return "MESSAGE_SIGNAL"
             case .obdSignal: return "OBD_SIGNAL"
             case let .sdkUnknown(s): return s
             }
@@ -10020,6 +10598,225 @@ extension IoTFleetWiseClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = StorageCompressionFormat(rawValue: rawValue) ?? StorageCompressionFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.StructuredMessage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case primitivemessagedefinition = "primitiveMessageDefinition"
+        case sdkUnknown
+        case structuredmessagedefinition = "structuredMessageDefinition"
+        case structuredmessagelistdefinition = "structuredMessageListDefinition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .primitivemessagedefinition(primitivemessagedefinition):
+                try container.encode(primitivemessagedefinition, forKey: .primitivemessagedefinition)
+            case let .structuredmessagedefinition(structuredmessagedefinition):
+                var structuredmessagedefinitionContainer = container.nestedUnkeyedContainer(forKey: .structuredmessagedefinition)
+                for structuredmessagefieldnameanddatatypepair0 in structuredmessagedefinition {
+                    try structuredmessagedefinitionContainer.encode(structuredmessagefieldnameanddatatypepair0)
+                }
+            case let .structuredmessagelistdefinition(structuredmessagelistdefinition):
+                try container.encode(structuredmessagelistdefinition, forKey: .structuredmessagelistdefinition)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let primitivemessagedefinitionDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.PrimitiveMessageDefinition.self, forKey: .primitivemessagedefinition)
+        if let primitivemessagedefinition = primitivemessagedefinitionDecoded {
+            self = .primitivemessagedefinition(primitivemessagedefinition)
+            return
+        }
+        let structuredmessagelistdefinitionDecoded = try values.decodeIfPresent(IoTFleetWiseClientTypes.StructuredMessageListDefinition.self, forKey: .structuredmessagelistdefinition)
+        if let structuredmessagelistdefinition = structuredmessagelistdefinitionDecoded {
+            self = .structuredmessagelistdefinition(structuredmessagelistdefinition)
+            return
+        }
+        let structuredmessagedefinitionContainer = try values.decodeIfPresent([IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair?].self, forKey: .structuredmessagedefinition)
+        var structuredmessagedefinitionDecoded0:[IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair]? = nil
+        if let structuredmessagedefinitionContainer = structuredmessagedefinitionContainer {
+            structuredmessagedefinitionDecoded0 = [IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair]()
+            for structure0 in structuredmessagedefinitionContainer {
+                if let structure0 = structure0 {
+                    structuredmessagedefinitionDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let structuredmessagedefinition = structuredmessagedefinitionDecoded0 {
+            self = .structuredmessagedefinition(structuredmessagedefinition)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The structured message for the message signal. It can be defined with either a primitiveMessageDefinition, structuredMessageListDefinition, or structuredMessageDefinition recursively.
+    public indirect enum StructuredMessage: Swift.Equatable {
+        /// Represents a primitive type node of the complex data structure.
+        case primitivemessagedefinition(IoTFleetWiseClientTypes.PrimitiveMessageDefinition)
+        /// Represents a list type node of the complex data structure.
+        case structuredmessagelistdefinition(IoTFleetWiseClientTypes.StructuredMessageListDefinition)
+        /// Represents a struct type node of the complex data structure.
+        case structuredmessagedefinition([IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair])
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension IoTFleetWiseClientTypes.StructuredMessageFieldNameAndDataTypePair: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataType
+        case fieldName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType, forKey: .dataType)
+        }
+        if let fieldName = self.fieldName {
+            try encodeContainer.encode(fieldName, forKey: .fieldName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldName)
+        fieldName = fieldNameDecoded
+        let dataTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.StructuredMessage.self, forKey: .dataType)
+        dataType = dataTypeDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// Represents a StructureMessageName to DataType map element.
+    public struct StructuredMessageFieldNameAndDataTypePair: Swift.Equatable {
+        /// The data type.
+        /// This member is required.
+        public var dataType: IoTFleetWiseClientTypes.StructuredMessage?
+        /// The field name of the structured message. It determines how a data value is referenced in the target language.
+        /// This member is required.
+        public var fieldName: Swift.String?
+
+        public init(
+            dataType: IoTFleetWiseClientTypes.StructuredMessage? = nil,
+            fieldName: Swift.String? = nil
+        )
+        {
+            self.dataType = dataType
+            self.fieldName = fieldName
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes.StructuredMessageListDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacity
+        case listType
+        case memberType
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if capacity != 0 {
+            try encodeContainer.encode(capacity, forKey: .capacity)
+        }
+        if let listType = self.listType {
+            try encodeContainer.encode(listType.rawValue, forKey: .listType)
+        }
+        if let memberType = self.memberType {
+            try encodeContainer.encode(memberType, forKey: .memberType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let memberTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.StructuredMessage.self, forKey: .memberType)
+        memberType = memberTypeDecoded
+        let listTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.StructuredMessageListType.self, forKey: .listType)
+        listType = listTypeDecoded
+        let capacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .capacity) ?? 0
+        capacity = capacityDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// Represents a list type node of the complex data structure.
+    public struct StructuredMessageListDefinition: Swift.Equatable {
+        /// The capacity of the structured message list definition when the list type is FIXED_CAPACITY or DYNAMIC_BOUNDED_CAPACITY.
+        public var capacity: Swift.Int
+        /// The type of list of the structured message list definition.
+        /// This member is required.
+        public var listType: IoTFleetWiseClientTypes.StructuredMessageListType?
+        /// The member type of the structured message list definition.
+        /// This member is required.
+        public var memberType: IoTFleetWiseClientTypes.StructuredMessage?
+        /// The name of the structured message list definition.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            capacity: Swift.Int = 0,
+            listType: IoTFleetWiseClientTypes.StructuredMessageListType? = nil,
+            memberType: IoTFleetWiseClientTypes.StructuredMessage? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.capacity = capacity
+            self.listType = listType
+            self.memberType = memberType
+            self.name = name
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum StructuredMessageListType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dynamicBoundedCapacity
+        case dynamicUnboundedCapacity
+        case fixedCapacity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StructuredMessageListType] {
+            return [
+                .dynamicBoundedCapacity,
+                .dynamicUnboundedCapacity,
+                .fixedCapacity,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamicBoundedCapacity: return "DYNAMIC_BOUNDED_CAPACITY"
+            case .dynamicUnboundedCapacity: return "DYNAMIC_UNBOUNDED_CAPACITY"
+            case .fixedCapacity: return "FIXED_CAPACITY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StructuredMessageListType(rawValue: rawValue) ?? StructuredMessageListType.sdkUnknown(rawValue)
         }
     }
 }
@@ -12169,6 +12966,82 @@ extension IoTFleetWiseClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = VehicleAssociationBehavior(rawValue: rawValue) ?? VehicleAssociationBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.VehicleMiddleware: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case protocolName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let protocolName = self.protocolName {
+            try encodeContainer.encode(protocolName.rawValue, forKey: .protocolName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let protocolNameDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.VehicleMiddlewareProtocol.self, forKey: .protocolName)
+        protocolName = protocolNameDecoded
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    /// The vehicle middleware defined as a type of network interface. Examples of vehicle middleware include ROS2 and SOME/IP.
+    public struct VehicleMiddleware: Swift.Equatable {
+        /// The name of the vehicle middleware.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The protocol name of the vehicle middleware.
+        /// This member is required.
+        public var protocolName: IoTFleetWiseClientTypes.VehicleMiddlewareProtocol?
+
+        public init(
+            name: Swift.String? = nil,
+            protocolName: IoTFleetWiseClientTypes.VehicleMiddlewareProtocol? = nil
+        )
+        {
+            self.name = name
+            self.protocolName = protocolName
+        }
+    }
+
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum VehicleMiddlewareProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ros2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VehicleMiddlewareProtocol] {
+            return [
+                .ros2,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ros2: return "ROS_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VehicleMiddlewareProtocol(rawValue: rawValue) ?? VehicleMiddlewareProtocol.sdkUnknown(rawValue)
         }
     }
 }

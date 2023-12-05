@@ -102,6 +102,82 @@ extension BraketClientTypes {
 
 }
 
+extension BraketClientTypes.Association: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(BraketClientTypes.AssociationType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension BraketClientTypes {
+    /// The Amazon Braket resource and the association type.
+    public struct Association: Swift.Equatable {
+        /// The Amazon Braket resource arn.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The association type for the specified Amazon Braket resource arn.
+        /// This member is required.
+        public var type: BraketClientTypes.AssociationType?
+
+        public init(
+            arn: Swift.String? = nil,
+            type: BraketClientTypes.AssociationType? = nil
+        )
+        {
+            self.arn = arn
+            self.type = type
+        }
+    }
+
+}
+
+extension BraketClientTypes {
+    public enum AssociationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case reservationTimeWindowArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationType] {
+            return [
+                .reservationTimeWindowArn,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .reservationTimeWindowArn: return "RESERVATION_TIME_WINDOW_ARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssociationType(rawValue: rawValue) ?? AssociationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CancelJobInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let jobArn = jobArn else {
@@ -483,6 +559,7 @@ extension BraketClientTypes {
 extension CreateJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case algorithmSpecification
+        case associations
         case checkpointConfig
         case clientToken
         case deviceConfig
@@ -500,6 +577,12 @@ extension CreateJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let algorithmSpecification = self.algorithmSpecification {
             try encodeContainer.encode(algorithmSpecification, forKey: .algorithmSpecification)
+        }
+        if let associations = associations {
+            var associationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associations)
+            for association0 in associations {
+                try associationsContainer.encode(association0)
+            }
         }
         if let checkpointConfig = self.checkpointConfig {
             try encodeContainer.encode(checkpointConfig, forKey: .checkpointConfig)
@@ -556,6 +639,8 @@ public struct CreateJobInput: Swift.Equatable {
     /// Definition of the Amazon Braket job to be created. Specifies the container image the job uses and information about the Python scripts used for entry and training.
     /// This member is required.
     public var algorithmSpecification: BraketClientTypes.AlgorithmSpecification?
+    /// The list of Amazon Braket resources associated with the hybrid job.
+    public var associations: [BraketClientTypes.Association]?
     /// Information about the output locations for job checkpoint data.
     public var checkpointConfig: BraketClientTypes.JobCheckpointConfig?
     /// A unique token that guarantees that the call to this API is idempotent.
@@ -587,6 +672,7 @@ public struct CreateJobInput: Swift.Equatable {
 
     public init(
         algorithmSpecification: BraketClientTypes.AlgorithmSpecification? = nil,
+        associations: [BraketClientTypes.Association]? = nil,
         checkpointConfig: BraketClientTypes.JobCheckpointConfig? = nil,
         clientToken: Swift.String? = nil,
         deviceConfig: BraketClientTypes.DeviceConfig? = nil,
@@ -601,6 +687,7 @@ public struct CreateJobInput: Swift.Equatable {
     )
     {
         self.algorithmSpecification = algorithmSpecification
+        self.associations = associations
         self.checkpointConfig = checkpointConfig
         self.clientToken = clientToken
         self.deviceConfig = deviceConfig
@@ -628,11 +715,13 @@ struct CreateJobInputBody: Swift.Equatable {
     let hyperParameters: [Swift.String:Swift.String]?
     let deviceConfig: BraketClientTypes.DeviceConfig?
     let tags: [Swift.String:Swift.String]?
+    let associations: [BraketClientTypes.Association]?
 }
 
 extension CreateJobInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case algorithmSpecification
+        case associations
         case checkpointConfig
         case clientToken
         case deviceConfig
@@ -699,6 +788,17 @@ extension CreateJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let associationsContainer = try containerValues.decodeIfPresent([BraketClientTypes.Association?].self, forKey: .associations)
+        var associationsDecoded0:[BraketClientTypes.Association]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [BraketClientTypes.Association]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
     }
 }
 
@@ -763,6 +863,7 @@ enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension CreateQuantumTaskInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
+        case associations
         case clientToken
         case deviceArn
         case deviceParameters
@@ -777,6 +878,12 @@ extension CreateQuantumTaskInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = self.action {
             try encodeContainer.encode(action, forKey: .action)
+        }
+        if let associations = associations {
+            var associationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associations)
+            for association0 in associations {
+                try associationsContainer.encode(association0)
+            }
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
@@ -818,6 +925,8 @@ public struct CreateQuantumTaskInput: Swift.Equatable {
     /// The action associated with the task.
     /// This member is required.
     public var action: Swift.String?
+    /// The list of Amazon Braket resources associated with the quantum task.
+    public var associations: [BraketClientTypes.Association]?
     /// The client token associated with the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -842,6 +951,7 @@ public struct CreateQuantumTaskInput: Swift.Equatable {
 
     public init(
         action: Swift.String? = nil,
+        associations: [BraketClientTypes.Association]? = nil,
         clientToken: Swift.String? = nil,
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
@@ -853,6 +963,7 @@ public struct CreateQuantumTaskInput: Swift.Equatable {
     )
     {
         self.action = action
+        self.associations = associations
         self.clientToken = clientToken
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
@@ -874,11 +985,13 @@ struct CreateQuantumTaskInputBody: Swift.Equatable {
     let action: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let jobToken: Swift.String?
+    let associations: [BraketClientTypes.Association]?
 }
 
 extension CreateQuantumTaskInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action
+        case associations
         case clientToken
         case deviceArn
         case deviceParameters
@@ -918,6 +1031,17 @@ extension CreateQuantumTaskInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let jobTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobToken)
         jobToken = jobTokenDecoded
+        let associationsContainer = try containerValues.decodeIfPresent([BraketClientTypes.Association?].self, forKey: .associations)
+        var associationsDecoded0:[BraketClientTypes.Association]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [BraketClientTypes.Association]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
     }
 }
 
@@ -1582,6 +1706,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetJobOutputBody = try responseDecoder.decode(responseBody: data)
             self.algorithmSpecification = output.algorithmSpecification
+            self.associations = output.associations
             self.billableDuration = output.billableDuration
             self.checkpointConfig = output.checkpointConfig
             self.createdAt = output.createdAt
@@ -1603,6 +1728,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.algorithmSpecification = nil
+            self.associations = nil
             self.billableDuration = nil
             self.checkpointConfig = nil
             self.createdAt = nil
@@ -1630,6 +1756,8 @@ public struct GetJobOutput: Swift.Equatable {
     /// Definition of the Amazon Braket job created. Specifies the container image the job uses, information about the Python scripts used for entry and training, and the user-defined metrics used to evaluation the job.
     /// This member is required.
     public var algorithmSpecification: BraketClientTypes.AlgorithmSpecification?
+    /// The list of Amazon Braket resources associated with the hybrid job.
+    public var associations: [BraketClientTypes.Association]?
     /// The billable time the Amazon Braket job used to complete.
     public var billableDuration: Swift.Int?
     /// Information about the output locations for job checkpoint data.
@@ -1678,6 +1806,7 @@ public struct GetJobOutput: Swift.Equatable {
 
     public init(
         algorithmSpecification: BraketClientTypes.AlgorithmSpecification? = nil,
+        associations: [BraketClientTypes.Association]? = nil,
         billableDuration: Swift.Int? = nil,
         checkpointConfig: BraketClientTypes.JobCheckpointConfig? = nil,
         createdAt: ClientRuntime.Date? = nil,
@@ -1700,6 +1829,7 @@ public struct GetJobOutput: Swift.Equatable {
     )
     {
         self.algorithmSpecification = algorithmSpecification
+        self.associations = associations
         self.billableDuration = billableDuration
         self.checkpointConfig = checkpointConfig
         self.createdAt = createdAt
@@ -1743,11 +1873,13 @@ struct GetJobOutputBody: Swift.Equatable {
     let events: [BraketClientTypes.JobEventDetails]?
     let tags: [Swift.String:Swift.String]?
     let queueInfo: BraketClientTypes.HybridJobQueueInfo?
+    let associations: [BraketClientTypes.Association]?
 }
 
 extension GetJobOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case algorithmSpecification
+        case associations
         case billableDuration
         case checkpointConfig
         case createdAt
@@ -1847,6 +1979,17 @@ extension GetJobOutputBody: Swift.Decodable {
         tags = tagsDecoded0
         let queueInfoDecoded = try containerValues.decodeIfPresent(BraketClientTypes.HybridJobQueueInfo.self, forKey: .queueInfo)
         queueInfo = queueInfoDecoded
+        let associationsContainer = try containerValues.decodeIfPresent([BraketClientTypes.Association?].self, forKey: .associations)
+        var associationsDecoded0:[BraketClientTypes.Association]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [BraketClientTypes.Association]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
     }
 }
 
@@ -1892,7 +2035,7 @@ extension GetQuantumTaskInput: ClientRuntime.URLPathProvider {
 public struct GetQuantumTaskInput: Swift.Equatable {
     /// A list of attributes to return information for.
     public var additionalAttributeNames: [BraketClientTypes.QuantumTaskAdditionalAttributeName]?
-    /// the ARN of the task to retrieve.
+    /// The ARN of the task to retrieve.
     /// This member is required.
     public var quantumTaskArn: Swift.String?
 
@@ -1920,6 +2063,7 @@ extension GetQuantumTaskOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetQuantumTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associations = output.associations
             self.createdAt = output.createdAt
             self.deviceArn = output.deviceArn
             self.deviceParameters = output.deviceParameters
@@ -1934,6 +2078,7 @@ extension GetQuantumTaskOutput: ClientRuntime.HttpResponseBinding {
             self.status = output.status
             self.tags = output.tags
         } else {
+            self.associations = nil
             self.createdAt = nil
             self.deviceArn = nil
             self.deviceParameters = nil
@@ -1952,6 +2097,8 @@ extension GetQuantumTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetQuantumTaskOutput: Swift.Equatable {
+    /// The list of Amazon Braket resources associated with the quantum task.
+    public var associations: [BraketClientTypes.Association]?
     /// The time at which the task was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -1988,6 +2135,7 @@ public struct GetQuantumTaskOutput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        associations: [BraketClientTypes.Association]? = nil,
         createdAt: ClientRuntime.Date? = nil,
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
@@ -2003,6 +2151,7 @@ public struct GetQuantumTaskOutput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.associations = associations
         self.createdAt = createdAt
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
@@ -2033,10 +2182,12 @@ struct GetQuantumTaskOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let jobArn: Swift.String?
     let queueInfo: BraketClientTypes.QuantumTaskQueueInfo?
+    let associations: [BraketClientTypes.Association]?
 }
 
 extension GetQuantumTaskOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associations
         case createdAt
         case deviceArn
         case deviceParameters
@@ -2089,6 +2240,17 @@ extension GetQuantumTaskOutputBody: Swift.Decodable {
         jobArn = jobArnDecoded
         let queueInfoDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QuantumTaskQueueInfo.self, forKey: .queueInfo)
         queueInfo = queueInfoDecoded
+        let associationsContainer = try containerValues.decodeIfPresent([BraketClientTypes.Association?].self, forKey: .associations)
+        var associationsDecoded0:[BraketClientTypes.Association]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [BraketClientTypes.Association]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
     }
 }
 
@@ -2589,7 +2751,7 @@ extension BraketClientTypes {
         public var eventType: BraketClientTypes.JobEventType?
         /// A message describing the event that occurred related to the Amazon Braket job.
         public var message: Swift.String?
-        /// TThe type of event that occurred related to the Amazon Braket job.
+        /// The type of event that occurred related to the Amazon Braket job.
         public var timeOfEvent: ClientRuntime.Date?
 
         public init(

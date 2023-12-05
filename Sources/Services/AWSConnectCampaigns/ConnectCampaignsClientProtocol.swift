@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Provide APIs to create and manage Amazon Connect Campaigns.
 public protocol ConnectCampaignsClientProtocol {
+    /// Performs the `CreateCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
     ///
     /// - Parameter CreateCampaignInput : The request for Create Campaign API.
@@ -21,6 +23,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutput
+    /// Performs the `DeleteCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Deletes a campaign from the specified Amazon Connect account.
     ///
     /// - Parameter DeleteCampaignInput : DeleteCampaignRequest
@@ -35,6 +39,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutput
+    /// Performs the `DeleteConnectInstanceConfig` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Deletes a connect instance config from the specified AWS account.
     ///
     /// - Parameter DeleteConnectInstanceConfigInput : DeleteCampaignRequest
@@ -51,6 +57,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteConnectInstanceConfig(input: DeleteConnectInstanceConfigInput) async throws -> DeleteConnectInstanceConfigOutput
+    /// Performs the `DeleteInstanceOnboardingJob` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
     ///
     /// - Parameter DeleteInstanceOnboardingJobInput : The request for DeleteInstanceOnboardingJob API.
@@ -66,6 +74,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteInstanceOnboardingJob(input: DeleteInstanceOnboardingJobInput) async throws -> DeleteInstanceOnboardingJobOutput
+    /// Performs the `DescribeCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Describes the specific campaign.
     ///
     /// - Parameter DescribeCampaignInput : DescribeCampaignRequests
@@ -80,6 +90,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func describeCampaign(input: DescribeCampaignInput) async throws -> DescribeCampaignOutput
+    /// Performs the `GetCampaignState` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Get state of a campaign for the specified Amazon Connect account.
     ///
     /// - Parameter GetCampaignStateInput : GetCampaignStateRequest
@@ -95,6 +107,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getCampaignState(input: GetCampaignStateInput) async throws -> GetCampaignStateOutput
+    /// Performs the `GetCampaignStateBatch` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Get state of campaigns for the specified Amazon Connect account.
     ///
     /// - Parameter GetCampaignStateBatchInput : GetCampaignStateBatchRequest
@@ -109,6 +123,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getCampaignStateBatch(input: GetCampaignStateBatchInput) async throws -> GetCampaignStateBatchOutput
+    /// Performs the `GetConnectInstanceConfig` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Get the specific Connect instance config.
     ///
     /// - Parameter GetConnectInstanceConfigInput : GetConnectInstanceConfigRequest
@@ -123,6 +139,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getConnectInstanceConfig(input: GetConnectInstanceConfigInput) async throws -> GetConnectInstanceConfigOutput
+    /// Performs the `GetInstanceOnboardingJobStatus` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Get the specific instance onboarding job status.
     ///
     /// - Parameter GetInstanceOnboardingJobStatusInput : GetInstanceOnboardingJobStatusRequest
@@ -137,6 +155,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getInstanceOnboardingJobStatus(input: GetInstanceOnboardingJobStatusInput) async throws -> GetInstanceOnboardingJobStatusOutput
+    /// Performs the `ListCampaigns` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
     ///
     /// - Parameter ListCampaignsInput : ListCampaignsRequest
@@ -150,6 +170,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput
+    /// Performs the `ListTagsForResource` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// List tags for a resource.
     ///
     /// - Parameter ListTagsForResourceInput : ListTagsForResource
@@ -165,6 +187,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PauseCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Pauses a campaign for the specified Amazon Connect account.
     ///
     /// - Parameter PauseCampaignInput : PauseCampaignRequest
@@ -182,6 +206,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func pauseCampaign(input: PauseCampaignInput) async throws -> PauseCampaignOutput
+    /// Performs the `PutDialRequestBatch` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
     ///
     /// - Parameter PutDialRequestBatchInput : PutDialRequestBatchRequest
@@ -199,6 +225,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func putDialRequestBatch(input: PutDialRequestBatchInput) async throws -> PutDialRequestBatchOutput
+    /// Performs the `ResumeCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
     /// - Parameter ResumeCampaignInput : ResumeCampaignRequest
@@ -216,6 +244,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func resumeCampaign(input: ResumeCampaignInput) async throws -> ResumeCampaignOutput
+    /// Performs the `StartCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Starts a campaign for the specified Amazon Connect account.
     ///
     /// - Parameter StartCampaignInput : StartCampaignRequest
@@ -233,6 +263,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startCampaign(input: StartCampaignInput) async throws -> StartCampaignOutput
+    /// Performs the `StartInstanceOnboardingJob` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
     ///
     /// - Parameter StartInstanceOnboardingJobInput : The request for StartInstanceOnboardingJob API.
@@ -249,6 +281,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startInstanceOnboardingJob(input: StartInstanceOnboardingJobInput) async throws -> StartInstanceOnboardingJobOutput
+    /// Performs the `StopCampaign` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
     /// - Parameter StopCampaignInput : StopCampaignRequest
@@ -266,6 +300,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func stopCampaign(input: StopCampaignInput) async throws -> StopCampaignOutput
+    /// Performs the `TagResource` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Tag a resource.
     ///
     /// - Parameter TagResourceInput : TagResourceRequest
@@ -281,6 +317,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Untag a resource.
     ///
     /// - Parameter UntagResourceInput : UntagResourceRequest
@@ -296,6 +334,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateCampaignDialerConfig` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Updates the dialer config of a campaign. This API is idempotent.
     ///
     /// - Parameter UpdateCampaignDialerConfigInput : UpdateCampaignDialerConfigRequest
@@ -311,6 +351,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateCampaignDialerConfig(input: UpdateCampaignDialerConfigInput) async throws -> UpdateCampaignDialerConfigOutput
+    /// Performs the `UpdateCampaignName` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Updates the name of a campaign. This API is idempotent.
     ///
     /// - Parameter UpdateCampaignNameInput : UpdateCampaignNameRequest
@@ -326,6 +368,8 @@ public protocol ConnectCampaignsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateCampaignName(input: UpdateCampaignNameInput) async throws -> UpdateCampaignNameOutput
+    /// Performs the `UpdateCampaignOutboundCallConfig` operation on the `AmazonConnectCampaignService` service.
+    ///
     /// Updates the outbound call config of a campaign. This API is idempotent.
     ///
     /// - Parameter UpdateCampaignOutboundCallConfigInput : UpdateCampaignOutboundCallConfigRequest

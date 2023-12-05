@@ -10818,7 +10818,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
             }
         }
         if let scopeDownStatement = self.scopeDownStatement {
-            try encodeContainer.encode(scopeDownStatement.value, forKey: .scopeDownStatement)
+            try encodeContainer.encode(scopeDownStatement, forKey: .scopeDownStatement)
         }
         if let vendorName = self.vendorName {
             try encodeContainer.encode(vendorName, forKey: .vendorName)
@@ -10847,7 +10847,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
             }
         }
         excludedRules = excludedRulesDecoded0
-        let scopeDownStatementDecoded = try containerValues.decodeIfPresent(Box<WAFV2ClientTypes.Statement>.self, forKey: .scopeDownStatement)
+        let scopeDownStatementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Statement.self, forKey: .scopeDownStatement)
         scopeDownStatement = scopeDownStatementDecoded
         let managedRuleGroupConfigsContainer = try containerValues.decodeIfPresent([WAFV2ClientTypes.ManagedRuleGroupConfig?].self, forKey: .managedRuleGroupConfigs)
         var managedRuleGroupConfigsDecoded0:[WAFV2ClientTypes.ManagedRuleGroupConfig]? = nil
@@ -10893,7 +10893,7 @@ extension WAFV2ClientTypes {
         /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
-        public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
+        @Indirect public var scopeDownStatement: WAFV2ClientTypes.Statement?
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group.
         /// This member is required.
         public var vendorName: Swift.String?
@@ -10905,7 +10905,7 @@ extension WAFV2ClientTypes {
             managedRuleGroupConfigs: [WAFV2ClientTypes.ManagedRuleGroupConfig]? = nil,
             name: Swift.String? = nil,
             ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]? = nil,
-            scopeDownStatement: Box<WAFV2ClientTypes.Statement>? = nil,
+            scopeDownStatement: WAFV2ClientTypes.Statement? = nil,
             vendorName: Swift.String? = nil,
             version: Swift.String? = nil
         )
@@ -11480,13 +11480,13 @@ extension WAFV2ClientTypes.NotStatement: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statement = self.statement {
-            try encodeContainer.encode(statement.value, forKey: .statement)
+            try encodeContainer.encode(statement, forKey: .statement)
         }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let statementDecoded = try containerValues.decodeIfPresent(Box<WAFV2ClientTypes.Statement>.self, forKey: .statement)
+        let statementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Statement.self, forKey: .statement)
         statement = statementDecoded
     }
 }
@@ -11496,10 +11496,10 @@ extension WAFV2ClientTypes {
     public struct NotStatement: Swift.Equatable {
         /// The statement to negate. You can use any statement that can be nested.
         /// This member is required.
-        public var statement: Box<WAFV2ClientTypes.Statement>?
+        @Indirect public var statement: WAFV2ClientTypes.Statement?
 
         public init(
-            statement: Box<WAFV2ClientTypes.Statement>? = nil
+            statement: WAFV2ClientTypes.Statement? = nil
         )
         {
             self.statement = statement
@@ -12490,7 +12490,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let scopeDownStatement = self.scopeDownStatement {
-            try encodeContainer.encode(scopeDownStatement.value, forKey: .scopeDownStatement)
+            try encodeContainer.encode(scopeDownStatement, forKey: .scopeDownStatement)
         }
     }
 
@@ -12500,7 +12500,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         limit = limitDecoded
         let aggregateKeyTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateBasedStatementAggregateKeyType.self, forKey: .aggregateKeyType)
         aggregateKeyType = aggregateKeyTypeDecoded
-        let scopeDownStatementDecoded = try containerValues.decodeIfPresent(Box<WAFV2ClientTypes.Statement>.self, forKey: .scopeDownStatement)
+        let scopeDownStatementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Statement.self, forKey: .scopeDownStatement)
         scopeDownStatement = scopeDownStatementDecoded
         let forwardedIPConfigDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.ForwardedIPConfig.self, forKey: .forwardedIPConfig)
         forwardedIPConfig = forwardedIPConfigDecoded
@@ -12587,14 +12587,14 @@ extension WAFV2ClientTypes {
         /// This member is required.
         public var limit: Swift.Int?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated and managed by the rate-based statement. When you use a scope-down statement, the rate-based rule only tracks and rate limits requests that match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
-        public var scopeDownStatement: Box<WAFV2ClientTypes.Statement>?
+        @Indirect public var scopeDownStatement: WAFV2ClientTypes.Statement?
 
         public init(
             aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType? = nil,
             customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int? = nil,
-            scopeDownStatement: Box<WAFV2ClientTypes.Statement>? = nil
+            scopeDownStatement: WAFV2ClientTypes.Statement? = nil
         )
         {
             self.aggregateKeyType = aggregateKeyType

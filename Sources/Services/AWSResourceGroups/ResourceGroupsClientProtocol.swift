@@ -14,6 +14,8 @@ import ClientRuntime
 ///
 /// * Searching Amazon Web Services resources based on a resource query
 public protocol ResourceGroupsClientProtocol {
+    /// Performs the `CreateGroup` operation on the `Ardi` service.
+    ///
     /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configuration. For more information about constructing a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html) in the Resource Groups User Guide. For more information about service-linked groups and service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:CreateGroup
@@ -31,6 +33,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput
+    /// Performs the `DeleteGroup` operation on the `Ardi` service.
+    ///
     /// Deletes the specified resource group. Deleting a resource group does not delete any resources that are members of the group; it only deletes the group structure. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:DeleteGroup
@@ -49,6 +53,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput
+    /// Performs the `GetAccountSettings` operation on the `Ardi` service.
+    ///
     /// Retrieves the current status of optional features in Resource Groups.
     ///
     /// - Parameter GetAccountSettingsInput : [no documentation found]
@@ -64,6 +70,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func getAccountSettings(input: GetAccountSettingsInput) async throws -> GetAccountSettingsOutput
+    /// Performs the `GetGroup` operation on the `Ardi` service.
+    ///
     /// Returns information about a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroup
@@ -82,6 +90,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func getGroup(input: GetGroupInput) async throws -> GetGroupOutput
+    /// Performs the `GetGroupConfiguration` operation on the `Ardi` service.
+    ///
     /// Retrieves the service configuration associated with the specified resource group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroupConfiguration
@@ -100,6 +110,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func getGroupConfiguration(input: GetGroupConfigurationInput) async throws -> GetGroupConfigurationOutput
+    /// Performs the `GetGroupQuery` operation on the `Ardi` service.
+    ///
     /// Retrieves the resource query associated with the specified resource group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetGroupQuery
@@ -118,6 +130,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func getGroupQuery(input: GetGroupQueryInput) async throws -> GetGroupQueryOutput
+    /// Performs the `GetTags` operation on the `Ardi` service.
+    ///
     /// Returns a list of tags that are associated with a resource group, specified by an ARN. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:GetTags
@@ -136,6 +150,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func getTags(input: GetTagsInput) async throws -> GetTagsOutput
+    /// Performs the `GroupResources` operation on the `Ardi` service.
+    ///
     /// Adds the specified resources to the specified group. You can use this operation with only resource groups that are configured with the following types:
     ///
     /// * AWS::EC2::HostManagement
@@ -161,6 +177,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func groupResources(input: GroupResourcesInput) async throws -> GroupResourcesOutput
+    /// Performs the `ListGroupResources` operation on the `Ardi` service.
+    ///
     /// Returns a list of ARNs of the resources that are members of a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:ListGroupResources
@@ -186,6 +204,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
     func listGroupResources(input: ListGroupResourcesInput) async throws -> ListGroupResourcesOutput
+    /// Performs the `ListGroups` operation on the `Ardi` service.
+    ///
     /// Returns a list of existing Resource Groups in your account. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:ListGroups
@@ -203,6 +223,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput
+    /// Performs the `PutGroupConfiguration` operation on the `Ardi` service.
+    ///
     /// Attaches a service configuration to the specified group. This occurs asynchronously, and can take time to complete. You can use [GetGroupConfiguration] to check the status of the update. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:PutGroupConfiguration
@@ -221,6 +243,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func putGroupConfiguration(input: PutGroupConfigurationInput) async throws -> PutGroupConfigurationOutput
+    /// Performs the `SearchResources` operation on the `Ardi` service.
+    ///
     /// Returns a list of Amazon Web Services resource identifiers that matches the specified query. The query uses the same format as a resource query in a [CreateGroup] or [UpdateGroupQuery] operation. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:SearchResources
@@ -245,6 +269,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     /// - `UnauthorizedException` : The request was rejected because it doesn't have valid credentials for the target resource.
     func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutput
+    /// Performs the `Tag` operation on the `Ardi` service.
+    ///
     /// Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters. Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:Tag
@@ -263,6 +289,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func tag(input: TagInput) async throws -> TagOutput
+    /// Performs the `UngroupResources` operation on the `Ardi` service.
+    ///
     /// Removes the specified resources from the specified group. This operation works only with static groups that you populated using the [GroupResources] operation. It doesn't work with any resource groups that are automatically populated by tag-based or CloudFormation stack-based queries. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UngroupResources
@@ -281,6 +309,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func ungroupResources(input: UngroupResourcesInput) async throws -> UngroupResourcesOutput
+    /// Performs the `Untag` operation on the `Ardi` service.
+    ///
     /// Deletes tags from a specified resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:Untag
@@ -299,6 +329,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func untag(input: UntagInput) async throws -> UntagOutput
+    /// Performs the `UpdateAccountSettings` operation on the `Ardi` service.
+    ///
     /// Turns on or turns off optional features in Resource Groups. The preceding example shows that the request to turn on group lifecycle events is IN_PROGRESS. You can call the [GetAccountSettings] operation to check for completion by looking for GroupLifecycleEventsStatus to change to ACTIVE.
     ///
     /// - Parameter UpdateAccountSettingsInput : [no documentation found]
@@ -314,6 +346,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `MethodNotAllowedException` : The request uses an HTTP method that isn't allowed for the specified resource.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput
+    /// Performs the `UpdateGroup` operation on the `Ardi` service.
+    ///
     /// Updates the description for an existing group. You cannot update the name of a resource group. Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UpdateGroup
@@ -332,6 +366,8 @@ public protocol ResourceGroupsClientProtocol {
     /// - `NotFoundException` : One or more of the specified resources don't exist.
     /// - `TooManyRequestsException` : You've exceeded throttling limits by making too many requests in a period of time.
     func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput
+    /// Performs the `UpdateGroupQuery` operation on the `Ardi` service.
+    ///
     /// Updates the resource query of a group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). Minimum permissions To run this command, you must have the following permissions:
     ///
     /// * resource-groups:UpdateGroupQuery

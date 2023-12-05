@@ -67,6 +67,8 @@ public struct IoTWirelessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 }
 
 extension IoTWirelessClient: IoTWirelessClientProtocol {
+    /// Performs the `AssociateAwsAccountWithPartnerAccount` operation on the `iotwireless` service.
+    ///
     /// Associates a partner account with your AWS account.
     ///
     /// - Parameter AssociateAwsAccountWithPartnerAccountInput : [no documentation found]
@@ -98,25 +100,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(id: "associateAwsAccountWithPartnerAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>(id: "associateAwsAccountWithPartnerAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAwsAccountWithPartnerAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>(xmlName: "AssociateAwsAccountWithPartnerAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateAwsAccountWithPartnerAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAwsAccountWithPartnerAccountOutput, AssociateAwsAccountWithPartnerAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAwsAccountWithPartnerAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAwsAccountWithPartnerAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateAwsAccountWithPartnerAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateAwsAccountWithPartnerAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateMulticastGroupWithFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Associate a multicast group with a FUOTA task.
     ///
     /// - Parameter AssociateMulticastGroupWithFuotaTaskInput : [no documentation found]
@@ -148,24 +152,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>(id: "associateMulticastGroupWithFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>(id: "associateMulticastGroupWithFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateMulticastGroupWithFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>(xmlName: "AssociateMulticastGroupWithFuotaTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateMulticastGroupWithFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateMulticastGroupWithFuotaTaskOutput, AssociateMulticastGroupWithFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMulticastGroupWithFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMulticastGroupWithFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateMulticastGroupWithFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateMulticastGroupWithFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateWirelessDeviceWithFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Associate a wireless device with a FUOTA task.
     ///
     /// - Parameter AssociateWirelessDeviceWithFuotaTaskInput : [no documentation found]
@@ -197,24 +203,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>(id: "associateWirelessDeviceWithFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>(id: "associateWirelessDeviceWithFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>(xmlName: "AssociateWirelessDeviceWithFuotaTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput, AssociateWirelessDeviceWithFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateWirelessDeviceWithFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Associates a wireless device with a multicast group.
     ///
     /// - Parameter AssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
@@ -246,24 +254,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>(id: "associateWirelessDeviceWithMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>(id: "associateWirelessDeviceWithMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>(xmlName: "AssociateWirelessDeviceWithMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput, AssociateWirelessDeviceWithMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateWirelessDeviceWithMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateWirelessDeviceWithThing` operation on the `iotwireless` service.
+    ///
     /// Associates a wireless device with a thing.
     ///
     /// - Parameter AssociateWirelessDeviceWithThingInput : [no documentation found]
@@ -295,24 +305,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>(id: "associateWirelessDeviceWithThing")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>(id: "associateWirelessDeviceWithThing")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessDeviceWithThingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>(xmlName: "AssociateWirelessDeviceWithThingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessDeviceWithThingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithThingOutput, AssociateWirelessDeviceWithThingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessDeviceWithThingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithThingOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateWirelessDeviceWithThingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithThingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateWirelessGatewayWithCertificate` operation on the `iotwireless` service.
+    ///
     /// Associates a wireless gateway with a certificate.
     ///
     /// - Parameter AssociateWirelessGatewayWithCertificateInput : [no documentation found]
@@ -344,24 +356,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>(id: "associateWirelessGatewayWithCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>(id: "associateWirelessGatewayWithCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessGatewayWithCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>(xmlName: "AssociateWirelessGatewayWithCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessGatewayWithCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithCertificateOutput, AssociateWirelessGatewayWithCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessGatewayWithCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateWirelessGatewayWithCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AssociateWirelessGatewayWithThing` operation on the `iotwireless` service.
+    ///
     /// Associates a wireless gateway with a thing.
     ///
     /// - Parameter AssociateWirelessGatewayWithThingInput : [no documentation found]
@@ -393,24 +407,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>(id: "associateWirelessGatewayWithThing")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>())
+        var operation = ClientRuntime.OperationStack<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>(id: "associateWirelessGatewayWithThing")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateWirelessGatewayWithThingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>(xmlName: "AssociateWirelessGatewayWithThingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AssociateWirelessGatewayWithThingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithThingOutput, AssociateWirelessGatewayWithThingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateWirelessGatewayWithThingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithThingOutput>(responseClosure(decoder: decoder), responseErrorClosure(AssociateWirelessGatewayWithThingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithThingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CancelMulticastGroupSession` operation on the `iotwireless` service.
+    ///
     /// Cancels an existing multicast group session.
     ///
     /// - Parameter CancelMulticastGroupSessionInput : [no documentation found]
@@ -442,21 +458,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>(id: "cancelMulticastGroupSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>())
+        var operation = ClientRuntime.OperationStack<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput>(id: "cancelMulticastGroupSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelMulticastGroupSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CancelMulticastGroupSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMulticastGroupSessionOutput, CancelMulticastGroupSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelMulticastGroupSessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelMulticastGroupSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CancelMulticastGroupSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateDestination` operation on the `iotwireless` service.
+    ///
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     ///
     /// - Parameter CreateDestinationInput : [no documentation found]
@@ -488,25 +506,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDestinationInput, CreateDestinationOutput, CreateDestinationOutputError>(id: "createDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDestinationInput, CreateDestinationOutput, CreateDestinationOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDestinationInput, CreateDestinationOutput, CreateDestinationOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateDestinationInput, CreateDestinationOutput>(id: "createDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDestinationInput, CreateDestinationOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDestinationInput, CreateDestinationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDestinationInput, CreateDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDestinationOutput, CreateDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDestinationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDestinationInput, CreateDestinationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDestinationInput, CreateDestinationOutput>(xmlName: "CreateDestinationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDestinationInput, CreateDestinationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDestinationOutput, CreateDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDestinationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDestinationOutput, CreateDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDestinationOutput, CreateDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDestinationOutput, CreateDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDestinationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDestinationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDestinationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDestinationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateDeviceProfile` operation on the `iotwireless` service.
+    ///
     /// Creates a new device profile.
     ///
     /// - Parameter CreateDeviceProfileInput : [no documentation found]
@@ -537,25 +557,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateDeviceProfileInput, CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(id: "createDeviceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput, CreateDeviceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateDeviceProfileInput, CreateDeviceProfileOutput>(id: "createDeviceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDeviceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>(xmlName: "CreateDeviceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateDeviceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceProfileOutput, CreateDeviceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceProfileOutput, CreateDeviceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateDeviceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Creates a FUOTA task.
     ///
     /// - Parameter CreateFuotaTaskInput : [no documentation found]
@@ -587,25 +609,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateFuotaTaskInput, CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(id: "createFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput, CreateFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateFuotaTaskInput, CreateFuotaTaskOutput>(id: "createFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>(xmlName: "CreateFuotaTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFuotaTaskOutput, CreateFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFuotaTaskOutput, CreateFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Creates a multicast group.
     ///
     /// - Parameter CreateMulticastGroupInput : [no documentation found]
@@ -637,25 +661,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateMulticastGroupInput, CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(id: "createMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput, CreateMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateMulticastGroupInput, CreateMulticastGroupOutput>(id: "createMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>(xmlName: "CreateMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMulticastGroupOutput, CreateMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMulticastGroupOutput, CreateMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    ///
     /// Creates a new network analyzer configuration.
     ///
     /// - Parameter CreateNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -687,25 +713,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(id: "createNetworkAnalyzerConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>(id: "createNetworkAnalyzerConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateNetworkAnalyzerConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>(xmlName: "CreateNetworkAnalyzerConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateNetworkAnalyzerConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkAnalyzerConfigurationOutput, CreateNetworkAnalyzerConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkAnalyzerConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkAnalyzerConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateNetworkAnalyzerConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateServiceProfile` operation on the `iotwireless` service.
+    ///
     /// Creates a new service profile.
     ///
     /// - Parameter CreateServiceProfileInput : [no documentation found]
@@ -736,25 +764,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateServiceProfileInput, CreateServiceProfileOutput, CreateServiceProfileOutputError>(id: "createServiceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput, CreateServiceProfileOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput, CreateServiceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateServiceProfileInput, CreateServiceProfileOutput>(id: "createServiceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceProfileOutput, CreateServiceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>(xmlName: "CreateServiceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceProfileOutput, CreateServiceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceProfileOutput, CreateServiceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceProfileOutput, CreateServiceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceProfileOutput, CreateServiceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateServiceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Provisions a wireless device.
     ///
     /// - Parameter CreateWirelessDeviceInput : [no documentation found]
@@ -786,25 +816,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWirelessDeviceInput, CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(id: "createWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>(id: "createWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>(xmlName: "CreateWirelessDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessDeviceOutput, CreateWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateWirelessGateway` operation on the `iotwireless` service.
+    ///
     /// Provisions a wireless gateway.
     ///
     /// - Parameter CreateWirelessGatewayInput : [no documentation found]
@@ -835,25 +867,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayInput, CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(id: "createWirelessGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>(id: "createWirelessGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>(xmlName: "CreateWirelessGatewayRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayOutput, CreateWirelessGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateWirelessGatewayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateWirelessGatewayTask` operation on the `iotwireless` service.
+    ///
     /// Creates a task for a wireless gateway.
     ///
     /// - Parameter CreateWirelessGatewayTaskInput : [no documentation found]
@@ -885,24 +919,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>(id: "createWirelessGatewayTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>(id: "createWirelessGatewayTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>(xmlName: "CreateWirelessGatewayTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskOutput, CreateWirelessGatewayTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateWirelessGatewayTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    ///
     /// Creates a gateway task definition.
     ///
     /// - Parameter CreateWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -934,25 +970,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(id: "createWirelessGatewayTaskDefinition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>(id: "createWirelessGatewayTaskDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWirelessGatewayTaskDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>(xmlName: "CreateWirelessGatewayTaskDefinitionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWirelessGatewayTaskDefinitionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskDefinitionOutput, CreateWirelessGatewayTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWirelessGatewayTaskDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateWirelessGatewayTaskDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteDestination` operation on the `iotwireless` service.
+    ///
     /// Deletes a destination.
     ///
     /// - Parameter DeleteDestinationInput : [no documentation found]
@@ -984,21 +1022,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDestinationInput, DeleteDestinationOutput, DeleteDestinationOutputError>(id: "deleteDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDestinationInput, DeleteDestinationOutput, DeleteDestinationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteDestinationInput, DeleteDestinationOutput>(id: "deleteDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDestinationOutput, DeleteDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDestinationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDestinationOutput, DeleteDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDestinationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDestinationOutput, DeleteDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDestinationOutput, DeleteDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDestinationOutput, DeleteDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDestinationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDestinationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteDestinationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDestinationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteDeviceProfile` operation on the `iotwireless` service.
+    ///
     /// Deletes a device profile.
     ///
     /// - Parameter DeleteDeviceProfileInput : [no documentation found]
@@ -1030,21 +1070,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteDeviceProfileInput, DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>(id: "deleteDeviceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceProfileInput, DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteDeviceProfileInput, DeleteDeviceProfileOutput>(id: "deleteDeviceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceProfileInput, DeleteDeviceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceProfileInput, DeleteDeviceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDeviceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteDeviceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceProfileOutput, DeleteDeviceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteDeviceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Deletes a FUOTA task.
     ///
     /// - Parameter DeleteFuotaTaskInput : [no documentation found]
@@ -1075,21 +1117,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteFuotaTaskInput, DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>(id: "deleteFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFuotaTaskInput, DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteFuotaTaskInput, DeleteFuotaTaskOutput>(id: "deleteFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFuotaTaskInput, DeleteFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFuotaTaskInput, DeleteFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFuotaTaskOutput, DeleteFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Deletes a multicast group if it is not in use by a fuota task.
     ///
     /// - Parameter DeleteMulticastGroupInput : [no documentation found]
@@ -1121,21 +1165,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteMulticastGroupInput, DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>(id: "deleteMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMulticastGroupInput, DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteMulticastGroupInput, DeleteMulticastGroupOutput>(id: "deleteMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMulticastGroupInput, DeleteMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMulticastGroupInput, DeleteMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMulticastGroupOutput, DeleteMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    ///
     /// Deletes a network analyzer configuration.
     ///
     /// - Parameter DeleteNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -1167,21 +1213,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>(id: "deleteNetworkAnalyzerConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput>(id: "deleteNetworkAnalyzerConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteNetworkAnalyzerConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteNetworkAnalyzerConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkAnalyzerConfigurationOutput, DeleteNetworkAnalyzerConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkAnalyzerConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkAnalyzerConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteNetworkAnalyzerConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteQueuedMessages` operation on the `iotwireless` service.
+    ///
     /// Remove queued messages from the downlink queue.
     ///
     /// - Parameter DeleteQueuedMessagesInput : [no documentation found]
@@ -1212,22 +1260,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>(id: "deleteQueuedMessages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>(id: "deleteQueuedMessages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteQueuedMessagesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteQueuedMessagesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueuedMessagesOutput, DeleteQueuedMessagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQueuedMessagesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQueuedMessagesOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteQueuedMessagesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteQueuedMessagesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteServiceProfile` operation on the `iotwireless` service.
+    ///
     /// Deletes a service profile.
     ///
     /// - Parameter DeleteServiceProfileInput : [no documentation found]
@@ -1259,21 +1309,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteServiceProfileInput, DeleteServiceProfileOutput, DeleteServiceProfileOutputError>(id: "deleteServiceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceProfileInput, DeleteServiceProfileOutput, DeleteServiceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteServiceProfileInput, DeleteServiceProfileOutput>(id: "deleteServiceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceProfileInput, DeleteServiceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceProfileInput, DeleteServiceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceProfileOutput, DeleteServiceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceProfileOutput, DeleteServiceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceProfileOutput, DeleteServiceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceProfileOutput, DeleteServiceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceProfileOutput, DeleteServiceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServiceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Deletes a wireless device.
     ///
     /// - Parameter DeleteWirelessDeviceInput : [no documentation found]
@@ -1304,21 +1356,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>(id: "deleteWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput>(id: "deleteWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceOutput, DeleteWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// Delete an import task.
     ///
     /// - Parameter DeleteWirelessDeviceImportTaskInput : [no documentation found]
@@ -1350,21 +1404,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>(id: "deleteWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput>(id: "deleteWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceImportTaskOutput, DeleteWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWirelessGateway` operation on the `iotwireless` service.
+    ///
     /// Deletes a wireless gateway.
     ///
     /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
@@ -1395,21 +1451,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>(id: "deleteWirelessGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput>(id: "deleteWirelessGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayOutput, DeleteWirelessGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWirelessGatewayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWirelessGatewayTask` operation on the `iotwireless` service.
+    ///
     /// Deletes a wireless gateway task.
     ///
     /// - Parameter DeleteWirelessGatewayTaskInput : [no documentation found]
@@ -1440,21 +1498,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>(id: "deleteWirelessGatewayTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput>(id: "deleteWirelessGatewayTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskOutput, DeleteWirelessGatewayTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWirelessGatewayTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    ///
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     ///
     /// - Parameter DeleteWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -1485,21 +1545,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>(id: "deleteWirelessGatewayTaskDefinition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput>(id: "deleteWirelessGatewayTaskDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWirelessGatewayTaskDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWirelessGatewayTaskDefinitionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskDefinitionOutput, DeleteWirelessGatewayTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWirelessGatewayTaskDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteWirelessGatewayTaskDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeregisterWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Deregister a wireless device from AWS IoT Wireless.
     ///
     /// - Parameter DeregisterWirelessDeviceInput : [no documentation found]
@@ -1529,22 +1591,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>(id: "deregisterWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>(id: "deregisterWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeregisterWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterWirelessDeviceOutput, DeregisterWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeregisterWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateAwsAccountFromPartnerAccount` operation on the `iotwireless` service.
+    ///
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     ///
     /// - Parameter DisassociateAwsAccountFromPartnerAccountInput : [no documentation found]
@@ -1574,22 +1638,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>(id: "disassociateAwsAccountFromPartnerAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>(id: "disassociateAwsAccountFromPartnerAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateAwsAccountFromPartnerAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateAwsAccountFromPartnerAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAwsAccountFromPartnerAccountOutput, DisassociateAwsAccountFromPartnerAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAwsAccountFromPartnerAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAwsAccountFromPartnerAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateAwsAccountFromPartnerAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateAwsAccountFromPartnerAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateMulticastGroupFromFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Disassociates a multicast group from a fuota task.
     ///
     /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
@@ -1620,21 +1686,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>(id: "disassociateMulticastGroupFromFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput>(id: "disassociateMulticastGroupFromFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateMulticastGroupFromFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput, DisassociateMulticastGroupFromFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMulticastGroupFromFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateMulticastGroupFromFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateWirelessDeviceFromFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Disassociates a wireless device from a FUOTA task.
     ///
     /// - Parameter DisassociateWirelessDeviceFromFuotaTaskInput : [no documentation found]
@@ -1666,21 +1734,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>(id: "disassociateWirelessDeviceFromFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput>(id: "disassociateWirelessDeviceFromFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput, DisassociateWirelessDeviceFromFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateWirelessDeviceFromFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Disassociates a wireless device from a multicast group.
     ///
     /// - Parameter DisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
@@ -1711,21 +1781,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>(id: "disassociateWirelessDeviceFromMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput>(id: "disassociateWirelessDeviceFromMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput, DisassociateWirelessDeviceFromMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateWirelessDeviceFromMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateWirelessDeviceFromThing` operation on the `iotwireless` service.
+    ///
     /// Disassociates a wireless device from its currently associated thing.
     ///
     /// - Parameter DisassociateWirelessDeviceFromThingInput : [no documentation found]
@@ -1757,21 +1829,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>(id: "disassociateWirelessDeviceFromThing")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput>(id: "disassociateWirelessDeviceFromThing")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessDeviceFromThingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessDeviceFromThingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromThingOutput, DisassociateWirelessDeviceFromThingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessDeviceFromThingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromThingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateWirelessDeviceFromThingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromThingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateWirelessGatewayFromCertificate` operation on the `iotwireless` service.
+    ///
     /// Disassociates a wireless gateway from its currently associated certificate.
     ///
     /// - Parameter DisassociateWirelessGatewayFromCertificateInput : [no documentation found]
@@ -1802,21 +1876,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>(id: "disassociateWirelessGatewayFromCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput>(id: "disassociateWirelessGatewayFromCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessGatewayFromCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessGatewayFromCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromCertificateOutput, DisassociateWirelessGatewayFromCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessGatewayFromCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateWirelessGatewayFromCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DisassociateWirelessGatewayFromThing` operation on the `iotwireless` service.
+    ///
     /// Disassociates a wireless gateway from its currently associated thing.
     ///
     /// - Parameter DisassociateWirelessGatewayFromThingInput : [no documentation found]
@@ -1848,21 +1924,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>(id: "disassociateWirelessGatewayFromThing")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>())
+        var operation = ClientRuntime.OperationStack<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput>(id: "disassociateWirelessGatewayFromThing")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateWirelessGatewayFromThingOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisassociateWirelessGatewayFromThingOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromThingOutput, DisassociateWirelessGatewayFromThingOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateWirelessGatewayFromThingOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromThingOutput>(responseClosure(decoder: decoder), responseErrorClosure(DisassociateWirelessGatewayFromThingOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromThingOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDestination` operation on the `iotwireless` service.
+    ///
     /// Gets information about a destination.
     ///
     /// - Parameter GetDestinationInput : [no documentation found]
@@ -1893,21 +1971,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDestinationInput, GetDestinationOutput, GetDestinationOutputError>(id: "getDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDestinationInput, GetDestinationOutput, GetDestinationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetDestinationInput, GetDestinationOutput>(id: "getDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDestinationInput, GetDestinationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDestinationInput, GetDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDestinationOutput, GetDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDestinationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDestinationOutput, GetDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDestinationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDestinationOutput, GetDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDestinationOutput, GetDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDestinationOutput, GetDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDestinationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDestinationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDestinationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDestinationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetDeviceProfile` operation on the `iotwireless` service.
+    ///
     /// Gets information about a device profile.
     ///
     /// - Parameter GetDeviceProfileInput : [no documentation found]
@@ -1938,21 +2018,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetDeviceProfileInput, GetDeviceProfileOutput, GetDeviceProfileOutputError>(id: "getDeviceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceProfileInput, GetDeviceProfileOutput, GetDeviceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<GetDeviceProfileInput, GetDeviceProfileOutput>(id: "getDeviceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceProfileInput, GetDeviceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceProfileInput, GetDeviceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceProfileOutput, GetDeviceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceProfileOutput, GetDeviceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDeviceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceProfileOutput, GetDeviceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceProfileOutput, GetDeviceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceProfileOutput, GetDeviceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetDeviceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDeviceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetEventConfigurationByResourceTypes` operation on the `iotwireless` service.
+    ///
     /// Get the event configuration based on resource types.
     ///
     /// - Parameter GetEventConfigurationByResourceTypesInput : [no documentation found]
@@ -1981,21 +2063,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>(id: "getEventConfigurationByResourceTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>())
+        var operation = ClientRuntime.OperationStack<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput>(id: "getEventConfigurationByResourceTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventConfigurationByResourceTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventConfigurationByResourceTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventConfigurationByResourceTypesOutput, GetEventConfigurationByResourceTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventConfigurationByResourceTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventConfigurationByResourceTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEventConfigurationByResourceTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventConfigurationByResourceTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Gets information about a FUOTA task.
     ///
     /// - Parameter GetFuotaTaskInput : [no documentation found]
@@ -2026,21 +2110,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetFuotaTaskInput, GetFuotaTaskOutput, GetFuotaTaskOutputError>(id: "getFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFuotaTaskInput, GetFuotaTaskOutput, GetFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<GetFuotaTaskInput, GetFuotaTaskOutput>(id: "getFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFuotaTaskInput, GetFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFuotaTaskInput, GetFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFuotaTaskOutput, GetFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFuotaTaskOutput, GetFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFuotaTaskOutput, GetFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFuotaTaskOutput, GetFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFuotaTaskOutput, GetFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLogLevelsByResourceTypes` operation on the `iotwireless` service.
+    ///
     /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
     ///
     /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
@@ -2071,21 +2157,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>(id: "getLogLevelsByResourceTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>())
+        var operation = ClientRuntime.OperationStack<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput>(id: "getLogLevelsByResourceTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLogLevelsByResourceTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLogLevelsByResourceTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLogLevelsByResourceTypesOutput, GetLogLevelsByResourceTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLogLevelsByResourceTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLogLevelsByResourceTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLogLevelsByResourceTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLogLevelsByResourceTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Gets information about a multicast group.
     ///
     /// - Parameter GetMulticastGroupInput : [no documentation found]
@@ -2116,21 +2204,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMulticastGroupInput, GetMulticastGroupOutput, GetMulticastGroupOutputError>(id: "getMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMulticastGroupInput, GetMulticastGroupOutput, GetMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMulticastGroupInput, GetMulticastGroupOutput>(id: "getMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMulticastGroupInput, GetMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMulticastGroupInput, GetMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMulticastGroupOutput, GetMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMulticastGroupOutput, GetMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMulticastGroupOutput, GetMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMulticastGroupOutput, GetMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMulticastGroupOutput, GetMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMulticastGroupSession` operation on the `iotwireless` service.
+    ///
     /// Gets information about a multicast group session.
     ///
     /// - Parameter GetMulticastGroupSessionInput : [no documentation found]
@@ -2161,21 +2251,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>(id: "getMulticastGroupSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput>(id: "getMulticastGroupSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMulticastGroupSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMulticastGroupSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMulticastGroupSessionOutput, GetMulticastGroupSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMulticastGroupSessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMulticastGroupSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMulticastGroupSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    ///
     /// Get network analyzer configuration.
     ///
     /// - Parameter GetNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -2206,21 +2298,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>(id: "getNetworkAnalyzerConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput>(id: "getNetworkAnalyzerConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetNetworkAnalyzerConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetNetworkAnalyzerConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkAnalyzerConfigurationOutput, GetNetworkAnalyzerConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkAnalyzerConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkAnalyzerConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetNetworkAnalyzerConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPartnerAccount` operation on the `iotwireless` service.
+    ///
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     ///
     /// - Parameter GetPartnerAccountInput : [no documentation found]
@@ -2250,22 +2344,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPartnerAccountInput, GetPartnerAccountOutput, GetPartnerAccountOutputError>(id: "getPartnerAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput, GetPartnerAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPartnerAccountInput, GetPartnerAccountOutput>(id: "getPartnerAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPartnerAccountOutput, GetPartnerAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPartnerAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPartnerAccountOutput, GetPartnerAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPartnerAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPartnerAccountOutput, GetPartnerAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPartnerAccountOutput, GetPartnerAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPartnerAccountOutput, GetPartnerAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPartnerAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPartnerAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPartnerAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPartnerAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPosition` operation on the `iotwireless` service.
+    ///
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -2297,22 +2393,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPositionInput, GetPositionOutput, GetPositionOutputError>(id: "getPosition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionInput, GetPositionOutput, GetPositionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPositionInput, GetPositionOutput>(id: "getPosition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionInput, GetPositionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPositionInput, GetPositionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionOutput, GetPositionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPositionInput, GetPositionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionOutput, GetPositionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionOutput, GetPositionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionOutput, GetPositionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionOutput, GetPositionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPositionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPositionConfiguration` operation on the `iotwireless` service.
+    ///
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -2344,22 +2442,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPositionConfigurationInput, GetPositionConfigurationOutput, GetPositionConfigurationOutputError>(id: "getPositionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput, GetPositionConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPositionConfigurationInput, GetPositionConfigurationOutput>(id: "getPositionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionConfigurationOutput, GetPositionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionConfigurationOutput, GetPositionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionConfigurationOutput, GetPositionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionConfigurationOutput, GetPositionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionConfigurationOutput, GetPositionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPositionConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPositionEstimate` operation on the `iotwireless` service.
+    ///
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
     /// - Parameter GetPositionEstimateInput : [no documentation found]
@@ -2390,24 +2490,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPositionEstimateInput, GetPositionEstimateOutput, GetPositionEstimateOutputError>(id: "getPositionEstimate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput, GetPositionEstimateOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPositionEstimateInput, GetPositionEstimateOutput>(id: "getPositionEstimate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionEstimateOutput, GetPositionEstimateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPositionEstimateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>(xmlName: "GetPositionEstimateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionEstimateOutput, GetPositionEstimateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPositionEstimateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionEstimateOutput, GetPositionEstimateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionEstimateOutput, GetPositionEstimateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionEstimateOutput, GetPositionEstimateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPositionEstimateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPositionEstimateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPositionEstimateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPositionEstimateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetResourceEventConfiguration` operation on the `iotwireless` service.
+    ///
     /// Get the event configuration for a particular resource identifier.
     ///
     /// - Parameter GetResourceEventConfigurationInput : [no documentation found]
@@ -2438,22 +2540,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>(id: "getResourceEventConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>(id: "getResourceEventConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceEventConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceEventConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceEventConfigurationOutput, GetResourceEventConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceEventConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceEventConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetResourceEventConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceEventConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetResourceLogLevel` operation on the `iotwireless` service.
+    ///
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     ///
     /// - Parameter GetResourceLogLevelInput : [no documentation found]
@@ -2484,22 +2588,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourceLogLevelInput, GetResourceLogLevelOutput, GetResourceLogLevelOutputError>(id: "getResourceLogLevel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput, GetResourceLogLevelOutputError>())
+        var operation = ClientRuntime.OperationStack<GetResourceLogLevelInput, GetResourceLogLevelOutput>(id: "getResourceLogLevel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceLogLevelOutput, GetResourceLogLevelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourceLogLevelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceLogLevelOutput, GetResourceLogLevelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourceLogLevelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceLogLevelOutput, GetResourceLogLevelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceLogLevelOutput, GetResourceLogLevelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceLogLevelOutput, GetResourceLogLevelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceLogLevelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceLogLevelOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetResourceLogLevelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetResourcePosition` operation on the `iotwireless` service.
+    ///
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
     /// - Parameter GetResourcePositionInput : [no documentation found]
@@ -2530,22 +2636,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetResourcePositionInput, GetResourcePositionOutput, GetResourcePositionOutputError>(id: "getResourcePosition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePositionInput, GetResourcePositionOutput, GetResourcePositionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetResourcePositionInput, GetResourcePositionOutput>(id: "getResourcePosition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePositionInput, GetResourcePositionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePositionInput, GetResourcePositionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePositionOutput, GetResourcePositionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePositionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetResourcePositionInput, GetResourcePositionOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePositionOutput, GetResourcePositionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetResourcePositionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePositionOutput, GetResourcePositionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePositionOutput, GetResourcePositionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePositionOutput, GetResourcePositionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePositionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePositionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetResourcePositionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePositionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceEndpoint` operation on the `iotwireless` service.
+    ///
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
     /// - Parameter GetServiceEndpointInput : [no documentation found]
@@ -2575,22 +2683,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServiceEndpointInput, GetServiceEndpointOutput, GetServiceEndpointOutputError>(id: "getServiceEndpoint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput, GetServiceEndpointOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServiceEndpointInput, GetServiceEndpointOutput>(id: "getServiceEndpoint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceEndpointOutput, GetServiceEndpointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceEndpointOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceEndpointOutput, GetServiceEndpointOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceEndpointOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceEndpointOutput, GetServiceEndpointOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceEndpointOutput, GetServiceEndpointOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceEndpointOutput, GetServiceEndpointOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceEndpointOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceEndpointOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceEndpointOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceEndpointOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceProfile` operation on the `iotwireless` service.
+    ///
     /// Gets information about a service profile.
     ///
     /// - Parameter GetServiceProfileInput : [no documentation found]
@@ -2621,21 +2731,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServiceProfileInput, GetServiceProfileOutput, GetServiceProfileOutputError>(id: "getServiceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceProfileInput, GetServiceProfileOutput, GetServiceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServiceProfileInput, GetServiceProfileOutput>(id: "getServiceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceProfileInput, GetServiceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceProfileInput, GetServiceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceProfileOutput, GetServiceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceProfileOutput, GetServiceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceProfileOutput, GetServiceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceProfileOutput, GetServiceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceProfileOutput, GetServiceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Gets information about a wireless device.
     ///
     /// - Parameter GetWirelessDeviceInput : [no documentation found]
@@ -2666,22 +2778,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessDeviceInput, GetWirelessDeviceOutput, GetWirelessDeviceOutputError>(id: "getWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput, GetWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessDeviceInput, GetWirelessDeviceOutput>(id: "getWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceOutput, GetWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceOutput, GetWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceOutput, GetWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceOutput, GetWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceOutput, GetWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// Get information about an import task and count of device onboarding summary information for the import task.
     ///
     /// - Parameter GetWirelessDeviceImportTaskInput : [no documentation found]
@@ -2713,21 +2827,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>(id: "getWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput>(id: "getWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceImportTaskOutput, GetWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessDeviceStatistics` operation on the `iotwireless` service.
+    ///
     /// Gets operating information about a wireless device.
     ///
     /// - Parameter GetWirelessDeviceStatisticsInput : [no documentation found]
@@ -2758,21 +2874,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>(id: "getWirelessDeviceStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput>(id: "getWirelessDeviceStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessDeviceStatisticsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessDeviceStatisticsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceStatisticsOutput, GetWirelessDeviceStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessDeviceStatisticsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessDeviceStatisticsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessDeviceStatisticsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessDeviceStatisticsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGateway` operation on the `iotwireless` service.
+    ///
     /// Gets information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayInput : [no documentation found]
@@ -2803,22 +2921,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayInput, GetWirelessGatewayOutput, GetWirelessGatewayOutputError>(id: "getWirelessGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput, GetWirelessGatewayOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayInput, GetWirelessGatewayOutput>(id: "getWirelessGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayOutput, GetWirelessGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayOutput, GetWirelessGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayOutput, GetWirelessGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayOutput, GetWirelessGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayOutput, GetWirelessGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGatewayCertificate` operation on the `iotwireless` service.
+    ///
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayCertificateInput : [no documentation found]
@@ -2849,21 +2969,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>(id: "getWirelessGatewayCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput>(id: "getWirelessGatewayCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayCertificateOutput, GetWirelessGatewayCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGatewayFirmwareInformation` operation on the `iotwireless` service.
+    ///
     /// Gets the firmware version and other information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayFirmwareInformationInput : [no documentation found]
@@ -2894,21 +3016,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>(id: "getWirelessGatewayFirmwareInformation")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput>(id: "getWirelessGatewayFirmwareInformation")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayFirmwareInformationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayFirmwareInformationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayFirmwareInformationOutput, GetWirelessGatewayFirmwareInformationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayFirmwareInformationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayFirmwareInformationOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayFirmwareInformationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayFirmwareInformationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGatewayStatistics` operation on the `iotwireless` service.
+    ///
     /// Gets operating information about a wireless gateway.
     ///
     /// - Parameter GetWirelessGatewayStatisticsInput : [no documentation found]
@@ -2939,21 +3063,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>(id: "getWirelessGatewayStatistics")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput>(id: "getWirelessGatewayStatistics")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayStatisticsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayStatisticsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayStatisticsOutput, GetWirelessGatewayStatisticsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayStatisticsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayStatisticsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayStatisticsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayStatisticsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGatewayTask` operation on the `iotwireless` service.
+    ///
     /// Gets information about a wireless gateway task.
     ///
     /// - Parameter GetWirelessGatewayTaskInput : [no documentation found]
@@ -2984,21 +3110,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>(id: "getWirelessGatewayTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput>(id: "getWirelessGatewayTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskOutput, GetWirelessGatewayTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetWirelessGatewayTaskDefinition` operation on the `iotwireless` service.
+    ///
     /// Gets information about a wireless gateway task definition.
     ///
     /// - Parameter GetWirelessGatewayTaskDefinitionInput : [no documentation found]
@@ -3029,21 +3157,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>(id: "getWirelessGatewayTaskDefinition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput>(id: "getWirelessGatewayTaskDefinition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetWirelessGatewayTaskDefinitionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetWirelessGatewayTaskDefinitionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskDefinitionOutput, GetWirelessGatewayTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWirelessGatewayTaskDefinitionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskDefinitionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetWirelessGatewayTaskDefinitionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDestinations` operation on the `iotwireless` service.
+    ///
     /// Lists the destinations registered to your AWS account.
     ///
     /// - Parameter ListDestinationsInput : [no documentation found]
@@ -3073,22 +3203,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDestinationsInput, ListDestinationsOutput, ListDestinationsOutputError>(id: "listDestinations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDestinationsInput, ListDestinationsOutput, ListDestinationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListDestinationsInput, ListDestinationsOutput>(id: "listDestinations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDestinationsInput, ListDestinationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDestinationsInput, ListDestinationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDestinationsOutput, ListDestinationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDestinationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDestinationsInput, ListDestinationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDestinationsOutput, ListDestinationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDestinationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDestinationsOutput, ListDestinationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDestinationsOutput, ListDestinationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDestinationsOutput, ListDestinationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDestinationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDestinationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDestinationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDestinationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDeviceProfiles` operation on the `iotwireless` service.
+    ///
     /// Lists the device profiles registered to your AWS account.
     ///
     /// - Parameter ListDeviceProfilesInput : [no documentation found]
@@ -3118,22 +3250,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDeviceProfilesInput, ListDeviceProfilesOutput, ListDeviceProfilesOutputError>(id: "listDeviceProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput, ListDeviceProfilesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListDeviceProfilesInput, ListDeviceProfilesOutput>(id: "listDeviceProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceProfilesOutput, ListDeviceProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDeviceProfilesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceProfilesOutput, ListDeviceProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDeviceProfilesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceProfilesOutput, ListDeviceProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceProfilesOutput, ListDeviceProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceProfilesOutput, ListDeviceProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceProfilesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDeviceProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDeviceProfilesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListDevicesForWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// List the Sidewalk devices in an import task and their onboarding status.
     ///
     /// - Parameter ListDevicesForWirelessDeviceImportTaskInput : [no documentation found]
@@ -3165,22 +3299,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>(id: "listDevicesForWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>(id: "listDevicesForWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicesForWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListDevicesForWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicesForWirelessDeviceImportTaskOutput, ListDevicesForWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesForWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesForWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListDevicesForWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListDevicesForWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListEventConfigurations` operation on the `iotwireless` service.
+    ///
     /// List event configurations where at least one event topic has been enabled.
     ///
     /// - Parameter ListEventConfigurationsInput : [no documentation found]
@@ -3210,22 +3346,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEventConfigurationsInput, ListEventConfigurationsOutput, ListEventConfigurationsOutputError>(id: "listEventConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput, ListEventConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListEventConfigurationsInput, ListEventConfigurationsOutput>(id: "listEventConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventConfigurationsOutput, ListEventConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventConfigurationsOutput, ListEventConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventConfigurationsOutput, ListEventConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventConfigurationsOutput, ListEventConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventConfigurationsOutput, ListEventConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEventConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEventConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListFuotaTasks` operation on the `iotwireless` service.
+    ///
     /// Lists the FUOTA tasks registered to your AWS account.
     ///
     /// - Parameter ListFuotaTasksInput : [no documentation found]
@@ -3255,22 +3393,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListFuotaTasksInput, ListFuotaTasksOutput, ListFuotaTasksOutputError>(id: "listFuotaTasks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput, ListFuotaTasksOutputError>())
+        var operation = ClientRuntime.OperationStack<ListFuotaTasksInput, ListFuotaTasksOutput>(id: "listFuotaTasks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFuotaTasksOutput, ListFuotaTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFuotaTasksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFuotaTasksOutput, ListFuotaTasksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFuotaTasksOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFuotaTasksOutput, ListFuotaTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFuotaTasksOutput, ListFuotaTasksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFuotaTasksOutput, ListFuotaTasksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFuotaTasksOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFuotaTasksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFuotaTasksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFuotaTasksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMulticastGroups` operation on the `iotwireless` service.
+    ///
     /// Lists the multicast groups registered to your AWS account.
     ///
     /// - Parameter ListMulticastGroupsInput : [no documentation found]
@@ -3300,22 +3440,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMulticastGroupsInput, ListMulticastGroupsOutput, ListMulticastGroupsOutputError>(id: "listMulticastGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput, ListMulticastGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMulticastGroupsInput, ListMulticastGroupsOutput>(id: "listMulticastGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMulticastGroupsOutput, ListMulticastGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMulticastGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMulticastGroupsOutput, ListMulticastGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMulticastGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMulticastGroupsOutput, ListMulticastGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMulticastGroupsOutput, ListMulticastGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMulticastGroupsOutput, ListMulticastGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMulticastGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMulticastGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMulticastGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMulticastGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMulticastGroupsByFuotaTask` operation on the `iotwireless` service.
+    ///
     /// List all multicast groups associated with a fuota task.
     ///
     /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
@@ -3346,22 +3488,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>(id: "listMulticastGroupsByFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(id: "listMulticastGroupsByFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMulticastGroupsByFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMulticastGroupsByFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMulticastGroupsByFuotaTaskOutput, ListMulticastGroupsByFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMulticastGroupsByFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMulticastGroupsByFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMulticastGroupsByFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMulticastGroupsByFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListNetworkAnalyzerConfigurations` operation on the `iotwireless` service.
+    ///
     /// Lists the network analyzer configurations.
     ///
     /// - Parameter ListNetworkAnalyzerConfigurationsInput : [no documentation found]
@@ -3391,22 +3535,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>(id: "listNetworkAnalyzerConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(id: "listNetworkAnalyzerConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNetworkAnalyzerConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListNetworkAnalyzerConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkAnalyzerConfigurationsOutput, ListNetworkAnalyzerConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkAnalyzerConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkAnalyzerConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListNetworkAnalyzerConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListNetworkAnalyzerConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPartnerAccounts` operation on the `iotwireless` service.
+    ///
     /// Lists the partner accounts associated with your AWS account.
     ///
     /// - Parameter ListPartnerAccountsInput : [no documentation found]
@@ -3436,22 +3582,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPartnerAccountsInput, ListPartnerAccountsOutput, ListPartnerAccountsOutputError>(id: "listPartnerAccounts")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput, ListPartnerAccountsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPartnerAccountsInput, ListPartnerAccountsOutput>(id: "listPartnerAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartnerAccountsOutput, ListPartnerAccountsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPartnerAccountsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartnerAccountsOutput, ListPartnerAccountsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPartnerAccountsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartnerAccountsOutput, ListPartnerAccountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartnerAccountsOutput, ListPartnerAccountsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartnerAccountsOutput, ListPartnerAccountsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartnerAccountsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartnerAccountsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPartnerAccountsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartnerAccountsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPositionConfigurations` operation on the `iotwireless` service.
+    ///
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -3482,22 +3630,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPositionConfigurationsInput, ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>(id: "listPositionConfigurations")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(id: "listPositionConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPositionConfigurationsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPositionConfigurationsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPositionConfigurationsOutput, ListPositionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPositionConfigurationsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPositionConfigurationsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPositionConfigurationsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPositionConfigurationsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListQueuedMessages` operation on the `iotwireless` service.
+    ///
     /// List queued messages in the downlink queue.
     ///
     /// - Parameter ListQueuedMessagesInput : [no documentation found]
@@ -3528,22 +3678,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListQueuedMessagesInput, ListQueuedMessagesOutput, ListQueuedMessagesOutputError>(id: "listQueuedMessages")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput, ListQueuedMessagesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListQueuedMessagesInput, ListQueuedMessagesOutput>(id: "listQueuedMessages")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueuedMessagesOutput, ListQueuedMessagesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueuedMessagesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueuedMessagesOutput, ListQueuedMessagesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListQueuedMessagesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueuedMessagesOutput, ListQueuedMessagesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueuedMessagesOutput, ListQueuedMessagesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueuedMessagesOutput, ListQueuedMessagesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQueuedMessagesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQueuedMessagesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListQueuedMessagesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListQueuedMessagesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListServiceProfiles` operation on the `iotwireless` service.
+    ///
     /// Lists the service profiles registered to your AWS account.
     ///
     /// - Parameter ListServiceProfilesInput : [no documentation found]
@@ -3573,22 +3725,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServiceProfilesInput, ListServiceProfilesOutput, ListServiceProfilesOutputError>(id: "listServiceProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput, ListServiceProfilesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListServiceProfilesInput, ListServiceProfilesOutput>(id: "listServiceProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceProfilesOutput, ListServiceProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceProfilesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceProfilesOutput, ListServiceProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceProfilesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceProfilesOutput, ListServiceProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceProfilesOutput, ListServiceProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceProfilesOutput, ListServiceProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceProfilesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServiceProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceProfilesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListTagsForResource` operation on the `iotwireless` service.
+    ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -3619,22 +3773,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>(id: "listTagsForResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, ListTagsForResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutput>(id: "listTagsForResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput, ListTagsForResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListTagsForResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListWirelessDeviceImportTasks` operation on the `iotwireless` service.
+    ///
     /// List wireless devices that have been added to an import task.
     ///
     /// - Parameter ListWirelessDeviceImportTasksInput : [no documentation found]
@@ -3666,22 +3822,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>(id: "listWirelessDeviceImportTasks")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>())
+        var operation = ClientRuntime.OperationStack<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>(id: "listWirelessDeviceImportTasks")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessDeviceImportTasksOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessDeviceImportTasksOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessDeviceImportTasksOutput, ListWirelessDeviceImportTasksOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessDeviceImportTasksOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessDeviceImportTasksOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListWirelessDeviceImportTasksOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessDeviceImportTasksOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListWirelessDevices` operation on the `iotwireless` service.
+    ///
     /// Lists the wireless devices registered to your AWS account.
     ///
     /// - Parameter ListWirelessDevicesInput : [no documentation found]
@@ -3711,22 +3869,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWirelessDevicesInput, ListWirelessDevicesOutput, ListWirelessDevicesOutputError>(id: "listWirelessDevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput, ListWirelessDevicesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListWirelessDevicesInput, ListWirelessDevicesOutput>(id: "listWirelessDevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessDevicesOutput, ListWirelessDevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessDevicesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessDevicesOutput, ListWirelessDevicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessDevicesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessDevicesOutput, ListWirelessDevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessDevicesOutput, ListWirelessDevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessDevicesOutput, ListWirelessDevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessDevicesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessDevicesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListWirelessDevicesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessDevicesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListWirelessGatewayTaskDefinitions` operation on the `iotwireless` service.
+    ///
     /// List the wireless gateway tasks definitions registered to your AWS account.
     ///
     /// - Parameter ListWirelessGatewayTaskDefinitionsInput : [no documentation found]
@@ -3756,22 +3916,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>(id: "listWirelessGatewayTaskDefinitions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>(id: "listWirelessGatewayTaskDefinitions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessGatewayTaskDefinitionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessGatewayTaskDefinitionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessGatewayTaskDefinitionsOutput, ListWirelessGatewayTaskDefinitionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessGatewayTaskDefinitionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessGatewayTaskDefinitionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListWirelessGatewayTaskDefinitionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessGatewayTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListWirelessGateways` operation on the `iotwireless` service.
+    ///
     /// Lists the wireless gateways registered to your AWS account.
     ///
     /// - Parameter ListWirelessGatewaysInput : [no documentation found]
@@ -3801,22 +3963,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListWirelessGatewaysInput, ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>(id: "listWirelessGateways")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>())
+        var operation = ClientRuntime.OperationStack<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(id: "listWirelessGateways")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWirelessGatewaysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWirelessGatewaysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessGatewaysOutput, ListWirelessGatewaysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWirelessGatewaysOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWirelessGatewaysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListWirelessGatewaysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWirelessGatewaysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutPositionConfiguration` operation on the `iotwireless` service.
+    ///
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -3848,25 +4012,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutPositionConfigurationInput, PutPositionConfigurationOutput, PutPositionConfigurationOutputError>(id: "putPositionConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput, PutPositionConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<PutPositionConfigurationInput, PutPositionConfigurationOutput>(id: "putPositionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPositionConfigurationOutput, PutPositionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPositionConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>(xmlName: "PutPositionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPositionConfigurationOutput, PutPositionConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutPositionConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPositionConfigurationOutput, PutPositionConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPositionConfigurationOutput, PutPositionConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPositionConfigurationOutput, PutPositionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPositionConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPositionConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutPositionConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutPositionConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutResourceLogLevel` operation on the `iotwireless` service.
+    ///
     /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
     ///
     /// - Parameter PutResourceLogLevelInput : [no documentation found]
@@ -3897,25 +4063,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutResourceLogLevelInput, PutResourceLogLevelOutput, PutResourceLogLevelOutputError>(id: "putResourceLogLevel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput, PutResourceLogLevelOutputError>())
+        var operation = ClientRuntime.OperationStack<PutResourceLogLevelInput, PutResourceLogLevelOutput>(id: "putResourceLogLevel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourceLogLevelOutput, PutResourceLogLevelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourceLogLevelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>(xmlName: "PutResourceLogLevelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourceLogLevelOutput, PutResourceLogLevelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutResourceLogLevelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourceLogLevelOutput, PutResourceLogLevelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourceLogLevelOutput, PutResourceLogLevelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourceLogLevelOutput, PutResourceLogLevelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourceLogLevelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourceLogLevelOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutResourceLogLevelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetAllResourceLogLevels` operation on the `iotwireless` service.
+    ///
     /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
     ///
     /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
@@ -3946,21 +4114,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>(id: "resetAllResourceLogLevels")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>())
+        var operation = ClientRuntime.OperationStack<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput>(id: "resetAllResourceLogLevels")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetAllResourceLogLevelsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetAllResourceLogLevelsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetAllResourceLogLevelsOutput, ResetAllResourceLogLevelsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetAllResourceLogLevelsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetAllResourceLogLevelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetAllResourceLogLevelsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetAllResourceLogLevelsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetResourceLogLevel` operation on the `iotwireless` service.
+    ///
     /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     ///
     /// - Parameter ResetResourceLogLevelInput : [no documentation found]
@@ -3991,22 +4161,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetResourceLogLevelInput, ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>(id: "resetResourceLogLevel")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>())
+        var operation = ClientRuntime.OperationStack<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>(id: "resetResourceLogLevel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetResourceLogLevelOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetResourceLogLevelOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetResourceLogLevelOutput, ResetResourceLogLevelOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetResourceLogLevelOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetResourceLogLevelOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetResourceLogLevelOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SendDataToMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Sends the specified data to a multicast group.
     ///
     /// - Parameter SendDataToMulticastGroupInput : [no documentation found]
@@ -4038,24 +4210,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>(id: "sendDataToMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>(id: "sendDataToMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataToMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>(xmlName: "SendDataToMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataToMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataToMulticastGroupOutput, SendDataToMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendDataToMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataToMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendDataToMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataToMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SendDataToWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Sends a decrypted application data frame to a device.
     ///
     /// - Parameter SendDataToWirelessDeviceInput : [no documentation found]
@@ -4085,24 +4259,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>(id: "sendDataToWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>(id: "sendDataToWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataToWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>(xmlName: "SendDataToWirelessDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataToWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataToWirelessDeviceOutput, SendDataToWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendDataToWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataToWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendDataToWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataToWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartBulkAssociateWirelessDeviceWithMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     ///
     /// - Parameter StartBulkAssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
@@ -4133,24 +4309,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>(id: "startBulkAssociateWirelessDeviceWithMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(id: "startBulkAssociateWirelessDeviceWithMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(xmlName: "StartBulkAssociateWirelessDeviceWithMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartBulkDisassociateWirelessDeviceFromMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     ///
     /// - Parameter StartBulkDisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
@@ -4181,24 +4359,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>(id: "startBulkDisassociateWirelessDeviceFromMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(id: "startBulkDisassociateWirelessDeviceFromMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(xmlName: "StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Starts a FUOTA task.
     ///
     /// - Parameter StartFuotaTaskInput : [no documentation found]
@@ -4230,24 +4410,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartFuotaTaskInput, StartFuotaTaskOutput, StartFuotaTaskOutputError>(id: "startFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput, StartFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<StartFuotaTaskInput, StartFuotaTaskOutput>(id: "startFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartFuotaTaskOutput, StartFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>(xmlName: "StartFuotaTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartFuotaTaskOutput, StartFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFuotaTaskOutput, StartFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFuotaTaskOutput, StartFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFuotaTaskOutput, StartFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartMulticastGroupSession` operation on the `iotwireless` service.
+    ///
     /// Starts a multicast group session.
     ///
     /// - Parameter StartMulticastGroupSessionInput : [no documentation found]
@@ -4279,24 +4461,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>(id: "startMulticastGroupSession")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>())
+        var operation = ClientRuntime.OperationStack<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>(id: "startMulticastGroupSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMulticastGroupSessionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>(xmlName: "StartMulticastGroupSessionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMulticastGroupSessionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMulticastGroupSessionOutput, StartMulticastGroupSessionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMulticastGroupSessionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMulticastGroupSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMulticastGroupSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartSingleWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// Start import task for a single wireless device.
     ///
     /// - Parameter StartSingleWirelessDeviceImportTaskInput : [no documentation found]
@@ -4328,25 +4512,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(id: "startSingleWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>(id: "startSingleWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSingleWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>(xmlName: "StartSingleWirelessDeviceImportTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSingleWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSingleWirelessDeviceImportTaskOutput, StartSingleWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSingleWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSingleWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartSingleWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSingleWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `StartWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     ///
     /// - Parameter StartWirelessDeviceImportTaskInput : [no documentation found]
@@ -4378,25 +4564,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(id: "startWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(keyPath: \.clientRequestToken))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>(id: "startWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>(xmlName: "StartWirelessDeviceImportTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartWirelessDeviceImportTaskOutput, StartWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagResource` operation on the `iotwireless` service.
+    ///
     /// Adds a tag to a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -4428,25 +4616,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput, TagResourceOutputError>(id: "tagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput, TagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutput>(id: "tagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<TagResourceInput, TagResourceOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutput>(xmlName: "TagResourceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput, TagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput, TagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput, TagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TestWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     ///
     /// - Parameter TestWirelessDeviceInput : [no documentation found]
@@ -4476,21 +4666,23 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TestWirelessDeviceInput, TestWirelessDeviceOutput, TestWirelessDeviceOutputError>(id: "testWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestWirelessDeviceInput, TestWirelessDeviceOutput, TestWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<TestWirelessDeviceInput, TestWirelessDeviceOutput>(id: "testWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestWirelessDeviceInput, TestWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestWirelessDeviceInput, TestWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestWirelessDeviceOutput, TestWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestWirelessDeviceOutput, TestWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestWirelessDeviceOutput, TestWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestWirelessDeviceOutput, TestWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestWirelessDeviceOutput, TestWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TestWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagResource` operation on the `iotwireless` service.
+    ///
     /// Removes one or more tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -4521,22 +4713,24 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>(id: "untagResource")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput, UntagResourceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutput>(id: "untagResource")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput, UntagResourceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagResourceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput, UntagResourceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagResourceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateDestination` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a destination.
     ///
     /// - Parameter UpdateDestinationInput : [no documentation found]
@@ -4567,24 +4761,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateDestinationInput, UpdateDestinationOutput, UpdateDestinationOutputError>(id: "updateDestination")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDestinationInput, UpdateDestinationOutput, UpdateDestinationOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateDestinationInput, UpdateDestinationOutput>(id: "updateDestination")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDestinationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(xmlName: "UpdateDestinationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateDestinationInput, UpdateDestinationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDestinationOutput, UpdateDestinationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateDestinationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDestinationOutput, UpdateDestinationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDestinationOutput, UpdateDestinationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDestinationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateDestinationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDestinationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateEventConfigurationByResourceTypes` operation on the `iotwireless` service.
+    ///
     /// Update the event configuration based on resource types.
     ///
     /// - Parameter UpdateEventConfigurationByResourceTypesInput : [no documentation found]
@@ -4614,24 +4810,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>(id: "updateEventConfigurationByResourceTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>(id: "updateEventConfigurationByResourceTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventConfigurationByResourceTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>(xmlName: "UpdateEventConfigurationByResourceTypesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventConfigurationByResourceTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventConfigurationByResourceTypesOutput, UpdateEventConfigurationByResourceTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEventConfigurationByResourceTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventConfigurationByResourceTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEventConfigurationByResourceTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventConfigurationByResourceTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateFuotaTask` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a FUOTA task.
     ///
     /// - Parameter UpdateFuotaTaskInput : [no documentation found]
@@ -4663,24 +4861,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateFuotaTaskInput, UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>(id: "updateFuotaTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>(id: "updateFuotaTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateFuotaTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>(xmlName: "UpdateFuotaTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateFuotaTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFuotaTaskOutput, UpdateFuotaTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFuotaTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFuotaTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateFuotaTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateFuotaTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLogLevelsByResourceTypes` operation on the `iotwireless` service.
+    ///
     /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
     ///
     /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
@@ -4712,24 +4912,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>(id: "updateLogLevelsByResourceTypes")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>(id: "updateLogLevelsByResourceTypes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLogLevelsByResourceTypesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>(xmlName: "UpdateLogLevelsByResourceTypesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLogLevelsByResourceTypesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLogLevelsByResourceTypesOutput, UpdateLogLevelsByResourceTypesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLogLevelsByResourceTypesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLogLevelsByResourceTypesOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLogLevelsByResourceTypesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLogLevelsByResourceTypesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateMulticastGroup` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a multicast group session.
     ///
     /// - Parameter UpdateMulticastGroupInput : [no documentation found]
@@ -4761,24 +4963,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateMulticastGroupInput, UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>(id: "updateMulticastGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>(id: "updateMulticastGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMulticastGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>(xmlName: "UpdateMulticastGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMulticastGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMulticastGroupOutput, UpdateMulticastGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMulticastGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMulticastGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateMulticastGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMulticastGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateNetworkAnalyzerConfiguration` operation on the `iotwireless` service.
+    ///
     /// Update network analyzer configuration.
     ///
     /// - Parameter UpdateNetworkAnalyzerConfigurationInput : [no documentation found]
@@ -4809,24 +5013,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>(id: "updateNetworkAnalyzerConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>(id: "updateNetworkAnalyzerConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateNetworkAnalyzerConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>(xmlName: "UpdateNetworkAnalyzerConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateNetworkAnalyzerConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkAnalyzerConfigurationOutput, UpdateNetworkAnalyzerConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkAnalyzerConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkAnalyzerConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateNetworkAnalyzerConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePartnerAccount` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a partner account.
     ///
     /// - Parameter UpdatePartnerAccountInput : [no documentation found]
@@ -4856,25 +5062,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePartnerAccountInput, UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>(id: "updatePartnerAccount")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>(id: "updatePartnerAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePartnerAccountOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>(xmlName: "UpdatePartnerAccountRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePartnerAccountOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePartnerAccountOutput, UpdatePartnerAccountOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePartnerAccountOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePartnerAccountOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePartnerAccountOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePartnerAccountOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdatePosition` operation on the `iotwireless` service.
+    ///
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
@@ -4906,25 +5114,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdatePositionInput, UpdatePositionOutput, UpdatePositionOutputError>(id: "updatePosition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePositionInput, UpdatePositionOutput, UpdatePositionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdatePositionInput, UpdatePositionOutput>(id: "updatePosition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePositionInput, UpdatePositionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePositionInput, UpdatePositionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePositionOutput, UpdatePositionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePositionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdatePositionInput, UpdatePositionOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePositionInput, UpdatePositionOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePositionInput, UpdatePositionOutput>(xmlName: "UpdatePositionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdatePositionInput, UpdatePositionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePositionOutput, UpdatePositionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdatePositionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePositionOutput, UpdatePositionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePositionOutput, UpdatePositionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePositionOutput, UpdatePositionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePositionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePositionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdatePositionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdatePositionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateResourceEventConfiguration` operation on the `iotwireless` service.
+    ///
     /// Update the event configuration for a particular resource identifier.
     ///
     /// - Parameter UpdateResourceEventConfigurationInput : [no documentation found]
@@ -4956,25 +5166,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>(id: "updateResourceEventConfiguration")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>(id: "updateResourceEventConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourceEventConfigurationOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>(xmlName: "UpdateResourceEventConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResourceEventConfigurationOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceEventConfigurationOutput, UpdateResourceEventConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceEventConfigurationOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceEventConfigurationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateResourceEventConfigurationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceEventConfigurationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateResourcePosition` operation on the `iotwireless` service.
+    ///
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
     /// - Parameter UpdateResourcePositionInput : [no documentation found]
@@ -5005,25 +5217,27 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateResourcePositionInput, UpdateResourcePositionOutput, UpdateResourcePositionOutputError>(id: "updateResourcePosition")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput, UpdateResourcePositionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateResourcePositionInput, UpdateResourcePositionOutput>(id: "updateResourcePosition")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourcePositionOutput, UpdateResourcePositionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourcePositionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>(contentType: "application/octet-stream"))
-        operation.serializeStep.intercept(position: .after, middleware: UpdateResourcePositionInputBodyMiddleware())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BlobBodyMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>(keyPath: \.geoJsonPayload))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResourcePositionOutput, UpdateResourcePositionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateResourcePositionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourcePositionOutput, UpdateResourcePositionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourcePositionOutput, UpdateResourcePositionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourcePositionOutput, UpdateResourcePositionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourcePositionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourcePositionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateResourcePositionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResourcePositionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateWirelessDevice` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a wireless device.
     ///
     /// - Parameter UpdateWirelessDeviceInput : [no documentation found]
@@ -5054,24 +5268,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>(id: "updateWirelessDevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>(id: "updateWirelessDevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessDeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>(xmlName: "UpdateWirelessDeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessDeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceOutput, UpdateWirelessDeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessDeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateWirelessDeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateWirelessDeviceImportTask` operation on the `iotwireless` service.
+    ///
     /// Update an import task to add more devices to the task.
     ///
     /// - Parameter UpdateWirelessDeviceImportTaskInput : [no documentation found]
@@ -5103,24 +5319,26 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>(id: "updateWirelessDeviceImportTask")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>(id: "updateWirelessDeviceImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessDeviceImportTaskOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>(xmlName: "UpdateWirelessDeviceImportTaskRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessDeviceImportTaskOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceImportTaskOutput, UpdateWirelessDeviceImportTaskOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessDeviceImportTaskOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateWirelessDeviceImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateWirelessGateway` operation on the `iotwireless` service.
+    ///
     /// Updates properties of a wireless gateway.
     ///
     /// - Parameter UpdateWirelessGatewayInput : [no documentation found]
@@ -5151,20 +5369,20 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
                       .withSigningName(value: "iotwireless")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>(id: "updateWirelessGateway")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>(id: "updateWirelessGateway")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateWirelessGatewayOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>(xmlName: "UpdateWirelessGatewayRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateWirelessGatewayOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessGatewayOutput, UpdateWirelessGatewayOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWirelessGatewayOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWirelessGatewayOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateWirelessGatewayOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

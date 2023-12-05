@@ -12,7 +12,7 @@ extension CodeGuruProfilerClient {
     ///     - input: A `[GetFindingsReportAccountSummaryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsReportAccountSummaryOutput`
     public func getFindingsReportAccountSummaryPaginated(input: GetFindingsReportAccountSummaryInput) -> ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput> {
-        return ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput>(input: input, inputKey: \GetFindingsReportAccountSummaryInput.nextToken, outputKey: \GetFindingsReportAccountSummaryOutput.nextToken, paginationFunction: self.getFindingsReportAccountSummary(input:))
+        return ClientRuntime.PaginatorSequence<GetFindingsReportAccountSummaryInput, GetFindingsReportAccountSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingsReportAccountSummary(input:))
     }
 }
 

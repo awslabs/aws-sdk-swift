@@ -11,6 +11,8 @@ import ClientRuntime
 ///
 /// Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands. By default, Global Accelerator provides you with static IP addresses that you associate with your accelerator. The static IP addresses are anycast from the Amazon Web Services edge network. For IPv4, Global Accelerator provides two static IPv4 addresses. For dual-stack, Global Accelerator provides a total of four addresses: two static IPv4 addresses and two static IPv6 addresses. With a standard accelerator for IPv4, instead of using the addresses that Global Accelerator provides, you can configure these entry points to be IPv4 addresses from your own IP address ranges that you bring to Global Accelerator (BYOIP). For a standard accelerator, they distribute incoming application traffic across multiple endpoint resources in multiple Amazon Web Services Regions , which increases the availability of your applications. Endpoints for standard accelerators can be Network Load Balancers, Application Load Balancers, Amazon EC2 instances, or Elastic IP addresses that are located in one Amazon Web Services Region or multiple Amazon Web Services Regions. For custom routing accelerators, you map traffic that arrives to the static IP addresses to specific Amazon EC2 servers in endpoints that are virtual private cloud (VPC) subnets. The static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to it, so you can no longer route traffic by using them. You can use IAM policies like tag-based permissions with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Tag-based policies](https://docs.aws.amazon.com/global-accelerator/latest/dg/access-control-manage-access-tag-policies.html). For standard accelerators, Global Accelerator uses the Amazon Web Services global network to route traffic to the optimal regional endpoint based on health, client location, and policies that you configure. The service reacts instantly to changes in health or configuration to ensure that internet traffic from clients is always directed to healthy endpoints. For more information about understanding and using Global Accelerator, see the [Global Accelerator Developer Guide](https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html).
 public protocol GlobalAcceleratorClientProtocol {
+    /// Performs the `AddCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
     /// - Parameter AddCustomRoutingEndpointsInput : [no documentation found]
@@ -28,6 +30,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func addCustomRoutingEndpoints(input: AddCustomRoutingEndpointsInput) async throws -> AddCustomRoutingEndpointsOutput
+    /// Performs the `AddEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Add endpoints to an endpoint group. The AddEndpoints API operation is the recommended option for adding endpoints. The alternative options are to add endpoints when you create an endpoint group (with the [CreateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_CreateEndpointGroup.html) API) or when you update an endpoint group (with the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API). There are two advantages to using AddEndpoints to add endpoints in Global Accelerator:
     ///
     /// * It's faster, because Global Accelerator only has to resolve the new endpoints that you're adding, rather than resolving new and existing endpoints.
@@ -51,6 +55,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     func addEndpoints(input: AddEndpointsInput) async throws -> AddEndpointsOutput
+    /// Performs the `AdvertiseByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
@@ -66,6 +72,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput
+    /// Performs the `AllowCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter AllowCustomRoutingTrafficInput : [no documentation found]
@@ -79,6 +87,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func allowCustomRoutingTraffic(input: AllowCustomRoutingTrafficInput) async throws -> AllowCustomRoutingTrafficOutput
+    /// Performs the `CreateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateAcceleratorInput : [no documentation found]
@@ -92,6 +102,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func createAccelerator(input: CreateAcceleratorInput) async throws -> CreateAcceleratorOutput
+    /// Performs the `CreateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to add a resource listed in the attachment to an accelerator, you must sign in to an account specified as a principal. Then you can add the resources that are listed to any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can add as endpoints resources that are listed in the attachment.
     ///
     /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
@@ -107,6 +119,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     func createCrossAccountAttachment(input: CreateCrossAccountAttachmentInput) async throws -> CreateCrossAccountAttachmentOutput
+    /// Performs the `CreateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
     /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
@@ -121,6 +135,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func createCustomRoutingAccelerator(input: CreateCustomRoutingAcceleratorInput) async throws -> CreateCustomRoutingAcceleratorOutput
+    /// Performs the `CreateCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
     /// - Parameter CreateCustomRoutingEndpointGroupInput : [no documentation found]
@@ -139,6 +155,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func createCustomRoutingEndpointGroup(input: CreateCustomRoutingEndpointGroupInput) async throws -> CreateCustomRoutingEndpointGroupOutput
+    /// Performs the `CreateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
     /// - Parameter CreateCustomRoutingListenerInput : [no documentation found]
@@ -154,6 +172,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func createCustomRoutingListener(input: CreateCustomRoutingListenerInput) async throws -> CreateCustomRoutingListenerOutput
+    /// Performs the `CreateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter CreateEndpointGroupInput : [no documentation found]
@@ -171,6 +191,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func createEndpointGroup(input: CreateEndpointGroupInput) async throws -> CreateEndpointGroupOutput
+    /// Performs the `CreateListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
     /// - Parameter CreateListenerInput : [no documentation found]
@@ -186,6 +208,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidPortRangeException` : The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func createListener(input: CreateListenerInput) async throws -> CreateListenerOutput
+    /// Performs the `DeleteAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteAcceleratorInput : [no documentation found]
@@ -201,6 +225,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deleteAccelerator(input: DeleteAcceleratorInput) async throws -> DeleteAcceleratorOutput
+    /// Performs the `DeleteCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources by doing the following:
     ///
     /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
@@ -223,6 +249,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     func deleteCrossAccountAttachment(input: DeleteCrossAccountAttachmentInput) async throws -> DeleteCrossAccountAttachmentOutput
+    /// Performs the `DeleteCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
@@ -238,6 +266,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deleteCustomRoutingAccelerator(input: DeleteCustomRoutingAcceleratorInput) async throws -> DeleteCustomRoutingAcceleratorOutput
+    /// Performs the `DeleteCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingEndpointGroupInput : [no documentation found]
@@ -251,6 +281,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deleteCustomRoutingEndpointGroup(input: DeleteCustomRoutingEndpointGroupInput) async throws -> DeleteCustomRoutingEndpointGroupOutput
+    /// Performs the `DeleteCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a listener for a custom routing accelerator.
     ///
     /// - Parameter DeleteCustomRoutingListenerInput : [no documentation found]
@@ -265,6 +297,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func deleteCustomRoutingListener(input: DeleteCustomRoutingListenerInput) async throws -> DeleteCustomRoutingListenerOutput
+    /// Performs the `DeleteEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete an endpoint group from a listener.
     ///
     /// - Parameter DeleteEndpointGroupInput : [no documentation found]
@@ -278,6 +312,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deleteEndpointGroup(input: DeleteEndpointGroupInput) async throws -> DeleteEndpointGroupOutput
+    /// Performs the `DeleteListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Delete a listener from an accelerator.
     ///
     /// - Parameter DeleteListenerInput : [no documentation found]
@@ -292,6 +328,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func deleteListener(input: DeleteListenerInput) async throws -> DeleteListenerOutput
+    /// Performs the `DenyCustomRoutingTraffic` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
     /// - Parameter DenyCustomRoutingTrafficInput : [no documentation found]
@@ -305,6 +343,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func denyCustomRoutingTraffic(input: DenyCustomRoutingTrafficInput) async throws -> DenyCustomRoutingTrafficOutput
+    /// Performs the `DeprovisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
@@ -320,6 +360,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput
+    /// Performs the `DescribeAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an accelerator.
     ///
     /// - Parameter DescribeAcceleratorInput : [no documentation found]
@@ -333,6 +375,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeAccelerator(input: DescribeAcceleratorInput) async throws -> DescribeAcceleratorOutput
+    /// Performs the `DescribeAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe the attributes of an accelerator.
     ///
     /// - Parameter DescribeAcceleratorAttributesInput : [no documentation found]
@@ -346,6 +390,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeAcceleratorAttributes(input: DescribeAcceleratorAttributesInput) async throws -> DescribeAcceleratorAttributesOutput
+    /// Performs the `DescribeCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Gets configuration information about a cross-account attachment.
     ///
     /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
@@ -360,6 +406,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeCrossAccountAttachment(input: DescribeCrossAccountAttachmentInput) async throws -> DescribeCrossAccountAttachmentOutput
+    /// Performs the `DescribeCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
@@ -373,6 +421,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeCustomRoutingAccelerator(input: DescribeCustomRoutingAcceleratorInput) async throws -> DescribeCustomRoutingAcceleratorOutput
+    /// Performs the `DescribeCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe the attributes of a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingAcceleratorAttributesInput : [no documentation found]
@@ -386,6 +436,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeCustomRoutingAcceleratorAttributes(input: DescribeCustomRoutingAcceleratorAttributesInput) async throws -> DescribeCustomRoutingAcceleratorAttributesOutput
+    /// Performs the `DescribeCustomRoutingEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an endpoint group for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingEndpointGroupInput : [no documentation found]
@@ -399,6 +451,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeCustomRoutingEndpointGroup(input: DescribeCustomRoutingEndpointGroupInput) async throws -> DescribeCustomRoutingEndpointGroupOutput
+    /// Performs the `DescribeCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// The description of a listener for a custom routing accelerator.
     ///
     /// - Parameter DescribeCustomRoutingListenerInput : [no documentation found]
@@ -412,6 +466,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func describeCustomRoutingListener(input: DescribeCustomRoutingListenerInput) async throws -> DescribeCustomRoutingListenerOutput
+    /// Performs the `DescribeEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe an endpoint group.
     ///
     /// - Parameter DescribeEndpointGroupInput : [no documentation found]
@@ -425,6 +481,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func describeEndpointGroup(input: DescribeEndpointGroupInput) async throws -> DescribeEndpointGroupOutput
+    /// Performs the `DescribeListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Describe a listener.
     ///
     /// - Parameter DescribeListenerInput : [no documentation found]
@@ -438,6 +496,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func describeListener(input: DescribeListenerInput) async throws -> DescribeListenerOutput
+    /// Performs the `ListAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListAcceleratorsInput : [no documentation found]
@@ -451,6 +511,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listAccelerators(input: ListAcceleratorsInput) async throws -> ListAcceleratorsOutput
+    /// Performs the `ListByoipCidrs` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
     /// - Parameter ListByoipCidrsInput : [no documentation found]
@@ -465,6 +527,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listByoipCidrs(input: ListByoipCidrsInput) async throws -> ListByoipCidrsOutput
+    /// Performs the `ListCrossAccountAttachments` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the cross-account attachments that have been created in Global Accelerator.
     ///
     /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
@@ -479,6 +543,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCrossAccountAttachments(input: ListCrossAccountAttachmentsInput) async throws -> ListCrossAccountAttachmentsOutput
+    /// Performs the `ListCrossAccountResourceAccounts` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the accounts that have cross-account endpoints.
     ///
     /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
@@ -491,6 +557,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `AccessDeniedException` : You don't have access permission.
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     func listCrossAccountResourceAccounts(input: ListCrossAccountResourceAccountsInput) async throws -> ListCrossAccountResourceAccountsOutput
+    /// Performs the `ListCrossAccountResources` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the cross-account endpoints available to add to an accelerator.
     ///
     /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
@@ -506,6 +574,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCrossAccountResources(input: ListCrossAccountResourcesInput) async throws -> ListCrossAccountResourcesOutput
+    /// Performs the `ListCustomRoutingAccelerators` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
     /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
@@ -519,6 +589,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCustomRoutingAccelerators(input: ListCustomRoutingAcceleratorsInput) async throws -> ListCustomRoutingAcceleratorsOutput
+    /// Performs the `ListCustomRoutingEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingEndpointGroupsInput : [no documentation found]
@@ -533,6 +605,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func listCustomRoutingEndpointGroups(input: ListCustomRoutingEndpointGroupsInput) async throws -> ListCustomRoutingEndpointGroupsOutput
+    /// Performs the `ListCustomRoutingListeners` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the listeners for a custom routing accelerator.
     ///
     /// - Parameter ListCustomRoutingListenersInput : [no documentation found]
@@ -547,6 +621,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCustomRoutingListeners(input: ListCustomRoutingListenersInput) async throws -> ListCustomRoutingListenersOutput
+    /// Performs the `ListCustomRoutingPortMappings` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
     /// - Parameter ListCustomRoutingPortMappingsInput : [no documentation found]
@@ -562,6 +638,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCustomRoutingPortMappings(input: ListCustomRoutingPortMappingsInput) async throws -> ListCustomRoutingPortMappingsOutput
+    /// Performs the `ListCustomRoutingPortMappingsByDestination` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
     /// - Parameter ListCustomRoutingPortMappingsByDestinationInput : [no documentation found]
@@ -576,6 +654,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listCustomRoutingPortMappingsByDestination(input: ListCustomRoutingPortMappingsByDestinationInput) async throws -> ListCustomRoutingPortMappingsByDestinationOutput
+    /// Performs the `ListEndpointGroups` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the endpoint groups that are associated with a listener.
     ///
     /// - Parameter ListEndpointGroupsInput : [no documentation found]
@@ -590,6 +670,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidNextTokenException` : There isn't another item to return.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func listEndpointGroups(input: ListEndpointGroupsInput) async throws -> ListEndpointGroupsOutput
+    /// Performs the `ListListeners` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List the listeners for an accelerator.
     ///
     /// - Parameter ListListenersInput : [no documentation found]
@@ -604,6 +686,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `InvalidNextTokenException` : There isn't another item to return.
     func listListeners(input: ListListenersInput) async throws -> ListListenersOutput
+    /// Performs the `ListTagsForResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -617,6 +701,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ProvisionByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter ProvisionByoipCidrInput : [no documentation found]
@@ -632,6 +718,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput
+    /// Performs the `RemoveCustomRoutingEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove endpoints from a custom routing accelerator.
     ///
     /// - Parameter RemoveCustomRoutingEndpointsInput : [no documentation found]
@@ -648,6 +736,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func removeCustomRoutingEndpoints(input: RemoveCustomRoutingEndpointsInput) async throws -> RemoveCustomRoutingEndpointsOutput
+    /// Performs the `RemoveEndpoints` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove endpoints from an endpoint group. The RemoveEndpoints API operation is the recommended option for removing endpoints. The alternative is to remove endpoints by updating an endpoint group by using the [UpdateEndpointGroup](https://docs.aws.amazon.com/global-accelerator/latest/api/API_UpdateEndpointGroup.html) API operation. There are two advantages to using AddEndpoints to remove endpoints instead:
     ///
     /// * It's more convenient, because you only need to specify the endpoints that you want to remove. With the UpdateEndpointGroup API operation, you must specify all of the endpoints in the endpoint group except the ones that you want to remove from the group.
@@ -667,6 +757,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     func removeEndpoints(input: RemoveEndpointsInput) async throws -> RemoveEndpointsOutput
+    /// Performs the `TagResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -680,6 +772,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -693,6 +787,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update an accelerator to make changes, such as the following:
     ///
     /// * Change the name of the accelerator.
@@ -718,6 +814,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func updateAccelerator(input: UpdateAcceleratorInput) async throws -> UpdateAcceleratorOutput
+    /// Performs the `UpdateAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update the attributes for an accelerator.
     ///
     /// - Parameter UpdateAcceleratorAttributesInput : [no documentation found]
@@ -732,6 +830,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func updateAcceleratorAttributes(input: UpdateAcceleratorAttributesInput) async throws -> UpdateAcceleratorAttributesOutput
+    /// Performs the `UpdateCrossAccountAttachment` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources by doing the following:
     ///
     /// * If the principal is an account ID, Global Accelerator reviews every accelerator in the account and removes cross-account endpoints from all accelerators.
@@ -755,6 +855,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `TransactionInProgressException` : There's already a transaction in progress. Another transaction can't be processed.
     func updateCrossAccountAttachment(input: UpdateCrossAccountAttachmentInput) async throws -> UpdateCrossAccountAttachmentOutput
+    /// Performs the `UpdateCustomRoutingAccelerator` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]
@@ -768,6 +870,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func updateCustomRoutingAccelerator(input: UpdateCustomRoutingAcceleratorInput) async throws -> UpdateCustomRoutingAcceleratorOutput
+    /// Performs the `UpdateCustomRoutingAcceleratorAttributes` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update the attributes for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingAcceleratorAttributesInput : [no documentation found]
@@ -782,6 +886,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InternalServiceErrorException` : There was an internal error for Global Accelerator.
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     func updateCustomRoutingAcceleratorAttributes(input: UpdateCustomRoutingAcceleratorAttributesInput) async throws -> UpdateCustomRoutingAcceleratorAttributesOutput
+    /// Performs the `UpdateCustomRoutingListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a listener for a custom routing accelerator.
     ///
     /// - Parameter UpdateCustomRoutingListenerInput : [no documentation found]
@@ -797,6 +903,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func updateCustomRoutingListener(input: UpdateCustomRoutingListenerInput) async throws -> UpdateCustomRoutingListenerOutput
+    /// Performs the `UpdateEndpointGroup` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
     /// - Parameter UpdateEndpointGroupInput : [no documentation found]
@@ -812,6 +920,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `InvalidArgumentException` : An argument that you specified is invalid.
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     func updateEndpointGroup(input: UpdateEndpointGroupInput) async throws -> UpdateEndpointGroupOutput
+    /// Performs the `UpdateListener` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Update a listener.
     ///
     /// - Parameter UpdateListenerInput : [no documentation found]
@@ -827,6 +937,8 @@ public protocol GlobalAcceleratorClientProtocol {
     /// - `LimitExceededException` : Processing your request would cause you to exceed an Global Accelerator limit.
     /// - `ListenerNotFoundException` : The listener that you specified doesn't exist.
     func updateListener(input: UpdateListenerInput) async throws -> UpdateListenerOutput
+    /// Performs the `WithdrawByoipCidr` operation on the `GlobalAccelerator_V20180706` service.
+    ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
     /// - Parameter WithdrawByoipCidrInput : [no documentation found]

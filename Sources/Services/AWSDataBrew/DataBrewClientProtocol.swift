@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Glue DataBrew is a visual, cloud-scale data-preparation service. DataBrew simplifies data preparation tasks, targeting data issues that are hard to spot and time-consuming to fix. DataBrew empowers users of all technical levels to visualize the data and perform one-click data transformations, with no coding required.
 public protocol DataBrewClientProtocol {
+    /// Performs the `BatchDeleteRecipeVersion` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
     ///
     /// * The recipe does not exist.
@@ -41,6 +43,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func batchDeleteRecipeVersion(input: BatchDeleteRecipeVersionInput) async throws -> BatchDeleteRecipeVersionOutput
+    /// Performs the `CreateDataset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new DataBrew dataset.
     ///
     /// - Parameter CreateDatasetInput : [no documentation found]
@@ -55,6 +59,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutput
+    /// Performs the `CreateProfileJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new job to analyze a dataset and create its data profile.
     ///
     /// - Parameter CreateProfileJobInput : [no documentation found]
@@ -70,6 +76,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createProfileJob(input: CreateProfileJobInput) async throws -> CreateProfileJobOutput
+    /// Performs the `CreateProject` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new DataBrew project.
     ///
     /// - Parameter CreateProjectInput : [no documentation found]
@@ -84,6 +92,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput
+    /// Performs the `CreateRecipe` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new DataBrew recipe.
     ///
     /// - Parameter CreateRecipeInput : [no documentation found]
@@ -97,6 +107,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createRecipe(input: CreateRecipeInput) async throws -> CreateRecipeOutput
+    /// Performs the `CreateRecipeJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
     ///
     /// - Parameter CreateRecipeJobInput : [no documentation found]
@@ -112,6 +124,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createRecipeJob(input: CreateRecipeJobInput) async throws -> CreateRecipeJobOutput
+    /// Performs the `CreateRuleset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new ruleset that can be used in a profile job to validate the data quality of a dataset.
     ///
     /// - Parameter CreateRulesetInput : [no documentation found]
@@ -125,6 +139,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createRuleset(input: CreateRulesetInput) async throws -> CreateRulesetOutput
+    /// Performs the `CreateSchedule` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     ///
     /// - Parameter CreateScheduleInput : [no documentation found]
@@ -138,6 +154,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func createSchedule(input: CreateScheduleInput) async throws -> CreateScheduleOutput
+    /// Performs the `DeleteDataset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes a dataset from DataBrew.
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
@@ -151,6 +169,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutput
+    /// Performs the `DeleteJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes the specified DataBrew job.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
@@ -164,6 +184,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+    /// Performs the `DeleteProject` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes an existing DataBrew project.
     ///
     /// - Parameter DeleteProjectInput : [no documentation found]
@@ -177,6 +199,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput
+    /// Performs the `DeleteRecipeVersion` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes a single version of a DataBrew recipe.
     ///
     /// - Parameter DeleteRecipeVersionInput : [no documentation found]
@@ -190,6 +214,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteRecipeVersion(input: DeleteRecipeVersionInput) async throws -> DeleteRecipeVersionOutput
+    /// Performs the `DeleteRuleset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes a ruleset.
     ///
     /// - Parameter DeleteRulesetInput : [no documentation found]
@@ -203,6 +229,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteRuleset(input: DeleteRulesetInput) async throws -> DeleteRulesetOutput
+    /// Performs the `DeleteSchedule` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Deletes the specified DataBrew schedule.
     ///
     /// - Parameter DeleteScheduleInput : [no documentation found]
@@ -215,6 +243,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput
+    /// Performs the `DescribeDataset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Returns the definition of a specific DataBrew dataset.
     ///
     /// - Parameter DescribeDatasetInput : [no documentation found]
@@ -227,6 +257,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeDataset(input: DescribeDatasetInput) async throws -> DescribeDatasetOutput
+    /// Performs the `DescribeJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Returns the definition of a specific DataBrew job.
     ///
     /// - Parameter DescribeJobInput : [no documentation found]
@@ -239,6 +271,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput
+    /// Performs the `DescribeJobRun` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Represents one run of a DataBrew job.
     ///
     /// - Parameter DescribeJobRunInput : [no documentation found]
@@ -251,6 +285,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeJobRun(input: DescribeJobRunInput) async throws -> DescribeJobRunOutput
+    /// Performs the `DescribeProject` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Returns the definition of a specific DataBrew project.
     ///
     /// - Parameter DescribeProjectInput : [no documentation found]
@@ -263,6 +299,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput
+    /// Performs the `DescribeRecipe` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
     ///
     /// - Parameter DescribeRecipeInput : [no documentation found]
@@ -275,6 +313,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeRecipe(input: DescribeRecipeInput) async throws -> DescribeRecipeOutput
+    /// Performs the `DescribeRuleset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Retrieves detailed information about the ruleset.
     ///
     /// - Parameter DescribeRulesetInput : [no documentation found]
@@ -287,6 +327,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeRuleset(input: DescribeRulesetInput) async throws -> DescribeRulesetOutput
+    /// Performs the `DescribeSchedule` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Returns the definition of a specific DataBrew schedule.
     ///
     /// - Parameter DescribeScheduleInput : [no documentation found]
@@ -299,6 +341,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func describeSchedule(input: DescribeScheduleInput) async throws -> DescribeScheduleOutput
+    /// Performs the `ListDatasets` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all of the DataBrew datasets.
     ///
     /// - Parameter ListDatasetsInput : [no documentation found]
@@ -310,6 +354,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutput
+    /// Performs the `ListJobRuns` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all of the previous runs of a particular DataBrew job.
     ///
     /// - Parameter ListJobRunsInput : [no documentation found]
@@ -322,6 +368,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutput
+    /// Performs the `ListJobs` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all of the DataBrew jobs that are defined.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
@@ -333,6 +381,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutput
+    /// Performs the `ListProjects` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all of the DataBrew projects that are defined.
     ///
     /// - Parameter ListProjectsInput : [no documentation found]
@@ -344,6 +394,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput
+    /// Performs the `ListRecipes` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all of the DataBrew recipes that are defined.
     ///
     /// - Parameter ListRecipesInput : [no documentation found]
@@ -355,6 +407,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listRecipes(input: ListRecipesInput) async throws -> ListRecipesOutput
+    /// Performs the `ListRecipeVersions` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
     /// - Parameter ListRecipeVersionsInput : [no documentation found]
@@ -366,6 +420,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listRecipeVersions(input: ListRecipeVersionsInput) async throws -> ListRecipeVersionsOutput
+    /// Performs the `ListRulesets` operation on the `AWSGlueDataBrew` service.
+    ///
     /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
     ///
     /// - Parameter ListRulesetsInput : [no documentation found]
@@ -378,6 +434,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listRulesets(input: ListRulesetsInput) async throws -> ListRulesetsOutput
+    /// Performs the `ListSchedules` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists the DataBrew schedules that are defined.
     ///
     /// - Parameter ListSchedulesInput : [no documentation found]
@@ -389,6 +447,8 @@ public protocol DataBrewClientProtocol {
     /// __Possible Exceptions:__
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listSchedules(input: ListSchedulesInput) async throws -> ListSchedulesOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Lists all the tags for a DataBrew resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -402,6 +462,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `PublishRecipe` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Publishes a new version of a DataBrew recipe.
     ///
     /// - Parameter PublishRecipeInput : [no documentation found]
@@ -415,6 +477,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func publishRecipe(input: PublishRecipeInput) async throws -> PublishRecipeOutput
+    /// Performs the `SendProjectSessionAction` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
     ///
     /// - Parameter SendProjectSessionActionInput : [no documentation found]
@@ -428,6 +492,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func sendProjectSessionAction(input: SendProjectSessionActionInput) async throws -> SendProjectSessionActionOutput
+    /// Performs the `StartJobRun` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Runs a DataBrew job.
     ///
     /// - Parameter StartJobRunInput : [no documentation found]
@@ -442,6 +508,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutput
+    /// Performs the `StartProjectSession` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
     ///
     /// - Parameter StartProjectSessionInput : [no documentation found]
@@ -456,6 +524,8 @@ public protocol DataBrewClientProtocol {
     /// - `ServiceQuotaExceededException` : A service quota is exceeded.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func startProjectSession(input: StartProjectSessionInput) async throws -> StartProjectSessionOutput
+    /// Performs the `StopJobRun` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Stops a particular run of a job.
     ///
     /// - Parameter StopJobRunInput : [no documentation found]
@@ -468,6 +538,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func stopJobRun(input: StopJobRunInput) async throws -> StopJobRunOutput
+    /// Performs the `TagResource` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -481,6 +553,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Removes metadata tags from a DataBrew resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -494,6 +568,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateDataset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of an existing DataBrew dataset.
     ///
     /// - Parameter UpdateDatasetInput : [no documentation found]
@@ -507,6 +583,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutput
+    /// Performs the `UpdateProfileJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of an existing profile job.
     ///
     /// - Parameter UpdateProfileJobInput : [no documentation found]
@@ -520,6 +598,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateProfileJob(input: UpdateProfileJobInput) async throws -> UpdateProfileJobOutput
+    /// Performs the `UpdateProject` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of an existing DataBrew project.
     ///
     /// - Parameter UpdateProjectInput : [no documentation found]
@@ -532,6 +612,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
+    /// Performs the `UpdateRecipe` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
     ///
     /// - Parameter UpdateRecipeInput : [no documentation found]
@@ -544,6 +626,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateRecipe(input: UpdateRecipeInput) async throws -> UpdateRecipeOutput
+    /// Performs the `UpdateRecipeJob` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of an existing DataBrew recipe job.
     ///
     /// - Parameter UpdateRecipeJobInput : [no documentation found]
@@ -557,6 +641,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateRecipeJob(input: UpdateRecipeJobInput) async throws -> UpdateRecipeJobOutput
+    /// Performs the `UpdateRuleset` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Updates specified ruleset.
     ///
     /// - Parameter UpdateRulesetInput : [no documentation found]
@@ -569,6 +655,8 @@ public protocol DataBrewClientProtocol {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ValidationException` : The input parameters for this request failed validation.
     func updateRuleset(input: UpdateRulesetInput) async throws -> UpdateRulesetOutput
+    /// Performs the `UpdateSchedule` operation on the `AWSGlueDataBrew` service.
+    ///
     /// Modifies the definition of an existing DataBrew schedule.
     ///
     /// - Parameter UpdateScheduleInput : [no documentation found]

@@ -12,7 +12,7 @@ extension NetworkFirewallClient {
     ///     - input: A `[ListFirewallPoliciesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallPoliciesOutput`
     public func listFirewallPoliciesPaginated(input: ListFirewallPoliciesInput) -> ClientRuntime.PaginatorSequence<ListFirewallPoliciesInput, ListFirewallPoliciesOutput> {
-        return ClientRuntime.PaginatorSequence<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(input: input, inputKey: \ListFirewallPoliciesInput.nextToken, outputKey: \ListFirewallPoliciesOutput.nextToken, paginationFunction: self.listFirewallPolicies(input:))
+        return ClientRuntime.PaginatorSequence<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewallPolicies(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListFirewallPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallPoliciesInput, Output == ListFirewallPoliciesOutput {
+extension PaginatorSequence where OperationStackInput == ListFirewallPoliciesInput, OperationStackOutput == ListFirewallPoliciesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallPoliciesPaginated`
     /// to access the nested member `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
     /// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
@@ -42,7 +42,7 @@ extension NetworkFirewallClient {
     ///     - input: A `[ListFirewallsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallsOutput`
     public func listFirewallsPaginated(input: ListFirewallsInput) -> ClientRuntime.PaginatorSequence<ListFirewallsInput, ListFirewallsOutput> {
-        return ClientRuntime.PaginatorSequence<ListFirewallsInput, ListFirewallsOutput>(input: input, inputKey: \ListFirewallsInput.nextToken, outputKey: \ListFirewallsOutput.nextToken, paginationFunction: self.listFirewalls(input:))
+        return ClientRuntime.PaginatorSequence<ListFirewallsInput, ListFirewallsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewalls(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListFirewallsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListFirewallsInput, Output == ListFirewallsOutput {
+extension PaginatorSequence where OperationStackInput == ListFirewallsInput, OperationStackOutput == ListFirewallsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listFirewallsPaginated`
     /// to access the nested member `[NetworkFirewallClientTypes.FirewallMetadata]`
     /// - Returns: `[NetworkFirewallClientTypes.FirewallMetadata]`
@@ -73,7 +73,7 @@ extension NetworkFirewallClient {
     ///     - input: A `[ListRuleGroupsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRuleGroupsOutput`
     public func listRuleGroupsPaginated(input: ListRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListRuleGroupsInput, ListRuleGroupsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRuleGroupsInput, ListRuleGroupsOutput>(input: input, inputKey: \ListRuleGroupsInput.nextToken, outputKey: \ListRuleGroupsOutput.nextToken, paginationFunction: self.listRuleGroups(input:))
+        return ClientRuntime.PaginatorSequence<ListRuleGroupsInput, ListRuleGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRuleGroups(input:))
     }
 }
 
@@ -88,7 +88,7 @@ extension ListRuleGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRuleGroupsInput, Output == ListRuleGroupsOutput {
+extension PaginatorSequence where OperationStackInput == ListRuleGroupsInput, OperationStackOutput == ListRuleGroupsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRuleGroupsPaginated`
     /// to access the nested member `[NetworkFirewallClientTypes.RuleGroupMetadata]`
     /// - Returns: `[NetworkFirewallClientTypes.RuleGroupMetadata]`
@@ -106,7 +106,7 @@ extension NetworkFirewallClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -119,7 +119,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[NetworkFirewallClientTypes.Tag]`
     /// - Returns: `[NetworkFirewallClientTypes.Tag]`
@@ -137,7 +137,7 @@ extension NetworkFirewallClient {
     ///     - input: A `[ListTLSInspectionConfigurationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTLSInspectionConfigurationsOutput`
     public func listTLSInspectionConfigurationsPaginated(input: ListTLSInspectionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(input: input, inputKey: \ListTLSInspectionConfigurationsInput.nextToken, outputKey: \ListTLSInspectionConfigurationsOutput.nextToken, paginationFunction: self.listTLSInspectionConfigurations(input:))
+        return ClientRuntime.PaginatorSequence<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTLSInspectionConfigurations(input:))
     }
 }
 
@@ -149,7 +149,7 @@ extension ListTLSInspectionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTLSInspectionConfigurationsInput, Output == ListTLSInspectionConfigurationsOutput {
+extension PaginatorSequence where OperationStackInput == ListTLSInspectionConfigurationsInput, OperationStackOutput == ListTLSInspectionConfigurationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTLSInspectionConfigurationsPaginated`
     /// to access the nested member `[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]`
     /// - Returns: `[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]`

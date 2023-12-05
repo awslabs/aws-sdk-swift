@@ -1761,7 +1761,7 @@ extension DescribeExecutionInputBody: Swift.Decodable {
 
 extension DescribeExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeExecutionOutput(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), startDate: \(Swift.String(describing: startDate)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
+        "DescribeExecutionOutput(executionArn: \(Swift.String(describing: executionArn)), inputDetails: \(Swift.String(describing: inputDetails)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), redriveCount: \(Swift.String(describing: redriveCount)), redriveDate: \(Swift.String(describing: redriveDate)), redriveStatus: \(Swift.String(describing: redriveStatus)), startDate: \(Swift.String(describing: startDate)), stateMachineAliasArn: \(Swift.String(describing: stateMachineAliasArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), stateMachineVersionArn: \(Swift.String(describing: stateMachineVersionArn)), status: \(Swift.String(describing: status)), stopDate: \(Swift.String(describing: stopDate)), traceHeader: \(Swift.String(describing: traceHeader)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\", redriveStatusReason: \"CONTENT_REDACTED\")"}
 }
 
 extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
@@ -1778,6 +1778,10 @@ extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.output = output.output
             self.outputDetails = output.outputDetails
+            self.redriveCount = output.redriveCount
+            self.redriveDate = output.redriveDate
+            self.redriveStatus = output.redriveStatus
+            self.redriveStatusReason = output.redriveStatusReason
             self.startDate = output.startDate
             self.stateMachineAliasArn = output.stateMachineAliasArn
             self.stateMachineArn = output.stateMachineArn
@@ -1795,6 +1799,10 @@ extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.name = nil
             self.output = nil
             self.outputDetails = nil
+            self.redriveCount = nil
+            self.redriveDate = nil
+            self.redriveStatus = nil
+            self.redriveStatusReason = nil
             self.startDate = nil
             self.stateMachineAliasArn = nil
             self.stateMachineArn = nil
@@ -1839,6 +1847,41 @@ public struct DescribeExecutionOutput: Swift.Equatable {
     public var output: Swift.String?
     /// Provides details about execution input or output.
     public var outputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails?
+    /// The number of times you've redriven an execution. If you have not yet redriven an execution, the redriveCount is 0. This count is only updated if you successfully redrive an execution.
+    public var redriveCount: Swift.Int?
+    /// The date the execution was last redriven. If you have not yet redriven an execution, the redriveDate is null. The redriveDate is unavailable if you redrive a Map Run that starts child workflow executions of type EXPRESS.
+    public var redriveDate: ClientRuntime.Date?
+    /// Indicates whether or not an execution can be redriven at a given point in time.
+    ///
+    /// * For executions of type STANDARD, redriveStatus is NOT_REDRIVABLE if calling the [RedriveExecution] API action would return the ExecutionNotRedrivable error.
+    ///
+    /// * For a Distributed Map that includes child workflows of type STANDARD, redriveStatus indicates whether or not the Map Run can redrive child workflow executions.
+    ///
+    /// * For a Distributed Map that includes child workflows of type EXPRESS, redriveStatus indicates whether or not the Map Run can redrive child workflow executions. You can redrive failed or timed out EXPRESS workflows only if they're a part of a Map Run. When you [redrive](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html) the Map Run, these workflows are restarted using the [StartExecution] API action.
+    public var redriveStatus: SFNClientTypes.ExecutionRedriveStatus?
+    /// When redriveStatus is NOT_REDRIVABLE, redriveStatusReason specifies the reason why an execution cannot be redriven.
+    ///
+    /// * For executions of type STANDARD, or for a Distributed Map that includes child workflows of type STANDARD, redriveStatusReason can include one of the following reasons:
+    ///
+    /// * State machine is in DELETING status.
+    ///
+    /// * Execution is RUNNING and cannot be redriven.
+    ///
+    /// * Execution is SUCCEEDED and cannot be redriven.
+    ///
+    /// * Execution was started before the launch of RedriveExecution.
+    ///
+    /// * Execution history event limit exceeded.
+    ///
+    /// * Execution has exceeded the max execution time.
+    ///
+    /// * Execution redrivable period exceeded.
+    ///
+    ///
+    ///
+    ///
+    /// * For a Distributed Map that includes child workflows of type EXPRESS, redriveStatusReason is only returned if the child workflows are not redrivable. This happens when the child workflow executions have completed successfully.
+    public var redriveStatusReason: Swift.String?
     /// The date the execution is started.
     /// This member is required.
     public var startDate: ClientRuntime.Date?
@@ -1867,6 +1910,10 @@ public struct DescribeExecutionOutput: Swift.Equatable {
         name: Swift.String? = nil,
         output: Swift.String? = nil,
         outputDetails: SFNClientTypes.CloudWatchEventsExecutionDataDetails? = nil,
+        redriveCount: Swift.Int? = nil,
+        redriveDate: ClientRuntime.Date? = nil,
+        redriveStatus: SFNClientTypes.ExecutionRedriveStatus? = nil,
+        redriveStatusReason: Swift.String? = nil,
         startDate: ClientRuntime.Date? = nil,
         stateMachineAliasArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
@@ -1885,6 +1932,10 @@ public struct DescribeExecutionOutput: Swift.Equatable {
         self.name = name
         self.output = output
         self.outputDetails = outputDetails
+        self.redriveCount = redriveCount
+        self.redriveDate = redriveDate
+        self.redriveStatus = redriveStatus
+        self.redriveStatusReason = redriveStatusReason
         self.startDate = startDate
         self.stateMachineAliasArn = stateMachineAliasArn
         self.stateMachineArn = stateMachineArn
@@ -1912,6 +1963,10 @@ struct DescribeExecutionOutputBody: Swift.Equatable {
     let cause: Swift.String?
     let stateMachineVersionArn: Swift.String?
     let stateMachineAliasArn: Swift.String?
+    let redriveCount: Swift.Int?
+    let redriveDate: ClientRuntime.Date?
+    let redriveStatus: SFNClientTypes.ExecutionRedriveStatus?
+    let redriveStatusReason: Swift.String?
 }
 
 extension DescribeExecutionOutputBody: Swift.Decodable {
@@ -1925,6 +1980,10 @@ extension DescribeExecutionOutputBody: Swift.Decodable {
         case name
         case output
         case outputDetails
+        case redriveCount
+        case redriveDate
+        case redriveStatus
+        case redriveStatusReason
         case startDate
         case stateMachineAliasArn
         case stateMachineArn
@@ -1968,6 +2027,14 @@ extension DescribeExecutionOutputBody: Swift.Decodable {
         stateMachineVersionArn = stateMachineVersionArnDecoded
         let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
         stateMachineAliasArn = stateMachineAliasArnDecoded
+        let redriveCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redriveCount)
+        redriveCount = redriveCountDecoded
+        let redriveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .redriveDate)
+        redriveDate = redriveDateDecoded
+        let redriveStatusDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ExecutionRedriveStatus.self, forKey: .redriveStatus)
+        redriveStatus = redriveStatusDecoded
+        let redriveStatusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redriveStatusReason)
+        redriveStatusReason = redriveStatusReasonDecoded
     }
 }
 
@@ -2041,6 +2108,8 @@ extension DescribeMapRunOutput: ClientRuntime.HttpResponseBinding {
             self.itemCounts = output.itemCounts
             self.mapRunArn = output.mapRunArn
             self.maxConcurrency = output.maxConcurrency
+            self.redriveCount = output.redriveCount
+            self.redriveDate = output.redriveDate
             self.startDate = output.startDate
             self.status = output.status
             self.stopDate = output.stopDate
@@ -2052,6 +2121,8 @@ extension DescribeMapRunOutput: ClientRuntime.HttpResponseBinding {
             self.itemCounts = nil
             self.mapRunArn = nil
             self.maxConcurrency = 0
+            self.redriveCount = nil
+            self.redriveDate = nil
             self.startDate = nil
             self.status = nil
             self.stopDate = nil
@@ -2077,6 +2148,10 @@ public struct DescribeMapRunOutput: Swift.Equatable {
     /// The maximum number of child workflow executions configured to run in parallel for the Map Run at the same time.
     /// This member is required.
     public var maxConcurrency: Swift.Int
+    /// The number of times you've redriven a Map Run. If you have not yet redriven a Map Run, the redriveCount is 0. This count is only updated if you successfully redrive a Map Run.
+    public var redriveCount: Swift.Int?
+    /// The date a Map Run was last redriven. If you have not yet redriven a Map Run, the redriveDate is null.
+    public var redriveDate: ClientRuntime.Date?
     /// The date when the Map Run was started.
     /// This member is required.
     public var startDate: ClientRuntime.Date?
@@ -2098,6 +2173,8 @@ public struct DescribeMapRunOutput: Swift.Equatable {
         itemCounts: SFNClientTypes.MapRunItemCounts? = nil,
         mapRunArn: Swift.String? = nil,
         maxConcurrency: Swift.Int = 0,
+        redriveCount: Swift.Int? = nil,
+        redriveDate: ClientRuntime.Date? = nil,
         startDate: ClientRuntime.Date? = nil,
         status: SFNClientTypes.MapRunStatus? = nil,
         stopDate: ClientRuntime.Date? = nil,
@@ -2110,6 +2187,8 @@ public struct DescribeMapRunOutput: Swift.Equatable {
         self.itemCounts = itemCounts
         self.mapRunArn = mapRunArn
         self.maxConcurrency = maxConcurrency
+        self.redriveCount = redriveCount
+        self.redriveDate = redriveDate
         self.startDate = startDate
         self.status = status
         self.stopDate = stopDate
@@ -2129,6 +2208,8 @@ struct DescribeMapRunOutputBody: Swift.Equatable {
     let toleratedFailureCount: Swift.Int
     let itemCounts: SFNClientTypes.MapRunItemCounts?
     let executionCounts: SFNClientTypes.MapRunExecutionCounts?
+    let redriveCount: Swift.Int?
+    let redriveDate: ClientRuntime.Date?
 }
 
 extension DescribeMapRunOutputBody: Swift.Decodable {
@@ -2138,6 +2219,8 @@ extension DescribeMapRunOutputBody: Swift.Decodable {
         case itemCounts
         case mapRunArn
         case maxConcurrency
+        case redriveCount
+        case redriveDate
         case startDate
         case status
         case stopDate
@@ -2167,6 +2250,10 @@ extension DescribeMapRunOutputBody: Swift.Decodable {
         itemCounts = itemCountsDecoded
         let executionCountsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunExecutionCounts.self, forKey: .executionCounts)
         executionCounts = executionCountsDecoded
+        let redriveCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redriveCount)
+        redriveCount = redriveCountDecoded
+        let redriveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .redriveDate)
+        redriveDate = redriveDateDecoded
     }
 }
 
@@ -3052,6 +3139,8 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         case itemCount
         case mapRunArn
         case name
+        case redriveCount
+        case redriveDate
         case startDate
         case stateMachineAliasArn
         case stateMachineArn
@@ -3073,6 +3162,12 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let redriveCount = self.redriveCount {
+            try encodeContainer.encode(redriveCount, forKey: .redriveCount)
+        }
+        if let redriveDate = self.redriveDate {
+            try encodeContainer.encodeTimestamp(redriveDate, format: .epochSeconds, forKey: .redriveDate)
         }
         if let startDate = self.startDate {
             try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
@@ -3116,6 +3211,10 @@ extension SFNClientTypes.ExecutionListItem: Swift.Codable {
         stateMachineVersionArn = stateMachineVersionArnDecoded
         let stateMachineAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stateMachineAliasArn)
         stateMachineAliasArn = stateMachineAliasArnDecoded
+        let redriveCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redriveCount)
+        redriveCount = redriveCountDecoded
+        let redriveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .redriveDate)
+        redriveDate = redriveDateDecoded
     }
 }
 
@@ -3145,6 +3244,10 @@ extension SFNClientTypes {
         /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
         /// This member is required.
         public var name: Swift.String?
+        /// The number of times you've redriven an execution. If you have not yet redriven an execution, the redriveCount is 0. This count is only updated when you successfully redrive an execution.
+        public var redriveCount: Swift.Int?
+        /// The date the execution was last redriven.
+        public var redriveDate: ClientRuntime.Date?
         /// The date the execution started.
         /// This member is required.
         public var startDate: ClientRuntime.Date?
@@ -3166,6 +3269,8 @@ extension SFNClientTypes {
             itemCount: Swift.Int? = nil,
             mapRunArn: Swift.String? = nil,
             name: Swift.String? = nil,
+            redriveCount: Swift.Int? = nil,
+            redriveDate: ClientRuntime.Date? = nil,
             startDate: ClientRuntime.Date? = nil,
             stateMachineAliasArn: Swift.String? = nil,
             stateMachineArn: Swift.String? = nil,
@@ -3178,12 +3283,171 @@ extension SFNClientTypes {
             self.itemCount = itemCount
             self.mapRunArn = mapRunArn
             self.name = name
+            self.redriveCount = redriveCount
+            self.redriveDate = redriveDate
             self.startDate = startDate
             self.stateMachineAliasArn = stateMachineAliasArn
             self.stateMachineArn = stateMachineArn
             self.stateMachineVersionArn = stateMachineVersionArn
             self.status = status
             self.stopDate = stopDate
+        }
+    }
+
+}
+
+extension ExecutionNotRedrivable {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExecutionNotRedrivableBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The execution Amazon Resource Name (ARN) that you specified for executionArn cannot be redriven.
+public struct ExecutionNotRedrivable: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExecutionNotRedrivable" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ExecutionNotRedrivableBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ExecutionNotRedrivableBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension SFNClientTypes {
+    public enum ExecutionRedriveFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notRedriven
+        case redriven
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionRedriveFilter] {
+            return [
+                .notRedriven,
+                .redriven,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRedriven: return "NOT_REDRIVEN"
+            case .redriven: return "REDRIVEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutionRedriveFilter(rawValue: rawValue) ?? ExecutionRedriveFilter.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SFNClientTypes {
+    public enum ExecutionRedriveStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notRedrivable
+        case redrivable
+        case redrivableByMapRun
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionRedriveStatus] {
+            return [
+                .notRedrivable,
+                .redrivable,
+                .redrivableByMapRun,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRedrivable: return "NOT_REDRIVABLE"
+            case .redrivable: return "REDRIVABLE"
+            case .redrivableByMapRun: return "REDRIVABLE_BY_MAP_RUN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutionRedriveStatus(rawValue: rawValue) ?? ExecutionRedriveStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SFNClientTypes.ExecutionRedrivenEventDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redriveCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let redriveCount = self.redriveCount {
+            try encodeContainer.encode(redriveCount, forKey: .redriveCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redriveCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redriveCount)
+        redriveCount = redriveCountDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a redriven execution.
+    public struct ExecutionRedrivenEventDetails: Swift.Equatable {
+        /// The number of times you've redriven an execution. If you have not yet redriven an execution, the redriveCount is 0. This count is not updated for redrives that failed to start or are pending to be redriven.
+        public var redriveCount: Swift.Int?
+
+        public init(
+            redriveCount: Swift.Int? = nil
+        )
+        {
+            self.redriveCount = redriveCount
         }
     }
 
@@ -3273,6 +3537,7 @@ extension SFNClientTypes {
     public enum ExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aborted
         case failed
+        case pendingRedrive
         case running
         case succeeded
         case timedOut
@@ -3282,6 +3547,7 @@ extension SFNClientTypes {
             return [
                 .aborted,
                 .failed,
+                .pendingRedrive,
                 .running,
                 .succeeded,
                 .timedOut,
@@ -3296,6 +3562,7 @@ extension SFNClientTypes {
             switch self {
             case .aborted: return "ABORTED"
             case .failed: return "FAILED"
+            case .pendingRedrive: return "PENDING_REDRIVE"
             case .running: return "RUNNING"
             case .succeeded: return "SUCCEEDED"
             case .timedOut: return "TIMED_OUT"
@@ -3717,6 +3984,7 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         case activityTimedOutEventDetails
         case executionAbortedEventDetails
         case executionFailedEventDetails
+        case executionRedrivenEventDetails
         case executionStartedEventDetails
         case executionSucceededEventDetails
         case executionTimedOutEventDetails
@@ -3732,6 +4000,7 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         case mapIterationStartedEventDetails
         case mapIterationSucceededEventDetails
         case mapRunFailedEventDetails
+        case mapRunRedrivenEventDetails
         case mapRunStartedEventDetails
         case mapStateStartedEventDetails
         case previousEventId
@@ -3774,6 +4043,9 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         }
         if let executionFailedEventDetails = self.executionFailedEventDetails {
             try encodeContainer.encode(executionFailedEventDetails, forKey: .executionFailedEventDetails)
+        }
+        if let executionRedrivenEventDetails = self.executionRedrivenEventDetails {
+            try encodeContainer.encode(executionRedrivenEventDetails, forKey: .executionRedrivenEventDetails)
         }
         if let executionStartedEventDetails = self.executionStartedEventDetails {
             try encodeContainer.encode(executionStartedEventDetails, forKey: .executionStartedEventDetails)
@@ -3819,6 +4091,9 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         }
         if let mapRunFailedEventDetails = self.mapRunFailedEventDetails {
             try encodeContainer.encode(mapRunFailedEventDetails, forKey: .mapRunFailedEventDetails)
+        }
+        if let mapRunRedrivenEventDetails = self.mapRunRedrivenEventDetails {
+            try encodeContainer.encode(mapRunRedrivenEventDetails, forKey: .mapRunRedrivenEventDetails)
         }
         if let mapRunStartedEventDetails = self.mapRunStartedEventDetails {
             try encodeContainer.encode(mapRunStartedEventDetails, forKey: .mapRunStartedEventDetails)
@@ -3915,6 +4190,8 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         executionAbortedEventDetails = executionAbortedEventDetailsDecoded
         let executionTimedOutEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ExecutionTimedOutEventDetails.self, forKey: .executionTimedOutEventDetails)
         executionTimedOutEventDetails = executionTimedOutEventDetailsDecoded
+        let executionRedrivenEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ExecutionRedrivenEventDetails.self, forKey: .executionRedrivenEventDetails)
+        executionRedrivenEventDetails = executionRedrivenEventDetailsDecoded
         let mapStateStartedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapStateStartedEventDetails.self, forKey: .mapStateStartedEventDetails)
         mapStateStartedEventDetails = mapStateStartedEventDetailsDecoded
         let mapIterationStartedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapIterationEventDetails.self, forKey: .mapIterationStartedEventDetails)
@@ -3945,6 +4222,8 @@ extension SFNClientTypes.HistoryEvent: Swift.Codable {
         mapRunStartedEventDetails = mapRunStartedEventDetailsDecoded
         let mapRunFailedEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunFailedEventDetails.self, forKey: .mapRunFailedEventDetails)
         mapRunFailedEventDetails = mapRunFailedEventDetailsDecoded
+        let mapRunRedrivenEventDetailsDecoded = try containerValues.decodeIfPresent(SFNClientTypes.MapRunRedrivenEventDetails.self, forKey: .mapRunRedrivenEventDetails)
+        mapRunRedrivenEventDetails = mapRunRedrivenEventDetailsDecoded
     }
 }
 
@@ -3967,6 +4246,8 @@ extension SFNClientTypes {
         public var executionAbortedEventDetails: SFNClientTypes.ExecutionAbortedEventDetails?
         /// Contains details about an execution failure event.
         public var executionFailedEventDetails: SFNClientTypes.ExecutionFailedEventDetails?
+        /// Contains details about the redrive attempt of an execution.
+        public var executionRedrivenEventDetails: SFNClientTypes.ExecutionRedrivenEventDetails?
         /// Contains details about the start of the execution.
         public var executionStartedEventDetails: SFNClientTypes.ExecutionStartedEventDetails?
         /// Contains details about the successful termination of the execution.
@@ -3998,6 +4279,8 @@ extension SFNClientTypes {
         public var mapIterationSucceededEventDetails: SFNClientTypes.MapIterationEventDetails?
         /// Contains error and cause details about a Map Run that failed.
         public var mapRunFailedEventDetails: SFNClientTypes.MapRunFailedEventDetails?
+        /// Contains details about the redrive attempt of a Map Run.
+        public var mapRunRedrivenEventDetails: SFNClientTypes.MapRunRedrivenEventDetails?
         /// Contains details, such as mapRunArn, and the start date and time of a Map Run. mapRunArn is the Amazon Resource Name (ARN) of the Map Run that was started.
         public var mapRunStartedEventDetails: SFNClientTypes.MapRunStartedEventDetails?
         /// Contains details about Map state that was started.
@@ -4040,6 +4323,7 @@ extension SFNClientTypes {
             activityTimedOutEventDetails: SFNClientTypes.ActivityTimedOutEventDetails? = nil,
             executionAbortedEventDetails: SFNClientTypes.ExecutionAbortedEventDetails? = nil,
             executionFailedEventDetails: SFNClientTypes.ExecutionFailedEventDetails? = nil,
+            executionRedrivenEventDetails: SFNClientTypes.ExecutionRedrivenEventDetails? = nil,
             executionStartedEventDetails: SFNClientTypes.ExecutionStartedEventDetails? = nil,
             executionSucceededEventDetails: SFNClientTypes.ExecutionSucceededEventDetails? = nil,
             executionTimedOutEventDetails: SFNClientTypes.ExecutionTimedOutEventDetails? = nil,
@@ -4055,6 +4339,7 @@ extension SFNClientTypes {
             mapIterationStartedEventDetails: SFNClientTypes.MapIterationEventDetails? = nil,
             mapIterationSucceededEventDetails: SFNClientTypes.MapIterationEventDetails? = nil,
             mapRunFailedEventDetails: SFNClientTypes.MapRunFailedEventDetails? = nil,
+            mapRunRedrivenEventDetails: SFNClientTypes.MapRunRedrivenEventDetails? = nil,
             mapRunStartedEventDetails: SFNClientTypes.MapRunStartedEventDetails? = nil,
             mapStateStartedEventDetails: SFNClientTypes.MapStateStartedEventDetails? = nil,
             previousEventId: Swift.Int = 0,
@@ -4080,6 +4365,7 @@ extension SFNClientTypes {
             self.activityTimedOutEventDetails = activityTimedOutEventDetails
             self.executionAbortedEventDetails = executionAbortedEventDetails
             self.executionFailedEventDetails = executionFailedEventDetails
+            self.executionRedrivenEventDetails = executionRedrivenEventDetails
             self.executionStartedEventDetails = executionStartedEventDetails
             self.executionSucceededEventDetails = executionSucceededEventDetails
             self.executionTimedOutEventDetails = executionTimedOutEventDetails
@@ -4095,6 +4381,7 @@ extension SFNClientTypes {
             self.mapIterationStartedEventDetails = mapIterationStartedEventDetails
             self.mapIterationSucceededEventDetails = mapIterationSucceededEventDetails
             self.mapRunFailedEventDetails = mapRunFailedEventDetails
+            self.mapRunRedrivenEventDetails = mapRunRedrivenEventDetails
             self.mapRunStartedEventDetails = mapRunStartedEventDetails
             self.mapStateStartedEventDetails = mapStateStartedEventDetails
             self.previousEventId = previousEventId
@@ -4162,6 +4449,7 @@ extension SFNClientTypes {
         case choicestateexited
         case executionaborted
         case executionfailed
+        case executionredriven
         case executionstarted
         case executionsucceeded
         case executiontimedout
@@ -4179,6 +4467,7 @@ extension SFNClientTypes {
         case mapiterationsucceeded
         case maprunaborted
         case maprunfailed
+        case maprunredriven
         case maprunstarted
         case maprunsucceeded
         case mapstateaborted
@@ -4225,6 +4514,7 @@ extension SFNClientTypes {
                 .choicestateexited,
                 .executionaborted,
                 .executionfailed,
+                .executionredriven,
                 .executionstarted,
                 .executionsucceeded,
                 .executiontimedout,
@@ -4242,6 +4532,7 @@ extension SFNClientTypes {
                 .mapiterationsucceeded,
                 .maprunaborted,
                 .maprunfailed,
+                .maprunredriven,
                 .maprunstarted,
                 .maprunsucceeded,
                 .mapstateaborted,
@@ -4293,6 +4584,7 @@ extension SFNClientTypes {
             case .choicestateexited: return "ChoiceStateExited"
             case .executionaborted: return "ExecutionAborted"
             case .executionfailed: return "ExecutionFailed"
+            case .executionredriven: return "ExecutionRedriven"
             case .executionstarted: return "ExecutionStarted"
             case .executionsucceeded: return "ExecutionSucceeded"
             case .executiontimedout: return "ExecutionTimedOut"
@@ -4310,6 +4602,7 @@ extension SFNClientTypes {
             case .mapiterationsucceeded: return "MapIterationSucceeded"
             case .maprunaborted: return "MapRunAborted"
             case .maprunfailed: return "MapRunFailed"
+            case .maprunredriven: return "MapRunRedriven"
             case .maprunstarted: return "MapRunStarted"
             case .maprunsucceeded: return "MapRunSucceeded"
             case .mapstateaborted: return "MapStateAborted"
@@ -4349,6 +4642,302 @@ extension SFNClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = HistoryEventType(rawValue: rawValue) ?? HistoryEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SFNClientTypes.InspectionData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case afterInputPath
+        case afterParameters
+        case afterResultPath
+        case afterResultSelector
+        case input
+        case request
+        case response
+        case result
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let afterInputPath = self.afterInputPath {
+            try encodeContainer.encode(afterInputPath, forKey: .afterInputPath)
+        }
+        if let afterParameters = self.afterParameters {
+            try encodeContainer.encode(afterParameters, forKey: .afterParameters)
+        }
+        if let afterResultPath = self.afterResultPath {
+            try encodeContainer.encode(afterResultPath, forKey: .afterResultPath)
+        }
+        if let afterResultSelector = self.afterResultSelector {
+            try encodeContainer.encode(afterResultSelector, forKey: .afterResultSelector)
+        }
+        if let input = self.input {
+            try encodeContainer.encode(input, forKey: .input)
+        }
+        if let request = self.request {
+            try encodeContainer.encode(request, forKey: .request)
+        }
+        if let response = self.response {
+            try encodeContainer.encode(response, forKey: .response)
+        }
+        if let result = self.result {
+            try encodeContainer.encode(result, forKey: .result)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .input)
+        input = inputDecoded
+        let afterInputPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .afterInputPath)
+        afterInputPath = afterInputPathDecoded
+        let afterParametersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .afterParameters)
+        afterParameters = afterParametersDecoded
+        let resultDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .result)
+        result = resultDecoded
+        let afterResultSelectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .afterResultSelector)
+        afterResultSelector = afterResultSelectorDecoded
+        let afterResultPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .afterResultPath)
+        afterResultPath = afterResultPathDecoded
+        let requestDecoded = try containerValues.decodeIfPresent(SFNClientTypes.InspectionDataRequest.self, forKey: .request)
+        request = requestDecoded
+        let responseDecoded = try containerValues.decodeIfPresent(SFNClientTypes.InspectionDataResponse.self, forKey: .response)
+        response = responseDecoded
+    }
+}
+
+extension SFNClientTypes.InspectionData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains additional details about the state's execution, including its input and output data processing flow, and HTTP request and response information.
+    public struct InspectionData: Swift.Equatable {
+        /// The input after Step Functions applies the [InputPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath) filter.
+        public var afterInputPath: Swift.String?
+        /// The effective input after Step Functions applies the [Parameters](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters) filter.
+        public var afterParameters: Swift.String?
+        /// The effective result combined with the raw state input after Step Functions applies the [ResultPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html) filter.
+        public var afterResultPath: Swift.String?
+        /// The effective result after Step Functions applies the [ResultSelector](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector) filter.
+        public var afterResultSelector: Swift.String?
+        /// The raw state input.
+        public var input: Swift.String?
+        /// The raw HTTP request that is sent when you test an HTTP Task.
+        public var request: SFNClientTypes.InspectionDataRequest?
+        /// The raw HTTP response that is returned when you test an HTTP Task.
+        public var response: SFNClientTypes.InspectionDataResponse?
+        /// The state's raw result.
+        public var result: Swift.String?
+
+        public init(
+            afterInputPath: Swift.String? = nil,
+            afterParameters: Swift.String? = nil,
+            afterResultPath: Swift.String? = nil,
+            afterResultSelector: Swift.String? = nil,
+            input: Swift.String? = nil,
+            request: SFNClientTypes.InspectionDataRequest? = nil,
+            response: SFNClientTypes.InspectionDataResponse? = nil,
+            result: Swift.String? = nil
+        )
+        {
+            self.afterInputPath = afterInputPath
+            self.afterParameters = afterParameters
+            self.afterResultPath = afterResultPath
+            self.afterResultSelector = afterResultSelector
+            self.input = input
+            self.request = request
+            self.response = response
+            self.result = result
+        }
+    }
+
+}
+
+extension SFNClientTypes.InspectionDataRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body
+        case headers
+        case method
+        case `protocol` = "protocol"
+        case url
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
+        }
+        if let headers = self.headers {
+            try encodeContainer.encode(headers, forKey: .headers)
+        }
+        if let method = self.method {
+            try encodeContainer.encode(method, forKey: .method)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`, forKey: .`protocol`)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let methodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .method)
+        method = methodDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let headersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .headers)
+        headers = headersDecoded
+        let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
+        body = bodyDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains additional details about the state's execution, including its input and output data processing flow, and HTTP request information.
+    public struct InspectionDataRequest: Swift.Equatable {
+        /// The request body for the HTTP request.
+        public var body: Swift.String?
+        /// The request headers associated with the HTTP request.
+        public var headers: Swift.String?
+        /// The HTTP method used for the HTTP request.
+        public var method: Swift.String?
+        /// The protocol used to make the HTTP request.
+        public var `protocol`: Swift.String?
+        /// The API endpoint used for the HTTP request.
+        public var url: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            headers: Swift.String? = nil,
+            method: Swift.String? = nil,
+            `protocol`: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.headers = headers
+            self.method = method
+            self.`protocol` = `protocol`
+            self.url = url
+        }
+    }
+
+}
+
+extension SFNClientTypes.InspectionDataResponse: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body
+        case headers
+        case `protocol` = "protocol"
+        case statusCode
+        case statusMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
+        }
+        if let headers = self.headers {
+            try encodeContainer.encode(headers, forKey: .headers)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`, forKey: .`protocol`)
+        }
+        if let statusCode = self.statusCode {
+            try encodeContainer.encode(statusCode, forKey: .statusCode)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let statusCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusCode)
+        statusCode = statusCodeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let headersDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .headers)
+        headers = headersDecoded
+        let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
+        body = bodyDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains additional details about the state's execution, including its input and output data processing flow, and HTTP response information. The inspectionLevel request parameter specifies which details are returned.
+    public struct InspectionDataResponse: Swift.Equatable {
+        /// The HTTP response returned.
+        public var body: Swift.String?
+        /// The response headers associated with the HTTP response.
+        public var headers: Swift.String?
+        /// The protocol used to return the HTTP response.
+        public var `protocol`: Swift.String?
+        /// The HTTP response status code for the HTTP response.
+        public var statusCode: Swift.String?
+        /// The message associated with the HTTP status code.
+        public var statusMessage: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            headers: Swift.String? = nil,
+            `protocol`: Swift.String? = nil,
+            statusCode: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.headers = headers
+            self.`protocol` = `protocol`
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension SFNClientTypes {
+    public enum InspectionLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case debug
+        case info
+        case trace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InspectionLevel] {
+            return [
+                .debug,
+                .info,
+                .trace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "DEBUG"
+            case .info: return "INFO"
+            case .trace: return "TRACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InspectionLevel(rawValue: rawValue) ?? InspectionLevel.sdkUnknown(rawValue)
         }
     }
 }
@@ -5259,6 +5848,7 @@ extension ListExecutionsInput: Swift.Encodable {
         case mapRunArn
         case maxResults
         case nextToken
+        case redriveFilter
         case stateMachineArn
         case statusFilter
     }
@@ -5273,6 +5863,9 @@ extension ListExecutionsInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let redriveFilter = self.redriveFilter {
+            try encodeContainer.encode(redriveFilter.rawValue, forKey: .redriveFilter)
         }
         if let stateMachineArn = self.stateMachineArn {
             try encodeContainer.encode(stateMachineArn, forKey: .stateMachineArn)
@@ -5296,6 +5889,8 @@ public struct ListExecutionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
+    /// Sets a filter to list executions based on whether or not they have been redriven. For a Distributed Map, redriveFilter sets a filter to list child workflow executions based on whether or not they have been redriven. If you do not provide a redriveFilter, Step Functions returns a list of both redriven and non-redriven executions. If you provide a state machine ARN in redriveFilter, the API returns a validation exception.
+    public var redriveFilter: SFNClientTypes.ExecutionRedriveFilter?
     /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both. You can also return a list of executions associated with a specific [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), by specifying an alias ARN or a version ARN in the stateMachineArn parameter.
     public var stateMachineArn: Swift.String?
     /// If specified, only list the executions whose current execution status matches the given filter.
@@ -5305,6 +5900,7 @@ public struct ListExecutionsInput: Swift.Equatable {
         mapRunArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        redriveFilter: SFNClientTypes.ExecutionRedriveFilter? = nil,
         stateMachineArn: Swift.String? = nil,
         statusFilter: SFNClientTypes.ExecutionStatus? = nil
     )
@@ -5312,6 +5908,7 @@ public struct ListExecutionsInput: Swift.Equatable {
         self.mapRunArn = mapRunArn
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.redriveFilter = redriveFilter
         self.stateMachineArn = stateMachineArn
         self.statusFilter = statusFilter
     }
@@ -5323,6 +5920,7 @@ struct ListExecutionsInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let mapRunArn: Swift.String?
+    let redriveFilter: SFNClientTypes.ExecutionRedriveFilter?
 }
 
 extension ListExecutionsInputBody: Swift.Decodable {
@@ -5330,6 +5928,7 @@ extension ListExecutionsInputBody: Swift.Decodable {
         case mapRunArn
         case maxResults
         case nextToken
+        case redriveFilter
         case stateMachineArn
         case statusFilter
     }
@@ -5346,6 +5945,8 @@ extension ListExecutionsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
         mapRunArn = mapRunArnDecoded
+        let redriveFilterDecoded = try containerValues.decodeIfPresent(SFNClientTypes.ExecutionRedriveFilter.self, forKey: .redriveFilter)
+        redriveFilter = redriveFilterDecoded
     }
 }
 
@@ -6289,7 +6890,9 @@ extension SFNClientTypes.MapRunExecutionCounts: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aborted
         case failed
+        case failuresNotRedrivable
         case pending
+        case pendingRedrive
         case resultsWritten
         case running
         case succeeded
@@ -6305,8 +6908,14 @@ extension SFNClientTypes.MapRunExecutionCounts: Swift.Codable {
         if failed != 0 {
             try encodeContainer.encode(failed, forKey: .failed)
         }
+        if let failuresNotRedrivable = self.failuresNotRedrivable {
+            try encodeContainer.encode(failuresNotRedrivable, forKey: .failuresNotRedrivable)
+        }
         if pending != 0 {
             try encodeContainer.encode(pending, forKey: .pending)
+        }
+        if let pendingRedrive = self.pendingRedrive {
+            try encodeContainer.encode(pendingRedrive, forKey: .pendingRedrive)
         }
         if resultsWritten != 0 {
             try encodeContainer.encode(resultsWritten, forKey: .resultsWritten)
@@ -6343,6 +6952,10 @@ extension SFNClientTypes.MapRunExecutionCounts: Swift.Codable {
         total = totalDecoded
         let resultsWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultsWritten) ?? 0
         resultsWritten = resultsWrittenDecoded
+        let failuresNotRedrivableDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failuresNotRedrivable)
+        failuresNotRedrivable = failuresNotRedrivableDecoded
+        let pendingRedriveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pendingRedrive)
+        pendingRedrive = pendingRedriveDecoded
     }
 }
 
@@ -6355,9 +6968,13 @@ extension SFNClientTypes {
         /// The total number of child workflow executions that were started by a Map Run, but have failed.
         /// This member is required.
         public var failed: Swift.Int
+        /// The number of FAILED, ABORTED, or TIMED_OUT child workflow executions that cannot be redriven because their execution status is terminal. For example, child workflows with an execution status of FAILED, ABORTED, or TIMED_OUT and a redriveStatus of NOT_REDRIVABLE.
+        public var failuresNotRedrivable: Swift.Int?
         /// The total number of child workflow executions that were started by a Map Run, but haven't started executing yet.
         /// This member is required.
         public var pending: Swift.Int
+        /// The number of unsuccessful child workflow executions currently waiting to be redriven. The status of these child workflow executions could be FAILED, ABORTED, or TIMED_OUT in the original execution attempt or a previous redrive attempt.
+        public var pendingRedrive: Swift.Int?
         /// Returns the count of child workflow executions whose results were written by ResultWriter. For more information, see [ResultWriter](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html) in the Step Functions Developer Guide.
         /// This member is required.
         public var resultsWritten: Swift.Int
@@ -6377,7 +6994,9 @@ extension SFNClientTypes {
         public init(
             aborted: Swift.Int = 0,
             failed: Swift.Int = 0,
+            failuresNotRedrivable: Swift.Int? = nil,
             pending: Swift.Int = 0,
+            pendingRedrive: Swift.Int? = nil,
             resultsWritten: Swift.Int = 0,
             running: Swift.Int = 0,
             succeeded: Swift.Int = 0,
@@ -6387,7 +7006,9 @@ extension SFNClientTypes {
         {
             self.aborted = aborted
             self.failed = failed
+            self.failuresNotRedrivable = failuresNotRedrivable
             self.pending = pending
+            self.pendingRedrive = pendingRedrive
             self.resultsWritten = resultsWritten
             self.running = running
             self.succeeded = succeeded
@@ -6452,7 +7073,9 @@ extension SFNClientTypes.MapRunItemCounts: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aborted
         case failed
+        case failuresNotRedrivable
         case pending
+        case pendingRedrive
         case resultsWritten
         case running
         case succeeded
@@ -6468,8 +7091,14 @@ extension SFNClientTypes.MapRunItemCounts: Swift.Codable {
         if failed != 0 {
             try encodeContainer.encode(failed, forKey: .failed)
         }
+        if let failuresNotRedrivable = self.failuresNotRedrivable {
+            try encodeContainer.encode(failuresNotRedrivable, forKey: .failuresNotRedrivable)
+        }
         if pending != 0 {
             try encodeContainer.encode(pending, forKey: .pending)
+        }
+        if let pendingRedrive = self.pendingRedrive {
+            try encodeContainer.encode(pendingRedrive, forKey: .pendingRedrive)
         }
         if resultsWritten != 0 {
             try encodeContainer.encode(resultsWritten, forKey: .resultsWritten)
@@ -6506,6 +7135,10 @@ extension SFNClientTypes.MapRunItemCounts: Swift.Codable {
         total = totalDecoded
         let resultsWrittenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resultsWritten) ?? 0
         resultsWritten = resultsWrittenDecoded
+        let failuresNotRedrivableDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failuresNotRedrivable)
+        failuresNotRedrivable = failuresNotRedrivableDecoded
+        let pendingRedriveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pendingRedrive)
+        pendingRedrive = pendingRedriveDecoded
     }
 }
 
@@ -6518,9 +7151,13 @@ extension SFNClientTypes {
         /// The total number of items processed in child workflow executions that have failed.
         /// This member is required.
         public var failed: Swift.Int
+        /// The number of FAILED, ABORTED, or TIMED_OUT items in child workflow executions that cannot be redriven because the execution status of those child workflows is terminal. For example, child workflows with an execution status of FAILED, ABORTED, or TIMED_OUT and a redriveStatus of NOT_REDRIVABLE.
+        public var failuresNotRedrivable: Swift.Int?
         /// The total number of items to process in child workflow executions that haven't started running yet.
         /// This member is required.
         public var pending: Swift.Int
+        /// The number of unsuccessful items in child workflow executions currently waiting to be redriven.
+        public var pendingRedrive: Swift.Int?
         /// Returns the count of items whose results were written by ResultWriter. For more information, see [ResultWriter](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html) in the Step Functions Developer Guide.
         /// This member is required.
         public var resultsWritten: Swift.Int
@@ -6540,7 +7177,9 @@ extension SFNClientTypes {
         public init(
             aborted: Swift.Int = 0,
             failed: Swift.Int = 0,
+            failuresNotRedrivable: Swift.Int? = nil,
             pending: Swift.Int = 0,
+            pendingRedrive: Swift.Int? = nil,
             resultsWritten: Swift.Int = 0,
             running: Swift.Int = 0,
             succeeded: Swift.Int = 0,
@@ -6550,7 +7189,9 @@ extension SFNClientTypes {
         {
             self.aborted = aborted
             self.failed = failed
+            self.failuresNotRedrivable = failuresNotRedrivable
             self.pending = pending
+            self.pendingRedrive = pendingRedrive
             self.resultsWritten = resultsWritten
             self.running = running
             self.succeeded = succeeded
@@ -6635,6 +7276,51 @@ extension SFNClientTypes {
             self.startDate = startDate
             self.stateMachineArn = stateMachineArn
             self.stopDate = stopDate
+        }
+    }
+
+}
+
+extension SFNClientTypes.MapRunRedrivenEventDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mapRunArn
+        case redriveCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mapRunArn = self.mapRunArn {
+            try encodeContainer.encode(mapRunArn, forKey: .mapRunArn)
+        }
+        if let redriveCount = self.redriveCount {
+            try encodeContainer.encode(redriveCount, forKey: .redriveCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mapRunArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mapRunArn)
+        mapRunArn = mapRunArnDecoded
+        let redriveCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redriveCount)
+        redriveCount = redriveCountDecoded
+    }
+}
+
+extension SFNClientTypes {
+    /// Contains details about a Map Run that was redriven.
+    public struct MapRunRedrivenEventDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of a Map Run that was redriven.
+        public var mapRunArn: Swift.String?
+        /// The number of times the Map Run has been redriven at this point in the execution's history including this event. The redrive count for a redriven Map Run is always greater than 0.
+        public var redriveCount: Swift.Int?
+
+        public init(
+            mapRunArn: Swift.String? = nil,
+            redriveCount: Swift.Int? = nil
+        )
+        {
+            self.mapRunArn = mapRunArn
+            self.redriveCount = redriveCount
         }
     }
 
@@ -6948,6 +7634,121 @@ enum PublishStateMachineVersionOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension RedriveExecutionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case executionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let executionArn = self.executionArn {
+            try encodeContainer.encode(executionArn, forKey: .executionArn)
+        }
+    }
+}
+
+extension RedriveExecutionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RedriveExecutionInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don’t specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The API will return idempotent responses for the last 10 client tokens used to successfully redrive the execution. These client tokens are valid for up to 15 minutes after they are first used.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the execution to be redriven.
+    /// This member is required.
+    public var executionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        executionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.executionArn = executionArn
+    }
+}
+
+struct RedriveExecutionInputBody: Swift.Equatable {
+    let executionArn: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension RedriveExecutionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case executionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionArn)
+        executionArn = executionArnDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension RedriveExecutionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RedriveExecutionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.redriveDate = output.redriveDate
+        } else {
+            self.redriveDate = nil
+        }
+    }
+}
+
+public struct RedriveExecutionOutput: Swift.Equatable {
+    /// The date the execution was last redriven.
+    /// This member is required.
+    public var redriveDate: ClientRuntime.Date?
+
+    public init(
+        redriveDate: ClientRuntime.Date? = nil
+    )
+    {
+        self.redriveDate = redriveDate
+    }
+}
+
+struct RedriveExecutionOutputBody: Swift.Equatable {
+    let redriveDate: ClientRuntime.Date?
+}
+
+extension RedriveExecutionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case redriveDate
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let redriveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .redriveDate)
+        redriveDate = redriveDateDecoded
+    }
+}
+
+enum RedriveExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ExecutionDoesNotExist": return try await ExecutionDoesNotExist(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExecutionLimitExceeded": return try await ExecutionLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ExecutionNotRedrivable": return try await ExecutionNotRedrivable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ResourceNotFound {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7043,7 +7844,7 @@ extension SFNClientTypes {
         /// The Amazon Resource Name (ARN) that identifies one or two state machine versions defined in the routing configuration. If you specify the ARN of a second version, it must belong to the same state machine as the first version.
         /// This member is required.
         public var stateMachineVersionArn: Swift.String?
-        /// The percentage of traffic you want to route to the second state machine version. The sum of the weights in the routing configuration must be equal to 100.
+        /// The percentage of traffic you want to route to a state machine version. The sum of the weights in the routing configuration must be equal to 100.
         /// This member is required.
         public var weight: Swift.Int
 
@@ -7414,7 +8215,7 @@ extension StartExecutionInput: ClientRuntime.URLPathProvider {
 public struct StartExecutionInput: Swift.Equatable {
     /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
-    /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. A name must not contain:
+    /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:
     ///
     /// * white space
     ///
@@ -8844,6 +9645,7 @@ extension TaskDoesNotExist {
     }
 }
 
+/// The activity does not exist.
 public struct TaskDoesNotExist: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -9409,6 +10211,7 @@ extension TaskTimedOut {
     }
 }
 
+/// The task token has either expired or the task associated with the token has already been closed.
 public struct TaskTimedOut: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -9518,6 +10321,264 @@ extension SFNClientTypes {
         }
     }
 
+}
+
+extension SFNClientTypes {
+    public enum TestExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case caughtError
+        case failed
+        case retriable
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestExecutionStatus] {
+            return [
+                .caughtError,
+                .failed,
+                .retriable,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .caughtError: return "CAUGHT_ERROR"
+            case .failed: return "FAILED"
+            case .retriable: return "RETRIABLE"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TestExecutionStatus(rawValue: rawValue) ?? TestExecutionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TestStateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TestStateInput(inspectionLevel: \(Swift.String(describing: inspectionLevel)), revealSecrets: \(Swift.String(describing: revealSecrets)), roleArn: \(Swift.String(describing: roleArn)), definition: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\")"}
+}
+
+extension TestStateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case input
+        case inspectionLevel
+        case revealSecrets
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definition = self.definition {
+            try encodeContainer.encode(definition, forKey: .definition)
+        }
+        if let input = self.input {
+            try encodeContainer.encode(input, forKey: .input)
+        }
+        if let inspectionLevel = self.inspectionLevel {
+            try encodeContainer.encode(inspectionLevel.rawValue, forKey: .inspectionLevel)
+        }
+        if let revealSecrets = self.revealSecrets {
+            try encodeContainer.encode(revealSecrets, forKey: .revealSecrets)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+}
+
+extension TestStateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TestStateInput: Swift.Equatable {
+    /// The [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) (ASL) definition of the state.
+    /// This member is required.
+    public var definition: Swift.String?
+    /// A string that contains the JSON input data for the state.
+    public var input: Swift.String?
+    /// Determines the values to return when a state is tested. You can specify one of the following types:
+    ///
+    /// * INFO: Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level.
+    ///
+    /// * DEBUG: Shows the final state output along with the input and output data processing result.
+    ///
+    /// * TRACE: Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result.
+    ///
+    ///
+    /// Each of these levels also provide information about the status of the state execution and the next state to transition to.
+    public var inspectionLevel: SFNClientTypes.InspectionLevel?
+    /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions). Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
+    public var revealSecrets: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
+    /// This member is required.
+    public var roleArn: Swift.String?
+
+    public init(
+        definition: Swift.String? = nil,
+        input: Swift.String? = nil,
+        inspectionLevel: SFNClientTypes.InspectionLevel? = nil,
+        revealSecrets: Swift.Bool? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.definition = definition
+        self.input = input
+        self.inspectionLevel = inspectionLevel
+        self.revealSecrets = revealSecrets
+        self.roleArn = roleArn
+    }
+}
+
+struct TestStateInputBody: Swift.Equatable {
+    let definition: Swift.String?
+    let roleArn: Swift.String?
+    let input: Swift.String?
+    let inspectionLevel: SFNClientTypes.InspectionLevel?
+    let revealSecrets: Swift.Bool?
+}
+
+extension TestStateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definition
+        case input
+        case inspectionLevel
+        case revealSecrets
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let definitionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definition)
+        definition = definitionDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let inputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .input)
+        input = inputDecoded
+        let inspectionLevelDecoded = try containerValues.decodeIfPresent(SFNClientTypes.InspectionLevel.self, forKey: .inspectionLevel)
+        inspectionLevel = inspectionLevelDecoded
+        let revealSecretsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .revealSecrets)
+        revealSecrets = revealSecretsDecoded
+    }
+}
+
+extension TestStateOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TestStateOutput(nextState: \(Swift.String(describing: nextState)), status: \(Swift.String(describing: status)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", inspectionData: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
+}
+
+extension TestStateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TestStateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cause = output.cause
+            self.error = output.error
+            self.inspectionData = output.inspectionData
+            self.nextState = output.nextState
+            self.output = output.output
+            self.status = output.status
+        } else {
+            self.cause = nil
+            self.error = nil
+            self.inspectionData = nil
+            self.nextState = nil
+            self.output = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct TestStateOutput: Swift.Equatable {
+    /// A detailed explanation of the cause for the error when the execution of a state fails.
+    public var cause: Swift.String?
+    /// The error returned when the execution of a state fails.
+    public var error: Swift.String?
+    /// Returns additional details about the state's execution, including its input and output data processing flow, and HTTP request and response information. The inspectionLevel request parameter specifies which details are returned.
+    public var inspectionData: SFNClientTypes.InspectionData?
+    /// The name of the next state to transition to. If you haven't defined a next state in your definition or if the execution of the state fails, this ﬁeld doesn't contain a value.
+    public var nextState: Swift.String?
+    /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+    public var output: Swift.String?
+    /// The execution status of the state.
+    public var status: SFNClientTypes.TestExecutionStatus?
+
+    public init(
+        cause: Swift.String? = nil,
+        error: Swift.String? = nil,
+        inspectionData: SFNClientTypes.InspectionData? = nil,
+        nextState: Swift.String? = nil,
+        output: Swift.String? = nil,
+        status: SFNClientTypes.TestExecutionStatus? = nil
+    )
+    {
+        self.cause = cause
+        self.error = error
+        self.inspectionData = inspectionData
+        self.nextState = nextState
+        self.output = output
+        self.status = status
+    }
+}
+
+struct TestStateOutputBody: Swift.Equatable {
+    let output: Swift.String?
+    let error: Swift.String?
+    let cause: Swift.String?
+    let inspectionData: SFNClientTypes.InspectionData?
+    let nextState: Swift.String?
+    let status: SFNClientTypes.TestExecutionStatus?
+}
+
+extension TestStateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cause
+        case error
+        case inspectionData
+        case nextState
+        case output
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .output)
+        output = outputDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let causeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cause)
+        cause = causeDecoded
+        let inspectionDataDecoded = try containerValues.decodeIfPresent(SFNClientTypes.InspectionData.self, forKey: .inspectionData)
+        inspectionData = inspectionDataDecoded
+        let nextStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextState)
+        nextState = nextStateDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(SFNClientTypes.TestExecutionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum TestStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidDefinition": return try await InvalidDefinition(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidExecutionInput": return try await InvalidExecutionInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension TooManyTags {
@@ -9959,6 +11020,7 @@ enum UpdateStateMachineAliasOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidArn": return try await InvalidArn(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "StateMachineDeleting": return try await StateMachineDeleting(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

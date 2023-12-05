@@ -12,7 +12,7 @@ extension ACMClient {
     ///     - input: A `[ListCertificatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutput`
     public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutput.nextToken, paginationFunction: self.listCertificates(input:))
+        return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCertificates(input:))
     }
 }
 
@@ -28,7 +28,7 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutput {
+extension PaginatorSequence where OperationStackInput == ListCertificatesInput, OperationStackOutput == ListCertificatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
     /// to access the nested member `[ACMClientTypes.CertificateSummary]`
     /// - Returns: `[ACMClientTypes.CertificateSummary]`

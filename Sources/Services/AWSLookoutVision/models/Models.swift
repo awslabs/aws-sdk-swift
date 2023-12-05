@@ -1625,31 +1625,6 @@ enum DescribeProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public struct DetectAnomaliesInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DetectAnomaliesInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<DetectAnomaliesInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DetectAnomaliesOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        if let body = input.operationInput.body {
-            let bodyBody = ClientRuntime.HttpBody(byteStream: body)
-            input.builder.withBody(bodyBody)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<DetectAnomaliesInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<DetectAnomaliesOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension DetectAnomaliesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"

@@ -325,6 +325,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -370,6 +372,8 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -509,6 +513,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -554,6 +560,8 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The name of the scheduled action.
@@ -692,6 +700,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property.
@@ -737,6 +747,8 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -881,6 +893,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceIds: [Swift.String]?
     /// The scalable dimension associated with the scalable target. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -925,6 +939,8 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1141,6 +1157,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1185,6 +1203,8 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1401,6 +1421,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1445,6 +1467,8 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
     /// This member is required.
@@ -1669,6 +1693,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property. If you specify a scalable dimension, you must also specify a resource ID.
     ///
@@ -1713,6 +1739,8 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The names of the scheduled actions to describe.
     public var scheduledActionNames: [Swift.String]?
@@ -2330,6 +2358,7 @@ extension ApplicationAutoScalingClientTypes {
         case neptunereaderaveragecpuutilization
         case rdsreaderaveragecpuutilization
         case rdsreaderaveragedatabaseconnections
+        case sagemakerinferencecomponentinvocationspercopy
         case sagemakervariantinvocationsperinstance
         case sagemakervariantprovisionedconcurrencyutilization
         case sdkUnknown(Swift.String)
@@ -2357,6 +2386,7 @@ extension ApplicationAutoScalingClientTypes {
                 .neptunereaderaveragecpuutilization,
                 .rdsreaderaveragecpuutilization,
                 .rdsreaderaveragedatabaseconnections,
+                .sagemakerinferencecomponentinvocationspercopy,
                 .sagemakervariantinvocationsperinstance,
                 .sagemakervariantprovisionedconcurrencyutilization,
                 .sdkUnknown("")
@@ -2389,6 +2419,7 @@ extension ApplicationAutoScalingClientTypes {
             case .neptunereaderaveragecpuutilization: return "NeptuneReaderAverageCPUUtilization"
             case .rdsreaderaveragecpuutilization: return "RDSReaderAverageCPUUtilization"
             case .rdsreaderaveragedatabaseconnections: return "RDSReaderAverageDatabaseConnections"
+            case .sagemakerinferencecomponentinvocationspercopy: return "SageMakerInferenceComponentInvocationsPerCopy"
             case .sagemakervariantinvocationsperinstance: return "SageMakerVariantInvocationsPerInstance"
             case .sagemakervariantprovisionedconcurrencyutilization: return "SageMakerVariantProvisionedConcurrencyUtilization"
             case let .sdkUnknown(s): return s
@@ -2591,7 +2622,7 @@ extension ApplicationAutoScalingClientTypes.PredefinedMetricSpecification: Swift
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Building dashboards with CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Monitor your resources using CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification: Swift.Equatable {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
@@ -2665,7 +2696,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
     /// This member is required.
     public var policyName: Swift.String?
-    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
+    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR. StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
@@ -2702,6 +2733,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -2747,6 +2780,8 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -2982,6 +3017,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -3027,6 +3064,8 @@ public struct PutScheduledActionInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
@@ -3261,6 +3300,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+    ///
+    /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
     /// This member is required.
     public var resourceId: Swift.String?
     /// This parameter is required for services that do not support service-linked roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf. If the service supports service-linked roles, Application Auto Scaling uses a service-linked role, which it creates if it does not yet exist. For more information, see [Application Auto Scaling IAM roles](https://docs.aws.amazon.com/autoscaling/application/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-roles).
@@ -3308,6 +3349,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
     ///
     /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+    ///
+    /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
     /// This member is required.
     public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
@@ -3542,6 +3585,7 @@ extension ApplicationAutoScalingClientTypes {
         case lambdafunctionprovisionedconcurrency
         case neptuneclusterreadreplicacount
         case rdsclusterreadreplicacount
+        case sagemakerinferencecomponentdesiredcopycount
         case sagemakervariantdesiredinstancecount
         case sagemakervariantdesiredprovisionedconcurrency
         case sdkUnknown(Swift.String)
@@ -3567,6 +3611,7 @@ extension ApplicationAutoScalingClientTypes {
                 .lambdafunctionprovisionedconcurrency,
                 .neptuneclusterreadreplicacount,
                 .rdsclusterreadreplicacount,
+                .sagemakerinferencecomponentdesiredcopycount,
                 .sagemakervariantdesiredinstancecount,
                 .sagemakervariantdesiredprovisionedconcurrency,
                 .sdkUnknown("")
@@ -3597,6 +3642,7 @@ extension ApplicationAutoScalingClientTypes {
             case .lambdafunctionprovisionedconcurrency: return "lambda:function:ProvisionedConcurrency"
             case .neptuneclusterreadreplicacount: return "neptune:cluster:ReadReplicaCount"
             case .rdsclusterreadreplicacount: return "rds:cluster:ReadReplicaCount"
+            case .sagemakerinferencecomponentdesiredcopycount: return "sagemaker:inference-component:DesiredCopyCount"
             case .sagemakervariantdesiredinstancecount: return "sagemaker:variant:DesiredInstanceCount"
             case .sagemakervariantdesiredprovisionedconcurrency: return "sagemaker:variant:DesiredProvisionedConcurrency"
             case let .sdkUnknown(s): return s
@@ -3724,6 +3770,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The ARN of an IAM role that allows Application Auto Scaling to modify the scalable target on your behalf.
@@ -3772,6 +3820,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The ARN of the scalable target.
@@ -4003,6 +4053,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4048,6 +4100,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4275,6 +4329,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4320,6 +4376,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
@@ -4480,6 +4538,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker Serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
+        ///
+        /// * SageMaker inference component - The resource type is inference-component and the unique identifier is the resource ID. Example: inference-component/my-inference-component.
         /// This member is required.
         public var resourceId: Swift.String?
         /// The scalable dimension. This string consists of the service namespace, resource type, and scaling property.
@@ -4525,6 +4585,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         ///
         /// * sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a SageMaker Serverless endpoint.
+        ///
+        /// * sagemaker:inference-component:DesiredCopyCount - The number of copies across an endpoint for a SageMaker inference component.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
         /// The new minimum and maximum capacity. You can set both values or just one. At the scheduled time, if the current capacity is below the minimum capacity, Application Auto Scaling scales out to the minimum capacity. If the current capacity is above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
         public var scalableTargetAction: ApplicationAutoScalingClientTypes.ScalableTargetAction?
@@ -4783,7 +4845,7 @@ extension ApplicationAutoScalingClientTypes {
     public struct StepScalingPolicyConfiguration: Swift.Equatable {
         /// Specifies how the ScalingAdjustment value in a [StepAdjustment](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepAdjustment.html) is interpreted (for example, an absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and PercentChangeInCapacity. AdjustmentType is required if you are adding a new step scaling policy configuration.
         public var adjustmentType: ApplicationAutoScalingClientTypes.AdjustmentType?
-        /// The amount of time, in seconds, to wait for a previous scaling activity to take effect. If not specified, the default value is 300. For more information, see [Cooldown period](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html#step-scaling-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, to wait for a previous scaling activity to take effect. If not specified, the default value is 300. For more information, see [Cooldown period](https://docs.aws.amazon.com/autoscaling/application/userguide/step-scaling-policy-overview.html#step-scaling-cooldown) in the Application Auto Scaling User Guide.
         public var cooldown: Swift.Int?
         /// The aggregation type for the CloudWatch metrics. Valid values are Minimum, Maximum, and Average. If the aggregation type is null, the value is treated as Average.
         public var metricAggregationType: ApplicationAutoScalingClientTypes.MetricAggregationType?
@@ -5266,9 +5328,9 @@ extension ApplicationAutoScalingClientTypes {
         public var disableScaleIn: Swift.Bool?
         /// A predefined metric. You can specify either a predefined metric or a customized metric.
         public var predefinedMetricSpecification: ApplicationAutoScalingClientTypes.PredefinedMetricSpecification?
-        /// The amount of time, in seconds, after a scale-in activity completes before another scale-in activity can start. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, after a scale-in activity completes before another scale-in activity can start. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
         public var scaleInCooldown: Swift.Int?
-        /// The amount of time, in seconds, to wait for a previous scale-out activity to take effect. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
+        /// The amount of time, in seconds, to wait for a previous scale-out activity to take effect. For more information and for default values, see [Define cooldown periods](https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown) in the Application Auto Scaling User Guide.
         public var scaleOutCooldown: Swift.Int?
         /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360. The value must be a valid number based on the choice of metric. For example, if the metric is CPU utilization, then the target value is a percent value that represents how much of the CPU can be used before scaling out. If the scaling policy specifies the ALBRequestCountPerTarget predefined metric, specify the target utilization as the optimal average request count per target during any one-minute interval.
         /// This member is required.

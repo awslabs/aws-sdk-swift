@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// License Manager makes it easier to manage licenses from software vendors across multiple Amazon Web Services accounts and on-premises servers.
 public protocol LicenseManagerClientProtocol {
+    /// Performs the `AcceptGrant` operation on the `AWSLicenseManager` service.
+    ///
     /// Accepts the specified grant.
     ///
     /// - Parameter AcceptGrantInput : [no documentation found]
@@ -21,6 +23,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func acceptGrant(input: AcceptGrantInput) async throws -> AcceptGrantOutput
+    /// Performs the `CheckInLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Checks in the specified license. Check in a license when it is no longer in use.
     ///
     /// - Parameter CheckInLicenseInput : [no documentation found]
@@ -39,6 +43,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func checkInLicense(input: CheckInLicenseInput) async throws -> CheckInLicenseOutput
+    /// Performs the `CheckoutBorrowLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Checks out the specified license for offline use.
     ///
     /// - Parameter CheckoutBorrowLicenseInput : [no documentation found]
@@ -60,6 +66,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func checkoutBorrowLicense(input: CheckoutBorrowLicenseInput) async throws -> CheckoutBorrowLicenseOutput
+    /// Performs the `CheckoutLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     ///
     /// - Parameter CheckoutLicenseInput : [no documentation found]
@@ -80,6 +88,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `UnsupportedDigitalSignatureMethodException` : The digital signature method is unsupported. Try your request again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func checkoutLicense(input: CheckoutLicenseInput) async throws -> CheckoutLicenseOutput
+    /// Performs the `CreateGrant` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
     /// - Parameter CreateGrantInput : [no documentation found]
@@ -97,6 +107,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createGrant(input: CreateGrantInput) async throws -> CreateGrantOutput
+    /// Performs the `CreateGrantVersion` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
     /// - Parameter CreateGrantVersionInput : [no documentation found]
@@ -114,6 +126,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createGrantVersion(input: CreateGrantVersionInput) async throws -> CreateGrantVersionOutput
+    /// Performs the `CreateLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a license.
     ///
     /// - Parameter CreateLicenseInput : [no documentation found]
@@ -131,6 +145,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createLicense(input: CreateLicenseInput) async throws -> CreateLicenseOutput
+    /// Performs the `CreateLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
     ///
     /// - Parameter CreateLicenseConfigurationInput : [no documentation found]
@@ -147,6 +163,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func createLicenseConfiguration(input: CreateLicenseConfigurationInput) async throws -> CreateLicenseConfigurationOutput
+    /// Performs the `CreateLicenseConversionTaskForResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a new license conversion task.
     ///
     /// - Parameter CreateLicenseConversionTaskForResourceInput : [no documentation found]
@@ -163,6 +181,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createLicenseConversionTaskForResource(input: CreateLicenseConversionTaskForResourceInput) async throws -> CreateLicenseConversionTaskForResourceOutput
+    /// Performs the `CreateLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a report generator.
     ///
     /// - Parameter CreateLicenseManagerReportGeneratorInput : [no documentation found]
@@ -181,6 +201,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createLicenseManagerReportGenerator(input: CreateLicenseManagerReportGeneratorInput) async throws -> CreateLicenseManagerReportGeneratorOutput
+    /// Performs the `CreateLicenseVersion` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a new version of the specified license.
     ///
     /// - Parameter CreateLicenseVersionInput : [no documentation found]
@@ -199,6 +221,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createLicenseVersion(input: CreateLicenseVersionInput) async throws -> CreateLicenseVersionOutput
+    /// Performs the `CreateToken` operation on the `AWSLicenseManager` service.
+    ///
     /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
     ///
     /// - Parameter CreateTokenInput : [no documentation found]
@@ -217,6 +241,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput
+    /// Performs the `DeleteGrant` operation on the `AWSLicenseManager` service.
+    ///
     /// Deletes the specified grant.
     ///
     /// - Parameter DeleteGrantInput : [no documentation found]
@@ -234,6 +260,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func deleteGrant(input: DeleteGrantInput) async throws -> DeleteGrantOutput
+    /// Performs the `DeleteLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Deletes the specified license.
     ///
     /// - Parameter DeleteLicenseInput : [no documentation found]
@@ -252,6 +280,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func deleteLicense(input: DeleteLicenseInput) async throws -> DeleteLicenseOutput
+    /// Performs the `DeleteLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     ///
     /// - Parameter DeleteLicenseConfigurationInput : [no documentation found]
@@ -267,6 +297,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func deleteLicenseConfiguration(input: DeleteLicenseConfigurationInput) async throws -> DeleteLicenseConfigurationOutput
+    /// Performs the `DeleteLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    ///
     /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     ///
     /// - Parameter DeleteLicenseManagerReportGeneratorInput : [no documentation found]
@@ -285,6 +317,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func deleteLicenseManagerReportGenerator(input: DeleteLicenseManagerReportGeneratorInput) async throws -> DeleteLicenseManagerReportGeneratorOutput
+    /// Performs the `DeleteToken` operation on the `AWSLicenseManager` service.
+    ///
     /// Deletes the specified token. Must be called in the license home Region.
     ///
     /// - Parameter DeleteTokenInput : [no documentation found]
@@ -302,6 +336,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func deleteToken(input: DeleteTokenInput) async throws -> DeleteTokenOutput
+    /// Performs the `ExtendLicenseConsumption` operation on the `AWSLicenseManager` service.
+    ///
     /// Extends the expiration date for license consumption.
     ///
     /// - Parameter ExtendLicenseConsumptionInput : [no documentation found]
@@ -319,6 +355,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func extendLicenseConsumption(input: ExtendLicenseConsumptionInput) async throws -> ExtendLicenseConsumptionOutput
+    /// Performs the `GetAccessToken` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
     ///
     /// - Parameter GetAccessTokenInput : [no documentation found]
@@ -334,6 +372,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getAccessToken(input: GetAccessTokenInput) async throws -> GetAccessTokenOutput
+    /// Performs the `GetGrant` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets detailed information about the specified grant.
     ///
     /// - Parameter GetGrantInput : [no documentation found]
@@ -351,6 +391,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getGrant(input: GetGrantInput) async throws -> GetGrantOutput
+    /// Performs the `GetLicense` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets detailed information about the specified license.
     ///
     /// - Parameter GetLicenseInput : [no documentation found]
@@ -367,6 +409,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getLicense(input: GetLicenseInput) async throws -> GetLicenseOutput
+    /// Performs the `GetLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets detailed information about the specified license configuration.
     ///
     /// - Parameter GetLicenseConfigurationInput : [no documentation found]
@@ -382,6 +426,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func getLicenseConfiguration(input: GetLicenseConfigurationInput) async throws -> GetLicenseConfigurationOutput
+    /// Performs the `GetLicenseConversionTask` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets information about the specified license type conversion task.
     ///
     /// - Parameter GetLicenseConversionTaskInput : [no documentation found]
@@ -397,6 +443,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func getLicenseConversionTask(input: GetLicenseConversionTaskInput) async throws -> GetLicenseConversionTaskOutput
+    /// Performs the `GetLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets information about the specified report generator.
     ///
     /// - Parameter GetLicenseManagerReportGeneratorInput : [no documentation found]
@@ -415,6 +463,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getLicenseManagerReportGenerator(input: GetLicenseManagerReportGeneratorInput) async throws -> GetLicenseManagerReportGeneratorOutput
+    /// Performs the `GetLicenseUsage` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets detailed information about the usage of the specified license.
     ///
     /// - Parameter GetLicenseUsageInput : [no documentation found]
@@ -431,6 +481,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getLicenseUsage(input: GetLicenseUsageInput) async throws -> GetLicenseUsageOutput
+    /// Performs the `GetServiceSettings` operation on the `AWSLicenseManager` service.
+    ///
     /// Gets the License Manager settings for the current Region.
     ///
     /// - Parameter GetServiceSettingsInput : [no documentation found]
@@ -445,6 +497,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutput
+    /// Performs the `ListAssociationsForLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
     ///
     /// - Parameter ListAssociationsForLicenseConfigurationInput : [no documentation found]
@@ -461,6 +515,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listAssociationsForLicenseConfiguration(input: ListAssociationsForLicenseConfigurationInput) async throws -> ListAssociationsForLicenseConfigurationOutput
+    /// Performs the `ListDistributedGrants` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the grants distributed for the specified license.
     ///
     /// - Parameter ListDistributedGrantsInput : [no documentation found]
@@ -478,6 +534,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listDistributedGrants(input: ListDistributedGrantsInput) async throws -> ListDistributedGrantsOutput
+    /// Performs the `ListFailuresForLicenseConfigurationOperations` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the license configuration operations that failed.
     ///
     /// - Parameter ListFailuresForLicenseConfigurationOperationsInput : [no documentation found]
@@ -493,6 +551,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listFailuresForLicenseConfigurationOperations(input: ListFailuresForLicenseConfigurationOperationsInput) async throws -> ListFailuresForLicenseConfigurationOperationsOutput
+    /// Performs the `ListLicenseConfigurations` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the license configurations for your account.
     ///
     /// - Parameter ListLicenseConfigurationsInput : [no documentation found]
@@ -509,6 +569,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listLicenseConfigurations(input: ListLicenseConfigurationsInput) async throws -> ListLicenseConfigurationsOutput
+    /// Performs the `ListLicenseConversionTasks` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the license type conversion tasks for your account.
     ///
     /// - Parameter ListLicenseConversionTasksInput : [no documentation found]
@@ -524,6 +586,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listLicenseConversionTasks(input: ListLicenseConversionTasksInput) async throws -> ListLicenseConversionTasksOutput
+    /// Performs the `ListLicenseManagerReportGenerators` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the report generators for your account.
     ///
     /// - Parameter ListLicenseManagerReportGeneratorsInput : [no documentation found]
@@ -542,6 +606,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLicenseManagerReportGenerators(input: ListLicenseManagerReportGeneratorsInput) async throws -> ListLicenseManagerReportGeneratorsOutput
+    /// Performs the `ListLicenses` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the licenses for your account.
     ///
     /// - Parameter ListLicensesInput : [no documentation found]
@@ -558,6 +624,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLicenses(input: ListLicensesInput) async throws -> ListLicensesOutput
+    /// Performs the `ListLicenseSpecificationsForResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Describes the license configurations for the specified resource.
     ///
     /// - Parameter ListLicenseSpecificationsForResourceInput : [no documentation found]
@@ -573,6 +641,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listLicenseSpecificationsForResource(input: ListLicenseSpecificationsForResourceInput) async throws -> ListLicenseSpecificationsForResourceOutput
+    /// Performs the `ListLicenseVersions` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists all versions of the specified license.
     ///
     /// - Parameter ListLicenseVersionsInput : [no documentation found]
@@ -588,6 +658,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listLicenseVersions(input: ListLicenseVersionsInput) async throws -> ListLicenseVersionsOutput
+    /// Performs the `ListReceivedGrants` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     ///
     /// - Parameter ListReceivedGrantsInput : [no documentation found]
@@ -605,6 +677,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listReceivedGrants(input: ListReceivedGrantsInput) async throws -> ListReceivedGrantsOutput
+    /// Performs the `ListReceivedGrantsForOrganization` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the grants received for all accounts in the organization.
     ///
     /// - Parameter ListReceivedGrantsForOrganizationInput : [no documentation found]
@@ -622,6 +696,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listReceivedGrantsForOrganization(input: ListReceivedGrantsForOrganizationInput) async throws -> ListReceivedGrantsForOrganizationOutput
+    /// Performs the `ListReceivedLicenses` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists received licenses.
     ///
     /// - Parameter ListReceivedLicensesInput : [no documentation found]
@@ -639,6 +715,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listReceivedLicenses(input: ListReceivedLicensesInput) async throws -> ListReceivedLicensesOutput
+    /// Performs the `ListReceivedLicensesForOrganization` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the licenses received for all accounts in the organization.
     ///
     /// - Parameter ListReceivedLicensesForOrganizationInput : [no documentation found]
@@ -656,6 +734,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listReceivedLicensesForOrganization(input: ListReceivedLicensesForOrganizationInput) async throws -> ListReceivedLicensesForOrganizationOutput
+    /// Performs the `ListResourceInventory` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists resources managed using Systems Manager inventory.
     ///
     /// - Parameter ListResourceInventoryInput : [no documentation found]
@@ -673,6 +753,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listResourceInventory(input: ListResourceInventoryInput) async throws -> ListResourceInventoryOutput
+    /// Performs the `ListTagsForResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists the tags for the specified license configuration.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -688,6 +770,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTokens` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists your tokens.
     ///
     /// - Parameter ListTokensInput : [no documentation found]
@@ -703,6 +787,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listTokens(input: ListTokensInput) async throws -> ListTokensOutput
+    /// Performs the `ListUsageForLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
     ///
     /// - Parameter ListUsageForLicenseConfigurationInput : [no documentation found]
@@ -719,6 +805,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func listUsageForLicenseConfiguration(input: ListUsageForLicenseConfigurationInput) async throws -> ListUsageForLicenseConfigurationOutput
+    /// Performs the `RejectGrant` operation on the `AWSLicenseManager` service.
+    ///
     /// Rejects the specified grant.
     ///
     /// - Parameter RejectGrantInput : [no documentation found]
@@ -736,6 +824,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func rejectGrant(input: RejectGrantInput) async throws -> RejectGrantOutput
+    /// Performs the `TagResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Adds the specified tags to the specified license configuration.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -751,6 +841,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `UntagResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Removes the specified tags from the specified license configuration.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -766,6 +858,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateLicenseConfiguration` operation on the `AWSLicenseManager` service.
+    ///
     /// Modifies the attributes of an existing license configuration.
     ///
     /// - Parameter UpdateLicenseConfigurationInput : [no documentation found]
@@ -782,6 +876,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func updateLicenseConfiguration(input: UpdateLicenseConfigurationInput) async throws -> UpdateLicenseConfigurationOutput
+    /// Performs the `UpdateLicenseManagerReportGenerator` operation on the `AWSLicenseManager` service.
+    ///
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     ///
     /// - Parameter UpdateLicenseManagerReportGeneratorInput : [no documentation found]
@@ -800,6 +896,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     /// - `ValidationException` : The provided input is not valid. Try your request again.
     func updateLicenseManagerReportGenerator(input: UpdateLicenseManagerReportGeneratorInput) async throws -> UpdateLicenseManagerReportGeneratorOutput
+    /// Performs the `UpdateLicenseSpecificationsForResource` operation on the `AWSLicenseManager` service.
+    ///
     /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     ///
     /// - Parameter UpdateLicenseSpecificationsForResourceInput : [no documentation found]
@@ -817,6 +915,8 @@ public protocol LicenseManagerClientProtocol {
     /// - `RateLimitExceededException` : Too many requests have been submitted. Try again after a brief wait.
     /// - `ServerInternalException` : The server experienced an internal error. Try again.
     func updateLicenseSpecificationsForResource(input: UpdateLicenseSpecificationsForResourceInput) async throws -> UpdateLicenseSpecificationsForResourceOutput
+    /// Performs the `UpdateServiceSettings` operation on the `AWSLicenseManager` service.
+    ///
     /// Updates License Manager settings for the current Region.
     ///
     /// - Parameter UpdateServiceSettingsInput : [no documentation found]

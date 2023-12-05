@@ -2,6 +2,262 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension SecretsManagerClientTypes.APIErrorType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case message = "Message"
+        case secretId = "SecretId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let secretId = self.secretId {
+            try encodeContainer.encode(secretId, forKey: .secretId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let secretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretId)
+        secretId = secretIdDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension SecretsManagerClientTypes {
+    /// The error Secrets Manager encountered while retrieving an individual secret as part of [BatchGetSecretValue].
+    public struct APIErrorType: Swift.Equatable {
+        /// The error Secrets Manager encountered while retrieving an individual secret as part of [BatchGetSecretValue], for example ResourceNotFoundException,InvalidParameterException, InvalidRequestException, DecryptionFailure, or AccessDeniedException.
+        public var errorCode: Swift.String?
+        /// A message describing the error.
+        public var message: Swift.String?
+        /// The ARN or name of the secret.
+        public var secretId: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil,
+            secretId: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+            self.secretId = secretId
+        }
+    }
+
+}
+
+extension BatchGetSecretValueInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case secretIdList = "SecretIdList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let secretIdList = secretIdList {
+            var secretIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secretIdList)
+            for secretidtype0 in secretIdList {
+                try secretIdListContainer.encode(secretidtype0)
+            }
+        }
+    }
+}
+
+extension BatchGetSecretValueInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchGetSecretValueInput: Swift.Equatable {
+    /// The filters to choose which secrets to retrieve. You must include Filters or SecretIdList, but not both.
+    public var filters: [SecretsManagerClientTypes.Filter]?
+    /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call BatchGetSecretValue again with the value from NextToken.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call BatchGetSecretValue again with this value.
+    public var nextToken: Swift.String?
+    /// The ARN or names of the secrets to retrieve. You must include Filters or SecretIdList, but not both.
+    public var secretIdList: [Swift.String]?
+
+    public init(
+        filters: [SecretsManagerClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        secretIdList: [Swift.String]? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.secretIdList = secretIdList
+    }
+}
+
+struct BatchGetSecretValueInputBody: Swift.Equatable {
+    let secretIdList: [Swift.String]?
+    let filters: [SecretsManagerClientTypes.Filter]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension BatchGetSecretValueInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case secretIdList = "SecretIdList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let secretIdListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .secretIdList)
+        var secretIdListDecoded0:[Swift.String]? = nil
+        if let secretIdListContainer = secretIdListContainer {
+            secretIdListDecoded0 = [Swift.String]()
+            for string0 in secretIdListContainer {
+                if let string0 = string0 {
+                    secretIdListDecoded0?.append(string0)
+                }
+            }
+        }
+        secretIdList = secretIdListDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([SecretsManagerClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[SecretsManagerClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [SecretsManagerClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension BatchGetSecretValueOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetSecretValueOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.nextToken = output.nextToken
+            self.secretValues = output.secretValues
+        } else {
+            self.errors = nil
+            self.nextToken = nil
+            self.secretValues = nil
+        }
+    }
+}
+
+public struct BatchGetSecretValueOutput: Swift.Equatable {
+    /// A list of errors Secrets Manager encountered while attempting to retrieve individual secrets.
+    public var errors: [SecretsManagerClientTypes.APIErrorType]?
+    /// Secrets Manager includes this value if there's more output available than what is included in the current response. This can occur even when the response includes no values at all, such as when you ask for a filtered view of a long list. To get the next results, call BatchGetSecretValue again with this value.
+    public var nextToken: Swift.String?
+    /// A list of secret values.
+    public var secretValues: [SecretsManagerClientTypes.SecretValueEntry]?
+
+    public init(
+        errors: [SecretsManagerClientTypes.APIErrorType]? = nil,
+        nextToken: Swift.String? = nil,
+        secretValues: [SecretsManagerClientTypes.SecretValueEntry]? = nil
+    )
+    {
+        self.errors = errors
+        self.nextToken = nextToken
+        self.secretValues = secretValues
+    }
+}
+
+struct BatchGetSecretValueOutputBody: Swift.Equatable {
+    let secretValues: [SecretsManagerClientTypes.SecretValueEntry]?
+    let nextToken: Swift.String?
+    let errors: [SecretsManagerClientTypes.APIErrorType]?
+}
+
+extension BatchGetSecretValueOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors = "Errors"
+        case nextToken = "NextToken"
+        case secretValues = "SecretValues"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let secretValuesContainer = try containerValues.decodeIfPresent([SecretsManagerClientTypes.SecretValueEntry?].self, forKey: .secretValues)
+        var secretValuesDecoded0:[SecretsManagerClientTypes.SecretValueEntry]? = nil
+        if let secretValuesContainer = secretValuesContainer {
+            secretValuesDecoded0 = [SecretsManagerClientTypes.SecretValueEntry]()
+            for structure0 in secretValuesContainer {
+                if let structure0 = structure0 {
+                    secretValuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        secretValues = secretValuesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let errorsContainer = try containerValues.decodeIfPresent([SecretsManagerClientTypes.APIErrorType?].self, forKey: .errors)
+        var errorsDecoded0:[SecretsManagerClientTypes.APIErrorType]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [SecretsManagerClientTypes.APIErrorType]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum BatchGetSecretValueOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DecryptionFailure": return try await DecryptionFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CancelRotateSecretInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case secretId = "SecretId"
@@ -3929,7 +4185,7 @@ extension SecretsManagerClientTypes {
         public var lastChangedDate: ClientRuntime.Date?
         /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret hasn't ever rotated.
         public var lastRotatedDate: ClientRuntime.Date?
-        /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
+        /// The friendly name of the secret.
         public var name: Swift.String?
         /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation, Secrets Manager returns null.
         public var nextRotationDate: ClientRuntime.Date?
@@ -3985,6 +4241,118 @@ extension SecretsManagerClientTypes {
             self.rotationRules = rotationRules
             self.secretVersionsToStages = secretVersionsToStages
             self.tags = tags
+        }
+    }
+
+}
+
+extension SecretsManagerClientTypes.SecretValueEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
+        case createdDate = "CreatedDate"
+        case name = "Name"
+        case secretBinary = "SecretBinary"
+        case secretString = "SecretString"
+        case versionId = "VersionId"
+        case versionStages = "VersionStages"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdDate = self.createdDate {
+            try encodeContainer.encodeTimestamp(createdDate, format: .epochSeconds, forKey: .createdDate)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let secretBinary = self.secretBinary {
+            try encodeContainer.encode(secretBinary.base64EncodedString(), forKey: .secretBinary)
+        }
+        if let secretString = self.secretString {
+            try encodeContainer.encode(secretString, forKey: .secretString)
+        }
+        if let versionId = self.versionId {
+            try encodeContainer.encode(versionId, forKey: .versionId)
+        }
+        if let versionStages = versionStages {
+            var versionStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionStages)
+            for secretversionstagetype0 in versionStages {
+                try versionStagesContainer.encode(secretversionstagetype0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
+        versionId = versionIdDecoded
+        let secretBinaryDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .secretBinary)
+        secretBinary = secretBinaryDecoded
+        let secretStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretString)
+        secretString = secretStringDecoded
+        let versionStagesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .versionStages)
+        var versionStagesDecoded0:[Swift.String]? = nil
+        if let versionStagesContainer = versionStagesContainer {
+            versionStagesDecoded0 = [Swift.String]()
+            for string0 in versionStagesContainer {
+                if let string0 = string0 {
+                    versionStagesDecoded0?.append(string0)
+                }
+            }
+        }
+        versionStages = versionStagesDecoded0
+        let createdDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdDate)
+        createdDate = createdDateDecoded
+    }
+}
+
+extension SecretsManagerClientTypes.SecretValueEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SecretValueEntry(arn: \(Swift.String(describing: arn)), createdDate: \(Swift.String(describing: createdDate)), name: \(Swift.String(describing: name)), versionId: \(Swift.String(describing: versionId)), versionStages: \(Swift.String(describing: versionStages)), secretBinary: \"CONTENT_REDACTED\", secretString: \"CONTENT_REDACTED\")"}
+}
+
+extension SecretsManagerClientTypes {
+    /// A structure that contains the secret value and other details for a secret.
+    public struct SecretValueEntry: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the secret.
+        public var arn: Swift.String?
+        /// The date the secret was created.
+        public var createdDate: ClientRuntime.Date?
+        /// The friendly name of the secret.
+        public var name: Swift.String?
+        /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. The parameter represents the binary data as a [base64-encoded](https://tools.ietf.org/html/rfc4648#section-4) string.
+        public var secretBinary: ClientRuntime.Data?
+        /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console.
+        public var secretString: Swift.String?
+        /// The unique version identifier of this version of the secret.
+        public var versionId: Swift.String?
+        /// A list of all of the staging labels currently attached to this version of the secret.
+        public var versionStages: [Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdDate: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            secretBinary: ClientRuntime.Data? = nil,
+            secretString: Swift.String? = nil,
+            versionId: Swift.String? = nil,
+            versionStages: [Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.createdDate = createdDate
+            self.name = name
+            self.secretBinary = secretBinary
+            self.secretString = secretString
+            self.versionId = versionId
+            self.versionStages = versionStages
         }
     }
 

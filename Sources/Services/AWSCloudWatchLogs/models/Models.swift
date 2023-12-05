@@ -2,6 +2,61 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You don't have sufficient permissions to perform this action.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CloudWatchLogsClientTypes.AccountPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
@@ -85,6 +140,463 @@ extension CloudWatchLogsClientTypes {
         }
     }
 
+}
+
+extension CloudWatchLogsClientTypes.Anomaly: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case active
+        case anomalyDetectorArn
+        case anomalyId
+        case description
+        case firstSeen
+        case histogram
+        case isPatternLevelSuppression
+        case lastSeen
+        case logGroupArnList
+        case logSamples
+        case patternId
+        case patternRegex
+        case patternString
+        case patternTokens
+        case priority
+        case state
+        case suppressed
+        case suppressedDate
+        case suppressedUntil
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let active = self.active {
+            try encodeContainer.encode(active, forKey: .active)
+        }
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+        if let anomalyId = self.anomalyId {
+            try encodeContainer.encode(anomalyId, forKey: .anomalyId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if firstSeen != 0 {
+            try encodeContainer.encode(firstSeen, forKey: .firstSeen)
+        }
+        if let histogram = histogram {
+            var histogramContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .histogram)
+            for (dictKey0, histogram0) in histogram {
+                try histogramContainer.encode(histogram0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let isPatternLevelSuppression = self.isPatternLevelSuppression {
+            try encodeContainer.encode(isPatternLevelSuppression, forKey: .isPatternLevelSuppression)
+        }
+        if lastSeen != 0 {
+            try encodeContainer.encode(lastSeen, forKey: .lastSeen)
+        }
+        if let logGroupArnList = logGroupArnList {
+            var logGroupArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupArnList)
+            for loggrouparn0 in logGroupArnList {
+                try logGroupArnListContainer.encode(loggrouparn0)
+            }
+        }
+        if let logSamples = logSamples {
+            var logSamplesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logSamples)
+            for logevent0 in logSamples {
+                try logSamplesContainer.encode(logevent0)
+            }
+        }
+        if let patternId = self.patternId {
+            try encodeContainer.encode(patternId, forKey: .patternId)
+        }
+        if let patternRegex = self.patternRegex {
+            try encodeContainer.encode(patternRegex, forKey: .patternRegex)
+        }
+        if let patternString = self.patternString {
+            try encodeContainer.encode(patternString, forKey: .patternString)
+        }
+        if let patternTokens = patternTokens {
+            var patternTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .patternTokens)
+            for patterntoken0 in patternTokens {
+                try patternTokensContainer.encode(patterntoken0)
+            }
+        }
+        if let priority = self.priority {
+            try encodeContainer.encode(priority, forKey: .priority)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let suppressed = self.suppressed {
+            try encodeContainer.encode(suppressed, forKey: .suppressed)
+        }
+        if suppressedDate != 0 {
+            try encodeContainer.encode(suppressedDate, forKey: .suppressedDate)
+        }
+        if suppressedUntil != 0 {
+            try encodeContainer.encode(suppressedUntil, forKey: .suppressedUntil)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyId)
+        anomalyId = anomalyIdDecoded
+        let patternIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patternId)
+        patternId = patternIdDecoded
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+        let patternStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patternString)
+        patternString = patternStringDecoded
+        let patternRegexDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patternRegex)
+        patternRegex = patternRegexDecoded
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .priority)
+        priority = priorityDecoded
+        let firstSeenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .firstSeen) ?? 0
+        firstSeen = firstSeenDecoded
+        let lastSeenDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastSeen) ?? 0
+        lastSeen = lastSeenDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
+        active = activeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.State.self, forKey: .state)
+        state = stateDecoded
+        let histogramContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .histogram)
+        var histogramDecoded0: [Swift.String:Swift.Int]? = nil
+        if let histogramContainer = histogramContainer {
+            histogramDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in histogramContainer {
+                if let count0 = count0 {
+                    histogramDecoded0?[key0] = count0
+                }
+            }
+        }
+        histogram = histogramDecoded0
+        let logSamplesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logSamples)
+        var logSamplesDecoded0:[Swift.String]? = nil
+        if let logSamplesContainer = logSamplesContainer {
+            logSamplesDecoded0 = [Swift.String]()
+            for string0 in logSamplesContainer {
+                if let string0 = string0 {
+                    logSamplesDecoded0?.append(string0)
+                }
+            }
+        }
+        logSamples = logSamplesDecoded0
+        let patternTokensContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.PatternToken?].self, forKey: .patternTokens)
+        var patternTokensDecoded0:[CloudWatchLogsClientTypes.PatternToken]? = nil
+        if let patternTokensContainer = patternTokensContainer {
+            patternTokensDecoded0 = [CloudWatchLogsClientTypes.PatternToken]()
+            for structure0 in patternTokensContainer {
+                if let structure0 = structure0 {
+                    patternTokensDecoded0?.append(structure0)
+                }
+            }
+        }
+        patternTokens = patternTokensDecoded0
+        let logGroupArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupArnList)
+        var logGroupArnListDecoded0:[Swift.String]? = nil
+        if let logGroupArnListContainer = logGroupArnListContainer {
+            logGroupArnListDecoded0 = [Swift.String]()
+            for string0 in logGroupArnListContainer {
+                if let string0 = string0 {
+                    logGroupArnListDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupArnList = logGroupArnListDecoded0
+        let suppressedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .suppressed)
+        suppressed = suppressedDecoded
+        let suppressedDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suppressedDate) ?? 0
+        suppressedDate = suppressedDateDecoded
+        let suppressedUntilDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suppressedUntil) ?? 0
+        suppressedUntil = suppressedUntilDecoded
+        let isPatternLevelSuppressionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPatternLevelSuppression)
+        isPatternLevelSuppression = isPatternLevelSuppressionDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This structure represents one anomaly that has been found by a logs anomaly detector. For more information about patterns and anomalies, see [CreateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html).
+    public struct Anomaly: Swift.Equatable {
+        /// Specifies whether this anomaly is still ongoing.
+        /// This member is required.
+        public var active: Swift.Bool?
+        /// The ARN of the anomaly detector that identified this anomaly.
+        /// This member is required.
+        public var anomalyDetectorArn: Swift.String?
+        /// The unique ID that CloudWatch Logs assigned to this anomaly.
+        /// This member is required.
+        public var anomalyId: Swift.String?
+        /// A human-readable description of the anomaly. This description is generated by CloudWatch Logs.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The date and time when the anomaly detector first saw this anomaly. It is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// This member is required.
+        public var firstSeen: Swift.Int
+        /// A map showing times when the anomaly detector ran, and the number of occurrences of this anomaly that were detected at each of those runs. The times are specified in epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// This member is required.
+        public var histogram: [Swift.String:Swift.Int]?
+        /// If this anomaly is suppressed, this field is true if the suppression is because the pattern is suppressed. If false, then only this particular anomaly is suppressed.
+        public var isPatternLevelSuppression: Swift.Bool?
+        /// The date and time when the anomaly detector most recently saw this anomaly. It is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
+        /// This member is required.
+        public var lastSeen: Swift.Int
+        /// An array of ARNS of the log groups that contained log events considered to be part of this anomaly.
+        /// This member is required.
+        public var logGroupArnList: [Swift.String]?
+        /// An array of sample log event messages that are considered to be part of this anomaly.
+        /// This member is required.
+        public var logSamples: [Swift.String]?
+        /// The ID of the pattern used to help identify this anomaly.
+        /// This member is required.
+        public var patternId: Swift.String?
+        /// The pattern used to help identify this anomaly, in regular expression format.
+        public var patternRegex: Swift.String?
+        /// The pattern used to help identify this anomaly, in string format.
+        /// This member is required.
+        public var patternString: Swift.String?
+        /// An array of structures where each structure contains information about one token that makes up the pattern.
+        /// This member is required.
+        public var patternTokens: [CloudWatchLogsClientTypes.PatternToken]?
+        /// The priority level of this anomaly, as determined by CloudWatch Logs. Priority is computed based on log severity labels such as FATAL and ERROR and the amount of deviation from the baseline. Possible values are HIGH, MEDIUM, and LOW.
+        public var priority: Swift.String?
+        /// Indicates the current state of this anomaly. If it is still being treated as an anomaly, the value is Active. If you have suppressed this anomaly by using the [UpdateAnomaly](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateAnomaly.html) operation, the value is Suppressed. If this behavior is now considered to be normal, the value is Baseline.
+        /// This member is required.
+        public var state: CloudWatchLogsClientTypes.State?
+        /// Indicates whether this anomaly is currently suppressed. To suppress an anomaly, use [UpdateAnomaly](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateAnomaly.html).
+        public var suppressed: Swift.Bool?
+        /// If the anomaly is suppressed, this indicates when it was suppressed.
+        public var suppressedDate: Swift.Int
+        /// If the anomaly is suppressed, this indicates when the suppression will end. If this value is 0, the anomaly was suppressed with no expiration, with the INFINITE value.
+        public var suppressedUntil: Swift.Int
+
+        public init(
+            active: Swift.Bool? = nil,
+            anomalyDetectorArn: Swift.String? = nil,
+            anomalyId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            firstSeen: Swift.Int = 0,
+            histogram: [Swift.String:Swift.Int]? = nil,
+            isPatternLevelSuppression: Swift.Bool? = nil,
+            lastSeen: Swift.Int = 0,
+            logGroupArnList: [Swift.String]? = nil,
+            logSamples: [Swift.String]? = nil,
+            patternId: Swift.String? = nil,
+            patternRegex: Swift.String? = nil,
+            patternString: Swift.String? = nil,
+            patternTokens: [CloudWatchLogsClientTypes.PatternToken]? = nil,
+            priority: Swift.String? = nil,
+            state: CloudWatchLogsClientTypes.State? = nil,
+            suppressed: Swift.Bool? = nil,
+            suppressedDate: Swift.Int = 0,
+            suppressedUntil: Swift.Int = 0
+        )
+        {
+            self.active = active
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyId = anomalyId
+            self.description = description
+            self.firstSeen = firstSeen
+            self.histogram = histogram
+            self.isPatternLevelSuppression = isPatternLevelSuppression
+            self.lastSeen = lastSeen
+            self.logGroupArnList = logGroupArnList
+            self.logSamples = logSamples
+            self.patternId = patternId
+            self.patternRegex = patternRegex
+            self.patternString = patternString
+            self.patternTokens = patternTokens
+            self.priority = priority
+            self.state = state
+            self.suppressed = suppressed
+            self.suppressedDate = suppressedDate
+            self.suppressedUntil = suppressedUntil
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.AnomalyDetector: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case anomalyDetectorStatus
+        case anomalyVisibilityTime
+        case creationTimeStamp
+        case detectorName
+        case evaluationFrequency
+        case filterPattern
+        case kmsKeyId
+        case lastModifiedTimeStamp
+        case logGroupArnList
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+        if let anomalyDetectorStatus = self.anomalyDetectorStatus {
+            try encodeContainer.encode(anomalyDetectorStatus.rawValue, forKey: .anomalyDetectorStatus)
+        }
+        if let anomalyVisibilityTime = self.anomalyVisibilityTime {
+            try encodeContainer.encode(anomalyVisibilityTime, forKey: .anomalyVisibilityTime)
+        }
+        if creationTimeStamp != 0 {
+            try encodeContainer.encode(creationTimeStamp, forKey: .creationTimeStamp)
+        }
+        if let detectorName = self.detectorName {
+            try encodeContainer.encode(detectorName, forKey: .detectorName)
+        }
+        if let evaluationFrequency = self.evaluationFrequency {
+            try encodeContainer.encode(evaluationFrequency.rawValue, forKey: .evaluationFrequency)
+        }
+        if let filterPattern = self.filterPattern {
+            try encodeContainer.encode(filterPattern, forKey: .filterPattern)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if lastModifiedTimeStamp != 0 {
+            try encodeContainer.encode(lastModifiedTimeStamp, forKey: .lastModifiedTimeStamp)
+        }
+        if let logGroupArnList = logGroupArnList {
+            var logGroupArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupArnList)
+            for loggrouparn0 in logGroupArnList {
+                try logGroupArnListContainer.encode(loggrouparn0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+        let detectorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorName)
+        detectorName = detectorNameDecoded
+        let logGroupArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupArnList)
+        var logGroupArnListDecoded0:[Swift.String]? = nil
+        if let logGroupArnListContainer = logGroupArnListContainer {
+            logGroupArnListDecoded0 = [Swift.String]()
+            for string0 in logGroupArnListContainer {
+                if let string0 = string0 {
+                    logGroupArnListDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupArnList = logGroupArnListDecoded0
+        let evaluationFrequencyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.EvaluationFrequency.self, forKey: .evaluationFrequency)
+        evaluationFrequency = evaluationFrequencyDecoded
+        let filterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterPattern)
+        filterPattern = filterPatternDecoded
+        let anomalyDetectorStatusDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.AnomalyDetectorStatus.self, forKey: .anomalyDetectorStatus)
+        anomalyDetectorStatus = anomalyDetectorStatusDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let creationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeStamp) ?? 0
+        creationTimeStamp = creationTimeStampDecoded
+        let lastModifiedTimeStampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedTimeStamp) ?? 0
+        lastModifiedTimeStamp = lastModifiedTimeStampDecoded
+        let anomalyVisibilityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .anomalyVisibilityTime)
+        anomalyVisibilityTime = anomalyVisibilityTimeDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// Contains information about one anomaly detector in the account.
+    public struct AnomalyDetector: Swift.Equatable {
+        /// The ARN of the anomaly detector.
+        public var anomalyDetectorArn: Swift.String?
+        /// Specifies the current status of the anomaly detector. To pause an anomaly detector, use the enabled parameter in the [UpdateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateLogAnomalyDetector.html) operation.
+        public var anomalyDetectorStatus: CloudWatchLogsClientTypes.AnomalyDetectorStatus?
+        /// The number of days used as the life cycle of anomalies. After this time, anomalies are automatically baselined and the anomaly detector model will treat new occurrences of similar event as normal.
+        public var anomalyVisibilityTime: Swift.Int?
+        /// The date and time when this anomaly detector was created.
+        public var creationTimeStamp: Swift.Int
+        /// The name of the anomaly detector.
+        public var detectorName: Swift.String?
+        /// Specifies how often the anomaly detector runs and look for anomalies.
+        public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+        /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
+        public var filterPattern: Swift.String?
+        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        public var kmsKeyId: Swift.String?
+        /// The date and time when this anomaly detector was most recently modified.
+        public var lastModifiedTimeStamp: Swift.Int
+        /// A list of the ARNs of the log groups that this anomaly detector watches.
+        public var logGroupArnList: [Swift.String]?
+
+        public init(
+            anomalyDetectorArn: Swift.String? = nil,
+            anomalyDetectorStatus: CloudWatchLogsClientTypes.AnomalyDetectorStatus? = nil,
+            anomalyVisibilityTime: Swift.Int? = nil,
+            creationTimeStamp: Swift.Int = 0,
+            detectorName: Swift.String? = nil,
+            evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency? = nil,
+            filterPattern: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            lastModifiedTimeStamp: Swift.Int = 0,
+            logGroupArnList: [Swift.String]? = nil
+        )
+        {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyDetectorStatus = anomalyDetectorStatus
+            self.anomalyVisibilityTime = anomalyVisibilityTime
+            self.creationTimeStamp = creationTimeStamp
+            self.detectorName = detectorName
+            self.evaluationFrequency = evaluationFrequency
+            self.filterPattern = filterPattern
+            self.kmsKeyId = kmsKeyId
+            self.lastModifiedTimeStamp = lastModifiedTimeStamp
+            self.logGroupArnList = logGroupArnList
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum AnomalyDetectorStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case analyzing
+        case deleted
+        case failed
+        case initializing
+        case paused
+        case training
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorStatus] {
+            return [
+                .analyzing,
+                .deleted,
+                .failed,
+                .initializing,
+                .paused,
+                .training,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .analyzing: return "ANALYZING"
+            case .deleted: return "DELETED"
+            case .failed: return "FAILED"
+            case .initializing: return "INITIALIZING"
+            case .paused: return "PAUSED"
+            case .training: return "TRAINING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnomalyDetectorStatus(rawValue: rawValue) ?? AnomalyDetectorStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension AssociateKmsKeyInput: Swift.Encodable {
@@ -257,6 +769,203 @@ enum CancelExportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// This operation attempted to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CreateDeliveryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationArn
+        case deliverySourceName
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationArn = self.deliveryDestinationArn {
+            try encodeContainer.encode(deliveryDestinationArn, forKey: .deliveryDestinationArn)
+        }
+        if let deliverySourceName = self.deliverySourceName {
+            try encodeContainer.encode(deliverySourceName, forKey: .deliverySourceName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateDeliveryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDeliveryInput: Swift.Equatable {
+    /// The ARN of the delivery destination to use for this delivery.
+    /// This member is required.
+    public var deliveryDestinationArn: Swift.String?
+    /// The name of the delivery source to use for this delivery.
+    /// This member is required.
+    public var deliverySourceName: Swift.String?
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        deliveryDestinationArn: Swift.String? = nil,
+        deliverySourceName: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.deliveryDestinationArn = deliveryDestinationArn
+        self.deliverySourceName = deliverySourceName
+        self.tags = tags
+    }
+}
+
+struct CreateDeliveryInputBody: Swift.Equatable {
+    let deliverySourceName: Swift.String?
+    let deliveryDestinationArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateDeliveryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationArn
+        case deliverySourceName
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliverySourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliverySourceName)
+        deliverySourceName = deliverySourceNameDecoded
+        let deliveryDestinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationArn)
+        deliveryDestinationArn = deliveryDestinationArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateDeliveryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDeliveryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.delivery = output.delivery
+        } else {
+            self.delivery = nil
+        }
+    }
+}
+
+public struct CreateDeliveryOutput: Swift.Equatable {
+    /// A structure that contains information about the delivery that you just created.
+    public var delivery: CloudWatchLogsClientTypes.Delivery?
+
+    public init(
+        delivery: CloudWatchLogsClientTypes.Delivery? = nil
+    )
+    {
+        self.delivery = delivery
+    }
+}
+
+struct CreateDeliveryOutputBody: Swift.Equatable {
+    let delivery: CloudWatchLogsClientTypes.Delivery?
+}
+
+extension CreateDeliveryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case delivery
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Delivery.self, forKey: .delivery)
+        delivery = deliveryDecoded
+    }
+}
+
+enum CreateDeliveryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -441,9 +1150,209 @@ enum CreateExportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateLogAnomalyDetectorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyVisibilityTime
+        case detectorName
+        case evaluationFrequency
+        case filterPattern
+        case kmsKeyId
+        case logGroupArnList
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyVisibilityTime = self.anomalyVisibilityTime {
+            try encodeContainer.encode(anomalyVisibilityTime, forKey: .anomalyVisibilityTime)
+        }
+        if let detectorName = self.detectorName {
+            try encodeContainer.encode(detectorName, forKey: .detectorName)
+        }
+        if let evaluationFrequency = self.evaluationFrequency {
+            try encodeContainer.encode(evaluationFrequency.rawValue, forKey: .evaluationFrequency)
+        }
+        if let filterPattern = self.filterPattern {
+            try encodeContainer.encode(filterPattern, forKey: .filterPattern)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let logGroupArnList = logGroupArnList {
+            var logGroupArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupArnList)
+            for loggrouparn0 in logGroupArnList {
+                try logGroupArnListContainer.encode(loggrouparn0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateLogAnomalyDetectorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateLogAnomalyDetectorInput: Swift.Equatable {
+    /// The number of days to have visibility on an anomaly. After this time period has elapsed for an anomaly, it will be automatically baselined and the anomaly detector will treat new occurrences of a similar anomaly as normal. Therefore, if you do not correct the cause of an anomaly during the time period specified in anomalyVisibilityTime, it will be considered normal going forward and will not be detected as an anomaly.
+    public var anomalyVisibilityTime: Swift.Int?
+    /// A name for this anomaly detector.
+    public var detectorName: Swift.String?
+    /// Specifies how often the anomaly detector is to run and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then 15 minutes might be a good setting for evaluationFrequency .
+    public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
+    public var filterPattern: Swift.String?
+    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
+    public var kmsKeyId: Swift.String?
+    /// An array containing the ARNs of the log groups that this anomaly detector will watch. You must specify at least one ARN.
+    /// This member is required.
+    public var logGroupArnList: [Swift.String]?
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        anomalyVisibilityTime: Swift.Int? = nil,
+        detectorName: Swift.String? = nil,
+        evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency? = nil,
+        filterPattern: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        logGroupArnList: [Swift.String]? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.anomalyVisibilityTime = anomalyVisibilityTime
+        self.detectorName = detectorName
+        self.evaluationFrequency = evaluationFrequency
+        self.filterPattern = filterPattern
+        self.kmsKeyId = kmsKeyId
+        self.logGroupArnList = logGroupArnList
+        self.tags = tags
+    }
+}
+
+struct CreateLogAnomalyDetectorInputBody: Swift.Equatable {
+    let logGroupArnList: [Swift.String]?
+    let detectorName: Swift.String?
+    let evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    let filterPattern: Swift.String?
+    let kmsKeyId: Swift.String?
+    let anomalyVisibilityTime: Swift.Int?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateLogAnomalyDetectorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyVisibilityTime
+        case detectorName
+        case evaluationFrequency
+        case filterPattern
+        case kmsKeyId
+        case logGroupArnList
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let logGroupArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupArnList)
+        var logGroupArnListDecoded0:[Swift.String]? = nil
+        if let logGroupArnListContainer = logGroupArnListContainer {
+            logGroupArnListDecoded0 = [Swift.String]()
+            for string0 in logGroupArnListContainer {
+                if let string0 = string0 {
+                    logGroupArnListDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupArnList = logGroupArnListDecoded0
+        let detectorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorName)
+        detectorName = detectorNameDecoded
+        let evaluationFrequencyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.EvaluationFrequency.self, forKey: .evaluationFrequency)
+        evaluationFrequency = evaluationFrequencyDecoded
+        let filterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterPattern)
+        filterPattern = filterPatternDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let anomalyVisibilityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .anomalyVisibilityTime)
+        anomalyVisibilityTime = anomalyVisibilityTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateLogAnomalyDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLogAnomalyDetectorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.anomalyDetectorArn = output.anomalyDetectorArn
+        } else {
+            self.anomalyDetectorArn = nil
+        }
+    }
+}
+
+public struct CreateLogAnomalyDetectorOutput: Swift.Equatable {
+    /// The ARN of the log anomaly detector that you just created.
+    public var anomalyDetectorArn: Swift.String?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+    }
+}
+
+struct CreateLogAnomalyDetectorOutputBody: Swift.Equatable {
+    let anomalyDetectorArn: Swift.String?
+}
+
+extension CreateLogAnomalyDetectorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+    }
+}
+
+enum CreateLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateLogGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
+        case logGroupClass
         case logGroupName
         case tags
     }
@@ -452,6 +1361,9 @@ extension CreateLogGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let logGroupClass = self.logGroupClass {
+            try encodeContainer.encode(logGroupClass.rawValue, forKey: .logGroupClass)
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -474,7 +1386,16 @@ extension CreateLogGroupInput: ClientRuntime.URLPathProvider {
 public struct CreateLogGroupInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
-    /// The name of the log group.
+    /// Use this parameter to specify the log group class for this log group. There are two classes:
+    ///
+    /// * The Standard log class supports all CloudWatch Logs features.
+    ///
+    /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    ///
+    /// If you omit this parameter, the default of STANDARD is used. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+    public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+    /// A name for the log group.
     /// This member is required.
     public var logGroupName: Swift.String?
     /// The key-value pairs to use for the tags. You can grant users access to certain log groups while preventing them from accessing other log groups. To do so, tag your groups and use IAM policies that refer to those tags. To assign tags when you create a log group, you must have either the logs:TagResource or logs:TagLogGroup permission. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
@@ -482,11 +1403,13 @@ public struct CreateLogGroupInput: Swift.Equatable {
 
     public init(
         kmsKeyId: Swift.String? = nil,
+        logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupName: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.kmsKeyId = kmsKeyId
+        self.logGroupClass = logGroupClass
         self.logGroupName = logGroupName
         self.tags = tags
     }
@@ -496,11 +1419,13 @@ struct CreateLogGroupInputBody: Swift.Equatable {
     let logGroupName: Swift.String?
     let kmsKeyId: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
 }
 
 extension CreateLogGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kmsKeyId
+        case logGroupClass
         case logGroupName
         case tags
     }
@@ -522,6 +1447,8 @@ extension CreateLogGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let logGroupClassDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.LogGroupClass.self, forKey: .logGroupClass)
+        logGroupClass = logGroupClassDecoded
     }
 }
 
@@ -894,6 +1821,300 @@ enum DeleteDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension DeleteDeliveryDestinationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteDeliveryDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDeliveryDestinationInput: Swift.Equatable {
+    /// The name of the delivery destination that you want to delete. You can find a list of delivery destionation names by using the [DescribeDeliveryDestinations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveryDestinations.html) operation.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteDeliveryDestinationInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteDeliveryDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteDeliveryDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDeliveryDestinationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDeliveryDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteDeliveryDestinationPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationName = self.deliveryDestinationName {
+            try encodeContainer.encode(deliveryDestinationName, forKey: .deliveryDestinationName)
+        }
+    }
+}
+
+extension DeleteDeliveryDestinationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDeliveryDestinationPolicyInput: Swift.Equatable {
+    /// The name of the delivery destination that you want to delete the policy for.
+    /// This member is required.
+    public var deliveryDestinationName: Swift.String?
+
+    public init(
+        deliveryDestinationName: Swift.String? = nil
+    )
+    {
+        self.deliveryDestinationName = deliveryDestinationName
+    }
+}
+
+struct DeleteDeliveryDestinationPolicyInputBody: Swift.Equatable {
+    let deliveryDestinationName: Swift.String?
+}
+
+extension DeleteDeliveryDestinationPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationName)
+        deliveryDestinationName = deliveryDestinationNameDecoded
+    }
+}
+
+extension DeleteDeliveryDestinationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDeliveryDestinationPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDeliveryDestinationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteDeliveryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension DeleteDeliveryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDeliveryInput: Swift.Equatable {
+    /// The unique ID of the delivery to delete. You can find the ID of a delivery with the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteDeliveryInputBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension DeleteDeliveryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension DeleteDeliveryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDeliveryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDeliveryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteDeliverySourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteDeliverySourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDeliverySourceInput: Swift.Equatable {
+    /// The name of the delivery source that you want to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteDeliverySourceInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteDeliverySourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteDeliverySourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteDeliverySourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteDeliverySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationName
@@ -953,6 +2174,78 @@ public struct DeleteDestinationOutput: Swift.Equatable {
 }
 
 enum DeleteDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLogAnomalyDetectorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+    }
+}
+
+extension DeleteLogAnomalyDetectorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteLogAnomalyDetectorInput: Swift.Equatable {
+    /// The ARN of the anomaly detector to delete. You can find the ARNs of log anomaly detectors in your account by using the [ListLogAnomalyDetectors](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html) operation.
+    /// This member is required.
+    public var anomalyDetectorArn: Swift.String?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+    }
+}
+
+struct DeleteLogAnomalyDetectorInputBody: Swift.Equatable {
+    let anomalyDetectorArn: Swift.String?
+}
+
+extension DeleteLogAnomalyDetectorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+    }
+}
+
+extension DeleteLogAnomalyDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLogAnomalyDetectorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -1536,6 +2829,402 @@ enum DeleteSubscriptionFilterOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension CloudWatchLogsClientTypes.Delivery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case deliveryDestinationArn
+        case deliveryDestinationType
+        case deliverySourceName
+        case id
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let deliveryDestinationArn = self.deliveryDestinationArn {
+            try encodeContainer.encode(deliveryDestinationArn, forKey: .deliveryDestinationArn)
+        }
+        if let deliveryDestinationType = self.deliveryDestinationType {
+            try encodeContainer.encode(deliveryDestinationType.rawValue, forKey: .deliveryDestinationType)
+        }
+        if let deliverySourceName = self.deliverySourceName {
+            try encodeContainer.encode(deliverySourceName, forKey: .deliverySourceName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let deliverySourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliverySourceName)
+        deliverySourceName = deliverySourceNameDecoded
+        let deliveryDestinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationArn)
+        deliveryDestinationArn = deliveryDestinationArnDecoded
+        let deliveryDestinationTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestinationType.self, forKey: .deliveryDestinationType)
+        deliveryDestinationType = deliveryDestinationTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This structure contains information about one delivery in your account. A delivery is a connection between a logical delivery source and a logical delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html). You can't update an existing delivery. You can only create and delete deliveries.
+    public struct Delivery: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
+        public var arn: Swift.String?
+        /// The ARN of the delivery destination that is associated with this delivery.
+        public var deliveryDestinationArn: Swift.String?
+        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
+        /// The name of the delivery source that is associated with this delivery.
+        public var deliverySourceName: Swift.String?
+        /// The unique ID that identifies this delivery in your account.
+        public var id: Swift.String?
+        /// The tags that have been assigned to this delivery.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            deliveryDestinationArn: Swift.String? = nil,
+            deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType? = nil,
+            deliverySourceName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.deliveryDestinationArn = deliveryDestinationArn
+            self.deliveryDestinationType = deliveryDestinationType
+            self.deliverySourceName = deliverySourceName
+            self.id = id
+            self.tags = tags
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.DeliveryDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case deliveryDestinationConfiguration
+        case deliveryDestinationType
+        case name
+        case outputFormat
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let deliveryDestinationConfiguration = self.deliveryDestinationConfiguration {
+            try encodeContainer.encode(deliveryDestinationConfiguration, forKey: .deliveryDestinationConfiguration)
+        }
+        if let deliveryDestinationType = self.deliveryDestinationType {
+            try encodeContainer.encode(deliveryDestinationType.rawValue, forKey: .deliveryDestinationType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputFormat = self.outputFormat {
+            try encodeContainer.encode(outputFormat.rawValue, forKey: .outputFormat)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let deliveryDestinationTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestinationType.self, forKey: .deliveryDestinationType)
+        deliveryDestinationType = deliveryDestinationTypeDecoded
+        let outputFormatDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.OutputFormat.self, forKey: .outputFormat)
+        outputFormat = outputFormatDecoded
+        let deliveryDestinationConfigurationDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestinationConfiguration.self, forKey: .deliveryDestinationConfiguration)
+        deliveryDestinationConfiguration = deliveryDestinationConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This structure contains information about one delivery destination in your account. A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, are supported as Kinesis Data Firehose delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
+    ///
+    /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
+    ///
+    /// * Create a delivery destination, which is a logical object that represents the actual delivery destination.
+    ///
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    ///
+    /// * Create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+    ///
+    ///
+    /// You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination.
+    public struct DeliveryDestination: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery destination.
+        public var arn: Swift.String?
+        /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
+        public var deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
+        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
+        /// The name of this delivery destination.
+        public var name: Swift.String?
+        /// The format of the logs that are sent to this delivery destination.
+        public var outputFormat: CloudWatchLogsClientTypes.OutputFormat?
+        /// The tags that have been assigned to this delivery destination.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration? = nil,
+            deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType? = nil,
+            name: Swift.String? = nil,
+            outputFormat: CloudWatchLogsClientTypes.OutputFormat? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
+            self.deliveryDestinationType = deliveryDestinationType
+            self.name = name
+            self.outputFormat = outputFormat
+            self.tags = tags
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.DeliveryDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationResourceArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationResourceArn = self.destinationResourceArn {
+            try encodeContainer.encode(destinationResourceArn, forKey: .destinationResourceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationResourceArn)
+        destinationResourceArn = destinationResourceArnDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// A structure that contains information about one logs delivery destination.
+    public struct DeliveryDestinationConfiguration: Swift.Equatable {
+        /// The ARN of the Amazon Web Services destination that this delivery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Kinesis Data Firehose.
+        /// This member is required.
+        public var destinationResourceArn: Swift.String?
+
+        public init(
+            destinationResourceArn: Swift.String? = nil
+        )
+        {
+            self.destinationResourceArn = destinationResourceArn
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum DeliveryDestinationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cwl
+        case fh
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeliveryDestinationType] {
+            return [
+                .cwl,
+                .fh,
+                .s3,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cwl: return "CWL"
+            case .fh: return "FH"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeliveryDestinationType(rawValue: rawValue) ?? DeliveryDestinationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes.DeliverySource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case logType
+        case name
+        case resourceArns
+        case service
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let logType = self.logType {
+            try encodeContainer.encode(logType, forKey: .logType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resourceArns = resourceArns {
+            var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
+            for arn0 in resourceArns {
+                try resourceArnsContainer.encode(arn0)
+            }
+        }
+        if let service = self.service {
+            try encodeContainer.encode(service, forKey: .service)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let serviceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .service)
+        service = serviceDecoded
+        let logTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logType)
+        logType = logTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This structure contains information about one delivery source in your account. A delivery source is an Amazon Web Services resource that sends logs to an Amazon Web Services destination. The destination can be CloudWatch Logs, Amazon S3, or Kinesis Data Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
+    ///
+    /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
+    ///
+    /// * Create a delivery destination, which is a logical object that represents the actual delivery destination. For more information, see [PutDeliveryDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html).
+    ///
+    /// * If you are delivering logs cross-account, you must use [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationolicy.html) in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.
+    ///
+    /// * Create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
+    ///
+    ///
+    /// You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination.
+    public struct DeliverySource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies this delivery source.
+        public var arn: Swift.String?
+        /// The type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
+        public var logType: Swift.String?
+        /// The unique name of the delivery source.
+        public var name: Swift.String?
+        /// This array contains the ARN of the Amazon Web Services resource that sends logs and is represented by this delivery source. Currently, only one ARN can be in the array.
+        public var resourceArns: [Swift.String]?
+        /// The Amazon Web Services service that is sending logs.
+        public var service: Swift.String?
+        /// The tags that have been assigned to this delivery source.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            logType: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resourceArns: [Swift.String]? = nil,
+            service: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.logType = logType
+            self.name = name
+            self.resourceArns = resourceArns
+            self.service = service
+            self.tags = tags
+        }
+    }
+
+}
+
 extension DescribeAccountPoliciesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIdentifiers
@@ -1678,6 +3367,402 @@ enum DescribeAccountPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDeliveriesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeDeliveriesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDeliveriesInput: Swift.Equatable {
+    /// Optionally specify the maximum number of deliveries to return in the response.
+    public var limit: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliveriesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let limit: Swift.Int?
+}
+
+extension DescribeDeliveriesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+    }
+}
+
+extension DescribeDeliveriesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDeliveriesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliveries = output.deliveries
+            self.nextToken = output.nextToken
+        } else {
+            self.deliveries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeDeliveriesOutput: Swift.Equatable {
+    /// An array of structures. Each structure contains information about one delivery in the account.
+    public var deliveries: [CloudWatchLogsClientTypes.Delivery]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        deliveries: [CloudWatchLogsClientTypes.Delivery]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.deliveries = deliveries
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliveriesOutputBody: Swift.Equatable {
+    let deliveries: [CloudWatchLogsClientTypes.Delivery]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeDeliveriesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveriesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.Delivery?].self, forKey: .deliveries)
+        var deliveriesDecoded0:[CloudWatchLogsClientTypes.Delivery]? = nil
+        if let deliveriesContainer = deliveriesContainer {
+            deliveriesDecoded0 = [CloudWatchLogsClientTypes.Delivery]()
+            for structure0 in deliveriesContainer {
+                if let structure0 = structure0 {
+                    deliveriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        deliveries = deliveriesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDeliveriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDeliveryDestinationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeDeliveryDestinationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDeliveryDestinationsInput: Swift.Equatable {
+    /// Optionally specify the maximum number of delivery destinations to return in the response.
+    public var limit: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliveryDestinationsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let limit: Swift.Int?
+}
+
+extension DescribeDeliveryDestinationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+    }
+}
+
+extension DescribeDeliveryDestinationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDeliveryDestinationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliveryDestinations = output.deliveryDestinations
+            self.nextToken = output.nextToken
+        } else {
+            self.deliveryDestinations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeDeliveryDestinationsOutput: Swift.Equatable {
+    /// An array of structures. Each structure contains information about one delivery destination in the account.
+    public var deliveryDestinations: [CloudWatchLogsClientTypes.DeliveryDestination]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        deliveryDestinations: [CloudWatchLogsClientTypes.DeliveryDestination]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.deliveryDestinations = deliveryDestinations
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliveryDestinationsOutputBody: Swift.Equatable {
+    let deliveryDestinations: [CloudWatchLogsClientTypes.DeliveryDestination]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeDeliveryDestinationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationsContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.DeliveryDestination?].self, forKey: .deliveryDestinations)
+        var deliveryDestinationsDecoded0:[CloudWatchLogsClientTypes.DeliveryDestination]? = nil
+        if let deliveryDestinationsContainer = deliveryDestinationsContainer {
+            deliveryDestinationsDecoded0 = [CloudWatchLogsClientTypes.DeliveryDestination]()
+            for structure0 in deliveryDestinationsContainer {
+                if let structure0 = structure0 {
+                    deliveryDestinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        deliveryDestinations = deliveryDestinationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDeliveryDestinationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDeliverySourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension DescribeDeliverySourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDeliverySourcesInput: Swift.Equatable {
+    /// Optionally specify the maximum number of delivery sources to return in the response.
+    public var limit: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliverySourcesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let limit: Swift.Int?
+}
+
+extension DescribeDeliverySourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case limit
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+    }
+}
+
+extension DescribeDeliverySourcesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDeliverySourcesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliverySources = output.deliverySources
+            self.nextToken = output.nextToken
+        } else {
+            self.deliverySources = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct DescribeDeliverySourcesOutput: Swift.Equatable {
+    /// An array of structures. Each structure contains information about one delivery source in the account.
+    public var deliverySources: [CloudWatchLogsClientTypes.DeliverySource]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        deliverySources: [CloudWatchLogsClientTypes.DeliverySource]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.deliverySources = deliverySources
+        self.nextToken = nextToken
+    }
+}
+
+struct DescribeDeliverySourcesOutputBody: Swift.Equatable {
+    let deliverySources: [CloudWatchLogsClientTypes.DeliverySource]?
+    let nextToken: Swift.String?
+}
+
+extension DescribeDeliverySourcesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliverySources
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliverySourcesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.DeliverySource?].self, forKey: .deliverySources)
+        var deliverySourcesDecoded0:[CloudWatchLogsClientTypes.DeliverySource]? = nil
+        if let deliverySourcesContainer = deliverySourcesContainer {
+            deliverySourcesDecoded0 = [CloudWatchLogsClientTypes.DeliverySource]()
+            for structure0 in deliverySourcesContainer {
+                if let structure0 = structure0 {
+                    deliverySourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        deliverySources = deliverySourcesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum DescribeDeliverySourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1984,6 +4069,7 @@ extension DescribeLogGroupsInput: Swift.Encodable {
         case accountIdentifiers
         case includeLinkedAccounts
         case limit
+        case logGroupClass
         case logGroupNamePattern
         case logGroupNamePrefix
         case nextToken
@@ -2002,6 +4088,9 @@ extension DescribeLogGroupsInput: Swift.Encodable {
         }
         if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let logGroupClass = self.logGroupClass {
+            try encodeContainer.encode(logGroupClass.rawValue, forKey: .logGroupClass)
         }
         if let logGroupNamePattern = self.logGroupNamePattern {
             try encodeContainer.encode(logGroupNamePattern, forKey: .logGroupNamePattern)
@@ -2028,6 +4117,15 @@ public struct DescribeLogGroupsInput: Swift.Equatable {
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
+    /// Specifies the log group class for this log group. There are two classes:
+    ///
+    /// * The Standard log class supports all CloudWatch Logs features.
+    ///
+    /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    ///
+    /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+    public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
     /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePattern: Swift.String?
     /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
@@ -2039,6 +4137,7 @@ public struct DescribeLogGroupsInput: Swift.Equatable {
         accountIdentifiers: [Swift.String]? = nil,
         includeLinkedAccounts: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
+        logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
         logGroupNamePattern: Swift.String? = nil,
         logGroupNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -2047,6 +4146,7 @@ public struct DescribeLogGroupsInput: Swift.Equatable {
         self.accountIdentifiers = accountIdentifiers
         self.includeLinkedAccounts = includeLinkedAccounts
         self.limit = limit
+        self.logGroupClass = logGroupClass
         self.logGroupNamePattern = logGroupNamePattern
         self.logGroupNamePrefix = logGroupNamePrefix
         self.nextToken = nextToken
@@ -2060,6 +4160,7 @@ struct DescribeLogGroupsInputBody: Swift.Equatable {
     let nextToken: Swift.String?
     let limit: Swift.Int?
     let includeLinkedAccounts: Swift.Bool?
+    let logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
 }
 
 extension DescribeLogGroupsInputBody: Swift.Decodable {
@@ -2067,6 +4168,7 @@ extension DescribeLogGroupsInputBody: Swift.Decodable {
         case accountIdentifiers
         case includeLinkedAccounts
         case limit
+        case logGroupClass
         case logGroupNamePattern
         case logGroupNamePrefix
         case nextToken
@@ -2095,6 +4197,8 @@ extension DescribeLogGroupsInputBody: Swift.Decodable {
         limit = limitDecoded
         let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts)
         includeLinkedAccounts = includeLinkedAccountsDecoded
+        let logGroupClassDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.LogGroupClass.self, forKey: .logGroupClass)
+        logGroupClass = logGroupClassDecoded
     }
 }
 
@@ -3330,6 +5434,50 @@ extension CloudWatchLogsClientTypes {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+    public enum EvaluationFrequency: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fifteenMin
+        case fiveMin
+        case oneHour
+        case oneMin
+        case tenMin
+        case thirtyMin
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFrequency] {
+            return [
+                .fifteenMin,
+                .fiveMin,
+                .oneHour,
+                .oneMin,
+                .tenMin,
+                .thirtyMin,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fifteenMin: return "FIFTEEN_MIN"
+            case .fiveMin: return "FIVE_MIN"
+            case .oneHour: return "ONE_HOUR"
+            case .oneMin: return "ONE_MIN"
+            case .tenMin: return "TEN_MIN"
+            case .thirtyMin: return "THIRTY_MIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EvaluationFrequency(rawValue: rawValue) ?? EvaluationFrequency.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudWatchLogsClientTypes.ExportTask: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination
@@ -4034,6 +6182,607 @@ extension GetDataProtectionPolicyOutputBody: Swift.Decodable {
 }
 
 enum GetDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDeliveryDestinationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension GetDeliveryDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDeliveryDestinationInput: Swift.Equatable {
+    /// The name of the delivery destination that you want to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct GetDeliveryDestinationInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension GetDeliveryDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GetDeliveryDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeliveryDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliveryDestination = output.deliveryDestination
+        } else {
+            self.deliveryDestination = nil
+        }
+    }
+}
+
+public struct GetDeliveryDestinationOutput: Swift.Equatable {
+    /// A structure containing information about the delivery destination.
+    public var deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination?
+
+    public init(
+        deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination? = nil
+    )
+    {
+        self.deliveryDestination = deliveryDestination
+    }
+}
+
+struct GetDeliveryDestinationOutputBody: Swift.Equatable {
+    let deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination?
+}
+
+extension GetDeliveryDestinationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestination
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestination.self, forKey: .deliveryDestination)
+        deliveryDestination = deliveryDestinationDecoded
+    }
+}
+
+enum GetDeliveryDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDeliveryDestinationPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationName = self.deliveryDestinationName {
+            try encodeContainer.encode(deliveryDestinationName, forKey: .deliveryDestinationName)
+        }
+    }
+}
+
+extension GetDeliveryDestinationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDeliveryDestinationPolicyInput: Swift.Equatable {
+    /// The name of the delivery destination that you want to retrieve the policy of.
+    /// This member is required.
+    public var deliveryDestinationName: Swift.String?
+
+    public init(
+        deliveryDestinationName: Swift.String? = nil
+    )
+    {
+        self.deliveryDestinationName = deliveryDestinationName
+    }
+}
+
+struct GetDeliveryDestinationPolicyInputBody: Swift.Equatable {
+    let deliveryDestinationName: Swift.String?
+}
+
+extension GetDeliveryDestinationPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationName)
+        deliveryDestinationName = deliveryDestinationNameDecoded
+    }
+}
+
+extension GetDeliveryDestinationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeliveryDestinationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct GetDeliveryDestinationPolicyOutput: Swift.Equatable {
+    /// The IAM policy for this delivery destination.
+    public var policy: CloudWatchLogsClientTypes.Policy?
+
+    public init(
+        policy: CloudWatchLogsClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct GetDeliveryDestinationPolicyOutputBody: Swift.Equatable {
+    let policy: CloudWatchLogsClientTypes.Policy?
+}
+
+extension GetDeliveryDestinationPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum GetDeliveryDestinationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDeliveryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+    }
+}
+
+extension GetDeliveryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDeliveryInput: Swift.Equatable {
+    /// The ID of the delivery that you want to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetDeliveryInputBody: Swift.Equatable {
+    let id: Swift.String?
+}
+
+extension GetDeliveryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension GetDeliveryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeliveryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.delivery = output.delivery
+        } else {
+            self.delivery = nil
+        }
+    }
+}
+
+public struct GetDeliveryOutput: Swift.Equatable {
+    /// A structure that contains information about the delivery.
+    public var delivery: CloudWatchLogsClientTypes.Delivery?
+
+    public init(
+        delivery: CloudWatchLogsClientTypes.Delivery? = nil
+    )
+    {
+        self.delivery = delivery
+    }
+}
+
+struct GetDeliveryOutputBody: Swift.Equatable {
+    let delivery: CloudWatchLogsClientTypes.Delivery?
+}
+
+extension GetDeliveryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case delivery
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Delivery.self, forKey: .delivery)
+        delivery = deliveryDecoded
+    }
+}
+
+enum GetDeliveryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetDeliverySourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension GetDeliverySourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetDeliverySourceInput: Swift.Equatable {
+    /// The name of the delivery source that you want to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct GetDeliverySourceInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension GetDeliverySourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension GetDeliverySourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetDeliverySourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliverySource = output.deliverySource
+        } else {
+            self.deliverySource = nil
+        }
+    }
+}
+
+public struct GetDeliverySourceOutput: Swift.Equatable {
+    /// A structure containing information about the delivery source.
+    public var deliverySource: CloudWatchLogsClientTypes.DeliverySource?
+
+    public init(
+        deliverySource: CloudWatchLogsClientTypes.DeliverySource? = nil
+    )
+    {
+        self.deliverySource = deliverySource
+    }
+}
+
+struct GetDeliverySourceOutputBody: Swift.Equatable {
+    let deliverySource: CloudWatchLogsClientTypes.DeliverySource?
+}
+
+extension GetDeliverySourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliverySource
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliverySourceDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliverySource.self, forKey: .deliverySource)
+        deliverySource = deliverySourceDecoded
+    }
+}
+
+enum GetDeliverySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetLogAnomalyDetectorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+    }
+}
+
+extension GetLogAnomalyDetectorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetLogAnomalyDetectorInput: Swift.Equatable {
+    /// The ARN of the anomaly detector to retrieve information about. You can find the ARNs of log anomaly detectors in your account by using the [ListLogAnomalyDetectors](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html) operation.
+    /// This member is required.
+    public var anomalyDetectorArn: Swift.String?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+    }
+}
+
+struct GetLogAnomalyDetectorInputBody: Swift.Equatable {
+    let anomalyDetectorArn: Swift.String?
+}
+
+extension GetLogAnomalyDetectorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+    }
+}
+
+extension GetLogAnomalyDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLogAnomalyDetectorOutputBody = try responseDecoder.decode(responseBody: data)
+            self.anomalyDetectorStatus = output.anomalyDetectorStatus
+            self.anomalyVisibilityTime = output.anomalyVisibilityTime
+            self.creationTimeStamp = output.creationTimeStamp
+            self.detectorName = output.detectorName
+            self.evaluationFrequency = output.evaluationFrequency
+            self.filterPattern = output.filterPattern
+            self.kmsKeyId = output.kmsKeyId
+            self.lastModifiedTimeStamp = output.lastModifiedTimeStamp
+            self.logGroupArnList = output.logGroupArnList
+        } else {
+            self.anomalyDetectorStatus = nil
+            self.anomalyVisibilityTime = nil
+            self.creationTimeStamp = 0
+            self.detectorName = nil
+            self.evaluationFrequency = nil
+            self.filterPattern = nil
+            self.kmsKeyId = nil
+            self.lastModifiedTimeStamp = 0
+            self.logGroupArnList = nil
+        }
+    }
+}
+
+public struct GetLogAnomalyDetectorOutput: Swift.Equatable {
+    /// Specifies whether the anomaly detector is currently active. To change its status, use the enabled parameter in the [UpdateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateLogAnomalyDetector.html) operation.
+    public var anomalyDetectorStatus: CloudWatchLogsClientTypes.AnomalyDetectorStatus?
+    /// The number of days used as the life cycle of anomalies. After this time, anomalies are automatically baselined and the anomaly detector model will treat new occurrences of similar event as normal.
+    public var anomalyVisibilityTime: Swift.Int?
+    /// The date and time when this anomaly detector was created.
+    public var creationTimeStamp: Swift.Int
+    /// The name of the log anomaly detector
+    public var detectorName: Swift.String?
+    /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate.
+    public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
+    public var filterPattern: Swift.String?
+    /// The ID of the KMS key assigned to this anomaly detector, if any.
+    public var kmsKeyId: Swift.String?
+    /// The date and time when this anomaly detector was most recently modified.
+    public var lastModifiedTimeStamp: Swift.Int
+    /// An array of structures, where each structure contains the ARN of a log group associated with this anomaly detector.
+    public var logGroupArnList: [Swift.String]?
+
+    public init(
+        anomalyDetectorStatus: CloudWatchLogsClientTypes.AnomalyDetectorStatus? = nil,
+        anomalyVisibilityTime: Swift.Int? = nil,
+        creationTimeStamp: Swift.Int = 0,
+        detectorName: Swift.String? = nil,
+        evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency? = nil,
+        filterPattern: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lastModifiedTimeStamp: Swift.Int = 0,
+        logGroupArnList: [Swift.String]? = nil
+    )
+    {
+        self.anomalyDetectorStatus = anomalyDetectorStatus
+        self.anomalyVisibilityTime = anomalyVisibilityTime
+        self.creationTimeStamp = creationTimeStamp
+        self.detectorName = detectorName
+        self.evaluationFrequency = evaluationFrequency
+        self.filterPattern = filterPattern
+        self.kmsKeyId = kmsKeyId
+        self.lastModifiedTimeStamp = lastModifiedTimeStamp
+        self.logGroupArnList = logGroupArnList
+    }
+}
+
+struct GetLogAnomalyDetectorOutputBody: Swift.Equatable {
+    let detectorName: Swift.String?
+    let logGroupArnList: [Swift.String]?
+    let evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    let filterPattern: Swift.String?
+    let anomalyDetectorStatus: CloudWatchLogsClientTypes.AnomalyDetectorStatus?
+    let kmsKeyId: Swift.String?
+    let creationTimeStamp: Swift.Int
+    let lastModifiedTimeStamp: Swift.Int
+    let anomalyVisibilityTime: Swift.Int?
+}
+
+extension GetLogAnomalyDetectorOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorStatus
+        case anomalyVisibilityTime
+        case creationTimeStamp
+        case detectorName
+        case evaluationFrequency
+        case filterPattern
+        case kmsKeyId
+        case lastModifiedTimeStamp
+        case logGroupArnList
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detectorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detectorName)
+        detectorName = detectorNameDecoded
+        let logGroupArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logGroupArnList)
+        var logGroupArnListDecoded0:[Swift.String]? = nil
+        if let logGroupArnListContainer = logGroupArnListContainer {
+            logGroupArnListDecoded0 = [Swift.String]()
+            for string0 in logGroupArnListContainer {
+                if let string0 = string0 {
+                    logGroupArnListDecoded0?.append(string0)
+                }
+            }
+        }
+        logGroupArnList = logGroupArnListDecoded0
+        let evaluationFrequencyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.EvaluationFrequency.self, forKey: .evaluationFrequency)
+        evaluationFrequency = evaluationFrequencyDecoded
+        let filterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterPattern)
+        filterPattern = filterPatternDecoded
+        let anomalyDetectorStatusDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.AnomalyDetectorStatus.self, forKey: .anomalyDetectorStatus)
+        anomalyDetectorStatus = anomalyDetectorStatusDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let creationTimeStampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .creationTimeStamp) ?? 0
+        creationTimeStamp = creationTimeStampDecoded
+        let lastModifiedTimeStampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .lastModifiedTimeStamp) ?? 0
+        lastModifiedTimeStamp = lastModifiedTimeStampDecoded
+        let anomalyVisibilityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .anomalyVisibilityTime)
+        anomalyVisibilityTime = anomalyVisibilityTimeDecoded
+    }
+}
+
+enum GetLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4984,6 +7733,306 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListAnomaliesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case limit
+        case nextToken
+        case suppressionState
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let suppressionState = self.suppressionState {
+            try encodeContainer.encode(suppressionState.rawValue, forKey: .suppressionState)
+        }
+    }
+}
+
+extension ListAnomaliesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAnomaliesInput: Swift.Equatable {
+    /// Use this to optionally limit the results to only the anomalies found by a certain anomaly detector.
+    public var anomalyDetectorArn: Swift.String?
+    /// The maximum number of items to return. If you don't specify a value, the default maximum value of 50 items is used.
+    public var limit: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+    /// You can specify this parameter if you want to the operation to return only anomalies that are currently either suppressed or unsuppressed.
+    public var suppressionState: CloudWatchLogsClientTypes.SuppressionState?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        suppressionState: CloudWatchLogsClientTypes.SuppressionState? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+        self.limit = limit
+        self.nextToken = nextToken
+        self.suppressionState = suppressionState
+    }
+}
+
+struct ListAnomaliesInputBody: Swift.Equatable {
+    let anomalyDetectorArn: Swift.String?
+    let suppressionState: CloudWatchLogsClientTypes.SuppressionState?
+    let limit: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListAnomaliesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case limit
+        case nextToken
+        case suppressionState
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+        let suppressionStateDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.SuppressionState.self, forKey: .suppressionState)
+        suppressionState = suppressionStateDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListAnomaliesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAnomaliesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.anomalies = output.anomalies
+            self.nextToken = output.nextToken
+        } else {
+            self.anomalies = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAnomaliesOutput: Swift.Equatable {
+    /// An array of structures, where each structure contains information about one anomaly that a log anomaly detector has found.
+    public var anomalies: [CloudWatchLogsClientTypes.Anomaly]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        anomalies: [CloudWatchLogsClientTypes.Anomaly]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.anomalies = anomalies
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnomaliesOutputBody: Swift.Equatable {
+    let anomalies: [CloudWatchLogsClientTypes.Anomaly]?
+    let nextToken: Swift.String?
+}
+
+extension ListAnomaliesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalies
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomaliesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.Anomaly?].self, forKey: .anomalies)
+        var anomaliesDecoded0:[CloudWatchLogsClientTypes.Anomaly]? = nil
+        if let anomaliesContainer = anomaliesContainer {
+            anomaliesDecoded0 = [CloudWatchLogsClientTypes.Anomaly]()
+            for structure0 in anomaliesContainer {
+                if let structure0 = structure0 {
+                    anomaliesDecoded0?.append(structure0)
+                }
+            }
+        }
+        anomalies = anomaliesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAnomaliesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListLogAnomalyDetectorsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterLogGroupArn
+        case limit
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filterLogGroupArn = self.filterLogGroupArn {
+            try encodeContainer.encode(filterLogGroupArn, forKey: .filterLogGroupArn)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListLogAnomalyDetectorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListLogAnomalyDetectorsInput: Swift.Equatable {
+    /// Use this to optionally filter the results to only include anomaly detectors that are associated with the specified log group.
+    public var filterLogGroupArn: Swift.String?
+    /// The maximum number of items to return. If you don't specify a value, the default maximum value of 50 items is used.
+    public var limit: Swift.Int?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        filterLogGroupArn: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filterLogGroupArn = filterLogGroupArn
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLogAnomalyDetectorsInputBody: Swift.Equatable {
+    let filterLogGroupArn: Swift.String?
+    let limit: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListLogAnomalyDetectorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filterLogGroupArn
+        case limit
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterLogGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterLogGroupArn)
+        filterLogGroupArn = filterLogGroupArnDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListLogAnomalyDetectorsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLogAnomalyDetectorsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.anomalyDetectors = output.anomalyDetectors
+            self.nextToken = output.nextToken
+        } else {
+            self.anomalyDetectors = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLogAnomalyDetectorsOutput: Swift.Equatable {
+    /// An array of structures, where each structure in the array contains information about one anomaly detector.
+    public var anomalyDetectors: [CloudWatchLogsClientTypes.AnomalyDetector]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        anomalyDetectors: [CloudWatchLogsClientTypes.AnomalyDetector]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.anomalyDetectors = anomalyDetectors
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLogAnomalyDetectorsOutputBody: Swift.Equatable {
+    let anomalyDetectors: [CloudWatchLogsClientTypes.AnomalyDetector]?
+    let nextToken: Swift.String?
+}
+
+extension ListLogAnomalyDetectorsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectors
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorsContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.AnomalyDetector?].self, forKey: .anomalyDetectors)
+        var anomalyDetectorsDecoded0:[CloudWatchLogsClientTypes.AnomalyDetector]? = nil
+        if let anomalyDetectorsContainer = anomalyDetectorsContainer {
+            anomalyDetectorsDecoded0 = [CloudWatchLogsClientTypes.AnomalyDetector]()
+            for structure0 in anomalyDetectorsContainer {
+                if let structure0 = structure0 {
+                    anomalyDetectorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        anomalyDetectors = anomalyDetectorsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLogAnomalyDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn
@@ -5212,6 +8261,7 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         case dataProtectionStatus
         case inheritedProperties
         case kmsKeyId
+        case logGroupClass
         case logGroupName
         case metricFilterCount
         case retentionInDays
@@ -5237,6 +8287,9 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let logGroupClass = self.logGroupClass {
+            try encodeContainer.encode(logGroupClass.rawValue, forKey: .logGroupClass)
         }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
@@ -5281,6 +8334,8 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
             }
         }
         inheritedProperties = inheritedPropertiesDecoded0
+        let logGroupClassDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.LogGroupClass.self, forKey: .logGroupClass)
+        logGroupClass = logGroupClassDecoded
     }
 }
 
@@ -5297,6 +8352,15 @@ extension CloudWatchLogsClientTypes {
         public var inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public var kmsKeyId: Swift.String?
+        /// This specifies the log group class for this log group. There are two classes:
+        ///
+        /// * The Standard log class supports all CloudWatch Logs features.
+        ///
+        /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+        ///
+        ///
+        /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
         /// The name of the log group.
         public var logGroupName: Swift.String?
         /// The number of metric filters.
@@ -5312,6 +8376,7 @@ extension CloudWatchLogsClientTypes {
             dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
             inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]? = nil,
             kmsKeyId: Swift.String? = nil,
+            logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
             retentionInDays: Swift.Int? = nil,
@@ -5323,6 +8388,7 @@ extension CloudWatchLogsClientTypes {
             self.dataProtectionStatus = dataProtectionStatus
             self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
+            self.logGroupClass = logGroupClass
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
             self.retentionInDays = retentionInDays
@@ -5330,6 +8396,38 @@ extension CloudWatchLogsClientTypes {
         }
     }
 
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum LogGroupClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case infrequentAccess
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogGroupClass] {
+            return [
+                .infrequentAccess,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .infrequentAccess: return "INFREQUENT_ACCESS"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LogGroupClass(rawValue: rawValue) ?? LogGroupClass.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CloudWatchLogsClientTypes.LogGroupField: Swift.Codable {
@@ -5889,6 +8987,47 @@ extension CloudWatchLogsClientTypes {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+    public enum OutputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case parquet
+        case plain
+        case raw
+        case w3c
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputFormat] {
+            return [
+                .json,
+                .parquet,
+                .plain,
+                .raw,
+                .w3c,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "json"
+            case .parquet: return "parquet"
+            case .plain: return "plain"
+            case .raw: return "raw"
+            case .w3c: return "w3c"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OutputFormat(rawValue: rawValue) ?? OutputFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudWatchLogsClientTypes.OutputLogEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ingestionTime
@@ -5939,6 +9078,118 @@ extension CloudWatchLogsClientTypes {
             self.ingestionTime = ingestionTime
             self.message = message
             self.timestamp = timestamp
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.PatternToken: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dynamicTokenPosition
+        case enumerations
+        case isDynamic
+        case tokenString
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if dynamicTokenPosition != 0 {
+            try encodeContainer.encode(dynamicTokenPosition, forKey: .dynamicTokenPosition)
+        }
+        if let enumerations = enumerations {
+            var enumerationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .enumerations)
+            for (dictKey0, enumerations0) in enumerations {
+                try enumerationsContainer.encode(enumerations0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let isDynamic = self.isDynamic {
+            try encodeContainer.encode(isDynamic, forKey: .isDynamic)
+        }
+        if let tokenString = self.tokenString {
+            try encodeContainer.encode(tokenString, forKey: .tokenString)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dynamicTokenPositionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dynamicTokenPosition) ?? 0
+        dynamicTokenPosition = dynamicTokenPositionDecoded
+        let isDynamicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDynamic)
+        isDynamic = isDynamicDecoded
+        let tokenStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tokenString)
+        tokenString = tokenStringDecoded
+        let enumerationsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .enumerations)
+        var enumerationsDecoded0: [Swift.String:Swift.Int]? = nil
+        if let enumerationsContainer = enumerationsContainer {
+            enumerationsDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, tokenvalue0) in enumerationsContainer {
+                if let tokenvalue0 = tokenvalue0 {
+                    enumerationsDecoded0?[key0] = tokenvalue0
+                }
+            }
+        }
+        enumerations = enumerationsDecoded0
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// A tructures that contains information about one pattern token related to an anomaly. For more information about patterns and tokens, see [CreateLogAnomalyDetector](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateLogAnomalyDetector.html).
+    public struct PatternToken: Swift.Equatable {
+        /// For a dynamic token, this indicates where in the pattern that this token appears, related to other dynamic tokens. The dynamic token that appears first has a value of 1, the one that appears second is 2, and so on.
+        public var dynamicTokenPosition: Swift.Int
+        /// Contains the values found for a dynamic token, and the number of times each value was found.
+        public var enumerations: [Swift.String:Swift.Int]?
+        /// Specifies whether this is a dynamic token.
+        public var isDynamic: Swift.Bool?
+        /// The string represented by this token. If this is a dynamic token, the value will be <*>
+        public var tokenString: Swift.String?
+
+        public init(
+            dynamicTokenPosition: Swift.Int = 0,
+            enumerations: [Swift.String:Swift.Int]? = nil,
+            isDynamic: Swift.Bool? = nil,
+            tokenString: Swift.String? = nil
+        )
+        {
+            self.dynamicTokenPosition = dynamicTokenPosition
+            self.enumerations = enumerations
+            self.isDynamic = isDynamic
+            self.tokenString = tokenString
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes.Policy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationPolicy = self.deliveryDestinationPolicy {
+            try encodeContainer.encode(deliveryDestinationPolicy, forKey: .deliveryDestinationPolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationPolicy)
+        deliveryDestinationPolicy = deliveryDestinationPolicyDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// A structure that contains information about one delivery destination policy.
+    public struct Policy: Swift.Equatable {
+        /// The contents of the delivery destination policy.
+        public var deliveryDestinationPolicy: Swift.String?
+
+        public init(
+            deliveryDestinationPolicy: Swift.String? = nil
+        )
+        {
+            self.deliveryDestinationPolicy = deliveryDestinationPolicy
         }
     }
 
@@ -6258,6 +9509,428 @@ enum PutDataProtectionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutDeliveryDestinationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationConfiguration
+        case name
+        case outputFormat
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationConfiguration = self.deliveryDestinationConfiguration {
+            try encodeContainer.encode(deliveryDestinationConfiguration, forKey: .deliveryDestinationConfiguration)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputFormat = self.outputFormat {
+            try encodeContainer.encode(outputFormat.rawValue, forKey: .outputFormat)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension PutDeliveryDestinationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutDeliveryDestinationInput: Swift.Equatable {
+    /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
+    /// This member is required.
+    public var deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
+    /// A name for this delivery destination. This name must be unique for all delivery destinations in your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The format for the logs that this delivery destination will receive.
+    public var outputFormat: CloudWatchLogsClientTypes.OutputFormat?
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration? = nil,
+        name: Swift.String? = nil,
+        outputFormat: CloudWatchLogsClientTypes.OutputFormat? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
+        self.name = name
+        self.outputFormat = outputFormat
+        self.tags = tags
+    }
+}
+
+struct PutDeliveryDestinationInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let outputFormat: CloudWatchLogsClientTypes.OutputFormat?
+    let deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension PutDeliveryDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationConfiguration
+        case name
+        case outputFormat
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let outputFormatDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.OutputFormat.self, forKey: .outputFormat)
+        outputFormat = outputFormatDecoded
+        let deliveryDestinationConfigurationDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestinationConfiguration.self, forKey: .deliveryDestinationConfiguration)
+        deliveryDestinationConfiguration = deliveryDestinationConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension PutDeliveryDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutDeliveryDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliveryDestination = output.deliveryDestination
+        } else {
+            self.deliveryDestination = nil
+        }
+    }
+}
+
+public struct PutDeliveryDestinationOutput: Swift.Equatable {
+    /// A structure containing information about the delivery destination that you just created or updated.
+    public var deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination?
+
+    public init(
+        deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination? = nil
+    )
+    {
+        self.deliveryDestination = deliveryDestination
+    }
+}
+
+struct PutDeliveryDestinationOutputBody: Swift.Equatable {
+    let deliveryDestination: CloudWatchLogsClientTypes.DeliveryDestination?
+}
+
+extension PutDeliveryDestinationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestination
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliveryDestination.self, forKey: .deliveryDestination)
+        deliveryDestination = deliveryDestinationDecoded
+    }
+}
+
+enum PutDeliveryDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutDeliveryDestinationPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+        case deliveryDestinationPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deliveryDestinationName = self.deliveryDestinationName {
+            try encodeContainer.encode(deliveryDestinationName, forKey: .deliveryDestinationName)
+        }
+        if let deliveryDestinationPolicy = self.deliveryDestinationPolicy {
+            try encodeContainer.encode(deliveryDestinationPolicy, forKey: .deliveryDestinationPolicy)
+        }
+    }
+}
+
+extension PutDeliveryDestinationPolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutDeliveryDestinationPolicyInput: Swift.Equatable {
+    /// The name of the delivery destination to assign this policy to.
+    /// This member is required.
+    public var deliveryDestinationName: Swift.String?
+    /// The contents of the policy.
+    /// This member is required.
+    public var deliveryDestinationPolicy: Swift.String?
+
+    public init(
+        deliveryDestinationName: Swift.String? = nil,
+        deliveryDestinationPolicy: Swift.String? = nil
+    )
+    {
+        self.deliveryDestinationName = deliveryDestinationName
+        self.deliveryDestinationPolicy = deliveryDestinationPolicy
+    }
+}
+
+struct PutDeliveryDestinationPolicyInputBody: Swift.Equatable {
+    let deliveryDestinationName: Swift.String?
+    let deliveryDestinationPolicy: Swift.String?
+}
+
+extension PutDeliveryDestinationPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliveryDestinationName
+        case deliveryDestinationPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliveryDestinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationName)
+        deliveryDestinationName = deliveryDestinationNameDecoded
+        let deliveryDestinationPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deliveryDestinationPolicy)
+        deliveryDestinationPolicy = deliveryDestinationPolicyDecoded
+    }
+}
+
+extension PutDeliveryDestinationPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutDeliveryDestinationPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+        } else {
+            self.policy = nil
+        }
+    }
+}
+
+public struct PutDeliveryDestinationPolicyOutput: Swift.Equatable {
+    /// The contents of the policy that you just created.
+    public var policy: CloudWatchLogsClientTypes.Policy?
+
+    public init(
+        policy: CloudWatchLogsClientTypes.Policy? = nil
+    )
+    {
+        self.policy = policy
+    }
+}
+
+struct PutDeliveryDestinationPolicyOutputBody: Swift.Equatable {
+    let policy: CloudWatchLogsClientTypes.Policy?
+}
+
+extension PutDeliveryDestinationPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.Policy.self, forKey: .policy)
+        policy = policyDecoded
+    }
+}
+
+enum PutDeliveryDestinationPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutDeliverySourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logType
+        case name
+        case resourceArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let logType = self.logType {
+            try encodeContainer.encode(logType, forKey: .logType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension PutDeliverySourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutDeliverySourceInput: Swift.Equatable {
+    /// Defines the type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
+    /// This member is required.
+    public var logType: Swift.String?
+    /// A name for this delivery source. This name must be unique for all delivery sources in your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        logType: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.logType = logType
+        self.name = name
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct PutDeliverySourceInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let resourceArn: Swift.String?
+    let logType: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension PutDeliverySourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logType
+        case name
+        case resourceArn
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let logTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logType)
+        logType = logTypeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension PutDeliverySourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutDeliverySourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.deliverySource = output.deliverySource
+        } else {
+            self.deliverySource = nil
+        }
+    }
+}
+
+public struct PutDeliverySourceOutput: Swift.Equatable {
+    /// A structure containing information about the delivery source that was just created or updated.
+    public var deliverySource: CloudWatchLogsClientTypes.DeliverySource?
+
+    public init(
+        deliverySource: CloudWatchLogsClientTypes.DeliverySource? = nil
+    )
+    {
+        self.deliverySource = deliverySource
+    }
+}
+
+struct PutDeliverySourceOutputBody: Swift.Equatable {
+    let deliverySource: CloudWatchLogsClientTypes.DeliverySource?
+}
+
+extension PutDeliverySourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deliverySource
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deliverySourceDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.DeliverySource.self, forKey: .deliverySource)
+        deliverySource = deliverySourceDecoded
+    }
+}
+
+enum PutDeliverySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -7995,6 +11668,61 @@ extension CloudWatchLogsClientTypes {
 
 }
 
+extension ServiceQuotaExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// This request exceeds a service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ServiceUnavailableException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8358,6 +12086,41 @@ enum StartQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+    public enum State: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case baseline
+        case suppressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .active,
+                .baseline,
+                .suppressed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .baseline: return "Baseline"
+            case .suppressed: return "Suppressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = State(rawValue: rawValue) ?? State.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension StopQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case queryId
@@ -8552,6 +12315,150 @@ extension CloudWatchLogsClientTypes {
         }
     }
 
+}
+
+extension CloudWatchLogsClientTypes.SuppressionPeriod: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case suppressionUnit
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let suppressionUnit = self.suppressionUnit {
+            try encodeContainer.encode(suppressionUnit.rawValue, forKey: .suppressionUnit)
+        }
+        if value != 0 {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
+        value = valueDecoded
+        let suppressionUnitDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.SuppressionUnit.self, forKey: .suppressionUnit)
+        suppressionUnit = suppressionUnitDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// If you are suppressing an anomaly temporariliy, this structure defines how long the suppression period is to be.
+    public struct SuppressionPeriod: Swift.Equatable {
+        /// Specifies whether the value of value is in seconds, minutes, or hours.
+        public var suppressionUnit: CloudWatchLogsClientTypes.SuppressionUnit?
+        /// Specifies the number of seconds, minutes or hours to suppress this anomaly. There is no maximum.
+        public var value: Swift.Int
+
+        public init(
+            suppressionUnit: CloudWatchLogsClientTypes.SuppressionUnit? = nil,
+            value: Swift.Int = 0
+        )
+        {
+            self.suppressionUnit = suppressionUnit
+            self.value = value
+        }
+    }
+
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum SuppressionState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case suppressed
+        case unsuppressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionState] {
+            return [
+                .suppressed,
+                .unsuppressed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .suppressed: return "SUPPRESSED"
+            case .unsuppressed: return "UNSUPPRESSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SuppressionState(rawValue: rawValue) ?? SuppressionState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum SuppressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case infinite
+        case limited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionType] {
+            return [
+                .infinite,
+                .limited,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .infinite: return "INFINITE"
+            case .limited: return "LIMITED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SuppressionType(rawValue: rawValue) ?? SuppressionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    public enum SuppressionUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hours
+        case minutes
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionUnit] {
+            return [
+                .hours,
+                .minutes,
+                .seconds,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hours: return "HOURS"
+            case .minutes: return "MINUTES"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SuppressionUnit(rawValue: rawValue) ?? SuppressionUnit.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension TagLogGroupInput: Swift.Encodable {
@@ -8881,6 +12788,61 @@ enum TestMetricFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was throttled because of quota limits.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension TooManyTagsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9189,5 +13151,301 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
+    }
+}
+
+extension UpdateAnomalyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case anomalyId
+        case patternId
+        case suppressionPeriod
+        case suppressionType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+        if let anomalyId = self.anomalyId {
+            try encodeContainer.encode(anomalyId, forKey: .anomalyId)
+        }
+        if let patternId = self.patternId {
+            try encodeContainer.encode(patternId, forKey: .patternId)
+        }
+        if let suppressionPeriod = self.suppressionPeriod {
+            try encodeContainer.encode(suppressionPeriod, forKey: .suppressionPeriod)
+        }
+        if let suppressionType = self.suppressionType {
+            try encodeContainer.encode(suppressionType.rawValue, forKey: .suppressionType)
+        }
+    }
+}
+
+extension UpdateAnomalyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateAnomalyInput: Swift.Equatable {
+    /// The ARN of the anomaly detector that this operation is to act on.
+    /// This member is required.
+    public var anomalyDetectorArn: Swift.String?
+    /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
+    public var anomalyId: Swift.String?
+    /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
+    public var patternId: Swift.String?
+    /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
+    public var suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod?
+    /// Use this to specify whether the suppression to be temporary or infinite. If you specify LIMITED, you must also specify a suppressionPeriod. If you specify INFINITE, any value for suppressionPeriod is ignored.
+    public var suppressionType: CloudWatchLogsClientTypes.SuppressionType?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil,
+        anomalyId: Swift.String? = nil,
+        patternId: Swift.String? = nil,
+        suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod? = nil,
+        suppressionType: CloudWatchLogsClientTypes.SuppressionType? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+        self.anomalyId = anomalyId
+        self.patternId = patternId
+        self.suppressionPeriod = suppressionPeriod
+        self.suppressionType = suppressionType
+    }
+}
+
+struct UpdateAnomalyInputBody: Swift.Equatable {
+    let anomalyId: Swift.String?
+    let patternId: Swift.String?
+    let anomalyDetectorArn: Swift.String?
+    let suppressionType: CloudWatchLogsClientTypes.SuppressionType?
+    let suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod?
+}
+
+extension UpdateAnomalyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case anomalyId
+        case patternId
+        case suppressionPeriod
+        case suppressionType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyId)
+        anomalyId = anomalyIdDecoded
+        let patternIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .patternId)
+        patternId = patternIdDecoded
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+        let suppressionTypeDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.SuppressionType.self, forKey: .suppressionType)
+        suppressionType = suppressionTypeDecoded
+        let suppressionPeriodDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.SuppressionPeriod.self, forKey: .suppressionPeriod)
+        suppressionPeriod = suppressionPeriodDecoded
+    }
+}
+
+extension UpdateAnomalyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateAnomalyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateAnomalyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateLogAnomalyDetectorInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case anomalyVisibilityTime
+        case enabled
+        case evaluationFrequency
+        case filterPattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let anomalyDetectorArn = self.anomalyDetectorArn {
+            try encodeContainer.encode(anomalyDetectorArn, forKey: .anomalyDetectorArn)
+        }
+        if let anomalyVisibilityTime = self.anomalyVisibilityTime {
+            try encodeContainer.encode(anomalyVisibilityTime, forKey: .anomalyVisibilityTime)
+        }
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let evaluationFrequency = self.evaluationFrequency {
+            try encodeContainer.encode(evaluationFrequency.rawValue, forKey: .evaluationFrequency)
+        }
+        if let filterPattern = self.filterPattern {
+            try encodeContainer.encode(filterPattern, forKey: .filterPattern)
+        }
+    }
+}
+
+extension UpdateLogAnomalyDetectorInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateLogAnomalyDetectorInput: Swift.Equatable {
+    /// The ARN of the anomaly detector that you want to update.
+    /// This member is required.
+    public var anomalyDetectorArn: Swift.String?
+    /// The number of days to use as the life cycle of anomalies. After this time, anomalies are automatically baselined and the anomaly detector model will treat new occurrences of similar event as normal. Therefore, if you do not correct the cause of an anomaly during this time, it will be considered normal going forward and will not be detected.
+    public var anomalyVisibilityTime: Swift.Int?
+    /// Use this parameter to pause or restart the anomaly detector.
+    /// This member is required.
+    public var enabled: Swift.Bool?
+    /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate.
+    public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
+    public var filterPattern: Swift.String?
+
+    public init(
+        anomalyDetectorArn: Swift.String? = nil,
+        anomalyVisibilityTime: Swift.Int? = nil,
+        enabled: Swift.Bool? = nil,
+        evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency? = nil,
+        filterPattern: Swift.String? = nil
+    )
+    {
+        self.anomalyDetectorArn = anomalyDetectorArn
+        self.anomalyVisibilityTime = anomalyVisibilityTime
+        self.enabled = enabled
+        self.evaluationFrequency = evaluationFrequency
+        self.filterPattern = filterPattern
+    }
+}
+
+struct UpdateLogAnomalyDetectorInputBody: Swift.Equatable {
+    let anomalyDetectorArn: Swift.String?
+    let evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
+    let filterPattern: Swift.String?
+    let anomalyVisibilityTime: Swift.Int?
+    let enabled: Swift.Bool?
+}
+
+extension UpdateLogAnomalyDetectorInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case anomalyDetectorArn
+        case anomalyVisibilityTime
+        case enabled
+        case evaluationFrequency
+        case filterPattern
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
+        anomalyDetectorArn = anomalyDetectorArnDecoded
+        let evaluationFrequencyDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.EvaluationFrequency.self, forKey: .evaluationFrequency)
+        evaluationFrequency = evaluationFrequencyDecoded
+        let filterPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterPattern)
+        filterPattern = filterPatternDecoded
+        let anomalyVisibilityTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .anomalyVisibilityTime)
+        anomalyVisibilityTime = anomalyVisibilityTimeDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+    }
+}
+
+extension UpdateLogAnomalyDetectorOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateLogAnomalyDetectorOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateLogAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationAbortedException": return try await OperationAbortedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ValidationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// One of the parameters for the request is not valid.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }

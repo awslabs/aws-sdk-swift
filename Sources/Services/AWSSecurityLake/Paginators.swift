@@ -12,7 +12,7 @@ extension SecurityLakeClient {
     ///     - input: A `[ListDataLakeExceptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDataLakeExceptionsOutput`
     public func listDataLakeExceptionsPaginated(input: ListDataLakeExceptionsInput) -> ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutput>(input: input, inputKey: \ListDataLakeExceptionsInput.nextToken, outputKey: \ListDataLakeExceptionsOutput.nextToken, paginationFunction: self.listDataLakeExceptions(input:))
+        return ClientRuntime.PaginatorSequence<ListDataLakeExceptionsInput, ListDataLakeExceptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataLakeExceptions(input:))
     }
 }
 
@@ -25,7 +25,7 @@ extension ListDataLakeExceptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListDataLakeExceptionsInput, Output == ListDataLakeExceptionsOutput {
+extension PaginatorSequence where OperationStackInput == ListDataLakeExceptionsInput, OperationStackOutput == ListDataLakeExceptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listDataLakeExceptionsPaginated`
     /// to access the nested member `[SecurityLakeClientTypes.DataLakeException]`
     /// - Returns: `[SecurityLakeClientTypes.DataLakeException]`

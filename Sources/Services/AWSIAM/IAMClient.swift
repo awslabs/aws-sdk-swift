@@ -63,6 +63,8 @@ public struct IAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 }
 
 extension IAMClient: IAMClientProtocol {
+    /// Performs the `AddClientIDToOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     ///
     /// - Parameter AddClientIDToOpenIDConnectProviderInput : [no documentation found]
@@ -92,24 +94,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>(id: "addClientIDToOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>(id: "addClientIDToOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddClientIDToOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>(xmlName: "AddClientIDToOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddClientIDToOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddClientIDToOpenIDConnectProviderOutput, AddClientIDToOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddClientIDToOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddClientIDToOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddClientIDToOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AddRoleToInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of [eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency). To force the change, you must [disassociate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html) and then [associate the instance profile](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html), or you can stop your instance and then restart it. The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter AddRoleToInstanceProfileInput : [no documentation found]
@@ -140,24 +144,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>(id: "addRoleToInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>(id: "addRoleToInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddRoleToInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>(xmlName: "AddRoleToInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddRoleToInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToInstanceProfileOutput, AddRoleToInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddRoleToInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddRoleToInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AddUserToGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds the specified user to the specified group.
     ///
     /// - Parameter AddUserToGroupInput : [no documentation found]
@@ -186,24 +192,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AddUserToGroupInput, AddUserToGroupOutput, AddUserToGroupOutputError>(id: "addUserToGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddUserToGroupInput, AddUserToGroupOutput, AddUserToGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<AddUserToGroupInput, AddUserToGroupOutput>(id: "addUserToGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddUserToGroupInput, AddUserToGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddUserToGroupInput, AddUserToGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddUserToGroupOutput, AddUserToGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddUserToGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddUserToGroupInput, AddUserToGroupOutput>(xmlName: "AddUserToGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AddUserToGroupInput, AddUserToGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddUserToGroupInput, AddUserToGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddUserToGroupOutput, AddUserToGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AddUserToGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddUserToGroupOutput, AddUserToGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddUserToGroupOutput, AddUserToGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddUserToGroupOutput, AddUserToGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddUserToGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddUserToGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(AddUserToGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddUserToGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AttachGroupPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use [PutGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter AttachGroupPolicyInput : [no documentation found]
@@ -234,24 +242,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachGroupPolicyInput, AttachGroupPolicyOutput, AttachGroupPolicyOutputError>(id: "attachGroupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput, AttachGroupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<AttachGroupPolicyInput, AttachGroupPolicyOutput>(id: "attachGroupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachGroupPolicyOutput, AttachGroupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachGroupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>(xmlName: "AttachGroupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachGroupPolicyOutput, AttachGroupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachGroupPolicyOutput, AttachGroupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutput, AttachGroupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachGroupPolicyOutput, AttachGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachGroupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AttachRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumerolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). Use this operation to attach a managed policy to a role. To embed an inline policy in a role, use [PutRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html). For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide.
     ///
     /// - Parameter AttachRolePolicyInput : [no documentation found]
@@ -283,24 +293,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachRolePolicyInput, AttachRolePolicyOutput, AttachRolePolicyOutputError>(id: "attachRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput, AttachRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<AttachRolePolicyInput, AttachRolePolicyOutput>(id: "attachRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachRolePolicyOutput, AttachRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>(xmlName: "AttachRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachRolePolicyInput, AttachRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachRolePolicyOutput, AttachRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachRolePolicyOutput, AttachRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutput, AttachRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachRolePolicyOutput, AttachRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `AttachUserPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Attaches the specified managed policy to the specified user. You use this operation to attach a managed policy to a user. To embed an inline policy in a user, use [PutUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html). As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter AttachUserPolicyInput : [no documentation found]
@@ -331,24 +343,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<AttachUserPolicyInput, AttachUserPolicyOutput, AttachUserPolicyOutputError>(id: "attachUserPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput, AttachUserPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<AttachUserPolicyInput, AttachUserPolicyOutput>(id: "attachUserPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachUserPolicyOutput, AttachUserPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachUserPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>(xmlName: "AttachUserPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AttachUserPolicyInput, AttachUserPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachUserPolicyOutput, AttachUserPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AttachUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachUserPolicyOutput, AttachUserPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutput, AttachUserPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachUserPolicyOutput, AttachUserPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachUserPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(AttachUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AttachUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ChangePassword` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Changes the password of the IAM user who is calling this operation. This operation can be performed using the CLI, the Amazon Web Services API, or the My Security Credentials page in the Amazon Web Services Management Console. The Amazon Web Services account root user password is not affected by this operation. Use [UpdateLoginProfile] to use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
     /// - Parameter ChangePasswordInput : [no documentation found]
@@ -380,24 +394,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ChangePasswordInput, ChangePasswordOutput, ChangePasswordOutputError>(id: "changePassword")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangePasswordInput, ChangePasswordOutput, ChangePasswordOutputError>())
+        var operation = ClientRuntime.OperationStack<ChangePasswordInput, ChangePasswordOutput>(id: "changePassword")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangePasswordOutput, ChangePasswordOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangePasswordOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ChangePasswordInput, ChangePasswordOutput>(xmlName: "ChangePasswordRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ChangePasswordInput, ChangePasswordOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ChangePasswordInput, ChangePasswordOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangePasswordOutput, ChangePasswordOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ChangePasswordOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangePasswordOutput, ChangePasswordOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutput, ChangePasswordOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangePasswordOutput, ChangePasswordOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangePasswordOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutput>(responseClosure(decoder: decoder), responseErrorClosure(ChangePasswordOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ChangePasswordOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAccessKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new Amazon Web Services secret access key and corresponding Amazon Web Services access key ID for the specified user. The default status for new keys is Active. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials. This is true even if the Amazon Web Services account has no associated users. For information about quotas on the number of keys you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation. You must save the key (for example, in a text file) if you want to be able to access it again. If a secret key is lost, you can delete the access keys for the associated user and then create new keys.
     ///
     /// - Parameter CreateAccessKeyInput : [no documentation found]
@@ -426,24 +442,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccessKeyInput, CreateAccessKeyOutput, CreateAccessKeyOutputError>(id: "createAccessKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput, CreateAccessKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAccessKeyInput, CreateAccessKeyOutput>(id: "createAccessKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessKeyOutput, CreateAccessKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccessKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>(xmlName: "CreateAccessKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccessKeyInput, CreateAccessKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessKeyOutput, CreateAccessKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessKeyOutput, CreateAccessKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutput, CreateAccessKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessKeyOutput, CreateAccessKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateAccountAlias` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates an alias for your Amazon Web Services account. For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
     /// - Parameter CreateAccountAliasInput : [no documentation found]
@@ -473,24 +491,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateAccountAliasInput, CreateAccountAliasOutput, CreateAccountAliasOutputError>(id: "createAccountAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput, CreateAccountAliasOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateAccountAliasInput, CreateAccountAliasOutput>(id: "createAccountAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountAliasOutput, CreateAccountAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountAliasOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>(xmlName: "CreateAccountAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAccountAliasInput, CreateAccountAliasOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAliasOutput, CreateAccountAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAccountAliasOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAliasOutput, CreateAccountAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutput, CreateAccountAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAliasOutput, CreateAccountAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAliasOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateAccountAliasOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAliasOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new group. For information about the number of groups you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
     /// - Parameter CreateGroupInput : [no documentation found]
@@ -520,24 +540,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutput, CreateGroupOutputError>(id: "createGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput, CreateGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutput>(id: "createGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupOutput, CreateGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateGroupInput, CreateGroupOutput>(xmlName: "CreateGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateGroupInput, CreateGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateGroupInput, CreateGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupOutput, CreateGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput, CreateGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput, CreateGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput, CreateGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new instance profile. For information about instance profiles, see [Using roles for applications on Amazon EC2](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html) in the IAM User Guide, and [Instance profiles](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#ec2-instance-profile) in the Amazon EC2 User Guide. For information about the number of instance profiles you can create, see [IAM object quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
     /// - Parameter CreateInstanceProfileInput : [no documentation found]
@@ -568,24 +590,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(id: "createInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutput>(id: "createInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(xmlName: "CreateInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutput, CreateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateLoginProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a password for the specified IAM user. A password allows an IAM user to access Amazon Web Services services through the Amazon Web Services Management Console. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to create a password for any IAM user. Use [ChangePassword] to update your own existing password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about managing passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
     /// - Parameter CreateLoginProfileInput : [no documentation found]
@@ -616,24 +640,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateLoginProfileInput, CreateLoginProfileOutput, CreateLoginProfileOutputError>(id: "createLoginProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput, CreateLoginProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateLoginProfileInput, CreateLoginProfileOutput>(id: "createLoginProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoginProfileOutput, CreateLoginProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLoginProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>(xmlName: "CreateLoginProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLoginProfileInput, CreateLoginProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoginProfileOutput, CreateLoginProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoginProfileOutput, CreateLoginProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutput, CreateLoginProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoginProfileOutput, CreateLoginProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoginProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates an IAM entity to describe an identity provider (IdP) that supports [OpenID Connect (OIDC)](http://openid.net/connect/). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between Amazon Web Services and the OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon Cognito, you don't need to create a separate IAM identity provider. These OIDC identity providers are already built-in to Amazon Web Services and are available for your use. Instead, you can move directly to creating new roles using your identity provider. To learn more, see [Creating a role for web identity or OpenID connect federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html) in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:
     ///
     /// * The URL of the OIDC identity provider (IdP) to trust
@@ -675,24 +701,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>(id: "createOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>(id: "createOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>(xmlName: "CreateOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOpenIDConnectProviderOutput, CreateOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new managed policy for your Amazon Web Services account. This operation creates a policy version with a version identifier of v1 and sets v1 as the policy's default version. For more information about policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide. As a best practice, you can validate your IAM policies. To learn more, see [Validating IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html) in the IAM User Guide. For more information about managed policies in general, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter CreatePolicyInput : [no documentation found]
@@ -724,24 +752,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>(id: "createPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput, CreatePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutput>(id: "createPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyOutput, CreatePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePolicyInput, CreatePolicyOutput>(xmlName: "CreatePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyInput, CreatePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyInput, CreatePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyOutput, CreatePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput, CreatePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput, CreatePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput, CreatePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreatePolicyVersion` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new version of the specified managed policy. To update a managed policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using [DeletePolicyVersion] before you create a new version. Optionally, you can set the new version as the policy's default version. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
     /// - Parameter CreatePolicyVersionInput : [no documentation found]
@@ -772,24 +802,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreatePolicyVersionInput, CreatePolicyVersionOutput, CreatePolicyVersionOutputError>(id: "createPolicyVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput, CreatePolicyVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<CreatePolicyVersionInput, CreatePolicyVersionOutput>(id: "createPolicyVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyVersionOutput, CreatePolicyVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePolicyVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>(xmlName: "CreatePolicyVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyVersionOutput, CreatePolicyVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreatePolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyVersionOutput, CreatePolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput, CreatePolicyVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyVersionOutput, CreatePolicyVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreatePolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new role for your Amazon Web Services account. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For information about quotas for role names and the number of roles you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
     /// - Parameter CreateRoleInput : [no documentation found]
@@ -821,24 +853,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateRoleInput, CreateRoleOutput, CreateRoleOutputError>(id: "createRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoleInput, CreateRoleOutput, CreateRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateRoleInput, CreateRoleOutput>(id: "createRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoleInput, CreateRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoleInput, CreateRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoleOutput, CreateRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRoleInput, CreateRoleOutput>(xmlName: "CreateRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateRoleInput, CreateRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRoleInput, CreateRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoleOutput, CreateRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoleOutput, CreateRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoleOutput, CreateRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoleOutput, CreateRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). For more information, see [Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html) and [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html) in the IAM User Guide.
     ///
     /// - Parameter CreateSAMLProviderInput : [no documentation found]
@@ -869,24 +903,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateSAMLProviderInput, CreateSAMLProviderOutput, CreateSAMLProviderOutputError>(id: "createSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput, CreateSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateSAMLProviderInput, CreateSAMLProviderOutput>(id: "createSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSAMLProviderOutput, CreateSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>(xmlName: "CreateSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSAMLProviderOutput, CreateSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSAMLProviderOutput, CreateSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutput, CreateSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSAMLProviderOutput, CreateSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateServiceLinkedRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates an IAM role that is linked to a specific Amazon Web Services service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your Amazon Web Services resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html) in the IAM User Guide. To attach a policy to this service-linked role, you must make the request using the Amazon Web Services service that depends on this role.
     ///
     /// - Parameter CreateServiceLinkedRoleInput : [no documentation found]
@@ -916,24 +952,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>(id: "createServiceLinkedRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>(id: "createServiceLinkedRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceLinkedRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>(xmlName: "CreateServiceLinkedRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceLinkedRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceLinkedRoleOutput, CreateServiceLinkedRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceLinkedRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateServiceLinkedRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateServiceSpecificCredential` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service. You can have a maximum of two sets of service-specific credentials for each supported service per user. You can create service-specific credentials for CodeCommit and Amazon Keyspaces (for Apache Cassandra). You can reset the password to a new service-generated value by calling [ResetServiceSpecificCredential]. For more information about service-specific credentials, see [Using IAM with CodeCommit: Git credentials, SSH keys, and Amazon Web Services access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html) in the IAM User Guide.
     ///
     /// - Parameter CreateServiceSpecificCredentialInput : [no documentation found]
@@ -962,24 +1000,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>(id: "createServiceSpecificCredential")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>(id: "createServiceSpecificCredential")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceSpecificCredentialOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>(xmlName: "CreateServiceSpecificCredentialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceSpecificCredentialOutput, CreateServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceSpecificCredentialOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new IAM user for your Amazon Web Services account. For information about quotas for the number of IAM users you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
@@ -1011,24 +1051,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput, CreateUserOutputError>(id: "createUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput, CreateUserOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutput>(id: "createUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput, CreateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUserInput, CreateUserOutput>(xmlName: "CreateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateUserInput, CreateUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUserInput, CreateUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput, CreateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput, CreateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput, CreateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput, CreateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `CreateVirtualMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Creates a new virtual MFA device for the Amazon Web Services account. After creating the virtual MFA, use [EnableMFADevice] to attach the MFA device to an IAM user. For more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide. For information about the maximum number of MFA devices you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. The seed information contained in the QR code and the Base32 string should be treated like any other secret access information. In other words, protect the seed information as you would your Amazon Web Services access keys or your passwords. After you provision your virtual device, you should ensure that the information is destroyed following secure procedures.
     ///
     /// - Parameter CreateVirtualMFADeviceInput : [no documentation found]
@@ -1059,24 +1101,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>(id: "createVirtualMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>(id: "createVirtualMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateVirtualMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>(xmlName: "CreateVirtualMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateVirtualMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVirtualMFADeviceOutput, CreateVirtualMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVirtualMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateVirtualMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeactivateMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, see [Enabling a virtual multi-factor authentication (MFA) device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide.
     ///
     /// - Parameter DeactivateMFADeviceInput : [no documentation found]
@@ -1107,24 +1151,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeactivateMFADeviceInput, DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>(id: "deactivateMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>(id: "deactivateMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeactivateMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>(xmlName: "DeactivateMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeactivateMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateMFADeviceOutput, DeactivateMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeactivateMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeactivateMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccessKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
     /// - Parameter DeleteAccessKeyInput : [no documentation found]
@@ -1153,24 +1199,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccessKeyInput, DeleteAccessKeyOutput, DeleteAccessKeyOutputError>(id: "deleteAccessKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput, DeleteAccessKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAccessKeyInput, DeleteAccessKeyOutput>(id: "deleteAccessKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessKeyOutput, DeleteAccessKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccessKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>(xmlName: "DeleteAccessKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessKeyOutput, DeleteAccessKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessKeyOutput, DeleteAccessKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutput, DeleteAccessKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessKeyOutput, DeleteAccessKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccountAlias` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified Amazon Web Services account alias. For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
     /// - Parameter DeleteAccountAliasInput : [no documentation found]
@@ -1200,24 +1248,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccountAliasInput, DeleteAccountAliasOutput, DeleteAccountAliasOutputError>(id: "deleteAccountAlias")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput, DeleteAccountAliasOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAccountAliasInput, DeleteAccountAliasOutput>(id: "deleteAccountAlias")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountAliasOutput, DeleteAccountAliasOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountAliasOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>(xmlName: "DeleteAccountAliasRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAliasOutput, DeleteAccountAliasOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountAliasOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAliasOutput, DeleteAccountAliasOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput, DeleteAccountAliasOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAliasOutput, DeleteAccountAliasOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAliasOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountAliasOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAliasOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteAccountPasswordPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the password policy for the Amazon Web Services account. There are no parameters.
     ///
     /// - Parameter DeleteAccountPasswordPolicyInput : [no documentation found]
@@ -1246,24 +1296,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>(id: "deleteAccountPasswordPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>(id: "deleteAccountPasswordPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountPasswordPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountPasswordPolicyOutput, DeleteAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountPasswordPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified IAM group. The group must not contain any users or have any attached policies.
     ///
     /// - Parameter DeleteGroupInput : [no documentation found]
@@ -1293,24 +1345,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutput, DeleteGroupOutputError>(id: "deleteGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput, DeleteGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutput>(id: "deleteGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupOutput, DeleteGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGroupInput, DeleteGroupOutput>(xmlName: "DeleteGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteGroupInput, DeleteGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGroupInput, DeleteGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupOutput, DeleteGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput, DeleteGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput, DeleteGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput, DeleteGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteGroupPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a managed policy from a group, use [DetachGroupPolicy]. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DeleteGroupPolicyInput : [no documentation found]
@@ -1339,24 +1393,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteGroupPolicyInput, DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>(id: "deleteGroupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>(id: "deleteGroupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>(xmlName: "DeleteGroupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupPolicyOutput, DeleteGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified instance profile. The instance profile must not have an associated role. Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter DeleteInstanceProfileInput : [no documentation found]
@@ -1386,24 +1442,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(id: "deleteInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(id: "deleteInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(xmlName: "DeleteInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutput, DeleteInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteLoginProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the password for the specified IAM user, For more information, see [Managing passwords for IAM users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html). You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to delete a password for any IAM user. You can use [ChangePassword] to update, but not delete, your own password in the My Security Credentials page in the Amazon Web Services Management Console. Deleting a user's password does not prevent a user from accessing Amazon Web Services through the command line interface or the API. To prevent all user access, you must also either make any access keys inactive or delete them. For more information about making keys inactive or deleting them, see [UpdateAccessKey] and [DeleteAccessKey].
     ///
     /// - Parameter DeleteLoginProfileInput : [no documentation found]
@@ -1433,24 +1491,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteLoginProfileInput, DeleteLoginProfileOutput, DeleteLoginProfileOutputError>(id: "deleteLoginProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput, DeleteLoginProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteLoginProfileInput, DeleteLoginProfileOutput>(id: "deleteLoginProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLoginProfileOutput, DeleteLoginProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLoginProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>(xmlName: "DeleteLoginProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoginProfileOutput, DeleteLoginProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoginProfileOutput, DeleteLoginProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutput, DeleteLoginProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoginProfileOutput, DeleteLoginProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoginProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist.
     ///
     /// - Parameter DeleteOpenIDConnectProviderInput : [no documentation found]
@@ -1479,24 +1539,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>(id: "deleteOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>(id: "deleteOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>(xmlName: "DeleteOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOpenIDConnectProviderOutput, DeleteOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified managed policy. Before you can delete a managed policy, you must first detach the policy from all users, groups, and roles that it is attached to. In addition, you must delete all the policy's versions. The following steps describe the process for deleting a managed policy:
     ///
     /// * Detach the policy from all users, groups, and roles that the policy is attached to, using [DetachUserPolicy], [DetachGroupPolicy], or [DetachRolePolicy]. To list all the users, groups, and roles that a policy is attached to, use [ListEntitiesForPolicy].
@@ -1536,24 +1598,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>(id: "deletePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput, DeletePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutput>(id: "deletePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyOutput, DeletePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePolicyInput, DeletePolicyOutput>(xmlName: "DeletePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyInput, DeletePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyInput, DeletePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyOutput, DeletePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput, DeletePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput, DeletePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput, DeletePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeletePolicyVersion` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this operation. To delete the default version from a policy, use [DeletePolicy]. To find out which version of a policy is marked as the default version, use [ListPolicyVersions]. For information about versions for managed policies, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
     /// - Parameter DeletePolicyVersionInput : [no documentation found]
@@ -1584,24 +1648,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeletePolicyVersionInput, DeletePolicyVersionOutput, DeletePolicyVersionOutputError>(id: "deletePolicyVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput, DeletePolicyVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<DeletePolicyVersionInput, DeletePolicyVersionOutput>(id: "deletePolicyVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyVersionOutput, DeletePolicyVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePolicyVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>(xmlName: "DeletePolicyVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyVersionOutput, DeletePolicyVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeletePolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyVersionOutput, DeletePolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput, DeletePolicyVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyVersionOutput, DeletePolicyVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeletePolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified role. Unlike the Amazon Web Services Management Console, when you delete a role programmatically, you must delete the items attached to the role manually, or the deletion fails. For more information, see [Deleting an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_delete.html#roles-managingrole-deleting-cli). Before attempting to delete a role, remove the following attached items:
     ///
     /// * Inline policies ([DeleteRolePolicy])
@@ -1644,24 +1710,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRoleInput, DeleteRoleOutput, DeleteRoleOutputError>(id: "deleteRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoleInput, DeleteRoleOutput, DeleteRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRoleInput, DeleteRoleOutput>(id: "deleteRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoleInput, DeleteRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoleInput, DeleteRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoleOutput, DeleteRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRoleInput, DeleteRoleOutput>(xmlName: "DeleteRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRoleInput, DeleteRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRoleInput, DeleteRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoleOutput, DeleteRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoleOutput, DeleteRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoleOutput, DeleteRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoleOutput, DeleteRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRolePermissionsBoundary` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies.
     ///
     /// - Parameter DeleteRolePermissionsBoundaryInput : [no documentation found]
@@ -1690,24 +1758,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>(id: "deleteRolePermissionsBoundary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>(id: "deleteRolePermissionsBoundary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRolePermissionsBoundaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>(xmlName: "DeleteRolePermissionsBoundaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePermissionsBoundaryOutput, DeleteRolePermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePermissionsBoundaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRolePermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified inline policy that is embedded in the specified IAM role. A role can also have managed policies attached to it. To detach a managed policy from a role, use [DetachRolePolicy]. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DeleteRolePolicyInput : [no documentation found]
@@ -1737,24 +1807,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteRolePolicyInput, DeleteRolePolicyOutput, DeleteRolePolicyOutputError>(id: "deleteRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput, DeleteRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteRolePolicyInput, DeleteRolePolicyOutput>(id: "deleteRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRolePolicyOutput, DeleteRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>(xmlName: "DeleteRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePolicyOutput, DeleteRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePolicyOutput, DeleteRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutput, DeleteRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePolicyOutput, DeleteRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
     /// - Parameter DeleteSAMLProviderInput : [no documentation found]
@@ -1784,24 +1856,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSAMLProviderInput, DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>(id: "deleteSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>(id: "deleteSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>(xmlName: "DeleteSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSAMLProviderOutput, DeleteSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSSHPublicKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified SSH public key. The SSH public key deleted by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
     /// - Parameter DeleteSSHPublicKeyInput : [no documentation found]
@@ -1828,24 +1902,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>(id: "deleteSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>(id: "deleteSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSSHPublicKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>(xmlName: "DeleteSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSSHPublicKeyOutput, DeleteSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSSHPublicKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified server certificate. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. If you are using a server certificate with Elastic Load Balancing, deleting the certificate could have implications for your application. If Elastic Load Balancing doesn't detect the deletion of bound certificates, it may continue to use the certificates. This could cause Elastic Load Balancing to stop accepting traffic. We recommend that you remove the reference to the certificate from Elastic Load Balancing before using this command to delete the certificate. For more information, see [DeleteLoadBalancerListeners](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html) in the Elastic Load Balancing API Reference.
     ///
     /// - Parameter DeleteServerCertificateInput : [no documentation found]
@@ -1875,24 +1951,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteServerCertificateInput, DeleteServerCertificateOutput, DeleteServerCertificateOutputError>(id: "deleteServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput, DeleteServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteServerCertificateInput, DeleteServerCertificateOutput>(id: "deleteServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServerCertificateOutput, DeleteServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>(xmlName: "DeleteServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServerCertificateOutput, DeleteServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServerCertificateOutput, DeleteServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutput, DeleteServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServerCertificateOutput, DeleteServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteServiceLinkedRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Submits a service-linked role deletion request and returns a DeletionTaskId, which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion request for a service-linked role whose linked service is still accessing a resource, then the deletion task fails. If it fails, the [GetServiceLinkedRoleDeletionStatus] operation returns the reason for the failure, usually including the resources that must be deleted. To delete the service-linked role, you must first remove those resources from the linked service and then submit the deletion request again. Resources are specific to the service that is linked to the role. For more information about removing resources from a service, see the [Amazon Web Services documentation](http://docs.aws.amazon.com/) for your service. For more information about service-linked roles, see [Roles terms and concepts: Amazon Web Services service-linked role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role) in the IAM User Guide.
     ///
     /// - Parameter DeleteServiceLinkedRoleInput : [no documentation found]
@@ -1921,24 +1999,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>(id: "deleteServiceLinkedRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>(id: "deleteServiceLinkedRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceLinkedRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>(xmlName: "DeleteServiceLinkedRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceLinkedRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceLinkedRoleOutput, DeleteServiceLinkedRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceLinkedRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServiceLinkedRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceLinkedRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteServiceSpecificCredential` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified service-specific credential.
     ///
     /// - Parameter DeleteServiceSpecificCredentialInput : [no documentation found]
@@ -1965,24 +2045,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>(id: "deleteServiceSpecificCredential")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>(id: "deleteServiceSpecificCredential")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceSpecificCredentialOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>(xmlName: "DeleteServiceSpecificCredentialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceSpecificCredentialOutput, DeleteServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceSpecificCredentialOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteSigningCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated IAM users.
     ///
     /// - Parameter DeleteSigningCertificateInput : [no documentation found]
@@ -2012,24 +2094,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteSigningCertificateInput, DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>(id: "deleteSigningCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>(id: "deleteSigningCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSigningCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>(xmlName: "DeleteSigningCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSigningCertificateOutput, DeleteSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSigningCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified IAM user. Unlike the Amazon Web Services Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see [Deleting an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli). Before attempting to delete a user, remove the following items:
     ///
     /// * Password ([DeleteLoginProfile])
@@ -2078,24 +2162,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>(id: "deleteUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput, DeleteUserOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutput>(id: "deleteUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutput, DeleteUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserInput, DeleteUserOutput>(xmlName: "DeleteUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteUserInput, DeleteUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserInput, DeleteUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput, DeleteUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput, DeleteUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput, DeleteUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteUserPermissionsBoundary` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the permissions boundary for the specified IAM user. Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies.
     ///
     /// - Parameter DeleteUserPermissionsBoundaryInput : [no documentation found]
@@ -2123,24 +2209,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>(id: "deleteUserPermissionsBoundary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>(id: "deleteUserPermissionsBoundary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPermissionsBoundaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>(xmlName: "DeleteUserPermissionsBoundaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPermissionsBoundaryOutput, DeleteUserPermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPermissionsBoundaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserPermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteUserPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes the specified inline policy that is embedded in the specified IAM user. A user can also have managed policies attached to it. To detach a managed policy from a user, use [DetachUserPolicy]. For more information about policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DeleteUserPolicyInput : [no documentation found]
@@ -2169,24 +2257,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteUserPolicyInput, DeleteUserPolicyOutput, DeleteUserPolicyOutputError>(id: "deleteUserPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput, DeleteUserPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteUserPolicyInput, DeleteUserPolicyOutput>(id: "deleteUserPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPolicyOutput, DeleteUserPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>(xmlName: "DeleteUserPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPolicyOutput, DeleteUserPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPolicyOutput, DeleteUserPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutput, DeleteUserPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPolicyOutput, DeleteUserPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DeleteVirtualMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Deletes a virtual MFA device. You must deactivate a user's virtual MFA device before you can delete it. For information about deactivating MFA devices, see [DeactivateMFADevice].
     ///
     /// - Parameter DeleteVirtualMFADeviceInput : [no documentation found]
@@ -2217,24 +2307,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>(id: "deleteVirtualMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>(id: "deleteVirtualMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteVirtualMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>(xmlName: "DeleteVirtualMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteVirtualMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVirtualMFADeviceOutput, DeleteVirtualMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVirtualMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteVirtualMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVirtualMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DetachGroupPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified managed policy from the specified IAM group. A group can also have inline policies embedded with it. To delete an inline policy, use [DeleteGroupPolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DetachGroupPolicyInput : [no documentation found]
@@ -2264,24 +2356,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachGroupPolicyInput, DetachGroupPolicyOutput, DetachGroupPolicyOutputError>(id: "detachGroupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput, DetachGroupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DetachGroupPolicyInput, DetachGroupPolicyOutput>(id: "detachGroupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachGroupPolicyOutput, DetachGroupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachGroupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>(xmlName: "DetachGroupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachGroupPolicyOutput, DetachGroupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachGroupPolicyOutput, DetachGroupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutput, DetachGroupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachGroupPolicyOutput, DetachGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachGroupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DetachRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use [DeleteRolePolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DetachRolePolicyInput : [no documentation found]
@@ -2312,24 +2406,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachRolePolicyInput, DetachRolePolicyOutput, DetachRolePolicyOutputError>(id: "detachRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput, DetachRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DetachRolePolicyInput, DetachRolePolicyOutput>(id: "detachRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachRolePolicyOutput, DetachRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>(xmlName: "DetachRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachRolePolicyInput, DetachRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachRolePolicyOutput, DetachRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachRolePolicyOutput, DetachRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutput, DetachRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachRolePolicyOutput, DetachRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `DetachUserPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified managed policy from the specified user. A user can also have inline policies embedded with it. To delete an inline policy, use [DeleteUserPolicy]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter DetachUserPolicyInput : [no documentation found]
@@ -2359,24 +2455,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<DetachUserPolicyInput, DetachUserPolicyOutput, DetachUserPolicyOutputError>(id: "detachUserPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput, DetachUserPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<DetachUserPolicyInput, DetachUserPolicyOutput>(id: "detachUserPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachUserPolicyOutput, DetachUserPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachUserPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>(xmlName: "DetachUserPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DetachUserPolicyInput, DetachUserPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachUserPolicyOutput, DetachUserPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DetachUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachUserPolicyOutput, DetachUserPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutput, DetachUserPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachUserPolicyOutput, DetachUserPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachUserPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(DetachUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetachUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `EnableMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
     ///
     /// - Parameter EnableMFADeviceInput : [no documentation found]
@@ -2409,24 +2507,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<EnableMFADeviceInput, EnableMFADeviceOutput, EnableMFADeviceOutputError>(id: "enableMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput, EnableMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<EnableMFADeviceInput, EnableMFADeviceOutput>(id: "enableMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableMFADeviceOutput, EnableMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>(xmlName: "EnableMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableMFADeviceInput, EnableMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableMFADeviceOutput, EnableMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableMFADeviceOutput, EnableMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutput, EnableMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableMFADeviceOutput, EnableMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(EnableMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GenerateCredentialReport` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Generates a credential report for the Amazon Web Services account. For more information about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
     ///
     /// - Parameter GenerateCredentialReportInput : [no documentation found]
@@ -2454,24 +2554,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateCredentialReportInput, GenerateCredentialReportOutput, GenerateCredentialReportOutputError>(id: "generateCredentialReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput, GenerateCredentialReportOutputError>())
+        var operation = ClientRuntime.OperationStack<GenerateCredentialReportInput, GenerateCredentialReportOutput>(id: "generateCredentialReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateCredentialReportOutput, GenerateCredentialReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateCredentialReportOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateCredentialReportOutput, GenerateCredentialReportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateCredentialReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateCredentialReportOutput, GenerateCredentialReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutput, GenerateCredentialReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateCredentialReportOutput, GenerateCredentialReportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateCredentialReportOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateCredentialReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateCredentialReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GenerateOrganizationsAccessReport` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and Organizations permissions. For more information, see [Refining permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see [Reducing permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. The data includes all attempts to access Amazon Web Services, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html) in the IAM User Guide. This operation returns a JobId. Use this parameter in the [GetOrganizationsAccessReport] operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the [GetOrganizationsAccessReport] operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional Organizations policy ID. The type of entity that you specify determines the data returned in the report.
     ///
     /// * Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the management account, because the management account is not limited by SCPs.
@@ -2520,24 +2622,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>(id: "generateOrganizationsAccessReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>())
+        var operation = ClientRuntime.OperationStack<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>(id: "generateOrganizationsAccessReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateOrganizationsAccessReportOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>(xmlName: "GenerateOrganizationsAccessReportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateOrganizationsAccessReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateOrganizationsAccessReportOutput, GenerateOrganizationsAccessReportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateOrganizationsAccessReportOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateOrganizationsAccessReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GenerateServiceLastAccessedDetails` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period). For more information about services and actions for which action last accessed information is displayed, see [IAM action last accessed information services and actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html). The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see [Logging IAM events with CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html) in the IAM User Guide. The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:
     ///
     /// * [GetServiceLastAccessedDetails] – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
@@ -2572,24 +2676,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>(id: "generateServiceLastAccessedDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>())
+        var operation = ClientRuntime.OperationStack<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>(id: "generateServiceLastAccessedDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GenerateServiceLastAccessedDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>(xmlName: "GenerateServiceLastAccessedDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GenerateServiceLastAccessedDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateServiceLastAccessedDetailsOutput, GenerateServiceLastAccessedDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateServiceLastAccessedDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GenerateServiceLastAccessedDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GenerateServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccessKeyLastUsed` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the Amazon Web Services service and Region that were specified in the last request made with that key.
     ///
     /// - Parameter GetAccessKeyLastUsedInput : [no documentation found]
@@ -2611,24 +2717,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>(id: "getAccessKeyLastUsed")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>(id: "getAccessKeyLastUsed")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccessKeyLastUsedOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>(xmlName: "GetAccessKeyLastUsedRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccessKeyLastUsedOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessKeyLastUsedOutput, GetAccessKeyLastUsedOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessKeyLastUsedOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccessKeyLastUsedOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccessKeyLastUsedOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccountAuthorizationDetails` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about all IAM users, groups, roles, and policies in your Amazon Web Services account, including their relationships to one another. Use this operation to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. You can optionally filter the results using the Filter parameter. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter GetAccountAuthorizationDetailsInput : [no documentation found]
@@ -2655,24 +2763,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>(id: "getAccountAuthorizationDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(id: "getAccountAuthorizationDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountAuthorizationDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(xmlName: "GetAccountAuthorizationDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountAuthorizationDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountAuthorizationDetailsOutput, GetAccountAuthorizationDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountAuthorizationDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountAuthorizationDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountAuthorizationDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccountPasswordPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the password policy for the Amazon Web Services account. This tells you the complexity requirements and mandatory rotation periods for the IAM user passwords in your account. For more information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html).
     ///
     /// - Parameter GetAccountPasswordPolicyInput : [no documentation found]
@@ -2700,24 +2810,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>(id: "getAccountPasswordPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>(id: "getAccountPasswordPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountPasswordPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountPasswordPolicyOutput, GetAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountPasswordPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetAccountSummary` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
     ///
     /// - Parameter GetAccountSummaryInput : [no documentation found]
@@ -2744,24 +2856,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetAccountSummaryInput, GetAccountSummaryOutput, GetAccountSummaryOutputError>(id: "getAccountSummary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput, GetAccountSummaryOutputError>())
+        var operation = ClientRuntime.OperationStack<GetAccountSummaryInput, GetAccountSummaryOutput>(id: "getAccountSummary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSummaryOutput, GetAccountSummaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountSummaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAccountSummaryInput, GetAccountSummaryOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSummaryOutput, GetAccountSummaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAccountSummaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSummaryOutput, GetAccountSummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutput, GetAccountSummaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSummaryOutput, GetAccountSummaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSummaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetAccountSummaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSummaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetContextKeysForCustomPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use [GetContextKeysForPrincipalPolicy]. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call [SimulateCustomPolicy]. Note that all parameters are shown in unencoded form here for clarity but must be URL encoded to be included as a part of a real HTML request.
     ///
     /// - Parameter GetContextKeysForCustomPolicyInput : [no documentation found]
@@ -2788,24 +2902,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>(id: "getContextKeysForCustomPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>(id: "getContextKeysForCustomPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContextKeysForCustomPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>(xmlName: "GetContextKeysForCustomPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForCustomPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForCustomPolicyOutput, GetContextKeysForCustomPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForCustomPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetContextKeysForCustomPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForCustomPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetContextKeysForPrincipalPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use [GetContextKeysForCustomPolicy] instead. Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use [GetContextKeysForCustomPolicy] instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use [GetContextKeysForPrincipalPolicy] to understand what key names and values you must supply when you call [SimulatePrincipalPolicy].
     ///
     /// - Parameter GetContextKeysForPrincipalPolicyInput : [no documentation found]
@@ -2833,24 +2949,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>(id: "getContextKeysForPrincipalPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>(id: "getContextKeysForPrincipalPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetContextKeysForPrincipalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>(xmlName: "GetContextKeysForPrincipalPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetContextKeysForPrincipalPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForPrincipalPolicyOutput, GetContextKeysForPrincipalPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForPrincipalPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetContextKeysForPrincipalPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForPrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetCredentialReport` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves a credential report for the Amazon Web Services account. For more information about the credential report, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
     ///
     /// - Parameter GetCredentialReportInput : [no documentation found]
@@ -2880,24 +2998,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCredentialReportInput, GetCredentialReportOutput, GetCredentialReportOutputError>(id: "getCredentialReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCredentialReportInput, GetCredentialReportOutput, GetCredentialReportOutputError>())
+        var operation = ClientRuntime.OperationStack<GetCredentialReportInput, GetCredentialReportOutput>(id: "getCredentialReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCredentialReportInput, GetCredentialReportOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCredentialReportInput, GetCredentialReportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCredentialReportOutput, GetCredentialReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCredentialReportOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCredentialReportInput, GetCredentialReportOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCredentialReportInput, GetCredentialReportOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCredentialReportInput, GetCredentialReportOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCredentialReportOutput, GetCredentialReportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCredentialReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCredentialReportOutput, GetCredentialReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialReportOutput, GetCredentialReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCredentialReportOutput, GetCredentialReportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCredentialReportOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCredentialReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCredentialReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter GetGroupInput : [no documentation found]
@@ -2925,24 +3045,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutput, GetGroupOutputError>(id: "getGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutput, GetGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutput>(id: "getGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupOutput, GetGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGroupInput, GetGroupOutput>(xmlName: "GetGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetGroupInput, GetGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGroupInput, GetGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupOutput, GetGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutput, GetGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput, GetGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutput, GetGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetGroupPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the specified inline policy document that is embedded in the specified IAM group. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. An IAM group can also have managed policies attached to it. To retrieve a managed policy document that is attached to a group, use [GetPolicy] to determine the policy's default version, then use [GetPolicyVersion] to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter GetGroupPolicyInput : [no documentation found]
@@ -2970,24 +3092,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetGroupPolicyInput, GetGroupPolicyOutput, GetGroupPolicyOutputError>(id: "getGroupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput, GetGroupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetGroupPolicyInput, GetGroupPolicyOutput>(id: "getGroupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupPolicyOutput, GetGroupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>(xmlName: "GetGroupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetGroupPolicyInput, GetGroupPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupPolicyOutput, GetGroupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupPolicyOutput, GetGroupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutput, GetGroupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupPolicyOutput, GetGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter GetInstanceProfileInput : [no documentation found]
@@ -3015,24 +3139,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutput, GetInstanceProfileOutputError>(id: "getInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput, GetInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutput>(id: "getInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(xmlName: "GetInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInstanceProfileInput, GetInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceProfileOutput, GetInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutput, GetInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetLoginProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the user name for the specified IAM user. A login profile is created when you create a password for the user to access the Amazon Web Services Management Console. If the user does not exist or does not have a password, the operation returns a 404 (NoSuchEntity) error. If you create an IAM user with access to the console, the CreateDate reflects the date you created the initial password for the user. If you create an IAM user with programmatic access, and then later add a password for the user to access the Amazon Web Services Management Console, the CreateDate reflects the initial password creation date. A user with programmatic access does not have a login profile unless you create a password for the user to access the Amazon Web Services Management Console.
     ///
     /// - Parameter GetLoginProfileInput : [no documentation found]
@@ -3060,24 +3186,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetLoginProfileInput, GetLoginProfileOutput, GetLoginProfileOutputError>(id: "getLoginProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoginProfileInput, GetLoginProfileOutput, GetLoginProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<GetLoginProfileInput, GetLoginProfileOutput>(id: "getLoginProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoginProfileInput, GetLoginProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoginProfileInput, GetLoginProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoginProfileOutput, GetLoginProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetLoginProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetLoginProfileInput, GetLoginProfileOutput>(xmlName: "GetLoginProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetLoginProfileInput, GetLoginProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetLoginProfileInput, GetLoginProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoginProfileOutput, GetLoginProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoginProfileOutput, GetLoginProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoginProfileOutput, GetLoginProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoginProfileOutput, GetLoginProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoginProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about an MFA device for a specified user.
     ///
     /// - Parameter GetMFADeviceInput : [no documentation found]
@@ -3105,24 +3233,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetMFADeviceInput, GetMFADeviceOutput, GetMFADeviceOutputError>(id: "getMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMFADeviceInput, GetMFADeviceOutput, GetMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<GetMFADeviceInput, GetMFADeviceOutput>(id: "getMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMFADeviceInput, GetMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMFADeviceInput, GetMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMFADeviceOutput, GetMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMFADeviceInput, GetMFADeviceOutput>(xmlName: "GetMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetMFADeviceInput, GetMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMFADeviceInput, GetMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMFADeviceOutput, GetMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMFADeviceOutput, GetMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMFADeviceOutput, GetMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMFADeviceOutput, GetMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
     ///
     /// - Parameter GetOpenIDConnectProviderInput : [no documentation found]
@@ -3151,24 +3281,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>(id: "getOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>(id: "getOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>(xmlName: "GetOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIDConnectProviderOutput, GetOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetOrganizationsAccessReport` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the service last accessed data report for Organizations that was previously generated using the [GenerateOrganizationsAccessReport] operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see [GenerateOrganizationsAccessReport]. To call this operation, you must be signed in to the management account in your organization. SCPs must be enabled for your organization root. You must have permissions to perform this operation. For more information, see [Refining permissions using service last accessed data](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html) in the IAM User Guide. For each service that principals in an account (root user, IAM users, or IAM roles) could access using SCPs, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, it returns the reason that it failed. By default, the list is sorted by service namespace.
     ///
     /// - Parameter GetOrganizationsAccessReportInput : [no documentation found]
@@ -3195,24 +3327,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>(id: "getOrganizationsAccessReport")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>())
+        var operation = ClientRuntime.OperationStack<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>(id: "getOrganizationsAccessReport")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationsAccessReportOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>(xmlName: "GetOrganizationsAccessReportRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetOrganizationsAccessReportOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationsAccessReportOutput, GetOrganizationsAccessReportOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationsAccessReportOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetOrganizationsAccessReportOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationsAccessReportOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy]. This operation returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use [GetPolicyVersion]. This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use [GetUserPolicy], [GetGroupPolicy], or [GetRolePolicy]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter GetPolicyInput : [no documentation found]
@@ -3241,24 +3375,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>(id: "getPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutput, GetPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutput>(id: "getPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyOutput, GetPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPolicyInput, GetPolicyOutput>(xmlName: "GetPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPolicyInput, GetPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPolicyInput, GetPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutput, GetPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput, GetPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput, GetPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetPolicyVersion` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified version of the specified managed policy, including the policy document. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. To list the available versions for a policy, use [ListPolicyVersions]. This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded in a user, group, or role, use [GetUserPolicy], [GetGroupPolicy], or [GetRolePolicy]. For more information about the types of policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
     ///
     /// - Parameter GetPolicyVersionInput : [no documentation found]
@@ -3287,24 +3423,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetPolicyVersionInput, GetPolicyVersionOutput, GetPolicyVersionOutputError>(id: "getPolicyVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput, GetPolicyVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<GetPolicyVersionInput, GetPolicyVersionOutput>(id: "getPolicyVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyVersionOutput, GetPolicyVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPolicyVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>(xmlName: "GetPolicyVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyVersionOutput, GetPolicyVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyVersionOutput, GetPolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput, GetPolicyVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyVersionOutput, GetPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetPolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
     ///
     /// - Parameter GetRoleInput : [no documentation found]
@@ -3332,24 +3470,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRoleInput, GetRoleOutput, GetRoleOutputError>(id: "getRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoleInput, GetRoleOutput, GetRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<GetRoleInput, GetRoleOutput>(id: "getRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoleInput, GetRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoleInput, GetRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoleOutput, GetRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRoleInput, GetRoleOutput>(xmlName: "GetRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRoleInput, GetRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRoleInput, GetRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoleOutput, GetRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoleOutput, GetRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleOutput, GetRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoleOutput, GetRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the specified inline policy document that is embedded with the specified IAM role. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use [GetPolicy] to determine the policy's default version, then use [GetPolicyVersion] to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide.
     ///
     /// - Parameter GetRolePolicyInput : [no documentation found]
@@ -3377,24 +3517,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetRolePolicyInput, GetRolePolicyOutput, GetRolePolicyOutputError>(id: "getRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRolePolicyInput, GetRolePolicyOutput, GetRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetRolePolicyInput, GetRolePolicyOutput>(id: "getRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRolePolicyInput, GetRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRolePolicyInput, GetRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRolePolicyOutput, GetRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRolePolicyInput, GetRolePolicyOutput>(xmlName: "GetRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetRolePolicyInput, GetRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRolePolicyInput, GetRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRolePolicyOutput, GetRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRolePolicyOutput, GetRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRolePolicyOutput, GetRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRolePolicyOutput, GetRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns the SAML provider metadocument that was uploaded when the IAM SAML provider resource object was created or updated. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
     /// - Parameter GetSAMLProviderInput : [no documentation found]
@@ -3423,24 +3565,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSAMLProviderInput, GetSAMLProviderOutput, GetSAMLProviderOutputError>(id: "getSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput, GetSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSAMLProviderInput, GetSAMLProviderOutput>(id: "getSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSAMLProviderOutput, GetSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>(xmlName: "GetSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSAMLProviderInput, GetSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSAMLProviderOutput, GetSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSAMLProviderOutput, GetSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutput, GetSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSAMLProviderOutput, GetSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetSSHPublicKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
     /// - Parameter GetSSHPublicKeyInput : [no documentation found]
@@ -3468,24 +3612,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetSSHPublicKeyInput, GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>(id: "getSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>(id: "getSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSSHPublicKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>(xmlName: "GetSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSSHPublicKeyOutput, GetSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSSHPublicKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM.
     ///
     /// - Parameter GetServerCertificateInput : [no documentation found]
@@ -3513,24 +3659,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServerCertificateInput, GetServerCertificateOutput, GetServerCertificateOutputError>(id: "getServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerCertificateInput, GetServerCertificateOutput, GetServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServerCertificateInput, GetServerCertificateOutput>(id: "getServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerCertificateInput, GetServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerCertificateInput, GetServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerCertificateOutput, GetServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetServerCertificateInput, GetServerCertificateOutput>(xmlName: "GetServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetServerCertificateInput, GetServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetServerCertificateInput, GetServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerCertificateOutput, GetServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerCertificateOutput, GetServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerCertificateOutput, GetServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerCertificateOutput, GetServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceLastAccessedDetails` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves a service last accessed report that was created using the GenerateServiceLastAccessedDetails operation. You can use the JobId parameter in GetServiceLastAccessedDetails to retrieve the status of your report job. When the report is complete, you can retrieve the generated report. The report includes a list of Amazon Web Services services that the resource (user, group, role, or managed policy) can access. Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics) in the IAM User Guide. For each service that the resource could access using permissions policies, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, the GetServiceLastAccessedDetails operation returns the reason that it failed. The GetServiceLastAccessedDetails operation returns a list of services. This list includes the number of entities that have attempted to access the service and the date and time of the last attempt. It also returns the ARN of the following entity, depending on the resource ARN that you used to generate the report:
     ///
     /// * User – Returns the user ARN that you used to generate the report
@@ -3569,24 +3717,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>(id: "getServiceLastAccessedDetails")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>(id: "getServiceLastAccessedDetails")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLastAccessedDetailsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>(xmlName: "GetServiceLastAccessedDetailsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsOutput, GetServiceLastAccessedDetailsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLastAccessedDetailsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceLastAccessedDetailsWithEntities` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// After you generate a group or policy report using the GenerateServiceLastAccessedDetails operation, you can use the JobId parameter in GetServiceLastAccessedDetailsWithEntities. This operation retrieves the status of your report job and a list of entities that could have used group or policy permissions to access the specified service.
     ///
     /// * Group – For a group report, this operation returns a list of users in the group that could have used the group’s policies in an attempt to access the service.
@@ -3621,24 +3771,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>(id: "getServiceLastAccessedDetailsWithEntities")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>(id: "getServiceLastAccessedDetailsWithEntities")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>(xmlName: "GetServiceLastAccessedDetailsWithEntitiesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLastAccessedDetailsWithEntitiesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput, GetServiceLastAccessedDetailsWithEntitiesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLastAccessedDetailsWithEntitiesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetServiceLinkedRoleDeletionStatus` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the status of your service-linked role deletion. After you use [DeleteServiceLinkedRole] to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service.
     ///
     /// - Parameter GetServiceLinkedRoleDeletionStatusInput : [no documentation found]
@@ -3667,24 +3819,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>(id: "getServiceLinkedRoleDeletionStatus")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>())
+        var operation = ClientRuntime.OperationStack<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>(id: "getServiceLinkedRoleDeletionStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>(xmlName: "GetServiceLinkedRoleDeletionStatusRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetServiceLinkedRoleDeletionStatusOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLinkedRoleDeletionStatusOutput, GetServiceLinkedRoleDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLinkedRoleDeletionStatusOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetServiceLinkedRoleDeletionStatusOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceLinkedRoleDeletionStatusOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID used to sign the request to this operation.
     ///
     /// - Parameter GetUserInput : [no documentation found]
@@ -3712,24 +3866,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutput, GetUserOutputError>(id: "getUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutput, GetUserOutputError>())
+        var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutput>(id: "getUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserOutput, GetUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetUserInput, GetUserOutput>(xmlName: "GetUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetUserInput, GetUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUserInput, GetUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserOutput, GetUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutput, GetUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput, GetUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutput, GetUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `GetUserPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves the specified inline policy document that is embedded in the specified IAM user. Policies returned by this operation are URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. An IAM user can also have managed policies attached to it. To retrieve a managed policy document that is attached to a user, use [GetPolicy] to determine the policy's default version. Then use [GetPolicyVersion] to retrieve the policy document. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter GetUserPolicyInput : [no documentation found]
@@ -3757,24 +3913,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetUserPolicyInput, GetUserPolicyOutput, GetUserPolicyOutputError>(id: "getUserPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserPolicyInput, GetUserPolicyOutput, GetUserPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<GetUserPolicyInput, GetUserPolicyOutput>(id: "getUserPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserPolicyInput, GetUserPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserPolicyInput, GetUserPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserPolicyOutput, GetUserPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetUserPolicyInput, GetUserPolicyOutput>(xmlName: "GetUserPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetUserPolicyInput, GetUserPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetUserPolicyInput, GetUserPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserPolicyOutput, GetUserPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserPolicyOutput, GetUserPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPolicyOutput, GetUserPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserPolicyOutput, GetUserPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccessKeys` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. If the Amazon Web Services account has no associated users, the root user returns it's own access key IDs by running this command. To ensure the security of your Amazon Web Services account, the secret access key is accessible only during key and user creation.
     ///
     /// - Parameter ListAccessKeysInput : [no documentation found]
@@ -3802,24 +3960,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccessKeysInput, ListAccessKeysOutput, ListAccessKeysOutputError>(id: "listAccessKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessKeysInput, ListAccessKeysOutput, ListAccessKeysOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAccessKeysInput, ListAccessKeysOutput>(id: "listAccessKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessKeysInput, ListAccessKeysOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessKeysInput, ListAccessKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessKeysOutput, ListAccessKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccessKeysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccessKeysInput, ListAccessKeysOutput>(xmlName: "ListAccessKeysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccessKeysInput, ListAccessKeysOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccessKeysInput, ListAccessKeysOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessKeysOutput, ListAccessKeysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccessKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessKeysOutput, ListAccessKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessKeysOutput, ListAccessKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessKeysOutput, ListAccessKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessKeysOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccessKeysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccessKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAccountAliases` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
     /// - Parameter ListAccountAliasesInput : [no documentation found]
@@ -3846,24 +4006,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAccountAliasesInput, ListAccountAliasesOutput, ListAccountAliasesOutputError>(id: "listAccountAliases")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput, ListAccountAliasesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAccountAliasesInput, ListAccountAliasesOutput>(id: "listAccountAliases")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAliasesOutput, ListAccountAliasesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAliasesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>(xmlName: "ListAccountAliasesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAccountAliasesInput, ListAccountAliasesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAliasesOutput, ListAccountAliasesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAccountAliasesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAliasesOutput, ListAccountAliasesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutput, ListAccountAliasesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAliasesOutput, ListAccountAliasesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAliasesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAccountAliasesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountAliasesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAttachedGroupPolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists all managed policies that are attached to the specified IAM group. An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use [ListGroupPolicies]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     ///
     /// - Parameter ListAttachedGroupPoliciesInput : [no documentation found]
@@ -3892,24 +4054,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>(id: "listAttachedGroupPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(id: "listAttachedGroupPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedGroupPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(xmlName: "ListAttachedGroupPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedGroupPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedGroupPoliciesOutput, ListAttachedGroupPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedGroupPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedGroupPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAttachedRolePolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists all managed policies that are attached to the specified IAM role. An IAM role can also have inline policies embedded with it. To list the inline policies for a role, use [ListRolePolicies]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the operation returns an empty list.
     ///
     /// - Parameter ListAttachedRolePoliciesInput : [no documentation found]
@@ -3938,24 +4102,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>(id: "listAttachedRolePolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(id: "listAttachedRolePolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedRolePoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(xmlName: "ListAttachedRolePoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedRolePoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedRolePoliciesOutput, ListAttachedRolePoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedRolePoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedRolePoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedRolePoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListAttachedUserPolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists all managed policies that are attached to the specified IAM user. An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use [ListUserPolicies]. For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     ///
     /// - Parameter ListAttachedUserPoliciesInput : [no documentation found]
@@ -3984,24 +4150,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>(id: "listAttachedUserPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(id: "listAttachedUserPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAttachedUserPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(xmlName: "ListAttachedUserPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAttachedUserPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedUserPoliciesOutput, ListAttachedUserPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedUserPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListAttachedUserPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachedUserPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListEntitiesForPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListEntitiesForPolicyInput : [no documentation found]
@@ -4030,24 +4198,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>(id: "listEntitiesForPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(id: "listEntitiesForPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEntitiesForPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(xmlName: "ListEntitiesForPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEntitiesForPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesForPolicyOutput, ListEntitiesForPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesForPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEntitiesForPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesForPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroupPolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the names of the inline policies that are embedded in the specified IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use [ListAttachedGroupPolicies]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an empty list.
     ///
     /// - Parameter ListGroupPoliciesInput : [no documentation found]
@@ -4075,24 +4245,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGroupPoliciesInput, ListGroupPoliciesOutput, ListGroupPoliciesOutputError>(id: "listGroupPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput, ListGroupPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListGroupPoliciesInput, ListGroupPoliciesOutput>(id: "listGroupPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupPoliciesOutput, ListGroupPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>(xmlName: "ListGroupPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupPoliciesOutput, ListGroupPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupPoliciesOutput, ListGroupPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutput, ListGroupPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupPoliciesOutput, ListGroupPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroups` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the IAM groups that have the specified path prefix. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
@@ -4119,24 +4291,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutput, ListGroupsOutputError>(id: "listGroups")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput, ListGroupsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutput>(id: "listGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsOutput, ListGroupsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGroupsInput, ListGroupsOutput>(xmlName: "ListGroupsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupsInput, ListGroupsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupsInput, ListGroupsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOutput, ListGroupsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput, ListGroupsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput, ListGroupsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput, ListGroupsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListGroupsForUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the IAM groups that the specified IAM user belongs to. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListGroupsForUserInput : [no documentation found]
@@ -4164,24 +4338,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListGroupsForUserInput, ListGroupsForUserOutput, ListGroupsForUserOutputError>(id: "listGroupsForUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput, ListGroupsForUserOutputError>())
+        var operation = ClientRuntime.OperationStack<ListGroupsForUserInput, ListGroupsForUserOutput>(id: "listGroupsForUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsForUserOutput, ListGroupsForUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsForUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>(xmlName: "ListGroupsForUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListGroupsForUserInput, ListGroupsForUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsForUserOutput, ListGroupsForUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListGroupsForUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsForUserOutput, ListGroupsForUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutput, ListGroupsForUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsForUserOutput, ListGroupsForUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsForUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListGroupsForUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListGroupsForUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListInstanceProfileTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified IAM instance profile. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListInstanceProfileTagsInput : [no documentation found]
@@ -4209,24 +4385,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>(id: "listInstanceProfileTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(id: "listInstanceProfileTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfileTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(xmlName: "ListInstanceProfileTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfileTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfileTagsOutput, ListInstanceProfileTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfileTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfileTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfileTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListInstanceProfiles` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see [GetInstanceProfile]. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListInstanceProfilesInput : [no documentation found]
@@ -4253,24 +4431,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(id: "listInstanceProfiles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutput>(id: "listInstanceProfiles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(xmlName: "ListInstanceProfilesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutput, ListInstanceProfilesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfilesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListInstanceProfilesForRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListInstanceProfilesForRoleInput : [no documentation found]
@@ -4298,24 +4478,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>(id: "listInstanceProfilesForRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(id: "listInstanceProfilesForRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstanceProfilesForRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(xmlName: "ListInstanceProfilesForRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListInstanceProfilesForRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesForRoleOutput, ListInstanceProfilesForRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesForRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListInstanceProfilesForRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesForRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMFADeviceTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListMFADeviceTagsInput : [no documentation found]
@@ -4344,24 +4526,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMFADeviceTagsInput, ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>(id: "listMFADeviceTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(id: "listMFADeviceTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMFADeviceTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(xmlName: "ListMFADeviceTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADeviceTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADeviceTagsOutput, ListMFADeviceTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADeviceTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMFADeviceTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADeviceTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListMFADevices` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the Amazon Web Services access key ID signing the request for this operation. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListMFADevicesInput : [no documentation found]
@@ -4389,24 +4573,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListMFADevicesInput, ListMFADevicesOutput, ListMFADevicesOutputError>(id: "listMFADevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADevicesInput, ListMFADevicesOutput, ListMFADevicesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListMFADevicesInput, ListMFADevicesOutput>(id: "listMFADevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADevicesInput, ListMFADevicesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMFADevicesInput, ListMFADevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMFADevicesOutput, ListMFADevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMFADevicesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListMFADevicesInput, ListMFADevicesOutput>(xmlName: "ListMFADevicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListMFADevicesInput, ListMFADevicesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListMFADevicesInput, ListMFADevicesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADevicesOutput, ListMFADevicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMFADevicesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADevicesOutput, ListMFADevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADevicesOutput, ListMFADevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADevicesOutput, ListMFADevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADevicesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADevicesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListMFADevicesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMFADevicesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListOpenIDConnectProviderTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity provider. The returned list of tags is sorted by tag key. For more information, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListOpenIDConnectProviderTagsInput : [no documentation found]
@@ -4435,24 +4621,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>(id: "listOpenIDConnectProviderTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(id: "listOpenIDConnectProviderTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenIDConnectProviderTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(xmlName: "ListOpenIDConnectProviderTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProviderTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProviderTagsOutput, ListOpenIDConnectProviderTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProviderTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOpenIDConnectProviderTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProviderTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListOpenIDConnectProviders` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the Amazon Web Services account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an OIDC provider, see [GetOpenIDConnectProvider].
     ///
     /// - Parameter ListOpenIDConnectProvidersInput : [no documentation found]
@@ -4479,24 +4667,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>(id: "listOpenIDConnectProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>(id: "listOpenIDConnectProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListOpenIDConnectProvidersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>(xmlName: "ListOpenIDConnectProvidersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListOpenIDConnectProvidersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProvidersOutput, ListOpenIDConnectProvidersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProvidersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListOpenIDConnectProvidersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProvidersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists all the managed policies that are available in your Amazon Web Services account, including your own customer-defined managed policies and all Amazon Web Services managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your Amazon Web Services account, set Scope to Local. To list only Amazon Web Services managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see [GetPolicy].
     ///
     /// - Parameter ListPoliciesInput : [no documentation found]
@@ -4523,24 +4713,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>(id: "listPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput, ListPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutput>(id: "listPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesOutput, ListPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPoliciesInput, ListPoliciesOutput>(xmlName: "ListPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPoliciesInput, ListPoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoliciesInput, ListPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesOutput, ListPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput, ListPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput, ListPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput, ListPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPoliciesGrantingServiceAccess` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service. This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see [Evaluating policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics) in the IAM User Guide. The list of policies returned by the operation depends on the ARN of the identity that you provide.
     ///
     /// * User – The list of policies includes the managed and inline policies that are attached to the user directly. The list also includes any additional managed and inline policies that are attached to the group to which the user belongs.
@@ -4577,24 +4769,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>(id: "listPoliciesGrantingServiceAccess")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>(id: "listPoliciesGrantingServiceAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPoliciesGrantingServiceAccessOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>(xmlName: "ListPoliciesGrantingServiceAccessRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPoliciesGrantingServiceAccessOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesGrantingServiceAccessOutput, ListPoliciesGrantingServiceAccessOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesGrantingServiceAccessOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPoliciesGrantingServiceAccessOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesGrantingServiceAccessOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicyTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified IAM customer managed policy. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListPolicyTagsInput : [no documentation found]
@@ -4623,24 +4817,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPolicyTagsInput, ListPolicyTagsOutput, ListPolicyTagsOutputError>(id: "listPolicyTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput, ListPolicyTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPolicyTagsInput, ListPolicyTagsOutput>(id: "listPolicyTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyTagsOutput, ListPolicyTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>(xmlName: "ListPolicyTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPolicyTagsInput, ListPolicyTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyTagsOutput, ListPolicyTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTagsOutput, ListPolicyTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutput, ListPolicyTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTagsOutput, ListPolicyTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListPolicyVersions` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists information about the versions of the specified managed policy, including the version that is currently set as the policy's default version. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter ListPolicyVersionsInput : [no documentation found]
@@ -4669,24 +4865,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListPolicyVersionsInput, ListPolicyVersionsOutput, ListPolicyVersionsOutputError>(id: "listPolicyVersions")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput, ListPolicyVersionsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListPolicyVersionsInput, ListPolicyVersionsOutput>(id: "listPolicyVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyVersionsOutput, ListPolicyVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPolicyVersionsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(xmlName: "ListPolicyVersionsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyVersionsOutput, ListPolicyVersionsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListPolicyVersionsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyVersionsOutput, ListPolicyVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput, ListPolicyVersionsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyVersionsOutput, ListPolicyVersionsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyVersionsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListPolicyVersionsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRolePolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the names of the inline policies that are embedded in the specified IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use [ListAttachedRolePolicies]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an empty list.
     ///
     /// - Parameter ListRolePoliciesInput : [no documentation found]
@@ -4714,24 +4912,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRolePoliciesInput, ListRolePoliciesOutput, ListRolePoliciesOutputError>(id: "listRolePolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput, ListRolePoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRolePoliciesInput, ListRolePoliciesOutput>(id: "listRolePolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRolePoliciesOutput, ListRolePoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRolePoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>(xmlName: "ListRolePoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRolePoliciesInput, ListRolePoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolePoliciesOutput, ListRolePoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolePoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolePoliciesOutput, ListRolePoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutput, ListRolePoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolePoliciesOutput, ListRolePoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolePoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRolePoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolePoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRoleTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListRoleTagsInput : [no documentation found]
@@ -4759,24 +4959,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRoleTagsInput, ListRoleTagsOutput, ListRoleTagsOutputError>(id: "listRoleTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoleTagsInput, ListRoleTagsOutput, ListRoleTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRoleTagsInput, ListRoleTagsOutput>(id: "listRoleTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoleTagsInput, ListRoleTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoleTagsInput, ListRoleTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoleTagsOutput, ListRoleTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoleTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRoleTagsInput, ListRoleTagsOutput>(xmlName: "ListRoleTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRoleTagsInput, ListRoleTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRoleTagsInput, ListRoleTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoleTagsOutput, ListRoleTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRoleTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoleTagsOutput, ListRoleTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoleTagsOutput, ListRoleTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoleTagsOutput, ListRoleTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoleTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoleTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRoleTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoleTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListRoles` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. IAM resource-listing operations return a subset of the available attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:
     ///
     /// * PermissionsBoundary
@@ -4812,24 +5014,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListRolesInput, ListRolesOutput, ListRolesOutputError>(id: "listRoles")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolesInput, ListRolesOutput, ListRolesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListRolesInput, ListRolesOutput>(id: "listRoles")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolesInput, ListRolesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRolesInput, ListRolesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRolesOutput, ListRolesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRolesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRolesInput, ListRolesOutput>(xmlName: "ListRolesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListRolesInput, ListRolesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRolesInput, ListRolesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolesOutput, ListRolesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRolesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolesOutput, ListRolesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolesOutput, ListRolesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolesOutput, ListRolesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListRolesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRolesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSAMLProviderTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified Security Assertion Markup Language (SAML) identity provider. The returned list of tags is sorted by tag key. For more information, see [About SAML 2.0-based federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListSAMLProviderTagsInput : [no documentation found]
@@ -4858,24 +5062,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>(id: "listSAMLProviderTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(id: "listSAMLProviderTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSAMLProviderTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(xmlName: "ListSAMLProviderTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProviderTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProviderTagsOutput, ListSAMLProviderTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProviderTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSAMLProviderTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProviderTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSAMLProviders` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see [GetSAMLProvider]. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
     /// - Parameter ListSAMLProvidersInput : [no documentation found]
@@ -4902,24 +5108,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSAMLProvidersInput, ListSAMLProvidersOutput, ListSAMLProvidersOutputError>(id: "listSAMLProviders")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput, ListSAMLProvidersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSAMLProvidersInput, ListSAMLProvidersOutput>(id: "listSAMLProviders")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSAMLProvidersOutput, ListSAMLProvidersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSAMLProvidersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>(xmlName: "ListSAMLProvidersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProvidersOutput, ListSAMLProvidersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSAMLProvidersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProvidersOutput, ListSAMLProvidersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutput, ListSAMLProvidersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProvidersOutput, ListSAMLProvidersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProvidersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSAMLProvidersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProvidersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSSHPublicKeys` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns information about the SSH public keys associated with the specified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for authenticating the IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListSSHPublicKeysInput : [no documentation found]
@@ -4946,24 +5154,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSSHPublicKeysInput, ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>(id: "listSSHPublicKeys")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(id: "listSSHPublicKeys")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSSHPublicKeysOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(xmlName: "ListSSHPublicKeysRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSSHPublicKeysOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSSHPublicKeysOutput, ListSSHPublicKeysOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSSHPublicKeysOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSSHPublicKeysOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSSHPublicKeysOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListServerCertificateTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified IAM server certificate. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide.
     ///
     /// - Parameter ListServerCertificateTagsInput : [no documentation found]
@@ -4991,24 +5201,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServerCertificateTagsInput, ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>(id: "listServerCertificateTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(id: "listServerCertificateTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServerCertificateTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(xmlName: "ListServerCertificateTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificateTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificateTagsOutput, ListServerCertificateTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificateTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServerCertificateTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificateTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListServerCertificates` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the operation returns an empty list. You can paginate the results using the MaxItems and Marker parameters. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a servercertificate, see [GetServerCertificate].
     ///
     /// - Parameter ListServerCertificatesInput : [no documentation found]
@@ -5035,24 +5247,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServerCertificatesInput, ListServerCertificatesOutput, ListServerCertificatesOutputError>(id: "listServerCertificates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput, ListServerCertificatesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListServerCertificatesInput, ListServerCertificatesOutput>(id: "listServerCertificates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServerCertificatesOutput, ListServerCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServerCertificatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>(xmlName: "ListServerCertificatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServerCertificatesInput, ListServerCertificatesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificatesOutput, ListServerCertificatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServerCertificatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificatesOutput, ListServerCertificatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutput, ListServerCertificatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificatesOutput, ListServerCertificatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServerCertificatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListServiceSpecificCredentials` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an Amazon Web Services service, see [Set up service-specific credentials](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html) in the CodeCommit User Guide.
     ///
     /// - Parameter ListServiceSpecificCredentialsInput : [no documentation found]
@@ -5080,24 +5294,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>(id: "listServiceSpecificCredentials")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>(id: "listServiceSpecificCredentials")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServiceSpecificCredentialsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>(xmlName: "ListServiceSpecificCredentialsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListServiceSpecificCredentialsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceSpecificCredentialsOutput, ListServiceSpecificCredentialsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceSpecificCredentialsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListServiceSpecificCredentialsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServiceSpecificCredentialsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListSigningCertificates` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Returns information about the signing certificates associated with the specified IAM user. If none exists, the operation returns an empty list. Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request for this operation. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
     /// - Parameter ListSigningCertificatesInput : [no documentation found]
@@ -5125,24 +5341,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListSigningCertificatesInput, ListSigningCertificatesOutput, ListSigningCertificatesOutputError>(id: "listSigningCertificates")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput, ListSigningCertificatesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListSigningCertificatesInput, ListSigningCertificatesOutput>(id: "listSigningCertificates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningCertificatesOutput, ListSigningCertificatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSigningCertificatesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>(xmlName: "ListSigningCertificatesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningCertificatesOutput, ListSigningCertificatesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSigningCertificatesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningCertificatesOutput, ListSigningCertificatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutput, ListSigningCertificatesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningCertificatesOutput, ListSigningCertificatesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningCertificatesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSigningCertificatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSigningCertificatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUserPolicies` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the names of the inline policies embedded in the specified IAM user. An IAM user can also have managed policies attached to it. To list the managed policies that are attached to a user, use [ListAttachedUserPolicies]. For more information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the operation returns an empty list.
     ///
     /// - Parameter ListUserPoliciesInput : [no documentation found]
@@ -5170,24 +5388,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUserPoliciesInput, ListUserPoliciesOutput, ListUserPoliciesOutputError>(id: "listUserPolicies")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput, ListUserPoliciesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUserPoliciesInput, ListUserPoliciesOutput>(id: "listUserPolicies")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserPoliciesOutput, ListUserPoliciesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserPoliciesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>(xmlName: "ListUserPoliciesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUserPoliciesInput, ListUserPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserPoliciesOutput, ListUserPoliciesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserPoliciesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoliciesOutput, ListUserPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutput, ListUserPoliciesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserPoliciesOutput, ListUserPoliciesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoliciesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserPoliciesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserPoliciesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUserTags` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the tags that are attached to the specified IAM user. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter ListUserTagsInput : [no documentation found]
@@ -5215,24 +5435,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUserTagsInput, ListUserTagsOutput, ListUserTagsOutputError>(id: "listUserTags")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserTagsInput, ListUserTagsOutput, ListUserTagsOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUserTagsInput, ListUserTagsOutput>(id: "listUserTags")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserTagsInput, ListUserTagsOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserTagsInput, ListUserTagsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserTagsOutput, ListUserTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserTagsOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUserTagsInput, ListUserTagsOutput>(xmlName: "ListUserTagsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUserTagsInput, ListUserTagsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUserTagsInput, ListUserTagsOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserTagsOutput, ListUserTagsOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUserTagsOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserTagsOutput, ListUserTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserTagsOutput, ListUserTagsOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserTagsOutput, ListUserTagsOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserTagsOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserTagsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUserTagsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUserTagsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListUsers` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the Amazon Web Services account. If there are none, the operation returns an empty list. IAM resource-listing operations return a subset of the available attributes for the resource. This operation does not return the following attributes, even though they are an attribute of the returned object:
     ///
     /// * PermissionsBoundary
@@ -5266,24 +5488,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput, ListUsersOutputError>(id: "listUsers")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput, ListUsersOutputError>())
+        var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutput>(id: "listUsers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutput, ListUsersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListUsersInput, ListUsersOutput>(xmlName: "ListUsersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListUsersInput, ListUsersOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListUsersInput, ListUsersOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput, ListUsersOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListUsersOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput, ListUsersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput, ListUsersOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput, ListUsersOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListUsersOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ListVirtualMFADevices` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Lists the virtual MFA devices defined in the Amazon Web Services account by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned, Unassigned, or Any. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view tag information for a virtual MFA device, see [ListMFADeviceTags]. You can paginate the results using the MaxItems and Marker parameters.
     ///
     /// - Parameter ListVirtualMFADevicesInput : [no documentation found]
@@ -5305,24 +5529,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>(id: "listVirtualMFADevices")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>())
+        var operation = ClientRuntime.OperationStack<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(id: "listVirtualMFADevices")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListVirtualMFADevicesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(xmlName: "ListVirtualMFADevicesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListVirtualMFADevicesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMFADevicesOutput, ListVirtualMFADevicesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMFADevicesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListVirtualMFADevicesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMFADevicesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutGroupPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use [AttachGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
     /// - Parameter PutGroupPolicyInput : [no documentation found]
@@ -5352,24 +5578,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutGroupPolicyInput, PutGroupPolicyOutput, PutGroupPolicyOutputError>(id: "putGroupPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput, PutGroupPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutGroupPolicyInput, PutGroupPolicyOutput>(id: "putGroupPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutGroupPolicyOutput, PutGroupPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutGroupPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>(xmlName: "PutGroupPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutGroupPolicyInput, PutGroupPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutGroupPolicyOutput, PutGroupPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutGroupPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGroupPolicyOutput, PutGroupPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutput, PutGroupPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutGroupPolicyOutput, PutGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGroupPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutGroupPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutRolePermissionsBoundary` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds or updates the policy that is specified as the IAM role's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a role. Use the boundary to control the maximum permissions that the role can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the role. You cannot set the boundary for a service-linked role. Policies used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the role. To learn how the effective permissions for a role are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
     ///
     /// - Parameter PutRolePermissionsBoundaryInput : [no documentation found]
@@ -5400,24 +5628,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>(id: "putRolePermissionsBoundary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>())
+        var operation = ClientRuntime.OperationStack<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>(id: "putRolePermissionsBoundary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRolePermissionsBoundaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>(xmlName: "PutRolePermissionsBoundaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePermissionsBoundaryOutput, PutRolePermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePermissionsBoundaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRolePermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html). You can update a role's trust policy using [UpdateAssumeRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html). For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html) in the IAM User Guide. A role can also have a managed policy attached to it. To attach a managed policy to a role, use [AttachRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed with a role, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
     /// - Parameter PutRolePolicyInput : [no documentation found]
@@ -5448,24 +5678,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutRolePolicyInput, PutRolePolicyOutput, PutRolePolicyOutputError>(id: "putRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePolicyInput, PutRolePolicyOutput, PutRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutRolePolicyInput, PutRolePolicyOutput>(id: "putRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePolicyInput, PutRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRolePolicyInput, PutRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRolePolicyOutput, PutRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRolePolicyInput, PutRolePolicyOutput>(xmlName: "PutRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutRolePolicyInput, PutRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRolePolicyInput, PutRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePolicyOutput, PutRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePolicyOutput, PutRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePolicyOutput, PutRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePolicyOutput, PutRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutUserPermissionsBoundary` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds or updates the policy that is specified as the IAM user's permissions boundary. You can use an Amazon Web Services managed policy or a customer managed policy to set the boundary for a user. Use the boundary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the user. Policies that are used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the user. To learn how the effective permissions for a user are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
     ///
     /// - Parameter PutUserPermissionsBoundaryInput : [no documentation found]
@@ -5495,24 +5727,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>(id: "putUserPermissionsBoundary")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>())
+        var operation = ClientRuntime.OperationStack<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>(id: "putUserPermissionsBoundary")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutUserPermissionsBoundaryOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>(xmlName: "PutUserPermissionsBoundaryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPermissionsBoundaryOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPermissionsBoundaryOutput, PutUserPermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPermissionsBoundaryOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutUserPermissionsBoundaryOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPermissionsBoundaryOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `PutUserPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use [AttachUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html). To create a new managed policy, use [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html). For information about policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a user, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
     /// - Parameter PutUserPolicyInput : [no documentation found]
@@ -5542,24 +5776,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<PutUserPolicyInput, PutUserPolicyOutput, PutUserPolicyOutputError>(id: "putUserPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPolicyInput, PutUserPolicyOutput, PutUserPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<PutUserPolicyInput, PutUserPolicyOutput>(id: "putUserPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPolicyInput, PutUserPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutUserPolicyInput, PutUserPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutUserPolicyOutput, PutUserPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutUserPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutUserPolicyInput, PutUserPolicyOutput>(xmlName: "PutUserPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutUserPolicyInput, PutUserPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutUserPolicyInput, PutUserPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPolicyOutput, PutUserPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutUserPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPolicyOutput, PutUserPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPolicyOutput, PutUserPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPolicyOutput, PutUserPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutUserPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutUserPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveClientIDFromOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
     ///
     /// - Parameter RemoveClientIDFromOpenIDConnectProviderInput : [no documentation found]
@@ -5588,24 +5824,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>(id: "removeClientIDFromOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>(id: "removeClientIDFromOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>(xmlName: "RemoveClientIDFromOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveClientIDFromOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput, RemoveClientIDFromOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveClientIDFromOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveClientIDFromOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveClientIDFromOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveRoleFromInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified IAM role from the specified EC2 instance profile. Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter RemoveRoleFromInstanceProfileInput : [no documentation found]
@@ -5635,24 +5873,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>(id: "removeRoleFromInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>(id: "removeRoleFromInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveRoleFromInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>(xmlName: "RemoveRoleFromInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveRoleFromInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromInstanceProfileOutput, RemoveRoleFromInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveRoleFromInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `RemoveUserFromGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified user from the specified group.
     ///
     /// - Parameter RemoveUserFromGroupInput : [no documentation found]
@@ -5681,24 +5921,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<RemoveUserFromGroupInput, RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>(id: "removeUserFromGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>(id: "removeUserFromGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveUserFromGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>(xmlName: "RemoveUserFromGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, RemoveUserFromGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveUserFromGroupOutput, RemoveUserFromGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveUserFromGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(RemoveUserFromGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveUserFromGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResetServiceSpecificCredential` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Resets the password for a service-specific credential. The new password is Amazon Web Services generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user.
     ///
     /// - Parameter ResetServiceSpecificCredentialInput : [no documentation found]
@@ -5725,24 +5967,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>(id: "resetServiceSpecificCredential")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>())
+        var operation = ClientRuntime.OperationStack<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>(id: "resetServiceSpecificCredential")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetServiceSpecificCredentialOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>(xmlName: "ResetServiceSpecificCredentialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResetServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetServiceSpecificCredentialOutput, ResetServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetServiceSpecificCredentialOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResetServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResetServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `ResyncMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services servers. For more information about creating and working with virtual MFA devices, see [Using a virtual MFA device](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html) in the IAM User Guide.
     ///
     /// - Parameter ResyncMFADeviceInput : [no documentation found]
@@ -5773,24 +6017,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<ResyncMFADeviceInput, ResyncMFADeviceOutput, ResyncMFADeviceOutputError>(id: "resyncMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput, ResyncMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<ResyncMFADeviceInput, ResyncMFADeviceOutput>(id: "resyncMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResyncMFADeviceOutput, ResyncMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResyncMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>(xmlName: "ResyncMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResyncMFADeviceOutput, ResyncMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ResyncMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResyncMFADeviceOutput, ResyncMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutput, ResyncMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResyncMFADeviceOutput, ResyncMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResyncMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ResyncMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResyncMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SetDefaultPolicyVersion` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use [ListEntitiesForPolicy]. For information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     ///
     /// - Parameter SetDefaultPolicyVersionInput : [no documentation found]
@@ -5820,24 +6066,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>(id: "setDefaultPolicyVersion")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>())
+        var operation = ClientRuntime.OperationStack<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>(id: "setDefaultPolicyVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetDefaultPolicyVersionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>(xmlName: "SetDefaultPolicyVersionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetDefaultPolicyVersionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionOutput, SetDefaultPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultPolicyVersionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetDefaultPolicyVersionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SetSecurityTokenServicePreferences` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Sets the specified version of the global endpoint token as the token version used for the Amazon Web Services account. By default, Security Token Service (STS) is available as a global service, and all STS requests go to a single endpoint at https://sts.amazonaws.com. Amazon Web Services recommends using Regional STS endpoints to reduce latency, build in redundancy, and increase session token availability. For information about Regional endpoints for STS, see [Security Token Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/sts.html) in the Amazon Web Services General Reference. If you make an STS call to the global endpoint, the resulting session tokens might be valid in some Regions but not others. It depends on the version that is set in this operation. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see [Activating and deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide. To view the current session token version, see the GlobalEndpointTokenVersion entry in the response of the [GetAccountSummary] operation.
     ///
     /// - Parameter SetSecurityTokenServicePreferencesInput : [no documentation found]
@@ -5864,24 +6112,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>(id: "setSecurityTokenServicePreferences")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>())
+        var operation = ClientRuntime.OperationStack<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>(id: "setSecurityTokenServicePreferences")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetSecurityTokenServicePreferencesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>(xmlName: "SetSecurityTokenServicePreferencesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SetSecurityTokenServicePreferencesOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSecurityTokenServicePreferencesOutput, SetSecurityTokenServicePreferencesOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSecurityTokenServicePreferencesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutput>(responseClosure(decoder: decoder), responseErrorClosure(SetSecurityTokenServicePreferencesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetSecurityTokenServicePreferencesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SimulateCustomPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use [SimulatePrincipalPolicy] instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use [GetContextKeysForCustomPolicy]. If the output is long, you can use MaxItems and Marker parameters to paginate the results. The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in the IAM User Guide.
     ///
     /// - Parameter SimulateCustomPolicyInput : [no documentation found]
@@ -5909,24 +6159,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SimulateCustomPolicyInput, SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>(id: "simulateCustomPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(id: "simulateCustomPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SimulateCustomPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(xmlName: "SimulateCustomPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulateCustomPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulateCustomPolicyOutput, SimulateCustomPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulateCustomPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SimulateCustomPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulateCustomPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `SimulatePrincipalPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use [SimulateCustomPolicy] instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use [SimulateCustomPolicy] instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use [GetContextKeysForPrincipalPolicy]. If the output is long, you can use the MaxItems and Marker parameters to paginate the results. The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see [Testing IAM policies with the IAM policy simulator ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html)in the IAM User Guide.
     ///
     /// - Parameter SimulatePrincipalPolicyInput : [no documentation found]
@@ -5955,24 +6207,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>(id: "simulatePrincipalPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(id: "simulatePrincipalPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SimulatePrincipalPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(xmlName: "SimulatePrincipalPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SimulatePrincipalPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulatePrincipalPolicyOutput, SimulatePrincipalPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulatePrincipalPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(SimulatePrincipalPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SimulatePrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM instance profile. If a tag with the same key name already exists, then that tag is overwritten with the new value. Each tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6014,24 +6268,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagInstanceProfileInput, TagInstanceProfileOutput, TagInstanceProfileOutputError>(id: "tagInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput, TagInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<TagInstanceProfileInput, TagInstanceProfileOutput>(id: "tagInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagInstanceProfileOutput, TagInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>(xmlName: "TagInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagInstanceProfileInput, TagInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagInstanceProfileOutput, TagInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagInstanceProfileOutput, TagInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutput, TagInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagInstanceProfileOutput, TagInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6073,24 +6329,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagMFADeviceInput, TagMFADeviceOutput, TagMFADeviceOutputError>(id: "tagMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMFADeviceInput, TagMFADeviceOutput, TagMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<TagMFADeviceInput, TagMFADeviceOutput>(id: "tagMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMFADeviceInput, TagMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagMFADeviceInput, TagMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagMFADeviceOutput, TagMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagMFADeviceInput, TagMFADeviceOutput>(xmlName: "TagMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagMFADeviceInput, TagMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagMFADeviceInput, TagMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagMFADeviceOutput, TagMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMFADeviceOutput, TagMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMFADeviceOutput, TagMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagMFADeviceOutput, TagMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For more information about these providers, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6132,24 +6390,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>(id: "tagOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>(id: "tagOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>(xmlName: "TagOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagOpenIDConnectProviderOutput, TagOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM customer managed policy. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6191,24 +6451,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagPolicyInput, TagPolicyOutput, TagPolicyOutputError>(id: "tagPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagPolicyInput, TagPolicyOutput, TagPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<TagPolicyInput, TagPolicyOutput>(id: "tagPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagPolicyInput, TagPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagPolicyInput, TagPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagPolicyOutput, TagPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagPolicyInput, TagPolicyOutput>(xmlName: "TagPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagPolicyInput, TagPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagPolicyInput, TagPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagPolicyOutput, TagPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagPolicyOutput, TagPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagPolicyOutput, TagPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagPolicyOutput, TagPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM role. The role can be a regular role or a service-linked role. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6255,24 +6517,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagRoleInput, TagRoleOutput, TagRoleOutputError>(id: "tagRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagRoleInput, TagRoleOutput, TagRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<TagRoleInput, TagRoleOutput>(id: "tagRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagRoleInput, TagRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagRoleInput, TagRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagRoleOutput, TagRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagRoleInput, TagRoleOutput>(xmlName: "TagRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagRoleInput, TagRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagRoleInput, TagRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagRoleOutput, TagRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagRoleOutput, TagRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagRoleOutput, TagRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagRoleOutput, TagRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider. For more information about these providers, see [About SAML 2.0-based federation ](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html). If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6314,24 +6578,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagSAMLProviderInput, TagSAMLProviderOutput, TagSAMLProviderOutputError>(id: "tagSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput, TagSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<TagSAMLProviderInput, TagSAMLProviderOutput>(id: "tagSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagSAMLProviderOutput, TagSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>(xmlName: "TagSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagSAMLProviderInput, TagSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagSAMLProviderOutput, TagSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagSAMLProviderOutput, TagSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutput, TagSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagSAMLProviderOutput, TagSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM server certificate. If a tag with the same key name already exists, then that tag is overwritten with the new value. For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6375,24 +6641,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagServerCertificateInput, TagServerCertificateOutput, TagServerCertificateOutputError>(id: "tagServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagServerCertificateInput, TagServerCertificateOutput, TagServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<TagServerCertificateInput, TagServerCertificateOutput>(id: "tagServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagServerCertificateInput, TagServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagServerCertificateInput, TagServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagServerCertificateOutput, TagServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagServerCertificateInput, TagServerCertificateOutput>(xmlName: "TagServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagServerCertificateInput, TagServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagServerCertificateInput, TagServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagServerCertificateOutput, TagServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagServerCertificateOutput, TagServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagServerCertificateOutput, TagServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagServerCertificateOutput, TagServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `TagUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Adds one or more tags to an IAM user. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:
     ///
     /// * Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.
@@ -6439,24 +6707,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<TagUserInput, TagUserOutput, TagUserOutputError>(id: "tagUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagUserInput, TagUserOutput, TagUserOutputError>())
+        var operation = ClientRuntime.OperationStack<TagUserInput, TagUserOutput>(id: "tagUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagUserInput, TagUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagUserInput, TagUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagUserOutput, TagUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagUserInput, TagUserOutput>(xmlName: "TagUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<TagUserInput, TagUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagUserInput, TagUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagUserOutput, TagUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TagUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagUserOutput, TagUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagUserOutput, TagUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagUserOutput, TagUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(TagUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the IAM instance profile. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagInstanceProfileInput : [no documentation found]
@@ -6486,24 +6756,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagInstanceProfileInput, UntagInstanceProfileOutput, UntagInstanceProfileOutputError>(id: "untagInstanceProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput, UntagInstanceProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagInstanceProfileInput, UntagInstanceProfileOutput>(id: "untagInstanceProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagInstanceProfileOutput, UntagInstanceProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagInstanceProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>(xmlName: "UntagInstanceProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagInstanceProfileOutput, UntagInstanceProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagInstanceProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagInstanceProfileOutput, UntagInstanceProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutput, UntagInstanceProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagInstanceProfileOutput, UntagInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagInstanceProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagInstanceProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagInstanceProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagMFADevice` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagMFADeviceInput : [no documentation found]
@@ -6533,24 +6805,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagMFADeviceInput, UntagMFADeviceOutput, UntagMFADeviceOutputError>(id: "untagMFADevice")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput, UntagMFADeviceOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagMFADeviceInput, UntagMFADeviceOutput>(id: "untagMFADevice")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagMFADeviceOutput, UntagMFADeviceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagMFADeviceOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>(xmlName: "UntagMFADeviceRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagMFADeviceInput, UntagMFADeviceOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagMFADeviceOutput, UntagMFADeviceOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagMFADeviceOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMFADeviceOutput, UntagMFADeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutput, UntagMFADeviceOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagMFADeviceOutput, UntagMFADeviceOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMFADeviceOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagMFADeviceOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagMFADeviceOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagOpenIDConnectProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity provider in IAM. For more information about OIDC providers, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagOpenIDConnectProviderInput : [no documentation found]
@@ -6580,24 +6854,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>(id: "untagOpenIDConnectProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>(id: "untagOpenIDConnectProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagOpenIDConnectProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>(xmlName: "UntagOpenIDConnectProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagOpenIDConnectProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagOpenIDConnectProviderOutput, UntagOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagOpenIDConnectProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagOpenIDConnectProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagOpenIDConnectProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the customer managed policy. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagPolicyInput : [no documentation found]
@@ -6627,24 +6903,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagPolicyInput, UntagPolicyOutput, UntagPolicyOutputError>(id: "untagPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagPolicyInput, UntagPolicyOutput, UntagPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagPolicyInput, UntagPolicyOutput>(id: "untagPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagPolicyInput, UntagPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagPolicyInput, UntagPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagPolicyOutput, UntagPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagPolicyInput, UntagPolicyOutput>(xmlName: "UntagPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagPolicyInput, UntagPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagPolicyInput, UntagPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagPolicyOutput, UntagPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagPolicyOutput, UntagPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagPolicyOutput, UntagPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagPolicyOutput, UntagPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the role. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagRoleInput : [no documentation found]
@@ -6673,24 +6951,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagRoleInput, UntagRoleOutput, UntagRoleOutputError>(id: "untagRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagRoleInput, UntagRoleOutput, UntagRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagRoleInput, UntagRoleOutput>(id: "untagRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagRoleInput, UntagRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagRoleInput, UntagRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagRoleOutput, UntagRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagRoleInput, UntagRoleOutput>(xmlName: "UntagRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagRoleInput, UntagRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagRoleInput, UntagRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagRoleOutput, UntagRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagRoleOutput, UntagRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagRoleOutput, UntagRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagRoleOutput, UntagRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the specified Security Assertion Markup Language (SAML) identity provider in IAM. For more information about these providers, see [About web identity federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html). For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagSAMLProviderInput : [no documentation found]
@@ -6720,24 +7000,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagSAMLProviderInput, UntagSAMLProviderOutput, UntagSAMLProviderOutputError>(id: "untagSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput, UntagSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagSAMLProviderInput, UntagSAMLProviderOutput>(id: "untagSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagSAMLProviderOutput, UntagSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>(xmlName: "UntagSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagSAMLProviderOutput, UntagSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagSAMLProviderOutput, UntagSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutput, UntagSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagSAMLProviderOutput, UntagSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the IAM server certificate. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. For certificates in a Region supported by Certificate Manager (ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to provision, manage, and deploy your server certificates. For more information about IAM server certificates, [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide.
     ///
     /// - Parameter UntagServerCertificateInput : [no documentation found]
@@ -6767,24 +7049,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagServerCertificateInput, UntagServerCertificateOutput, UntagServerCertificateOutputError>(id: "untagServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput, UntagServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagServerCertificateInput, UntagServerCertificateOutput>(id: "untagServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagServerCertificateOutput, UntagServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>(xmlName: "UntagServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagServerCertificateInput, UntagServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagServerCertificateOutput, UntagServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagServerCertificateOutput, UntagServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutput, UntagServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagServerCertificateOutput, UntagServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UntagUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Removes the specified tags from the user. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     ///
     /// - Parameter UntagUserInput : [no documentation found]
@@ -6813,24 +7097,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UntagUserInput, UntagUserOutput, UntagUserOutputError>(id: "untagUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagUserInput, UntagUserOutput, UntagUserOutputError>())
+        var operation = ClientRuntime.OperationStack<UntagUserInput, UntagUserOutput>(id: "untagUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagUserInput, UntagUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagUserInput, UntagUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagUserOutput, UntagUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagUserInput, UntagUserOutput>(xmlName: "UntagUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UntagUserInput, UntagUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagUserInput, UntagUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagUserOutput, UntagUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UntagUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagUserOutput, UntagUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagUserOutput, UntagUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagUserOutput, UntagUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UntagUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAccessKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. If a temporary access key is used, then UserName is required. If a long-term key is assigned to the user, then UserName is not required. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. For information about rotating keys, see [Managing keys and certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html) in the IAM User Guide.
     ///
     /// - Parameter UpdateAccessKeyInput : [no documentation found]
@@ -6859,24 +7145,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccessKeyInput, UpdateAccessKeyOutput, UpdateAccessKeyOutputError>(id: "updateAccessKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput, UpdateAccessKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAccessKeyInput, UpdateAccessKeyOutput>(id: "updateAccessKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccessKeyOutput, UpdateAccessKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccessKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>(xmlName: "UpdateAccessKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccessKeyOutput, UpdateAccessKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccessKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessKeyOutput, UpdateAccessKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutput, UpdateAccessKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessKeyOutput, UpdateAccessKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccessKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAccountPasswordPolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the password policy settings for the Amazon Web Services account. This operation does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value. Also note that some parameters do not allow the default parameter to be explicitly set. Instead, to invoke the default value, do not include that parameter when you invoke the operation. For more information about using a password policy, see [Managing an IAM password policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html) in the IAM User Guide.
     ///
     /// - Parameter UpdateAccountPasswordPolicyInput : [no documentation found]
@@ -6906,24 +7194,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>(id: "updateAccountPasswordPolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>(id: "updateAccountPasswordPolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAccountPasswordPolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>(xmlName: "UpdateAccountPasswordPolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAccountPasswordPolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountPasswordPolicyOutput, UpdateAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountPasswordPolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAccountPasswordPolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountPasswordPolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateAssumeRolePolicy` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, see [Using roles to delegate permissions and federate identities](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html).
     ///
     /// - Parameter UpdateAssumeRolePolicyInput : [no documentation found]
@@ -6954,24 +7244,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>(id: "updateAssumeRolePolicy")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>(id: "updateAssumeRolePolicy")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssumeRolePolicyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>(xmlName: "UpdateAssumeRolePolicyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAssumeRolePolicyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssumeRolePolicyOutput, UpdateAssumeRolePolicyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssumeRolePolicyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateAssumeRolePolicyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAssumeRolePolicyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateGroup` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the name and/or the path of the specified IAM group. You should understand the implications of changing a group's path or name. For more information, see [Renaming users and groups](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html) in the IAM User Guide. The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs, the principal must have a policy that allows them to update both groups. If the principal has permission to update the Managers group, but not the MGRs group, then the update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html).
     ///
     /// - Parameter UpdateGroupInput : [no documentation found]
@@ -7001,24 +7293,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutput, UpdateGroupOutputError>(id: "updateGroup")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput, UpdateGroupOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutput>(id: "updateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupOutput, UpdateGroupOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateGroupInput, UpdateGroupOutput>(xmlName: "UpdateGroupRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateGroupInput, UpdateGroupOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateGroupInput, UpdateGroupOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupOutput, UpdateGroupOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateGroupOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput, UpdateGroupOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput, UpdateGroupOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput, UpdateGroupOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateLoginProfile` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to change the password for any IAM user. Use [ChangePassword] to change your own password in the My Security Credentials page in the Amazon Web Services Management Console. For more information about modifying passwords, see [Managing passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html) in the IAM User Guide.
     ///
     /// - Parameter UpdateLoginProfileInput : [no documentation found]
@@ -7049,24 +7343,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateLoginProfileInput, UpdateLoginProfileOutput, UpdateLoginProfileOutputError>(id: "updateLoginProfile")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput, UpdateLoginProfileOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateLoginProfileInput, UpdateLoginProfileOutput>(id: "updateLoginProfile")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLoginProfileOutput, UpdateLoginProfileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateLoginProfileOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>(xmlName: "UpdateLoginProfileRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLoginProfileOutput, UpdateLoginProfileOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateLoginProfileOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoginProfileOutput, UpdateLoginProfileOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutput, UpdateLoginProfileOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLoginProfileOutput, UpdateLoginProfileOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoginProfileOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateLoginProfileOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLoginProfileOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateOpenIDConnectProviderThumbprint` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated. Amazon Web Services secures communication with some OIDC identity providers (IdPs) through our library of trusted root certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include Auth0, GitHub, Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no longer used for validation. Trust for the OIDC provider is derived from the provider certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
     ///
     /// - Parameter UpdateOpenIDConnectProviderThumbprintInput : [no documentation found]
@@ -7095,24 +7391,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>(id: "updateOpenIDConnectProviderThumbprint")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>(id: "updateOpenIDConnectProviderThumbprint")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>(xmlName: "UpdateOpenIDConnectProviderThumbprintRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateOpenIDConnectProviderThumbprintOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderThumbprintOutput, UpdateOpenIDConnectProviderThumbprintOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpenIDConnectProviderThumbprintOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateOpenIDConnectProviderThumbprintOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderThumbprintOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRole` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the description or maximum session duration setting of a role.
     ///
     /// - Parameter UpdateRoleInput : [no documentation found]
@@ -7141,24 +7439,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRoleInput, UpdateRoleOutput, UpdateRoleOutputError>(id: "updateRole")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleInput, UpdateRoleOutput, UpdateRoleOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateRoleInput, UpdateRoleOutput>(id: "updateRole")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleInput, UpdateRoleOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoleInput, UpdateRoleOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoleOutput, UpdateRoleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoleOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoleInput, UpdateRoleOutput>(xmlName: "UpdateRoleRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRoleInput, UpdateRoleOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoleInput, UpdateRoleOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleOutput, UpdateRoleOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleOutput, UpdateRoleOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleOutput, UpdateRoleOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleOutput, UpdateRoleOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoleOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateRoleDescription` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Use [UpdateRole] instead. Modifies only the description of a role. This operation performs the same function as the Description parameter in the UpdateRole operation.
     ///
     /// - Parameter UpdateRoleDescriptionInput : [no documentation found]
@@ -7187,24 +7487,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>(id: "updateRoleDescription")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>(id: "updateRoleDescription")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRoleDescriptionOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>(xmlName: "UpdateRoleDescriptionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRoleDescriptionOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleDescriptionOutput, UpdateRoleDescriptionOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleDescriptionOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateRoleDescriptionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleDescriptionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSAMLProvider` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the metadata document for an existing SAML provider resource object. This operation requires [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
     /// - Parameter UpdateSAMLProviderInput : [no documentation found]
@@ -7234,24 +7536,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSAMLProviderInput, UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>(id: "updateSAMLProvider")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>(id: "updateSAMLProvider")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSAMLProviderOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>(xmlName: "UpdateSAMLProviderRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSAMLProviderOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSAMLProviderOutput, UpdateSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSAMLProviderOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSAMLProviderOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSAMLProviderOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSSHPublicKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. The SSH public key affected by this operation is used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UpdateSSHPublicKeyInput : [no documentation found]
@@ -7278,24 +7582,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>(id: "updateSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>(id: "updateSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSSHPublicKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>(xmlName: "UpdateSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSSHPublicKeyOutput, UpdateSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSSHPublicKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the name and/or the path of the specified server certificate stored in IAM. For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic also includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. You should understand the implications of changing a server certificate's path or name. For more information, see [Renaming a server certificate](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts) in the IAM User Guide. The person making the request (the principal), must have permission to change the server certificate with the old name and the new name. For example, to change the certificate named ProductionCert to ProdCert, the principal must have a policy that allows them to update both certificates. If the principal has permission to update the ProductionCert group, but not the ProdCert certificate, then the update fails. For more information about permissions, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
     ///
     /// - Parameter UpdateServerCertificateInput : [no documentation found]
@@ -7325,24 +7631,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateServerCertificateInput, UpdateServerCertificateOutput, UpdateServerCertificateOutputError>(id: "updateServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput, UpdateServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateServerCertificateInput, UpdateServerCertificateOutput>(id: "updateServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServerCertificateOutput, UpdateServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>(xmlName: "UpdateServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServerCertificateOutput, UpdateServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerCertificateOutput, UpdateServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutput, UpdateServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServerCertificateOutput, UpdateServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateServiceSpecificCredential` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Sets the status of a service-specific credential to Active or Inactive. Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow.
     ///
     /// - Parameter UpdateServiceSpecificCredentialInput : [no documentation found]
@@ -7369,24 +7677,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>(id: "updateServiceSpecificCredential")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>(id: "updateServiceSpecificCredential")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateServiceSpecificCredentialOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>(xmlName: "UpdateServiceSpecificCredentialRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateServiceSpecificCredentialOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSpecificCredentialOutput, UpdateServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSpecificCredentialOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateServiceSpecificCredentialOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSpecificCredentialOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateSigningCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Changes the status of the specified user signing certificate from active to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow. If the UserName field is not specified, the user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users.
     ///
     /// - Parameter UpdateSigningCertificateInput : [no documentation found]
@@ -7415,24 +7725,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateSigningCertificateInput, UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>(id: "updateSigningCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>(id: "updateSigningCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSigningCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>(xmlName: "UpdateSigningCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSigningCertificateOutput, UpdateSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSigningCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UpdateUser` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Updates the name and/or the path of the specified IAM user. You should understand the implications of changing an IAM user's path or name. For more information, see [Renaming an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming) and [Renaming an IAM group](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html) in the IAM User Guide. To change a user name, the requester must have appropriate permissions on both the source object and the target object. For example, to change Bob to Robert, the entity making the request must have permission on Bob and Robert, or must have permission on all (*). For more information about permissions, see [Permissions and policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html).
     ///
     /// - Parameter UpdateUserInput : [no documentation found]
@@ -7464,24 +7776,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutput, UpdateUserOutputError>(id: "updateUser")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput, UpdateUserOutputError>())
+        var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutput>(id: "updateUser")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutput, UpdateUserOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateUserInput, UpdateUserOutput>(xmlName: "UpdateUserRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateUserInput, UpdateUserOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateUserInput, UpdateUserOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput, UpdateUserOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateUserOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput, UpdateUserOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput, UpdateUserOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateUserOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UploadSSHPublicKey` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this operation can be used only for authenticating the associated IAM user to an CodeCommit repository. For more information about using SSH keys to authenticate to an CodeCommit repository, see [Set up CodeCommit for SSH connections](https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UploadSSHPublicKeyInput : [no documentation found]
@@ -7512,24 +7826,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>(id: "uploadSSHPublicKey")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>())
+        var operation = ClientRuntime.OperationStack<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>(id: "uploadSSHPublicKey")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadSSHPublicKeyOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>(xmlName: "UploadSSHPublicKeyRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSSHPublicKeyOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSSHPublicKeyOutput, UploadSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSSHPublicKeyOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadSSHPublicKeyOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UploadServerCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Uploads a server certificate entity for the Amazon Web Services account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use [Certificate Manager](https://docs.aws.amazon.com/acm/) to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to Amazon Web Services resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the [Certificate Manager User Guide](https://docs.aws.amazon.com/acm/latest/userguide/). For more information about working with server certificates, see [Working with server certificates](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. This topic includes a list of Amazon Web Services services that can use the server certificates that you manage with IAM. For information about the number of server certificates you can upload, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide. Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) in the Amazon Web Services General Reference. For general information about using the Query API with IAM, see [Calling the API by making HTTP query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html) in the IAM User Guide.
     ///
     /// - Parameter UploadServerCertificateInput : [no documentation found]
@@ -7562,24 +7878,26 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UploadServerCertificateInput, UploadServerCertificateOutput, UploadServerCertificateOutputError>(id: "uploadServerCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput, UploadServerCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<UploadServerCertificateInput, UploadServerCertificateOutput>(id: "uploadServerCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadServerCertificateOutput, UploadServerCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadServerCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>(xmlName: "UploadServerCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadServerCertificateInput, UploadServerCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadServerCertificateOutput, UploadServerCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadServerCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadServerCertificateOutput, UploadServerCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutput, UploadServerCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadServerCertificateOutput, UploadServerCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadServerCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadServerCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadServerCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
+    /// Performs the `UploadSigningCertificate` operation on the `AWSIdentityManagementV20100508` service.
+    ///
     /// Uploads an X.509 signing certificate and associates it with the specified IAM user. Some Amazon Web Services services require you to use certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active. For information about when you would use an X.509 signing certificate, see [Managing server certificates in IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html) in the IAM User Guide. If the UserName is not specified, the IAM user name is determined implicitly based on the Amazon Web Services access key ID used to sign the request. This operation works for access keys under the Amazon Web Services account. Consequently, you can use this operation to manage Amazon Web Services account root user credentials even if the Amazon Web Services account has no associated users. Because the body of an X.509 certificate can be large, you should use POST rather than GET when calling UploadSigningCertificate. For information about setting up signatures and authorization through the API, see [Signing Amazon Web Services API requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) in the Amazon Web Services General Reference. For general information about using the Query API with IAM, see [Making query requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html) in the IAM User Guide.
     ///
     /// - Parameter UploadSigningCertificateInput : [no documentation found]
@@ -7613,20 +7931,20 @@ extension IAMClient: IAMClientProtocol {
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<UploadSigningCertificateInput, UploadSigningCertificateOutput, UploadSigningCertificateOutputError>(id: "uploadSigningCertificate")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput, UploadSigningCertificateOutputError>())
+        var operation = ClientRuntime.OperationStack<UploadSigningCertificateInput, UploadSigningCertificateOutput>(id: "uploadSigningCertificate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadSigningCertificateOutput, UploadSigningCertificateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UploadSigningCertificateOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>(xmlName: "UploadSigningCertificateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSigningCertificateOutput, UploadSigningCertificateOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UploadSigningCertificateOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSigningCertificateOutput, UploadSigningCertificateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutput, UploadSigningCertificateOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSigningCertificateOutput, UploadSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSigningCertificateOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UploadSigningCertificateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

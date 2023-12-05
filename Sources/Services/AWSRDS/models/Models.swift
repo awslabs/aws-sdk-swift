@@ -619,7 +619,9 @@ enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -4248,11 +4250,11 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed. The following JSON fields are valid: MediaImportTemplateVersion Version of the CEV manifest. The date is in the format YYYY-MM-DD. databaseInstallationFileNames Ordered list of installation files for the CEV. opatchFileNames Ordered list of OPatch installers used for the Oracle DB engine. psuRuPatchFileNames The PSU and RU patches for this CEV. OtherPatchFileNames The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches. For more information, see [ Creating the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest) in the Amazon RDS User Guide.
     public var manifest: Swift.String?
-    /// Reserved for future use.
+    /// The ARN of a CEV to use as a source for creating a new CEV. You can specify a different Amazon Machine Imagine (AMI) by using either Source or UseAwsProvidedLatestImage. You can't specify a different JSON manifest when you specify SourceCustomDbEngineVersionIdentifier.
     public var sourceCustomDbEngineVersionIdentifier: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
-    /// Reserved for future use.
+    /// Specifies whether to use the latest service-provided Amazon Machine Image (AMI) for the CEV. If you specify UseAwsProvidedLatestImage, you can't also specify ImageId.
     public var useAwsProvidedLatestImage: Swift.Bool?
 
     public init(
@@ -4486,7 +4488,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -6154,11 +6156,13 @@ enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBSubnetGroupFault": return try await InvalidDBSubnetGroupFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidDBSubnetGroupStateFault": return try await InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OptionGroupNotFoundFault": return try await OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
@@ -6659,6 +6663,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
+        }
         if let ncharCharacterSetName = ncharCharacterSetName {
             try container.encode(ncharCharacterSetName, forKey: ClientRuntime.Key("NcharCharacterSetName"))
         }
@@ -6763,6 +6770,13 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
     ///
     ///
+    /// RDS for Db2 Constraints to the amount of storage for each storage type are the following:
+    ///
+    /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 64000.
+    ///
+    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 64000.
+    ///
+    ///
     /// RDS for MariaDB Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
@@ -6844,7 +6858,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
     public var backupRetentionPeriod: Swift.Int?
-    /// The location for storing automated backups and manual snapshots. Valie Values:
+    /// The location for storing automated backups and manual snapshots. Valid Values:
     ///
     /// * outposts (Amazon Web Services Outposts)
     ///
@@ -6891,61 +6905,73 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// Example: mydbinstance
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The meaning of this parameter differs according to the database engine you use. MySQL The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:
+    /// The meaning of this parameter differs according to the database engine you use. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in the DB cluster. Constraints:
     ///
-    /// * Must contain 1 to 64 letters or numbers.
+    /// * Must contain 1 to 64 alphanumeric characters.
     ///
-    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
-    ///
-    /// * Can't be a word reserved by the specified database engine
-    ///
-    ///
-    /// MariaDB The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:
-    ///
-    /// * Must contain 1 to 64 letters or numbers.
-    ///
-    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
-    ///
-    /// * Can't be a word reserved by the specified database engine
-    ///
-    ///
-    /// PostgreSQL The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named postgres is created in the DB instance. Constraints:
-    ///
-    /// * Must contain 1 to 63 letters, numbers, or underscores.
-    ///
-    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
-    ///
-    /// * Can't be a word reserved by the specified database engine
-    ///
-    ///
-    /// Oracle The Oracle System ID (SID) of the created DB instance. If you don't specify a value, the default value is ORCL. You can't specify the string null, or any other reserved word, for DBName. Default: ORCL Constraints:
-    ///
-    /// * Can't be longer than 8 characters
-    ///
-    ///
-    /// Amazon RDS Custom for Oracle The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL Constraints:
-    ///
-    /// * It must contain 1 to 8 alphanumeric characters.
-    ///
-    /// * It must contain a letter.
-    ///
-    /// * It can't be a word reserved by the database engine.
-    ///
-    ///
-    /// Amazon RDS Custom for SQL Server Not applicable. Must be null. SQL Server Not applicable. Must be null. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in the DB cluster. Constraints:
-    ///
-    /// * It must contain 1 to 64 alphanumeric characters.
-    ///
-    /// * It can't be a word reserved by the database engine.
+    /// * Can't be a word reserved by the database engine.
     ///
     ///
     /// Amazon Aurora PostgreSQL The name of the database to create when the primary DB instance of the Aurora PostgreSQL DB cluster is created. If this parameter isn't specified for an Aurora PostgreSQL DB cluster, a database named postgres is created in the DB cluster. Constraints:
     ///
     /// * It must contain 1 to 63 alphanumeric characters.
     ///
-    /// * It must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0 to 9).
     ///
-    /// * It can't be a word reserved by the database engine.
+    /// * Can't be a word reserved by the database engine.
+    ///
+    ///
+    /// Amazon RDS Custom for Oracle The Oracle System ID (SID) of the created RDS Custom DB instance. If you don't specify a value, the default value is ORCL for non-CDBs and RDSCDB for CDBs. Default: ORCL Constraints:
+    ///
+    /// * Must contain 1 to 8 alphanumeric characters.
+    ///
+    /// * Must contain a letter.
+    ///
+    /// * Can't be a word reserved by the database engine.
+    ///
+    ///
+    /// Amazon RDS Custom for SQL Server Not applicable. Must be null. RDS for Db2 The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:
+    ///
+    /// * Must contain 1 to 64 letters or numbers.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
+    ///
+    /// * Can't be a word reserved by the specified database engine.
+    ///
+    ///
+    /// RDS for MariaDB The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:
+    ///
+    /// * Must contain 1 to 64 letters or numbers.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
+    ///
+    /// * Can't be a word reserved by the specified database engine.
+    ///
+    ///
+    /// RDS for MySQL The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:
+    ///
+    /// * Must contain 1 to 64 letters or numbers.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
+    ///
+    /// * Can't be a word reserved by the specified database engine.
+    ///
+    ///
+    /// RDS for Oracle The Oracle System ID (SID) of the created DB instance. If you don't specify a value, the default value is ORCL. You can't specify the string null, or any other reserved word, for DBName. Default: ORCL Constraints:
+    ///
+    /// * Can't be longer than 8 characters.
+    ///
+    ///
+    /// RDS for PostgreSQL The name of the database to create when the DB instance is created. If this parameter isn't specified, a database named postgres is created in the DB instance. Constraints:
+    ///
+    /// * Must contain 1 to 63 letters, numbers, or underscores.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
+    ///
+    /// * Can't be a word reserved by the specified database engine.
+    ///
+    ///
+    /// RDS for SQL Server Not applicable. Must be null.
     public var dbName: Swift.String?
     /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value, then Amazon RDS uses the default DB parameter group for the specified DB engine and version. This setting doesn't apply to RDS Custom DB instances. Constraints:
     ///
@@ -6972,7 +6998,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html). This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster.
     public var deletionProtection: Swift.Bool?
-    /// The Active Directory directory ID to create the DB instance in. Currently, only Microsoft SQL Server, MySQL, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:
+    /// The Active Directory directory ID to create the DB instance in. Currently, you can create only Db2, MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora (The domain is managed by the DB cluster.)
     ///
@@ -7009,7 +7035,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
     public var domainOu: Swift.String?
-    /// The list of log types that need to be enabled for exporting to CloudWatch Logs. For more information, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:
+    /// The list of log types to enable for exporting to CloudWatch Logs. For more information, see [ Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora (CloudWatch Logs exports are managed by the DB cluster.)
     ///
@@ -7017,6 +7043,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     ///
     /// The following values are valid for each DB engine:
+    ///
+    /// * RDS for Db2 - diag.log | notify.log
     ///
     /// * RDS for MariaDB - audit | error | general | slowquery
     ///
@@ -7054,6 +7082,10 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * custom-sqlserver-web (for RDS Custom for SQL Server DB instances)
     ///
+    /// * db2-ae
+    ///
+    /// * db2-se
+    ///
     /// * mariadb
     ///
     /// * mysql
@@ -7077,17 +7109,19 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
+    /// The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every Amazon Web Services Region. Amazon RDS Custom for Oracle A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV name has the following format: 19.customized_string. A valid CEV name is 19.my_cev1. For more information, see [ Creating an RDS Custom for Oracle DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create) in the Amazon RDS User Guide. Amazon RDS Custom for SQL Server See [RDS Custom for SQL Server general requirements](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html) in the Amazon RDS User Guide. RDS for Db2 For information, see [Db2 on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Db2.html#Db2.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for MariaDB For information, see [MariaDB on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Microsoft SQL Server For information, see [Microsoft SQL Server versions on Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport) in the Amazon RDS User Guide. RDS for MySQL For information, see [MySQL on Amazon RDS versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. RDS for Oracle For information, see [Oracle Database Engine release notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html) in the Amazon RDS User Guide. RDS for PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints:
     ///
-    /// * For RDS for MariaDB, MySQL, Oracle, and PostgreSQL - Must be a multiple between .5 and 50 of the storage amount for the DB instance.
+    /// * For RDS for Db2, MariaDB, MySQL, Oracle, and PostgreSQL - Must be a multiple between .5 and 50 of the storage amount for the DB instance.
     ///
     /// * For RDS for SQL Server - Must be a multiple between 1 and 50 of the storage amount for the DB instance.
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
     /// The license model information for this DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    ///
+    /// * RDS for Db2 - bring-your-own-license
     ///
     /// * RDS for MariaDB - general-public-license
     ///
@@ -7111,6 +7145,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     ///
     /// Length Constraints:
+    ///
+    /// * RDS for Db2 - Must contain from 8 to 255 characters.
     ///
     /// * RDS for MariaDB - Must contain from 8 to 41 characters.
     ///
@@ -7148,6 +7184,12 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * RDS Custom
     public var multiAZ: Swift.Bool?
+    /// Specifies whether to use the multi-tenant configuration or the single-tenant configuration (default). This parameter only applies to RDS for Oracle container database (CDB) engines. Note the following restrictions:
+    ///
+    /// * The DB engine that you specify in the request must support the multi-tenant configuration. If you attempt to enable the multi-tenant configuration on a DB engine that doesn't support it, the request fails.
+    ///
+    /// * If you specify the multi-tenant configuration when you create your DB instance, you can't later modify this DB instance to use the single-tenant configuration.
+    public var multiTenant: Swift.Bool?
     /// The name of the NCHAR character set for the Oracle DB instance. This setting doesn't apply to RDS Custom DB instances.
     public var ncharCharacterSetName: Swift.String?
     /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide. Valid Values: IPV4 | DUAL
@@ -7168,6 +7210,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// Default: 7 days If you specify a retention period that isn't valid, such as 94, Amazon RDS returns an error.
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the database accepts connections. This setting doesn't apply to Aurora DB instances. The port number is managed by the cluster. Valid Values: 1150-65535 Default:
+    ///
+    /// * RDS for Db2 - 50000
     ///
     /// * RDS for MariaDB - 3306
     ///
@@ -7283,6 +7327,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         monitoringInterval: Swift.Int? = nil,
         monitoringRoleArn: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
+        multiTenant: Swift.Bool? = nil,
         ncharCharacterSetName: Swift.String? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -7346,6 +7391,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         self.monitoringInterval = monitoringInterval
         self.monitoringRoleArn = monitoringRoleArn
         self.multiAZ = multiAZ
+        self.multiTenant = multiTenant
         self.ncharCharacterSetName = ncharCharacterSetName
         self.networkType = networkType
         self.optionGroupName = optionGroupName
@@ -7430,6 +7476,7 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let caCertificateIdentifier: Swift.String?
     let dbSystemId: Swift.String?
     let dedicatedLogVolume: Swift.Bool?
+    let multiTenant: Swift.Bool?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
@@ -7476,6 +7523,7 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
         case multiAZ = "MultiAZ"
+        case multiTenant = "MultiTenant"
         case ncharCharacterSetName = "NcharCharacterSetName"
         case networkType = "NetworkType"
         case optionGroupName = "OptionGroupName"
@@ -7723,6 +7771,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         dbSystemId = dbSystemIdDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -7792,6 +7842,7 @@ enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ProvisionedIopsNotAvailableInAZFault": return try await ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -8147,7 +8198,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var sourceDBClusterIdentifier: Swift.String?
     /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to 15 read replicas, with the exception of Oracle and SQL Server, which can have up to five. Constraints:
     ///
-    /// * Must be the identifier of an existing MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server DB instance.
+    /// * Must be the identifier of an existing Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server DB instance.
     ///
     /// * Can't be specified if the SourceDBClusterIdentifier parameter is also specified.
     ///
@@ -8608,6 +8659,7 @@ enum CreateDBInstanceReadReplicaOutputError: ClientRuntime.HttpResponseErrorBind
             case "ProvisionedIopsNotAvailableInAZFault": return try await ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -8656,7 +8708,9 @@ public struct CreateDBParameterGroupInput: Swift.Equatable {
     ///
     /// * aurora-postgresql
     ///
-    /// * mariadb
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mysql
     ///
@@ -10373,9 +10427,9 @@ public struct CreateIntegrationInput: Swift.Equatable {
     /// The name of the integration.
     /// This member is required.
     public var integrationName: Swift.String?
-    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, Aurora uses a default Amazon Web Services owned key.
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, RDS uses a default Amazon Web Services owned key.
     public var kmsKeyId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster to use as the source for replication.
+    /// The Amazon Resource Name (ARN) of the database to use as the source for replication.
     /// This member is required.
     public var sourceArn: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -10502,7 +10556,7 @@ extension CreateIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+/// A zero-ETL integration with Amazon Redshift.
 public struct CreateIntegrationOutput: Swift.Equatable {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -10516,7 +10570,7 @@ public struct CreateIntegrationOutput: Swift.Equatable {
     public var integrationName: Swift.String?
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
     public var kmsKeyId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
@@ -10710,7 +10764,11 @@ extension CreateOptionGroupInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct CreateOptionGroupInput: Swift.Equatable {
-    /// Specifies the name of the engine that this option group should be associated with. Valid Values:
+    /// The name of the engine to associate this option group with. Valid Values:
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -10868,6 +10926,216 @@ enum CreateOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "OptionGroupAlreadyExistsFault": return try await OptionGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "OptionGroupQuotaExceededFault": return try await OptionGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension CreateTenantDatabaseInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTenantDatabaseInput(characterSetName: \(Swift.String(describing: characterSetName)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), masterUsername: \(Swift.String(describing: masterUsername)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), tags: \(Swift.String(describing: tags)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateTenantDatabaseInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let characterSetName = characterSetName {
+            try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
+        }
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let masterUserPassword = masterUserPassword {
+            try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUsername = masterUsername {
+            try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let ncharCharacterSetName = ncharCharacterSetName {
+            try container.encode(ncharCharacterSetName, forKey: ClientRuntime.Key("NcharCharacterSetName"))
+        }
+        if let tags = tags {
+            if !tags.isEmpty {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                for (index0, tag0) in tags.enumerated() {
+                    try tagsContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
+                try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        try container.encode("CreateTenantDatabase", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateTenantDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateTenantDatabaseInput: Swift.Equatable {
+    /// The character set for your tenant database. If you don't specify a value, the character set name defaults to AL32UTF8.
+    public var characterSetName: Swift.String?
+    /// The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.
+    /// This member is required.
+    public var dbInstanceIdentifier: Swift.String?
+    /// The password for the master user in your tenant database. Constraints:
+    ///
+    /// * Must be 8 to 30 characters.
+    ///
+    /// * Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').
+    /// This member is required.
+    public var masterUserPassword: Swift.String?
+    /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints:
+    ///
+    /// * Must be 1 to 16 letters, numbers, or underscores.
+    ///
+    /// * First character must be a letter.
+    ///
+    /// * Can't be a reserved word for the chosen database engine.
+    /// This member is required.
+    public var masterUsername: Swift.String?
+    /// The NCHAR value for the tenant database.
+    public var ncharCharacterSetName: Swift.String?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The user-supplied name of the tenant database that you want to create in your DB instance. This parameter has the same constraints as DBName in CreateDBInstance.
+    /// This member is required.
+    public var tenantDBName: Swift.String?
+
+    public init(
+        characterSetName: Swift.String? = nil,
+        dbInstanceIdentifier: Swift.String? = nil,
+        masterUserPassword: Swift.String? = nil,
+        masterUsername: Swift.String? = nil,
+        ncharCharacterSetName: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        tenantDBName: Swift.String? = nil
+    )
+    {
+        self.characterSetName = characterSetName
+        self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.masterUserPassword = masterUserPassword
+        self.masterUsername = masterUsername
+        self.ncharCharacterSetName = ncharCharacterSetName
+        self.tags = tags
+        self.tenantDBName = tenantDBName
+    }
+}
+
+struct CreateTenantDatabaseInputBody: Swift.Equatable {
+    let dbInstanceIdentifier: Swift.String?
+    let tenantDBName: Swift.String?
+    let masterUsername: Swift.String?
+    let masterUserPassword: Swift.String?
+    let characterSetName: Swift.String?
+    let ncharCharacterSetName: Swift.String?
+    let tags: [RDSClientTypes.Tag]?
+}
+
+extension CreateTenantDatabaseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case characterSetName = "CharacterSetName"
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case masterUserPassword = "MasterUserPassword"
+        case masterUsername = "MasterUsername"
+        case ncharCharacterSetName = "NcharCharacterSetName"
+        case tags = "Tags"
+        case tenantDBName = "TenantDBName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
+        masterUsername = masterUsernameDecoded
+        let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
+        masterUserPassword = masterUserPasswordDecoded
+        let characterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .characterSetName)
+        characterSetName = characterSetNameDecoded
+        let ncharCharacterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ncharCharacterSetName)
+        ncharCharacterSetName = ncharCharacterSetNameDecoded
+        if containerValues.contains(.tags) {
+            struct KeyVal0{struct Tag{}}
+            let tagsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tags)
+            if let tagsWrappedContainer = tagsWrappedContainer {
+                let tagsContainer = try tagsWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagsBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagsContainer = tagsContainer {
+                    tagsBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagsContainer {
+                        tagsBuffer?.append(structureContainer0)
+                    }
+                }
+                tags = tagsBuffer
+            } else {
+                tags = []
+            }
+        } else {
+            tags = nil
+        }
+    }
+}
+
+extension CreateTenantDatabaseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTenantDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tenantDatabase = output.tenantDatabase
+        } else {
+            self.tenantDatabase = nil
+        }
+    }
+}
+
+public struct CreateTenantDatabaseOutput: Swift.Equatable {
+    /// A tenant database in the DB instance. This data type is an element in the response to the DescribeTenantDatabases action.
+    public var tenantDatabase: RDSClientTypes.TenantDatabase?
+
+    public init(
+        tenantDatabase: RDSClientTypes.TenantDatabase? = nil
+    )
+    {
+        self.tenantDatabase = tenantDatabase
+    }
+}
+
+struct CreateTenantDatabaseOutputBody: Swift.Equatable {
+    let tenantDatabase: RDSClientTypes.TenantDatabase?
+}
+
+extension CreateTenantDatabaseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tenantDatabase = "TenantDatabase"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CreateTenantDatabaseResult"))
+        let tenantDatabaseDecoded = try containerValues.decodeIfPresent(RDSClientTypes.TenantDatabase.self, forKey: .tenantDatabase)
+        tenantDatabase = tenantDatabaseDecoded
+    }
+}
+
+enum CreateTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseAlreadyExists": return try await TenantDatabaseAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -11242,6 +11510,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case scalingConfigurationInfo = "ScalingConfigurationInfo"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case status = "Status"
+        case statusInfos = "StatusInfos"
         case storageEncrypted = "StorageEncrypted"
         case storageType = "StorageType"
         case tagList = "TagList"
@@ -11535,6 +11804,18 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
+        if let statusInfos = statusInfos {
+            if !statusInfos.isEmpty {
+                var statusInfosContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StatusInfos"))
+                for (index0, dbclusterstatusinfo0) in statusInfos.enumerated() {
+                    try statusInfosContainer.encode(dbclusterstatusinfo0, forKey: ClientRuntime.Key("DBClusterStatusInfo.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var statusInfosContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("StatusInfos"))
+                try statusInfosContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
@@ -11688,6 +11969,25 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             }
         } else {
             readReplicaIdentifiers = nil
+        }
+        if containerValues.contains(.statusInfos) {
+            struct KeyVal0{struct DBClusterStatusInfo{}}
+            let statusInfosWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.DBClusterStatusInfo>.CodingKeys.self, forKey: .statusInfos)
+            if let statusInfosWrappedContainer = statusInfosWrappedContainer {
+                let statusInfosContainer = try statusInfosWrappedContainer.decodeIfPresent([RDSClientTypes.DBClusterStatusInfo].self, forKey: .member)
+                var statusInfosBuffer:[RDSClientTypes.DBClusterStatusInfo]? = nil
+                if let statusInfosContainer = statusInfosContainer {
+                    statusInfosBuffer = [RDSClientTypes.DBClusterStatusInfo]()
+                    for structureContainer0 in statusInfosContainer {
+                        statusInfosBuffer?.append(structureContainer0)
+                    }
+                }
+                statusInfos = statusInfosBuffer
+            } else {
+                statusInfos = []
+            }
+        } else {
+            statusInfos = nil
         }
         if containerValues.contains(.dbClusterMembers) {
             struct KeyVal0{struct DBClusterMember{}}
@@ -12046,6 +12346,8 @@ extension RDSClientTypes {
         public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// The current state of this DB cluster.
         public var status: Swift.String?
+        /// Reserved for future use.
+        public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
         /// Indicates whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
         /// The storage type associated with the DB cluster.
@@ -12127,6 +12429,7 @@ extension RDSClientTypes {
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
+            statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -12204,6 +12507,7 @@ extension RDSClientTypes {
             self.scalingConfigurationInfo = scalingConfigurationInfo
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
+            self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
             self.storageType = storageType
             self.tagList = tagList
@@ -14308,6 +14612,71 @@ extension DBClusterSnapshotNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.DBClusterStatusInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case normal = "Normal"
+        case status = "Status"
+        case statusType = "StatusType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let message = message {
+            try container.encode(message, forKey: ClientRuntime.Key("Message"))
+        }
+        if let normal = normal {
+            try container.encode(normal, forKey: ClientRuntime.Key("Normal"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let statusType = statusType {
+            try container.encode(statusType, forKey: ClientRuntime.Key("StatusType"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusType)
+        statusType = statusTypeDecoded
+        let normalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .normal)
+        normal = normalDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Reserved for future use.
+    public struct DBClusterStatusInfo: Swift.Equatable {
+        /// Reserved for future use.
+        public var message: Swift.String?
+        /// Reserved for future use.
+        public var normal: Swift.Bool?
+        /// Reserved for future use.
+        public var status: Swift.String?
+        /// Reserved for future use.
+        public var statusType: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            normal: Swift.Bool? = nil,
+            status: Swift.String? = nil,
+            statusType: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.normal = normal
+            self.status = status
+            self.statusType = statusType
+        }
+    }
+
+}
+
 extension RDSClientTypes.DBEngineVersion: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createTime = "CreateTime"
@@ -14808,7 +15177,7 @@ extension RDSClientTypes {
         public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific DB engine version.
         public var supportsGlobalDatabases: Swift.Bool?
-        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
         public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?
@@ -14955,6 +15324,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
         case multiAZ = "MultiAZ"
+        case multiTenant = "MultiTenant"
         case ncharCharacterSetName = "NcharCharacterSetName"
         case networkType = "NetworkType"
         case optionGroupMemberships = "OptionGroupMemberships"
@@ -15208,6 +15578,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         }
         if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
+        }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
         }
         if let ncharCharacterSetName = ncharCharacterSetName {
             try container.encode(ncharCharacterSetName, forKey: ClientRuntime.Key("NcharCharacterSetName"))
@@ -15749,6 +16122,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         dedicatedLogVolume = dedicatedLogVolumeDecoded
         let isStorageConfigUpgradeAvailableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isStorageConfigUpgradeAvailable)
         isStorageConfigUpgradeAvailable = isStorageConfigUpgradeAvailableDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -15820,7 +16195,7 @@ extension RDSClientTypes {
         public var dbInstancePort: Swift.Int?
         /// The current state of this database. For information about DB instance statuses, see [Viewing DB instance status](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/accessing-monitoring.html#Overview.DBInstance.Status) in the Amazon RDS User Guide.
         public var dbInstanceStatus: Swift.String?
-        /// Contains the initial database name that you provided (if required) when you created the DB instance. This name is returned for the life of your DB instance. For an RDS for Oracle CDB instance, the name identifies the PDB rather than the CDB.
+        /// The initial database name that you provided (if required) when you created the DB instance. This name is returned for the life of your DB instance. For an RDS for Oracle CDB instance, the name identifies the PDB rather than the CDB.
         public var dbName: Swift.String?
         /// The list of DB parameter groups applied to this DB instance.
         public var dbParameterGroups: [RDSClientTypes.DBParameterGroupStatus]?
@@ -15876,6 +16251,8 @@ extension RDSClientTypes {
         public var monitoringRoleArn: Swift.String?
         /// Indicates whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom DB instances.
         public var multiAZ: Swift.Bool?
+        /// Specifies whether the DB instance is in the multi-tenant configuration (TRUE) or the single-tenant configuration (FALSE).
+        public var multiTenant: Swift.Bool?
         /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2.
         public var ncharCharacterSetName: Swift.String?
         /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide and [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon Aurora User Guide. Valid Values: IPV4 | DUAL
@@ -15999,6 +16376,7 @@ extension RDSClientTypes {
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            multiTenant: Swift.Bool? = nil,
             ncharCharacterSetName: Swift.String? = nil,
             networkType: Swift.String? = nil,
             optionGroupMemberships: [RDSClientTypes.OptionGroupMembership]? = nil,
@@ -16085,6 +16463,7 @@ extension RDSClientTypes {
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
+            self.multiTenant = multiTenant
             self.ncharCharacterSetName = ncharCharacterSetName
             self.networkType = networkType
             self.optionGroupMemberships = optionGroupMemberships
@@ -16194,6 +16573,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         case kmsKeyId = "KmsKeyId"
         case licenseModel = "LicenseModel"
         case masterUsername = "MasterUsername"
+        case multiTenant = "MultiTenant"
         case optionGroupName = "OptionGroupName"
         case port = "Port"
         case region = "Region"
@@ -16276,6 +16656,9 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
         }
         if let optionGroupName = optionGroupName {
             try container.encode(optionGroupName, forKey: ClientRuntime.Key("OptionGroupName"))
@@ -16388,6 +16771,8 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -16434,6 +16819,8 @@ extension RDSClientTypes {
         public var licenseModel: Swift.String?
         /// The master user name of an automated backup.
         public var masterUsername: Swift.String?
+        /// Specifies whether the automatic backup is for a DB instance in the multi-tenant configuration (TRUE) or the single-tenant configuration (FALSE).
+        public var multiTenant: Swift.Bool?
         /// The option group the automated backup is associated with. If omitted, the default option group for the engine specified is used.
         public var optionGroupName: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
@@ -16482,6 +16869,7 @@ extension RDSClientTypes {
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
+            multiTenant: Swift.Bool? = nil,
             optionGroupName: Swift.String? = nil,
             port: Swift.Int? = nil,
             region: Swift.String? = nil,
@@ -16514,6 +16902,7 @@ extension RDSClientTypes {
             self.kmsKeyId = kmsKeyId
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
+            self.multiTenant = multiTenant
             self.optionGroupName = optionGroupName
             self.port = port
             self.region = region
@@ -16991,7 +17380,7 @@ extension RDSClientTypes {
     public struct DBInstanceStatusInfo: Swift.Equatable {
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public var message: Swift.String?
-        /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
+        /// Indicates whether the instance is operating normally (TRUE) or is in an error state (FALSE).
         public var normal: Swift.Bool?
         /// The status of the DB instance. For a StatusType of read replica, the values can be replicating, replication stop point set, replication stop point reached, error, stopped, or terminated.
         public var status: Swift.String?
@@ -19052,6 +19441,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         case kmsKeyId = "KmsKeyId"
         case licenseModel = "LicenseModel"
         case masterUsername = "MasterUsername"
+        case multiTenant = "MultiTenant"
         case optionGroupName = "OptionGroupName"
         case originalSnapshotCreateTime = "OriginalSnapshotCreateTime"
         case percentProgress = "PercentProgress"
@@ -19124,6 +19514,9 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
         }
         if let optionGroupName = optionGroupName {
             try container.encode(optionGroupName, forKey: ClientRuntime.Key("OptionGroupName"))
@@ -19305,6 +19698,8 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
         dbSystemId = dbSystemIdDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -19345,6 +19740,8 @@ extension RDSClientTypes {
         public var licenseModel: Swift.String?
         /// Provides the master username for the DB snapshot.
         public var masterUsername: Swift.String?
+        /// Indicates whether the snapshot is of a DB instance using the multi-tenant configuration (TRUE) or the single-tenant configuration (FALSE).
+        public var multiTenant: Swift.Bool?
         /// Provides the option group name for the DB snapshot.
         public var optionGroupName: Swift.String?
         /// Specifies the time of the CreateDBSnapshot operation in Coordinated Universal Time (UTC). Doesn't change when the snapshot is copied.
@@ -19400,6 +19797,7 @@ extension RDSClientTypes {
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
+            multiTenant: Swift.Bool? = nil,
             optionGroupName: Swift.String? = nil,
             originalSnapshotCreateTime: ClientRuntime.Date? = nil,
             percentProgress: Swift.Int? = nil,
@@ -19437,6 +19835,7 @@ extension RDSClientTypes {
             self.kmsKeyId = kmsKeyId
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
+            self.multiTenant = multiTenant
             self.optionGroupName = optionGroupName
             self.originalSnapshotCreateTime = originalSnapshotCreateTime
             self.percentProgress = percentProgress
@@ -19699,6 +20098,241 @@ struct DBSnapshotNotFoundFaultBody: Swift.Equatable {
 }
 
 extension DBSnapshotNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.DBSnapshotTenantDatabase: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case characterSetName = "CharacterSetName"
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case dbSnapshotIdentifier = "DBSnapshotIdentifier"
+        case dbSnapshotTenantDatabaseARN = "DBSnapshotTenantDatabaseARN"
+        case dbiResourceId = "DbiResourceId"
+        case engineName = "EngineName"
+        case masterUsername = "MasterUsername"
+        case ncharCharacterSetName = "NcharCharacterSetName"
+        case snapshotType = "SnapshotType"
+        case tagList = "TagList"
+        case tenantDBName = "TenantDBName"
+        case tenantDatabaseCreateTime = "TenantDatabaseCreateTime"
+        case tenantDatabaseResourceId = "TenantDatabaseResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let characterSetName = characterSetName {
+            try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
+        }
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let dbSnapshotIdentifier = dbSnapshotIdentifier {
+            try container.encode(dbSnapshotIdentifier, forKey: ClientRuntime.Key("DBSnapshotIdentifier"))
+        }
+        if let dbSnapshotTenantDatabaseARN = dbSnapshotTenantDatabaseARN {
+            try container.encode(dbSnapshotTenantDatabaseARN, forKey: ClientRuntime.Key("DBSnapshotTenantDatabaseARN"))
+        }
+        if let dbiResourceId = dbiResourceId {
+            try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
+        }
+        if let engineName = engineName {
+            try container.encode(engineName, forKey: ClientRuntime.Key("EngineName"))
+        }
+        if let masterUsername = masterUsername {
+            try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let ncharCharacterSetName = ncharCharacterSetName {
+            try container.encode(ncharCharacterSetName, forKey: ClientRuntime.Key("NcharCharacterSetName"))
+        }
+        if let snapshotType = snapshotType {
+            try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
+        }
+        if let tagList = tagList {
+            if !tagList.isEmpty {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                for (index0, tag0) in tagList.enumerated() {
+                    try tagListContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                try tagListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        if let tenantDatabaseCreateTime = tenantDatabaseCreateTime {
+            try container.encodeTimestamp(tenantDatabaseCreateTime, format: .dateTime, forKey: ClientRuntime.Key("TenantDatabaseCreateTime"))
+        }
+        if let tenantDatabaseResourceId = tenantDatabaseResourceId {
+            try container.encode(tenantDatabaseResourceId, forKey: ClientRuntime.Key("TenantDatabaseResourceId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSnapshotIdentifier)
+        dbSnapshotIdentifier = dbSnapshotIdentifierDecoded
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let dbiResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbiResourceId)
+        dbiResourceId = dbiResourceIdDecoded
+        let engineNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineName)
+        engineName = engineNameDecoded
+        let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
+        snapshotType = snapshotTypeDecoded
+        let tenantDatabaseCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .tenantDatabaseCreateTime)
+        tenantDatabaseCreateTime = tenantDatabaseCreateTimeDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
+        masterUsername = masterUsernameDecoded
+        let tenantDatabaseResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDatabaseResourceId)
+        tenantDatabaseResourceId = tenantDatabaseResourceIdDecoded
+        let characterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .characterSetName)
+        characterSetName = characterSetNameDecoded
+        let dbSnapshotTenantDatabaseARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSnapshotTenantDatabaseARN)
+        dbSnapshotTenantDatabaseARN = dbSnapshotTenantDatabaseARNDecoded
+        let ncharCharacterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ncharCharacterSetName)
+        ncharCharacterSetName = ncharCharacterSetNameDecoded
+        if containerValues.contains(.tagList) {
+            struct KeyVal0{struct Tag{}}
+            let tagListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tagList)
+            if let tagListWrappedContainer = tagListWrappedContainer {
+                let tagListContainer = try tagListWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagListBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagListContainer = tagListContainer {
+                    tagListBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagListContainer {
+                        tagListBuffer?.append(structureContainer0)
+                    }
+                }
+                tagList = tagListBuffer
+            } else {
+                tagList = []
+            }
+        } else {
+            tagList = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains the details of a tenant database in a snapshot of a DB instance.
+    public struct DBSnapshotTenantDatabase: Swift.Equatable {
+        /// The name of the character set of a tenant database.
+        public var characterSetName: Swift.String?
+        /// The ID for the DB instance that contains the tenant databases.
+        public var dbInstanceIdentifier: Swift.String?
+        /// The identifier for the snapshot of the DB instance.
+        public var dbSnapshotIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) for the snapshot tenant database.
+        public var dbSnapshotTenantDatabaseARN: Swift.String?
+        /// The resource identifier of the source CDB instance. This identifier can't be changed and is unique to an Amazon Web Services Region.
+        public var dbiResourceId: Swift.String?
+        /// The name of the database engine.
+        public var engineName: Swift.String?
+        /// The master username of the tenant database.
+        public var masterUsername: Swift.String?
+        /// The NCHAR character set name of the tenant database.
+        public var ncharCharacterSetName: Swift.String?
+        /// The type of DB snapshot.
+        public var snapshotType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
+        /// The name of the tenant database.
+        public var tenantDBName: Swift.String?
+        /// The time the DB snapshot was taken, specified in Coordinated Universal Time (UTC). If you copy the snapshot, the creation time changes.
+        public var tenantDatabaseCreateTime: ClientRuntime.Date?
+        /// The resource ID of the tenant database.
+        public var tenantDatabaseResourceId: Swift.String?
+
+        public init(
+            characterSetName: Swift.String? = nil,
+            dbInstanceIdentifier: Swift.String? = nil,
+            dbSnapshotIdentifier: Swift.String? = nil,
+            dbSnapshotTenantDatabaseARN: Swift.String? = nil,
+            dbiResourceId: Swift.String? = nil,
+            engineName: Swift.String? = nil,
+            masterUsername: Swift.String? = nil,
+            ncharCharacterSetName: Swift.String? = nil,
+            snapshotType: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
+            tenantDBName: Swift.String? = nil,
+            tenantDatabaseCreateTime: ClientRuntime.Date? = nil,
+            tenantDatabaseResourceId: Swift.String? = nil
+        )
+        {
+            self.characterSetName = characterSetName
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbSnapshotIdentifier = dbSnapshotIdentifier
+            self.dbSnapshotTenantDatabaseARN = dbSnapshotTenantDatabaseARN
+            self.dbiResourceId = dbiResourceId
+            self.engineName = engineName
+            self.masterUsername = masterUsername
+            self.ncharCharacterSetName = ncharCharacterSetName
+            self.snapshotType = snapshotType
+            self.tagList = tagList
+            self.tenantDBName = tenantDBName
+            self.tenantDatabaseCreateTime = tenantDatabaseCreateTime
+            self.tenantDatabaseResourceId = tenantDatabaseResourceId
+        }
+    }
+
+}
+
+extension DBSnapshotTenantDatabaseNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<DBSnapshotTenantDatabaseNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified snapshot tenant database wasn't found.
+public struct DBSnapshotTenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBSnapshotTenantDatabaseNotFoundFault" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct DBSnapshotTenantDatabaseNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension DBSnapshotTenantDatabaseNotFoundFaultBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -20541,7 +21175,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -22629,7 +23263,7 @@ extension DeleteIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+/// A zero-ETL integration with Amazon Redshift.
 public struct DeleteIntegrationOutput: Swift.Equatable {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -22643,7 +23277,7 @@ public struct DeleteIntegrationOutput: Swift.Equatable {
     public var integrationName: Swift.String?
     /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
     public var kmsKeyId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
     public var sourceArn: Swift.String?
     /// The current status of the integration.
     public var status: RDSClientTypes.IntegrationStatus?
@@ -22857,6 +23491,139 @@ enum DeleteOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "InvalidOptionGroupStateFault": return try await InvalidOptionGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "OptionGroupNotFoundFault": return try await OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DeleteTenantDatabaseInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let finalDBSnapshotIdentifier = finalDBSnapshotIdentifier {
+            try container.encode(finalDBSnapshotIdentifier, forKey: ClientRuntime.Key("FinalDBSnapshotIdentifier"))
+        }
+        if let skipFinalSnapshot = skipFinalSnapshot {
+            try container.encode(skipFinalSnapshot, forKey: ClientRuntime.Key("SkipFinalSnapshot"))
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        try container.encode("DeleteTenantDatabase", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteTenantDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteTenantDatabaseInput: Swift.Equatable {
+    /// The user-supplied identifier for the DB instance that contains the tenant database that you want to delete.
+    /// This member is required.
+    public var dbInstanceIdentifier: Swift.String?
+    /// The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled. If you enable this parameter and also enable SkipFinalShapshot, the command results in an error.
+    public var finalDBSnapshotIdentifier: Swift.String?
+    /// Specifies whether to skip the creation of a final DB snapshot before removing the tenant database from your DB instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS creates a DB snapshot before it deletes the tenant database. By default, RDS doesn't skip the final snapshot. If you don't enable this parameter, you must specify the FinalDBSnapshotIdentifier parameter.
+    public var skipFinalSnapshot: Swift.Bool?
+    /// The user-supplied name of the tenant database that you want to remove from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isn’t case-sensitive.
+    /// This member is required.
+    public var tenantDBName: Swift.String?
+
+    public init(
+        dbInstanceIdentifier: Swift.String? = nil,
+        finalDBSnapshotIdentifier: Swift.String? = nil,
+        skipFinalSnapshot: Swift.Bool? = nil,
+        tenantDBName: Swift.String? = nil
+    )
+    {
+        self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.finalDBSnapshotIdentifier = finalDBSnapshotIdentifier
+        self.skipFinalSnapshot = skipFinalSnapshot
+        self.tenantDBName = tenantDBName
+    }
+}
+
+struct DeleteTenantDatabaseInputBody: Swift.Equatable {
+    let dbInstanceIdentifier: Swift.String?
+    let tenantDBName: Swift.String?
+    let skipFinalSnapshot: Swift.Bool?
+    let finalDBSnapshotIdentifier: Swift.String?
+}
+
+extension DeleteTenantDatabaseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case finalDBSnapshotIdentifier = "FinalDBSnapshotIdentifier"
+        case skipFinalSnapshot = "SkipFinalSnapshot"
+        case tenantDBName = "TenantDBName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        let skipFinalSnapshotDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipFinalSnapshot)
+        skipFinalSnapshot = skipFinalSnapshotDecoded
+        let finalDBSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .finalDBSnapshotIdentifier)
+        finalDBSnapshotIdentifier = finalDBSnapshotIdentifierDecoded
+    }
+}
+
+extension DeleteTenantDatabaseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteTenantDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tenantDatabase = output.tenantDatabase
+        } else {
+            self.tenantDatabase = nil
+        }
+    }
+}
+
+public struct DeleteTenantDatabaseOutput: Swift.Equatable {
+    /// A tenant database in the DB instance. This data type is an element in the response to the DescribeTenantDatabases action.
+    public var tenantDatabase: RDSClientTypes.TenantDatabase?
+
+    public init(
+        tenantDatabase: RDSClientTypes.TenantDatabase? = nil
+    )
+    {
+        self.tenantDatabase = tenantDatabase
+    }
+}
+
+struct DeleteTenantDatabaseOutputBody: Swift.Equatable {
+    let tenantDatabase: RDSClientTypes.TenantDatabase?
+}
+
+extension DeleteTenantDatabaseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tenantDatabase = "TenantDatabase"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DeleteTenantDatabaseResult"))
+        let tenantDatabaseDecoded = try containerValues.decodeIfPresent(RDSClientTypes.TenantDatabase.self, forKey: .tenantDatabase)
+        tenantDatabase = tenantDatabaseDecoded
+    }
+}
+
+enum DeleteTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -25148,6 +25915,10 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     /// * aurora-postgresql
     ///
     /// * custom-oracle-ee
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -27515,6 +28286,249 @@ enum DescribeDBSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
+extension DescribeDBSnapshotTenantDatabasesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let dbSnapshotIdentifier = dbSnapshotIdentifier {
+            try container.encode(dbSnapshotIdentifier, forKey: ClientRuntime.Key("DBSnapshotIdentifier"))
+        }
+        if let dbiResourceId = dbiResourceId {
+            try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
+        }
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let snapshotType = snapshotType {
+            try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
+        }
+        try container.encode("DescribeDBSnapshotTenantDatabases", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeDBSnapshotTenantDatabasesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDBSnapshotTenantDatabasesInput: Swift.Equatable {
+    /// The ID of the DB instance used to create the DB snapshots. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * If supplied, must match the identifier of an existing DBInstance.
+    public var dbInstanceIdentifier: Swift.String?
+    /// The ID of a DB snapshot that contains the tenant databases to describe. This value is stored as a lowercase string. Constraints:
+    ///
+    /// * If you specify this parameter, the value must match the ID of an existing DB snapshot.
+    ///
+    /// * If you specify an automatic snapshot, you must also specify SnapshotType.
+    public var dbSnapshotIdentifier: Swift.String?
+    /// A specific DB resource identifier to describe.
+    public var dbiResourceId: Swift.String?
+    /// A filter that specifies one or more tenant databases to describe. Supported filters:
+    ///
+    /// * tenant-db-name - Tenant database names. The results list only includes information about the tenant databases that match these tenant DB names.
+    ///
+    /// * tenant-database-resource-id - Tenant database resource identifiers. The results list only includes information about the tenant databases contained within the DB snapshots.
+    ///
+    /// * dbi-resource-id - DB instance resource identifiers. The results list only includes information about snapshots containing tenant databases contained within the DB instances identified by these resource identifiers.
+    ///
+    /// * db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs).
+    ///
+    /// * db-snapshot-id - Accepts DB snapshot identifiers.
+    ///
+    /// * snapshot-type - Accepts types of DB snapshots.
+    public var filters: [RDSClientTypes.Filter]?
+    /// An optional pagination token provided by a previous DescribeDBSnapshotTenantDatabases request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The type of DB snapshots to be returned. You can specify one of the following values:
+    ///
+    /// * automated – All DB snapshots that have been automatically taken by Amazon RDS for my Amazon Web Services account.
+    ///
+    /// * manual – All DB snapshots that have been taken by my Amazon Web Services account.
+    ///
+    /// * shared – All manual DB snapshots that have been shared to my Amazon Web Services account.
+    ///
+    /// * public – All DB snapshots that have been marked as public.
+    ///
+    /// * awsbackup – All DB snapshots managed by the Amazon Web Services Backup service.
+    public var snapshotType: Swift.String?
+
+    public init(
+        dbInstanceIdentifier: Swift.String? = nil,
+        dbSnapshotIdentifier: Swift.String? = nil,
+        dbiResourceId: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        snapshotType: Swift.String? = nil
+    )
+    {
+        self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.dbSnapshotIdentifier = dbSnapshotIdentifier
+        self.dbiResourceId = dbiResourceId
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.snapshotType = snapshotType
+    }
+}
+
+struct DescribeDBSnapshotTenantDatabasesInputBody: Swift.Equatable {
+    let dbInstanceIdentifier: Swift.String?
+    let dbSnapshotIdentifier: Swift.String?
+    let snapshotType: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+    let dbiResourceId: Swift.String?
+}
+
+extension DescribeDBSnapshotTenantDatabasesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case dbSnapshotIdentifier = "DBSnapshotIdentifier"
+        case dbiResourceId = "DbiResourceId"
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case snapshotType = "SnapshotType"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let dbSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSnapshotIdentifier)
+        dbSnapshotIdentifier = dbSnapshotIdentifierDecoded
+        let snapshotTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotType)
+        snapshotType = snapshotTypeDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let dbiResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbiResourceId)
+        dbiResourceId = dbiResourceIdDecoded
+    }
+}
+
+extension DescribeDBSnapshotTenantDatabasesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDBSnapshotTenantDatabasesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dbSnapshotTenantDatabases = output.dbSnapshotTenantDatabases
+            self.marker = output.marker
+        } else {
+            self.dbSnapshotTenantDatabases = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeDBSnapshotTenantDatabasesOutput: Swift.Equatable {
+    /// A list of DB snapshot tenant databases.
+    public var dbSnapshotTenantDatabases: [RDSClientTypes.DBSnapshotTenantDatabase]?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+
+    public init(
+        dbSnapshotTenantDatabases: [RDSClientTypes.DBSnapshotTenantDatabase]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.dbSnapshotTenantDatabases = dbSnapshotTenantDatabases
+        self.marker = marker
+    }
+}
+
+struct DescribeDBSnapshotTenantDatabasesOutputBody: Swift.Equatable {
+    let marker: Swift.String?
+    let dbSnapshotTenantDatabases: [RDSClientTypes.DBSnapshotTenantDatabase]?
+}
+
+extension DescribeDBSnapshotTenantDatabasesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbSnapshotTenantDatabases = "DBSnapshotTenantDatabases"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeDBSnapshotTenantDatabasesResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.dbSnapshotTenantDatabases) {
+            struct KeyVal0{struct DBSnapshotTenantDatabase{}}
+            let dbSnapshotTenantDatabasesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.DBSnapshotTenantDatabase>.CodingKeys.self, forKey: .dbSnapshotTenantDatabases)
+            if let dbSnapshotTenantDatabasesWrappedContainer = dbSnapshotTenantDatabasesWrappedContainer {
+                let dbSnapshotTenantDatabasesContainer = try dbSnapshotTenantDatabasesWrappedContainer.decodeIfPresent([RDSClientTypes.DBSnapshotTenantDatabase].self, forKey: .member)
+                var dbSnapshotTenantDatabasesBuffer:[RDSClientTypes.DBSnapshotTenantDatabase]? = nil
+                if let dbSnapshotTenantDatabasesContainer = dbSnapshotTenantDatabasesContainer {
+                    dbSnapshotTenantDatabasesBuffer = [RDSClientTypes.DBSnapshotTenantDatabase]()
+                    for structureContainer0 in dbSnapshotTenantDatabasesContainer {
+                        dbSnapshotTenantDatabasesBuffer?.append(structureContainer0)
+                    }
+                }
+                dbSnapshotTenantDatabases = dbSnapshotTenantDatabasesBuffer
+            } else {
+                dbSnapshotTenantDatabases = []
+            }
+        } else {
+            dbSnapshotTenantDatabases = nil
+        }
+    }
+}
+
+enum DescribeDBSnapshotTenantDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
 extension DescribeDBSnapshotsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -28177,6 +29191,10 @@ public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
     /// * aurora-postgresql14
     ///
     /// * custom-oracle-ee-19
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb10.2
     ///
@@ -29618,7 +30636,11 @@ extension DescribeOptionGroupOptionsInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DescribeOptionGroupOptionsInput: Swift.Equatable {
-    /// A required parameter. Options available for the given engine name are described. Valid Values:
+    /// The name of the engine to describe options for. Valid Values:
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -29838,7 +30860,11 @@ extension DescribeOptionGroupsInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DescribeOptionGroupsInput: Swift.Equatable {
-    /// Filters the list of option groups to only include groups associated with a specific database engine. Valid Values:
+    /// A filter to only include option groups associated with this database engine. Valid Values:
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -30075,17 +31101,21 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.URLPathProvider
 
 ///
 public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
-    /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available offerings for the Local Zones in the group. Omit this parameter to show the available offerings in the specified Amazon Web Services Region. This setting doesn't apply to RDS Custom.
+    /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available options for the Local Zones in the group. Omit this parameter to show the available options in the specified Amazon Web Services Region. This setting doesn't apply to RDS Custom DB instances.
     public var availabilityZoneGroup: Swift.String?
-    /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
+    /// A filter to include only the available options for the specified DB instance class.
     public var dbInstanceClass: Swift.String?
-    /// The name of the engine to retrieve DB instance options for. Valid Values:
+    /// The name of the engine to describe DB instance options for. Valid Values:
     ///
     /// * aurora-mysql
     ///
     /// * aurora-postgresql
     ///
     /// * custom-oracle-ee
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -30110,11 +31140,11 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
     /// * sqlserver-web
     /// This member is required.
     public var engine: Swift.String?
-    /// The engine version filter value. Specify this parameter to show only the available offerings matching the specified engine version.
+    /// A filter to include only the available options for the specified engine version.
     public var engineVersion: Swift.String?
     /// This parameter isn't currently supported.
     public var filters: [RDSClientTypes.Filter]?
-    /// The license model filter value. Specify this parameter to show only the available offerings matching the specified license model. RDS Custom supports only the BYOL licensing model.
+    /// A filter to include only the available options for the specified license model. RDS Custom supports only the BYOL licensing model.
     public var licenseModel: Swift.String?
     /// An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
@@ -31158,6 +32188,205 @@ enum DescribeSourceRegionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension DescribeTenantDatabasesInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        try container.encode("DescribeTenantDatabases", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeTenantDatabasesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeTenantDatabasesInput: Swift.Equatable {
+    /// The user-supplied DB instance identifier, which must match the identifier of an existing instance owned by the Amazon Web Services account. This parameter isn't case-sensitive.
+    public var dbInstanceIdentifier: Swift.String?
+    /// A filter that specifies one or more database tenants to describe. Supported filters:
+    ///
+    /// * tenant-db-name - Tenant database names. The results list only includes information about the tenant databases that match these tenant DB names.
+    ///
+    /// * tenant-database-resource-id - Tenant database resource identifiers.
+    ///
+    /// * dbi-resource-id - DB instance resource identifiers. The results list only includes information about the tenants contained within the DB instances identified by these resource identifiers.
+    public var filters: [RDSClientTypes.Filter]?
+    /// An optional pagination token provided by a previous DescribeTenantDatabases request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The user-supplied tenant database name, which must match the name of an existing tenant database on the specified DB instance owned by your Amazon Web Services account. This parameter isn’t case-sensitive.
+    public var tenantDBName: Swift.String?
+
+    public init(
+        dbInstanceIdentifier: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        tenantDBName: Swift.String? = nil
+    )
+    {
+        self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.tenantDBName = tenantDBName
+    }
+}
+
+struct DescribeTenantDatabasesInputBody: Swift.Equatable {
+    let dbInstanceIdentifier: Swift.String?
+    let tenantDBName: Swift.String?
+    let filters: [RDSClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeTenantDatabasesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case tenantDBName = "TenantDBName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        if containerValues.contains(.filters) {
+            struct KeyVal0{struct Filter{}}
+            let filtersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Filter>.CodingKeys.self, forKey: .filters)
+            if let filtersWrappedContainer = filtersWrappedContainer {
+                let filtersContainer = try filtersWrappedContainer.decodeIfPresent([RDSClientTypes.Filter].self, forKey: .member)
+                var filtersBuffer:[RDSClientTypes.Filter]? = nil
+                if let filtersContainer = filtersContainer {
+                    filtersBuffer = [RDSClientTypes.Filter]()
+                    for structureContainer0 in filtersContainer {
+                        filtersBuffer?.append(structureContainer0)
+                    }
+                }
+                filters = filtersBuffer
+            } else {
+                filters = []
+            }
+        } else {
+            filters = nil
+        }
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+extension DescribeTenantDatabasesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeTenantDatabasesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.tenantDatabases = output.tenantDatabases
+        } else {
+            self.marker = nil
+            self.tenantDatabases = nil
+        }
+    }
+}
+
+public struct DescribeTenantDatabasesOutput: Swift.Equatable {
+    /// An optional pagination token provided by a previous DescribeTenantDatabases request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// An array of the tenant databases requested by the DescribeTenantDatabases operation.
+    public var tenantDatabases: [RDSClientTypes.TenantDatabase]?
+
+    public init(
+        marker: Swift.String? = nil,
+        tenantDatabases: [RDSClientTypes.TenantDatabase]? = nil
+    )
+    {
+        self.marker = marker
+        self.tenantDatabases = tenantDatabases
+    }
+}
+
+struct DescribeTenantDatabasesOutputBody: Swift.Equatable {
+    let marker: Swift.String?
+    let tenantDatabases: [RDSClientTypes.TenantDatabase]?
+}
+
+extension DescribeTenantDatabasesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case tenantDatabases = "TenantDatabases"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("DescribeTenantDatabasesResult"))
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        if containerValues.contains(.tenantDatabases) {
+            struct KeyVal0{struct TenantDatabase{}}
+            let tenantDatabasesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.TenantDatabase>.CodingKeys.self, forKey: .tenantDatabases)
+            if let tenantDatabasesWrappedContainer = tenantDatabasesWrappedContainer {
+                let tenantDatabasesContainer = try tenantDatabasesWrappedContainer.decodeIfPresent([RDSClientTypes.TenantDatabase].self, forKey: .member)
+                var tenantDatabasesBuffer:[RDSClientTypes.TenantDatabase]? = nil
+                if let tenantDatabasesContainer = tenantDatabasesContainer {
+                    tenantDatabasesBuffer = [RDSClientTypes.TenantDatabase]()
+                    for structureContainer0 in tenantDatabasesContainer {
+                        tenantDatabasesBuffer?.append(structureContainer0)
+                    }
+                }
+                tenantDatabases = tenantDatabasesBuffer
+            } else {
+                tenantDatabases = []
+            }
+        } else {
+            tenantDatabases = nil
+        }
+    }
+}
+
+enum DescribeTenantDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -32265,7 +33494,7 @@ extension RDSClientTypes {
         public var custSubscriptionId: Swift.String?
         /// The Amazon Web Services customer account associated with the RDS event notification subscription.
         public var customerAwsId: Swift.String?
-        /// A Boolean value indicating if the subscription is enabled. True indicates the subscription is enabled.
+        /// Specifies whether the subscription is enabled. True indicates the subscription is enabled.
         public var enabled: Swift.Bool?
         /// A list of event categories for the RDS event notification subscription.
         public var eventCategoriesList: [Swift.String]?
@@ -33036,9 +34265,11 @@ extension RDSClientTypes {
         ///
         /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
         ///
-        /// * failing-over  This status covers the range of Aurora internal operations that take place during the switchover or failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
+        /// * failing-over  Aurora is promoting the chosen secondary Aurora DB cluster to become the new primary DB cluster to fail over the global cluster.
         ///
         /// * cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
+        ///
+        /// * switching-over  This status covers the range of Aurora internal operations that take place during the switchover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
         public var status: RDSClientTypes.FailoverStatus?
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being promoted, and which is associated with this state.
         public var toDbClusterArn: Swift.String?
@@ -34243,7 +35474,7 @@ extension RDSClientTypes.Integration: Swift.Codable {
 }
 
 extension RDSClientTypes {
-    /// An Aurora zero-ETL integration with Amazon Redshift. For more information, see [Working with Amazon Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.html) in the Amazon Aurora User Guide.
+    /// A zero-ETL integration with Amazon Redshift.
     public struct Integration: Swift.Equatable {
         /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
         public var additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -34257,7 +35488,7 @@ extension RDSClientTypes {
         public var integrationName: Swift.String?
         /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
         public var kmsKeyId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Aurora DB cluster used as the source for replication.
+        /// The Amazon Resource Name (ARN) of the database used as the source for replication.
         public var sourceArn: Swift.String?
         /// The current status of the integration.
         public var status: RDSClientTypes.IntegrationStatus?
@@ -36322,7 +37553,9 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -37131,7 +38364,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Equatable {
     public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// Indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool?
-    /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+    /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
     public var supportsIntegrations: Swift.Bool?
     /// Indicates whether the DB engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var supportsLocalWriteForwarding: Swift.Bool?
@@ -38528,6 +39761,7 @@ enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidDBSubnetGroupStateFault": return try await InvalidDBSubnetGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "OptionGroupNotFoundFault": return try await OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotAvailableFault": return try await StorageTypeNotAvailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -39009,6 +40243,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
         }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
+        }
         if let networkType = networkType {
             try container.encode(networkType, forKey: ClientRuntime.Key("NetworkType"))
         }
@@ -39097,7 +40334,7 @@ extension ModifyDBInstanceInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct ModifyDBInstanceInput: Swift.Equatable {
-    /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance.
+    /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. This setting doesn't apply to RDS Custom DB instances. Constraints:
     ///
@@ -39145,7 +40382,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var copyTagsToSnapshot: Swift.Bool?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
-    /// * If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to modify the DB instance class, and then run it again to upgrade the engine version.
+    /// * If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
     public var dbInstanceClass: Swift.String?
     /// The identifier of DB instance to modify. This value is stored as a lowercase string. Constraints:
     ///
@@ -39159,6 +40396,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. If you change the DBPortNumber value, your database restarts regardless of the value of the ApplyImmediately parameter. This setting doesn't apply to RDS Custom DB instances. Valid Values: 1150-65535 Default:
     ///
     /// * Amazon Aurora - 3306
+    ///
+    /// * RDS for Db2 - 50000
     ///
     /// * RDS for MariaDB - 3306
     ///
@@ -39192,7 +40431,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var deletionProtection: Swift.Bool?
     /// Specifies whether to remove the DB instance from the Active Directory domain.
     public var disableDomain: Swift.Bool?
-    /// The Active Directory directory ID to move the DB instance to. Specify none to remove the instance from its current domain. You must create the domain before this operation. Currently, you can create only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
+    /// The Active Directory directory ID to move the DB instance to. Specify none to remove the instance from its current domain. You must create the domain before this operation. Currently, you can create only Db2, MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
     public var domain: Swift.String?
     /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Example: arn:aws:secretsmanager:region:account-number:secret:myselfmanagedADtestsecret-123456
     public var domainAuthSecretArn: Swift.String?
@@ -39246,7 +40485,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var engine: Swift.String?
     /// The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS updates the DB instance to the default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or higher than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the PATCH_DB_FAILURE lifecycle. Constraints:
     ///
-    /// * If you are upgrading the engine version and modifying the DB instance class at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to modify the DB instance class, and then run it again to upgrade the engine version.
+    /// * If you are upgrading the engine version and modifying the DB instance class at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
     public var engineVersion: Swift.String?
     /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:
     ///
@@ -39256,6 +40495,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     /// Default: Uses existing setting
     public var iops: Swift.Int?
     /// The license model for the DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    ///
+    /// * RDS for Db2 - bring-your-own-license
     ///
     /// * RDS for MariaDB - general-public-license
     ///
@@ -39271,7 +40512,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
-    /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
+    /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora (The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.)
     ///
@@ -39282,10 +40523,12 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// * Can't be specified if ManageMasterUserPassword is turned on.
     ///
-    /// * Can include any printable ASCII character except "/", """, or "@".
+    /// * Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or the "'" (single quotes) character.
     ///
     ///
     /// Length Constraints:
+    ///
+    /// * RDS for Db2 - Must contain from 8 to 255 characters.
     ///
     /// * RDS for MariaDB - Must contain from 8 to 41 characters.
     ///
@@ -39314,6 +40557,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var monitoringRoleArn: Swift.String?
     /// Specifies whether the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. This setting doesn't apply to RDS Custom DB instances.
     public var multiAZ: Swift.Bool?
+    /// Specifies whether the to convert your DB instance from the single-tenant conﬁguration to the multi-tenant conﬁguration. This parameter is supported only for RDS for Oracle CDB instances. During the conversion, RDS creates an initial tenant database and associates the DB name, master user name, character set, and national character set metadata with this database. The tags associated with the instance also propagate to the initial tenant database. You can add more tenant databases to your DB instance by using the CreateTenantDatabase operation. The conversion to the multi-tenant configuration is permanent and irreversible, so you can't later convert back to the single-tenant configuration. When you specify this parameter, you must also specify ApplyImmediately.
+    public var multiTenant: Swift.Bool?
     /// The network type of the DB instance. The network type is determined by the DBSubnetGroup specified for the DB instance. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide. Valid Values: IPV4 | DUAL
     public var networkType: Swift.String?
     /// The new identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot occurs immediately if you enable ApplyImmediately, or will occur during the next maintenance window if you disable ApplyImmediately. This value is stored as a lowercase string. This setting doesn't apply to RDS Custom DB instances. Constraints:
@@ -39445,6 +40690,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         monitoringInterval: Swift.Int? = nil,
         monitoringRoleArn: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
+        multiTenant: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
         newDBInstanceIdentifier: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -39506,6 +40752,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.monitoringInterval = monitoringInterval
         self.monitoringRoleArn = monitoringRoleArn
         self.multiAZ = multiAZ
+        self.multiTenant = multiTenant
         self.networkType = networkType
         self.newDBInstanceIdentifier = newDBInstanceIdentifier
         self.optionGroupName = optionGroupName
@@ -39588,6 +40835,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let masterUserSecretKmsKeyId: Swift.String?
     let engine: Swift.String?
     let dedicatedLogVolume: Swift.Bool?
+    let multiTenant: Swift.Bool?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -39632,6 +40880,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
         case multiAZ = "MultiAZ"
+        case multiTenant = "MultiTenant"
         case networkType = "NetworkType"
         case newDBInstanceIdentifier = "NewDBInstanceIdentifier"
         case optionGroupName = "OptionGroupName"
@@ -39841,6 +41090,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         engine = engineDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -39909,6 +41160,7 @@ enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ProvisionedIopsNotAvailableInAZFault": return try await ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -40013,7 +41265,7 @@ extension ModifyDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
+/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
 public struct ModifyDBParameterGroupOutput: Swift.Equatable {
     /// The name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
@@ -40776,12 +42028,7 @@ public struct ModifyDBSnapshotInput: Swift.Equatable {
     /// The identifier of the DB snapshot to modify.
     /// This member is required.
     public var dbSnapshotIdentifier: Swift.String?
-    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MySQL
-    ///
-    /// * 5.5.46 (supported for 5.1 DB snapshots)
-    ///
-    ///
-    /// Oracle
+    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html) in the Amazon RDS User Guide. Oracle
     ///
     /// * 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)
     ///
@@ -40794,7 +42041,7 @@ public struct ModifyDBSnapshotInput: Swift.Equatable {
     /// * 11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)
     ///
     ///
-    /// PostgreSQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading the PostgreSQL DB Engine for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.html#USER_UpgradeDBInstance.PostgreSQL.MajorVersion).
+    /// PostgreSQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a PostgreSQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBSnapshot.PostgreSQL.html) in the Amazon RDS User Guide.
     public var engineVersion: Swift.String?
     /// The option group to identify with the upgraded DB snapshot. You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see [Option group considerations](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Oracle.html#USER_UpgradeDBInstance.Oracle.OGPG.OG) in the Amazon RDS User Guide.
     public var optionGroupName: Swift.String?
@@ -41543,6 +42790,160 @@ enum ModifyOptionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restXMLError.errorCode {
             case "InvalidOptionGroupStateFault": return try await InvalidOptionGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "OptionGroupNotFoundFault": return try await OptionGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension ModifyTenantDatabaseInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyTenantDatabaseInput(dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), newTenantDBName: \(Swift.String(describing: newTenantDBName)), tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
+extension ModifyTenantDatabaseInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let masterUserPassword = masterUserPassword {
+            try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let newTenantDBName = newTenantDBName {
+            try container.encode(newTenantDBName, forKey: ClientRuntime.Key("NewTenantDBName"))
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        try container.encode("ModifyTenantDatabase", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyTenantDatabaseInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyTenantDatabaseInput: Swift.Equatable {
+    /// The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * Must match the identifier of an existing DB instance.
+    /// This member is required.
+    public var dbInstanceIdentifier: Swift.String?
+    /// The new password for the master user of the specified tenant database in your DB instance. Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked. Constraints:
+    ///
+    /// * Can include any printable ASCII character except /, " (double quote), @, & (ampersand), and ' (single quote).
+    ///
+    ///
+    /// Length constraints:
+    ///
+    /// * Must contain between 8 and 30 characters.
+    public var masterUserPassword: Swift.String?
+    /// The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive. Constraints:
+    ///
+    /// * Can't be the string null or any other reserved word.
+    ///
+    /// * Can't be longer than 8 characters.
+    public var newTenantDBName: Swift.String?
+    /// The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive. Constraints:
+    ///
+    /// * Must match the identifier of an existing tenant database.
+    /// This member is required.
+    public var tenantDBName: Swift.String?
+
+    public init(
+        dbInstanceIdentifier: Swift.String? = nil,
+        masterUserPassword: Swift.String? = nil,
+        newTenantDBName: Swift.String? = nil,
+        tenantDBName: Swift.String? = nil
+    )
+    {
+        self.dbInstanceIdentifier = dbInstanceIdentifier
+        self.masterUserPassword = masterUserPassword
+        self.newTenantDBName = newTenantDBName
+        self.tenantDBName = tenantDBName
+    }
+}
+
+struct ModifyTenantDatabaseInputBody: Swift.Equatable {
+    let dbInstanceIdentifier: Swift.String?
+    let tenantDBName: Swift.String?
+    let masterUserPassword: Swift.String?
+    let newTenantDBName: Swift.String?
+}
+
+extension ModifyTenantDatabaseInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case masterUserPassword = "MasterUserPassword"
+        case newTenantDBName = "NewTenantDBName"
+        case tenantDBName = "TenantDBName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
+        masterUserPassword = masterUserPasswordDecoded
+        let newTenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .newTenantDBName)
+        newTenantDBName = newTenantDBNameDecoded
+    }
+}
+
+extension ModifyTenantDatabaseOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyTenantDatabaseOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tenantDatabase = output.tenantDatabase
+        } else {
+            self.tenantDatabase = nil
+        }
+    }
+}
+
+public struct ModifyTenantDatabaseOutput: Swift.Equatable {
+    /// A tenant database in the DB instance. This data type is an element in the response to the DescribeTenantDatabases action.
+    public var tenantDatabase: RDSClientTypes.TenantDatabase?
+
+    public init(
+        tenantDatabase: RDSClientTypes.TenantDatabase? = nil
+    )
+    {
+        self.tenantDatabase = tenantDatabase
+    }
+}
+
+struct ModifyTenantDatabaseOutputBody: Swift.Equatable {
+    let tenantDatabase: RDSClientTypes.TenantDatabase?
+}
+
+extension ModifyTenantDatabaseOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tenantDatabase = "TenantDatabase"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("ModifyTenantDatabaseResult"))
+        let tenantDatabaseDecoded = try containerValues.decodeIfPresent(RDSClientTypes.TenantDatabase.self, forKey: .tenantDatabase)
+        tenantDatabase = tenantDatabaseDecoded
+    }
+}
+
+enum ModifyTenantDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseAlreadyExists": return try await TenantDatabaseAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -43827,6 +45228,7 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         case licenseModel = "LicenseModel"
         case masterUserPassword = "MasterUserPassword"
         case multiAZ = "MultiAZ"
+        case multiTenant = "MultiTenant"
         case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
         case port = "Port"
         case processorFeatures = "ProcessorFeatures"
@@ -43881,6 +45283,9 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         }
         if let multiAZ = multiAZ {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
+        }
+        if let multiTenant = multiTenant {
+            try container.encode(multiTenant, forKey: ClientRuntime.Key("MultiTenant"))
         }
         if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
             try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
@@ -43972,6 +45377,8 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
         engine = engineDecoded
         let dedicatedLogVolumeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dedicatedLogVolume)
         dedicatedLogVolume = dedicatedLogVolumeDecoded
+        let multiTenantDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .multiTenant)
+        multiTenant = multiTenantDecoded
     }
 }
 
@@ -44008,6 +45415,8 @@ extension RDSClientTypes {
         public var masterUserPassword: Swift.String?
         /// Indicates whether the Single-AZ DB instance will change to a Multi-AZ deployment.
         public var multiAZ: Swift.Bool?
+        /// Indicates whether the DB instance will change to the multi-tenant configuration (TRUE) or the single-tenant configuration (FALSE).
+        public var multiTenant: Swift.Bool?
         /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated.
         public var pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports?
         /// The port for the DB instance.
@@ -44037,6 +45446,7 @@ extension RDSClientTypes {
             licenseModel: Swift.String? = nil,
             masterUserPassword: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            multiTenant: Swift.Bool? = nil,
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
             port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
@@ -44060,6 +45470,7 @@ extension RDSClientTypes {
             self.licenseModel = licenseModel
             self.masterUserPassword = masterUserPassword
             self.multiAZ = multiAZ
+            self.multiTenant = multiTenant
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
             self.port = port
             self.processorFeatures = processorFeatures
@@ -44714,6 +46125,7 @@ extension RDSClientTypes {
 extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interconnectSubnetId = "InterconnectSubnetId"
+        case replicaMode = "ReplicaMode"
         case transitGatewayMulticastDomainId = "TransitGatewayMulticastDomainId"
     }
 
@@ -44721,6 +46133,9 @@ extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let interconnectSubnetId = interconnectSubnetId {
             try container.encode(interconnectSubnetId, forKey: ClientRuntime.Key("InterconnectSubnetId"))
+        }
+        if let replicaMode = replicaMode {
+            try container.encode(replicaMode, forKey: ClientRuntime.Key("ReplicaMode"))
         }
         if let transitGatewayMulticastDomainId = transitGatewayMulticastDomainId {
             try container.encode(transitGatewayMulticastDomainId, forKey: ClientRuntime.Key("TransitGatewayMulticastDomainId"))
@@ -44733,6 +46148,8 @@ extension RDSClientTypes.RdsCustomClusterConfiguration: Swift.Codable {
         interconnectSubnetId = interconnectSubnetIdDecoded
         let transitGatewayMulticastDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayMulticastDomainId)
         transitGatewayMulticastDomainId = transitGatewayMulticastDomainIdDecoded
+        let replicaModeDecoded = try containerValues.decodeIfPresent(RDSClientTypes.ReplicaMode.self, forKey: .replicaMode)
+        replicaMode = replicaModeDecoded
     }
 }
 
@@ -44742,14 +46159,18 @@ extension RDSClientTypes {
         /// Reserved for future use.
         public var interconnectSubnetId: Swift.String?
         /// Reserved for future use.
+        public var replicaMode: RDSClientTypes.ReplicaMode?
+        /// Reserved for future use.
         public var transitGatewayMulticastDomainId: Swift.String?
 
         public init(
             interconnectSubnetId: Swift.String? = nil,
+            replicaMode: RDSClientTypes.ReplicaMode? = nil,
             transitGatewayMulticastDomainId: Swift.String? = nil
         )
         {
             self.interconnectSubnetId = interconnectSubnetId
+            self.replicaMode = replicaMode
             self.transitGatewayMulticastDomainId = transitGatewayMulticastDomainId
         }
     }
@@ -45729,7 +47150,9 @@ enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "DBProxyNotFoundFault": return try await DBProxyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBProxyTargetGroupNotFoundFault": return try await DBProxyTargetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSnapshotTenantDatabaseNotFoundFault": return try await DBSnapshotTenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseNotFound": return try await TenantDatabaseNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -46611,7 +48034,7 @@ extension ResetDBParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup action.
+/// Contains the result of a successful invocation of the ModifyDBParameterGroup or ResetDBParameterGroup operation.
 public struct ResetDBParameterGroupOutput: Swift.Equatable {
     /// The name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
@@ -48809,23 +50232,23 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var dbClusterSnapshotIdentifier: Swift.String?
     /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: The same DBInstanceClass as the original DB instance.
     public var dbInstanceClass: Swift.String?
-    /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:
+    /// The name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:
     ///
-    /// * Must contain from 1 to 63 numbers, letters, or hyphens
+    /// * Must contain from 1 to 63 numbers, letters, or hyphens.
     ///
-    /// * First character must be a letter
+    /// * First character must be a letter.
     ///
-    /// * Can't end with a hyphen or contain two consecutive hyphens
+    /// * Can't end with a hyphen or contain two consecutive hyphens.
     ///
     ///
     /// Example: my-snapshot-id
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The database name for the restored DB instance. This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. It also doesn't apply to RDS Custom DB instances.
+    /// The name of the database for the restored DB instance. This parameter only applies to RDS for Oracle and RDS for SQL Server DB instances. It doesn't apply to the other engines or to RDS Custom DB instances.
     public var dbName: Swift.String?
     /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value for DBParameterGroupName, then RDS uses the default DBParameterGroup for the specified DB engine. This setting doesn't apply to RDS Custom. Constraints:
     ///
-    /// * If supplied, must match the name of an existing DBParameterGroup.
+    /// * If supplied, must match the name of an existing DB parameter group.
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -48835,7 +50258,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var dbParameterGroupName: Swift.String?
     /// The identifier for the DB snapshot to restore from. Constraints:
     ///
-    /// * Must match the identifier of an existing DBSnapshot.
+    /// * Must match the identifier of an existing DB snapshot.
     ///
     /// * Can't be specified when DBClusterSnapshotIdentifier is specified.
     ///
@@ -48843,13 +50266,18 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// * If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
     public var dbSnapshotIdentifier: Swift.String?
-    /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup
+    /// The name of the DB subnet group to use for the new instance. Constraints:
+    ///
+    /// * If supplied, must match the name of an existing DB subnet group.
+    ///
+    ///
+    /// Example: mydbsubnetgroup
     public var dbSubnetGroupName: Swift.String?
     /// Specifies whether to enable a dedicated log volume (DLV) for the DB instance.
     public var dedicatedLogVolume: Swift.Bool?
     /// Specifies whether to enable deletion protection for the DB instance. The database can't be deleted when deletion protection is enabled. By default, deletion protection isn't enabled. For more information, see [ Deleting a DB Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html).
     public var deletionProtection: Swift.Bool?
-    /// Specify the Active Directory directory ID to restore the DB instance in. The domain/ must be created prior to this operation. Currently, you can create only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
+    /// The Active Directory directory ID to restore the DB instance in. The domain/ must be created prior to this operation. Currently, you can create only Db2, MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances in an Active Directory Domain. For more information, see [ Kerberos Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var domain: Swift.String?
     /// The ARN for the Secrets Manager secret with the credentials for the user joining the domain. Constraints:
     ///
@@ -48883,13 +50311,17 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
     public var domainOu: Swift.String?
-    /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
+    /// The list of logs for the restored DB instance to export to CloudWatch Logs. The values in the list depend on the DB engine. For more information, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. This setting doesn't apply to RDS Custom. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
     public var enableCustomerOwnedIp: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -49361,6 +50793,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError: ClientRuntime.HttpResponseError
             case "ProvisionedIopsNotAvailableInAZFault": return try await ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -49631,7 +51064,26 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
-    /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". Constraints: Can't be specified if ManageMasterUserPassword is turned on. MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters.
+    /// The password for the master user. Constraints:
+    ///
+    /// * Can't be specified if ManageMasterUserPassword is turned on.
+    ///
+    /// * Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or the "'" (single quotes) character.
+    ///
+    ///
+    /// Length Constraints:
+    ///
+    /// * RDS for Db2 - Must contain from 8 to 128 characters.
+    ///
+    /// * RDS for MariaDB - Must contain from 8 to 41 characters.
+    ///
+    /// * RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.
+    ///
+    /// * RDS for MySQL - Must contain from 8 to 41 characters.
+    ///
+    /// * RDS for Oracle - Must contain from 8 to 30 characters.
+    ///
+    /// * RDS for PostgreSQL - Must contain from 8 to 128 characters.
     public var masterUserPassword: Swift.String?
     /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var masterUserSecretKmsKeyId: Swift.String?
@@ -50410,7 +51862,14 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     ///
     /// Example: us-east-1a
     public var availabilityZone: Swift.String?
-    /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
+    /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values:
+    ///
+    /// * outposts (Amazon Web Services Outposts)
+    ///
+    /// * region (Amazon Web Services Region)
+    ///
+    ///
+    /// Default: region For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
     /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
@@ -50427,7 +51886,15 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     public var customIamInstanceProfile: Swift.String?
     /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: The same DB instance class as the original DB instance.
     public var dbInstanceClass: Swift.String?
-    /// The database name for the restored DB instance. This parameter isn't supported for the MySQL or MariaDB engines. It also doesn't apply to RDS Custom.
+    /// The database name for the restored DB instance. This parameter doesn't apply to the following DB instances:
+    ///
+    /// * RDS Custom
+    ///
+    /// * RDS for Db2
+    ///
+    /// * RDS for MariaDB
+    ///
+    /// * RDS for MySQL
     public var dbName: Swift.String?
     /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. This setting doesn't apply to RDS Custom. Constraints:
     ///
@@ -50491,6 +51958,10 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to RDS Custom. For more information about IAM database authentication, see [ IAM Database Authentication for MySQL and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// The database engine to use for the new instance. This setting doesn't apply to RDS Custom. Valid Values:
+    ///
+    /// * db2-ae
+    ///
+    /// * db2-se
     ///
     /// * mariadb
     ///
@@ -51031,6 +52502,7 @@ enum RestoreDBInstanceToPointInTimeOutputError: ClientRuntime.HttpResponseErrorB
             case "ProvisionedIopsNotAvailableInAZFault": return try await ProvisionedIopsNotAvailableInAZFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageQuotaExceeded": return try await StorageQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "StorageTypeNotSupported": return try await StorageTypeNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "TenantDatabaseQuotaExceeded": return try await TenantDatabaseQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
         }
     }
@@ -54530,6 +56002,399 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes.TenantDatabase: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case characterSetName = "CharacterSetName"
+        case dbInstanceIdentifier = "DBInstanceIdentifier"
+        case dbiResourceId = "DbiResourceId"
+        case deletionProtection = "DeletionProtection"
+        case masterUsername = "MasterUsername"
+        case ncharCharacterSetName = "NcharCharacterSetName"
+        case pendingModifiedValues = "PendingModifiedValues"
+        case status = "Status"
+        case tagList = "TagList"
+        case tenantDBName = "TenantDBName"
+        case tenantDatabaseARN = "TenantDatabaseARN"
+        case tenantDatabaseCreateTime = "TenantDatabaseCreateTime"
+        case tenantDatabaseResourceId = "TenantDatabaseResourceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let characterSetName = characterSetName {
+            try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
+        }
+        if let dbInstanceIdentifier = dbInstanceIdentifier {
+            try container.encode(dbInstanceIdentifier, forKey: ClientRuntime.Key("DBInstanceIdentifier"))
+        }
+        if let dbiResourceId = dbiResourceId {
+            try container.encode(dbiResourceId, forKey: ClientRuntime.Key("DbiResourceId"))
+        }
+        if let deletionProtection = deletionProtection {
+            try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
+        }
+        if let masterUsername = masterUsername {
+            try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
+        }
+        if let ncharCharacterSetName = ncharCharacterSetName {
+            try container.encode(ncharCharacterSetName, forKey: ClientRuntime.Key("NcharCharacterSetName"))
+        }
+        if let pendingModifiedValues = pendingModifiedValues {
+            try container.encode(pendingModifiedValues, forKey: ClientRuntime.Key("PendingModifiedValues"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let tagList = tagList {
+            if !tagList.isEmpty {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                for (index0, tag0) in tagList.enumerated() {
+                    try tagListContainer.encode(tag0, forKey: ClientRuntime.Key("Tag.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var tagListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("TagList"))
+                try tagListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+        if let tenantDatabaseARN = tenantDatabaseARN {
+            try container.encode(tenantDatabaseARN, forKey: ClientRuntime.Key("TenantDatabaseARN"))
+        }
+        if let tenantDatabaseCreateTime = tenantDatabaseCreateTime {
+            try container.encodeTimestamp(tenantDatabaseCreateTime, format: .dateTime, forKey: ClientRuntime.Key("TenantDatabaseCreateTime"))
+        }
+        if let tenantDatabaseResourceId = tenantDatabaseResourceId {
+            try container.encode(tenantDatabaseResourceId, forKey: ClientRuntime.Key("TenantDatabaseResourceId"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tenantDatabaseCreateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .tenantDatabaseCreateTime)
+        tenantDatabaseCreateTime = tenantDatabaseCreateTimeDecoded
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let masterUsernameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUsername)
+        masterUsername = masterUsernameDecoded
+        let dbiResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbiResourceId)
+        dbiResourceId = dbiResourceIdDecoded
+        let tenantDatabaseResourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDatabaseResourceId)
+        tenantDatabaseResourceId = tenantDatabaseResourceIdDecoded
+        let tenantDatabaseARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDatabaseARN)
+        tenantDatabaseARN = tenantDatabaseARNDecoded
+        let characterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .characterSetName)
+        characterSetName = characterSetNameDecoded
+        let ncharCharacterSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ncharCharacterSetName)
+        ncharCharacterSetName = ncharCharacterSetNameDecoded
+        let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
+        deletionProtection = deletionProtectionDecoded
+        let pendingModifiedValuesDecoded = try containerValues.decodeIfPresent(RDSClientTypes.TenantDatabasePendingModifiedValues.self, forKey: .pendingModifiedValues)
+        pendingModifiedValues = pendingModifiedValuesDecoded
+        if containerValues.contains(.tagList) {
+            struct KeyVal0{struct Tag{}}
+            let tagListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.Tag>.CodingKeys.self, forKey: .tagList)
+            if let tagListWrappedContainer = tagListWrappedContainer {
+                let tagListContainer = try tagListWrappedContainer.decodeIfPresent([RDSClientTypes.Tag].self, forKey: .member)
+                var tagListBuffer:[RDSClientTypes.Tag]? = nil
+                if let tagListContainer = tagListContainer {
+                    tagListBuffer = [RDSClientTypes.Tag]()
+                    for structureContainer0 in tagListContainer {
+                        tagListBuffer?.append(structureContainer0)
+                    }
+                }
+                tagList = tagListBuffer
+            } else {
+                tagList = []
+            }
+        } else {
+            tagList = nil
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// A tenant database in the DB instance. This data type is an element in the response to the DescribeTenantDatabases action.
+    public struct TenantDatabase: Swift.Equatable {
+        /// The character set of the tenant database.
+        public var characterSetName: Swift.String?
+        /// The ID of the DB instance that contains the tenant database.
+        public var dbInstanceIdentifier: Swift.String?
+        /// The Amazon Web Services Region-unique, immutable identifier for the DB instance.
+        public var dbiResourceId: Swift.String?
+        /// Specifies whether deletion protection is enabled for the DB instance.
+        public var deletionProtection: Swift.Bool?
+        /// The master username of the tenant database.
+        public var masterUsername: Swift.String?
+        /// The NCHAR character set name of the tenant database.
+        public var ncharCharacterSetName: Swift.String?
+        /// Information about pending changes for a tenant database.
+        public var pendingModifiedValues: RDSClientTypes.TenantDatabasePendingModifiedValues?
+        /// The status of the tenant database.
+        public var status: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
+        /// The database name of the tenant database.
+        public var tenantDBName: Swift.String?
+        /// The Amazon Resource Name (ARN) for the tenant database.
+        public var tenantDatabaseARN: Swift.String?
+        /// The creation time of the tenant database.
+        public var tenantDatabaseCreateTime: ClientRuntime.Date?
+        /// The Amazon Web Services Region-unique, immutable identifier for the tenant database.
+        public var tenantDatabaseResourceId: Swift.String?
+
+        public init(
+            characterSetName: Swift.String? = nil,
+            dbInstanceIdentifier: Swift.String? = nil,
+            dbiResourceId: Swift.String? = nil,
+            deletionProtection: Swift.Bool? = nil,
+            masterUsername: Swift.String? = nil,
+            ncharCharacterSetName: Swift.String? = nil,
+            pendingModifiedValues: RDSClientTypes.TenantDatabasePendingModifiedValues? = nil,
+            status: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
+            tenantDBName: Swift.String? = nil,
+            tenantDatabaseARN: Swift.String? = nil,
+            tenantDatabaseCreateTime: ClientRuntime.Date? = nil,
+            tenantDatabaseResourceId: Swift.String? = nil
+        )
+        {
+            self.characterSetName = characterSetName
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbiResourceId = dbiResourceId
+            self.deletionProtection = deletionProtection
+            self.masterUsername = masterUsername
+            self.ncharCharacterSetName = ncharCharacterSetName
+            self.pendingModifiedValues = pendingModifiedValues
+            self.status = status
+            self.tagList = tagList
+            self.tenantDBName = tenantDBName
+            self.tenantDatabaseARN = tenantDatabaseARN
+            self.tenantDatabaseCreateTime = tenantDatabaseCreateTime
+            self.tenantDatabaseResourceId = tenantDatabaseResourceId
+        }
+    }
+
+}
+
+extension TenantDatabaseAlreadyExistsFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TenantDatabaseAlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You attempted to either create a tenant database that already exists or modify a tenant database to use the name of an existing tenant database.
+public struct TenantDatabaseAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TenantDatabaseAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TenantDatabaseAlreadyExistsFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TenantDatabaseAlreadyExistsFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension TenantDatabaseNotFoundFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TenantDatabaseNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified tenant database wasn't found in the DB instance.
+public struct TenantDatabaseNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TenantDatabaseNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TenantDatabaseNotFoundFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TenantDatabaseNotFoundFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension RDSClientTypes.TenantDatabasePendingModifiedValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case masterUserPassword = "MasterUserPassword"
+        case tenantDBName = "TenantDBName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let masterUserPassword = masterUserPassword {
+            try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let tenantDBName = tenantDBName {
+            try container.encode(tenantDBName, forKey: ClientRuntime.Key("TenantDBName"))
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let masterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserPassword)
+        masterUserPassword = masterUserPasswordDecoded
+        let tenantDBNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tenantDBName)
+        tenantDBName = tenantDBNameDecoded
+    }
+}
+
+extension RDSClientTypes.TenantDatabasePendingModifiedValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TenantDatabasePendingModifiedValues(tenantDBName: \(Swift.String(describing: tenantDBName)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
+extension RDSClientTypes {
+    /// A response element in the ModifyTenantDatabase operation that describes changes that will be applied. Specific changes are identified by subelements.
+    public struct TenantDatabasePendingModifiedValues: Swift.Equatable {
+        /// The master password for the tenant database.
+        public var masterUserPassword: Swift.String?
+        /// The name of the tenant database.
+        public var tenantDBName: Swift.String?
+
+        public init(
+            masterUserPassword: Swift.String? = nil,
+            tenantDBName: Swift.String? = nil
+        )
+        {
+            self.masterUserPassword = masterUserPassword
+            self.tenantDBName = tenantDBName
+        }
+    }
+
+}
+
+extension TenantDatabaseQuotaExceededFault {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(), let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<TenantDatabaseQuotaExceededFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.error.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You attempted to create more tenant databases than are permitted in your Amazon Web Services account.
+public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TenantDatabaseQuotaExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TenantDatabaseQuotaExceededFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TenantDatabaseQuotaExceededFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension RDSClientTypes.Timezone: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case timezoneName = "TimezoneName"
@@ -54689,7 +56554,7 @@ extension RDSClientTypes {
         public var supportsBabelfish: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with the target engine version.
         public var supportsGlobalDatabases: Swift.Bool?
-        /// Indicates whether the DB engine version supports Aurora zero-ETL integrations with Amazon Redshift.
+        /// Indicates whether the DB engine version supports zero-ETL integrations with Amazon Redshift.
         public var supportsIntegrations: Swift.Bool?
         /// Indicates whether the target engine version supports forwarding write operations from reader DB instances to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public var supportsLocalWriteForwarding: Swift.Bool?

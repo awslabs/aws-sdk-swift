@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// Describes the API operations for running inference using Bedrock models.
 public protocol BedrockRuntimeClientProtocol {
+    /// Performs the `InvokeModel` operation on the `AmazonBedrockFrontendService` service.
+    ///
     /// Invokes the specified Bedrock model to run inference using the input provided in the request body. You use InvokeModel to run inference for text models, image models, and embedding models. For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide. For example requests, see Examples (after the Errors section).
     ///
     /// - Parameter InvokeModelInput : [no documentation found]
@@ -23,6 +25,8 @@ public protocol BedrockRuntimeClientProtocol {
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     func invokeModel(input: InvokeModelInput) async throws -> InvokeModelOutput
+    /// Performs the `InvokeModelWithResponseStream` operation on the `AmazonBedrockFrontendService` service.
+    ///
     /// Invoke the specified Bedrock model to run inference using the input provided. Return the response in a stream. For more information, see [Run inference](https://docs.aws.amazon.com/bedrock/latest/userguide/api-methods-run.html) in the Bedrock User Guide. For an example request and response, see Examples (after the Errors section).
     ///
     /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]

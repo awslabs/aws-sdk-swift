@@ -79,10 +79,11 @@ extension AccessDeniedException {
     }
 }
 
-/// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access Management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
+/// You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// You do not have sufficient access to perform this action.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1053,6 +1054,7 @@ extension BadRequestException {
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1165,11 +1167,13 @@ extension ClientException {
             self.properties.clusterName = output.clusterName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.addonName = nil
             self.properties.clusterName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -1177,16 +1181,20 @@ extension ClientException {
     }
 }
 
-/// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of a user that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+/// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
 public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1202,13 +1210,15 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
@@ -1216,6 +1226,7 @@ struct ClientExceptionBody: Swift.Equatable {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -1225,6 +1236,7 @@ extension ClientExceptionBody: Swift.Decodable {
         case clusterName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1235,6 +1247,8 @@ extension ClientExceptionBody: Swift.Decodable {
         nodegroupName = nodegroupNameDecoded
         let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
         addonName = addonNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -2027,7 +2041,7 @@ extension EKSClientTypes.ControlPlanePlacementRequest: Swift.Codable {
 }
 
 extension EKSClientTypes {
-    /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide
+    /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
     public struct ControlPlanePlacementRequest: Swift.Equatable {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public var groupName: Swift.String?
@@ -2145,7 +2159,7 @@ public struct CreateAddonInput: Swift.Equatable {
     ///
     /// * Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.
     ///
-    /// * Preserve – Not supported. You can set this value when updating an add-on though. For more information, see [UpdateAddon](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html).
+    /// * Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see [UpdateAddon](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html).
     ///
     ///
     /// If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
@@ -2516,6 +2530,194 @@ enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedAvailabilityZoneException": return try await UnsupportedAvailabilityZoneException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateEksAnywhereSubscriptionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRenew
+        case clientRequestToken
+        case licenseQuantity
+        case licenseType
+        case name
+        case tags
+        case term
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoRenew = self.autoRenew {
+            try encodeContainer.encode(autoRenew, forKey: .autoRenew)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let licenseQuantity = self.licenseQuantity {
+            try encodeContainer.encode(licenseQuantity, forKey: .licenseQuantity)
+        }
+        if let licenseType = self.licenseType {
+            try encodeContainer.encode(licenseType.rawValue, forKey: .licenseType)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let term = self.term {
+            try encodeContainer.encode(term, forKey: .term)
+        }
+    }
+}
+
+extension CreateEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/eks-anywhere-subscriptions"
+    }
+}
+
+public struct CreateEksAnywhereSubscriptionInput: Swift.Equatable {
+    /// A boolean indicating whether the subscription auto renews at the end of the term.
+    public var autoRenew: Swift.Bool?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The number of licenses to purchase with the subscription. Valid values are between 1 and 100. This value can't be changed after creating the subscription.
+    public var licenseQuantity: Swift.Int?
+    /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
+    public var licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType?
+    /// The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags don't propagate to any other resources associated with the subscription.
+    public var tags: [Swift.String:Swift.String]?
+    /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription.
+    /// This member is required.
+    public var term: EKSClientTypes.EksAnywhereSubscriptionTerm?
+
+    public init(
+        autoRenew: Swift.Bool? = nil,
+        clientRequestToken: Swift.String? = nil,
+        licenseQuantity: Swift.Int? = nil,
+        licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
+    )
+    {
+        self.autoRenew = autoRenew
+        self.clientRequestToken = clientRequestToken
+        self.licenseQuantity = licenseQuantity
+        self.licenseType = licenseType
+        self.name = name
+        self.tags = tags
+        self.term = term
+    }
+}
+
+struct CreateEksAnywhereSubscriptionInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let term: EKSClientTypes.EksAnywhereSubscriptionTerm?
+    let licenseQuantity: Swift.Int?
+    let licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType?
+    let autoRenew: Swift.Bool?
+    let clientRequestToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEksAnywhereSubscriptionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRenew
+        case clientRequestToken
+        case licenseQuantity
+        case licenseType
+        case name
+        case tags
+        case term
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let termDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscriptionTerm.self, forKey: .term)
+        term = termDecoded
+        let licenseQuantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .licenseQuantity)
+        licenseQuantity = licenseQuantityDecoded
+        let licenseTypeDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscriptionLicenseType.self, forKey: .licenseType)
+        licenseType = licenseTypeDecoded
+        let autoRenewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoRenew)
+        autoRenew = autoRenewDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEksAnywhereSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subscription = output.subscription
+        } else {
+            self.subscription = nil
+        }
+    }
+}
+
+public struct CreateEksAnywhereSubscriptionOutput: Swift.Equatable {
+    /// The full description of the subscription.
+    public var subscription: EKSClientTypes.EksAnywhereSubscription?
+
+    public init(
+        subscription: EKSClientTypes.EksAnywhereSubscription? = nil
+    )
+    {
+        self.subscription = subscription
+    }
+}
+
+struct CreateEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+    let subscription: EKSClientTypes.EksAnywhereSubscription?
+}
+
+extension CreateEksAnywhereSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscription
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriptionDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscription.self, forKey: .subscription)
+        subscription = subscriptionDecoded
+    }
+}
+
+enum CreateEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3097,6 +3299,194 @@ enum CreateNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreatePodIdentityAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case namespace
+        case roleArn
+        case serviceAccount
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let serviceAccount = self.serviceAccount {
+            try encodeContainer.encode(serviceAccount, forKey: .serviceAccount)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreatePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations"
+    }
+}
+
+public struct CreatePodIdentityAssociationInput: Swift.Equatable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the cluster to create the association in.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+    /// This member is required.
+    public var serviceAccount: Swift.String?
+    /// The metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource – 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length – 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length – 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        serviceAccount: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+        self.namespace = namespace
+        self.roleArn = roleArn
+        self.serviceAccount = serviceAccount
+        self.tags = tags
+    }
+}
+
+struct CreatePodIdentityAssociationInputBody: Swift.Equatable {
+    let namespace: Swift.String?
+    let serviceAccount: Swift.String?
+    let roleArn: Swift.String?
+    let clientRequestToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePodIdentityAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case namespace
+        case roleArn
+        case serviceAccount
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let serviceAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccount)
+        serviceAccount = serviceAccountDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePodIdentityAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct CreatePodIdentityAssociationOutput: Swift.Equatable {
+    /// The full description of your new association. The description includes an ID for the association. Use the ID of the association in further actions to manage the association.
+    public var association: EKSClientTypes.PodIdentityAssociation?
+
+    public init(
+        association: EKSClientTypes.PodIdentityAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct CreatePodIdentityAssociationOutputBody: Swift.Equatable {
+    let association: EKSClientTypes.PodIdentityAssociation?
+}
+
+extension CreatePodIdentityAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.PodIdentityAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
+enum CreatePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteAddonInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -3294,6 +3684,91 @@ enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteEksAnywhereSubscriptionInput: Swift.Equatable {
+    /// The ID of the subscription.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteEksAnywhereSubscriptionInputBody: Swift.Equatable {
+}
+
+extension DeleteEksAnywhereSubscriptionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteEksAnywhereSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subscription = output.subscription
+        } else {
+            self.subscription = nil
+        }
+    }
+}
+
+public struct DeleteEksAnywhereSubscriptionOutput: Swift.Equatable {
+    /// The full description of the subscription to be deleted.
+    public var subscription: EKSClientTypes.EksAnywhereSubscription?
+
+    public init(
+        subscription: EKSClientTypes.EksAnywhereSubscription? = nil
+    )
+    {
+        self.subscription = subscription
+    }
+}
+
+struct DeleteEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+    let subscription: EKSClientTypes.EksAnywhereSubscription?
+}
+
+extension DeleteEksAnywhereSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscription
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriptionDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscription.self, forKey: .subscription)
+        subscription = subscriptionDecoded
+    }
+}
+
+enum DeleteEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteFargateProfileInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let clusterName = clusterName else {
@@ -3477,6 +3952,99 @@ enum DeleteNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeletePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        guard let associationId = associationId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"
+    }
+}
+
+public struct DeletePodIdentityAssociationInput: Swift.Equatable {
+    /// The ID of the association to be deleted.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// The cluster name that
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    )
+    {
+        self.associationId = associationId
+        self.clusterName = clusterName
+    }
+}
+
+struct DeletePodIdentityAssociationInputBody: Swift.Equatable {
+}
+
+extension DeletePodIdentityAssociationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeletePodIdentityAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct DeletePodIdentityAssociationOutput: Swift.Equatable {
+    /// The full description of the EKS Pod Identity association that was deleted.
+    public var association: EKSClientTypes.PodIdentityAssociation?
+
+    public init(
+        association: EKSClientTypes.PodIdentityAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct DeletePodIdentityAssociationOutputBody: Swift.Equatable {
+    let association: EKSClientTypes.PodIdentityAssociation?
+}
+
+extension DeletePodIdentityAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.PodIdentityAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
+enum DeletePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3901,7 +4469,7 @@ extension DescribeAddonVersionsOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeAddonVersionsOutput: Swift.Equatable {
     /// The list of available versions with Kubernetes version compatibility and other properties.
     public var addons: [EKSClientTypes.AddonInfo]?
-    /// The nextToken value returned from a previous paginated DescribeAddonVersionsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value to include in a future DescribeAddonVersions request. When the results of a DescribeAddonVersions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
     public init(
@@ -4028,6 +4596,91 @@ extension DescribeClusterOutputBody: Swift.Decodable {
 }
 
 enum DescribeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeEksAnywhereSubscriptionInput: Swift.Equatable {
+    /// The ID of the subscription.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DescribeEksAnywhereSubscriptionInputBody: Swift.Equatable {
+}
+
+extension DescribeEksAnywhereSubscriptionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEksAnywhereSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subscription = output.subscription
+        } else {
+            self.subscription = nil
+        }
+    }
+}
+
+public struct DescribeEksAnywhereSubscriptionOutput: Swift.Equatable {
+    /// The full description of the subscription.
+    public var subscription: EKSClientTypes.EksAnywhereSubscription?
+
+    public init(
+        subscription: EKSClientTypes.EksAnywhereSubscription? = nil
+    )
+    {
+        self.subscription = subscription
+    }
+}
+
+struct DescribeEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+    let subscription: EKSClientTypes.EksAnywhereSubscription?
+}
+
+extension DescribeEksAnywhereSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscription
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriptionDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscription.self, forKey: .subscription)
+        subscription = subscriptionDecoded
+    }
+}
+
+enum DescribeEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4339,6 +4992,99 @@ enum DescribeNodegroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        guard let associationId = associationId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribePodIdentityAssociationInput: Swift.Equatable {
+    /// The ID of the association that you want the description of.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// The name of the cluster that the association is in.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    )
+    {
+        self.associationId = associationId
+        self.clusterName = clusterName
+    }
+}
+
+struct DescribePodIdentityAssociationInputBody: Swift.Equatable {
+}
+
+extension DescribePodIdentityAssociationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribePodIdentityAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct DescribePodIdentityAssociationOutput: Swift.Equatable {
+    /// The full description of the EKS Pod Identity association.
+    public var association: EKSClientTypes.PodIdentityAssociation?
+
+    public init(
+        association: EKSClientTypes.PodIdentityAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct DescribePodIdentityAssociationOutputBody: Swift.Equatable {
+    let association: EKSClientTypes.PodIdentityAssociation?
+}
+
+extension DescribePodIdentityAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.PodIdentityAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
+enum DescribePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeUpdateInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4577,6 +5323,322 @@ enum DisassociateIdentityProviderConfigOutputError: ClientRuntime.HttpResponseEr
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension EKSClientTypes.EksAnywhereSubscription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case autoRenew
+        case createdAt
+        case effectiveDate
+        case expirationDate
+        case id
+        case licenseArns
+        case licenseQuantity
+        case licenseType
+        case status
+        case tags
+        case term
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if autoRenew != false {
+            try encodeContainer.encode(autoRenew, forKey: .autoRenew)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let effectiveDate = self.effectiveDate {
+            try encodeContainer.encodeTimestamp(effectiveDate, format: .epochSeconds, forKey: .effectiveDate)
+        }
+        if let expirationDate = self.expirationDate {
+            try encodeContainer.encodeTimestamp(expirationDate, format: .epochSeconds, forKey: .expirationDate)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let licenseArns = licenseArns {
+            var licenseArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseArns)
+            for string0 in licenseArns {
+                try licenseArnsContainer.encode(string0)
+            }
+        }
+        if licenseQuantity != 0 {
+            try encodeContainer.encode(licenseQuantity, forKey: .licenseQuantity)
+        }
+        if let licenseType = self.licenseType {
+            try encodeContainer.encode(licenseType.rawValue, forKey: .licenseType)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let term = self.term {
+            try encodeContainer.encode(term, forKey: .term)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let effectiveDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .effectiveDate)
+        effectiveDate = effectiveDateDecoded
+        let expirationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationDate)
+        expirationDate = expirationDateDecoded
+        let licenseQuantityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .licenseQuantity) ?? 0
+        licenseQuantity = licenseQuantityDecoded
+        let licenseTypeDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscriptionLicenseType.self, forKey: .licenseType)
+        licenseType = licenseTypeDecoded
+        let termDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscriptionTerm.self, forKey: .term)
+        term = termDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let autoRenewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoRenew) ?? false
+        autoRenew = autoRenewDecoded
+        let licenseArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .licenseArns)
+        var licenseArnsDecoded0:[Swift.String]? = nil
+        if let licenseArnsContainer = licenseArnsContainer {
+            licenseArnsDecoded0 = [Swift.String]()
+            for string0 in licenseArnsContainer {
+                if let string0 = string0 {
+                    licenseArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        licenseArns = licenseArnsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension EKSClientTypes {
+    /// An EKS Anywhere subscription authorizing the customer to support for licensed clusters and access to EKS Anywhere Curated Packages.
+    public struct EksAnywhereSubscription: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) for the subscription.
+        public var arn: Swift.String?
+        /// A boolean indicating whether or not a subscription will auto renew when it expires.
+        public var autoRenew: Swift.Bool
+        /// The Unix timestamp in seconds for when the subscription was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The Unix timestamp in seconds for when the subscription is effective.
+        public var effectiveDate: ClientRuntime.Date?
+        /// The Unix timestamp in seconds for when the subscription will expire or auto renew, depending on the auto renew configuration of the subscription object.
+        public var expirationDate: ClientRuntime.Date?
+        /// UUID identifying a subscription.
+        public var id: Swift.String?
+        /// Amazon Web Services License Manager ARN associated with the subscription.
+        public var licenseArns: [Swift.String]?
+        /// The number of licenses included in a subscription. Valid values are between 1 and 100.
+        public var licenseQuantity: Swift.Int
+        /// The type of licenses included in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
+        public var licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType?
+        /// The status of a subscription.
+        public var status: Swift.String?
+        /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags do not propagate to any other resources associated with the subscription.
+        public var tags: [Swift.String:Swift.String]?
+        /// An EksAnywhereSubscriptionTerm object.
+        public var term: EKSClientTypes.EksAnywhereSubscriptionTerm?
+
+        public init(
+            arn: Swift.String? = nil,
+            autoRenew: Swift.Bool = false,
+            createdAt: ClientRuntime.Date? = nil,
+            effectiveDate: ClientRuntime.Date? = nil,
+            expirationDate: ClientRuntime.Date? = nil,
+            id: Swift.String? = nil,
+            licenseArns: [Swift.String]? = nil,
+            licenseQuantity: Swift.Int = 0,
+            licenseType: EKSClientTypes.EksAnywhereSubscriptionLicenseType? = nil,
+            status: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            term: EKSClientTypes.EksAnywhereSubscriptionTerm? = nil
+        )
+        {
+            self.arn = arn
+            self.autoRenew = autoRenew
+            self.createdAt = createdAt
+            self.effectiveDate = effectiveDate
+            self.expirationDate = expirationDate
+            self.id = id
+            self.licenseArns = licenseArns
+            self.licenseQuantity = licenseQuantity
+            self.licenseType = licenseType
+            self.status = status
+            self.tags = tags
+            self.term = term
+        }
+    }
+
+}
+
+extension EKSClientTypes {
+    public enum EksAnywhereSubscriptionLicenseType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksAnywhereSubscriptionLicenseType] {
+            return [
+                .cluster,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cluster: return "Cluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EksAnywhereSubscriptionLicenseType(rawValue: rawValue) ?? EksAnywhereSubscriptionLicenseType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EKSClientTypes {
+    public enum EksAnywhereSubscriptionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case expired
+        case expiring
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksAnywhereSubscriptionStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .expired,
+                .expiring,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .expired: return "EXPIRED"
+            case .expiring: return "EXPIRING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EksAnywhereSubscriptionStatus(rawValue: rawValue) ?? EksAnywhereSubscriptionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension EKSClientTypes.EksAnywhereSubscriptionTerm: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case duration
+        case unit
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if duration != 0 {
+            try encodeContainer.encode(duration, forKey: .duration)
+        }
+        if let unit = self.unit {
+            try encodeContainer.encode(unit.rawValue, forKey: .unit)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        duration = durationDecoded
+        let unitDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscriptionTermUnit.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription.
+    public struct EksAnywhereSubscriptionTerm: Swift.Equatable {
+        /// The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription.
+        public var duration: Swift.Int
+        /// The term unit of the subscription. Valid value is MONTHS.
+        public var unit: EKSClientTypes.EksAnywhereSubscriptionTermUnit?
+
+        public init(
+            duration: Swift.Int = 0,
+            unit: EKSClientTypes.EksAnywhereSubscriptionTermUnit? = nil
+        )
+        {
+            self.duration = duration
+            self.unit = unit
+        }
+    }
+
+}
+
+extension EKSClientTypes {
+    public enum EksAnywhereSubscriptionTermUnit: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case months
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EksAnywhereSubscriptionTermUnit] {
+            return [
+                .months,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .months: return "MONTHS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EksAnywhereSubscriptionTermUnit(rawValue: rawValue) ?? EksAnywhereSubscriptionTermUnit.sdkUnknown(rawValue)
         }
     }
 }
@@ -5172,12 +6234,14 @@ extension InvalidParameterException {
             self.properties.fargateProfileName = output.fargateProfileName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.addonName = nil
             self.properties.clusterName = nil
             self.properties.fargateProfileName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -5189,14 +6253,18 @@ extension InvalidParameterException {
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// The Fargate profile associated with the exception.
         public internal(set) var fargateProfileName: Swift.String? = nil
+        /// The specified parameter is invalid. Review the available parameters for the API request.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -5213,7 +6281,8 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         clusterName: Swift.String? = nil,
         fargateProfileName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.addonName = addonName
@@ -5221,6 +6290,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.fargateProfileName = fargateProfileName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
@@ -5229,6 +6299,7 @@ struct InvalidParameterExceptionBody: Swift.Equatable {
     let nodegroupName: Swift.String?
     let fargateProfileName: Swift.String?
     let addonName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -5239,6 +6310,7 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         case fargateProfileName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5251,6 +6323,8 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         fargateProfileName = fargateProfileNameDecoded
         let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
         addonName = addonNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -5265,11 +6339,13 @@ extension InvalidRequestException {
             self.properties.clusterName = output.clusterName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.addonName = nil
             self.properties.clusterName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -5281,12 +6357,16 @@ extension InvalidRequestException {
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The request is invalid given the state of the add-on name. Check the state of the cluster and the associated operations.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -5302,13 +6382,15 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
@@ -5316,6 +6398,7 @@ struct InvalidRequestExceptionBody: Swift.Equatable {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -5325,6 +6408,7 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         case clusterName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5335,6 +6419,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
         nodegroupName = nodegroupNameDecoded
         let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
         addonName = addonNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -5704,9 +6790,9 @@ extension ListAddonsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAddonsOutput: Swift.Equatable {
-    /// A list of available add-ons.
+    /// A list of installed add-ons.
     public var addons: [Swift.String]?
-    /// The nextToken value returned from a previous paginated ListAddonsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value to include in a future ListAddons request. When the results of a ListAddons request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
     public init(
@@ -5881,6 +6967,137 @@ extension ListClustersOutputBody: Swift.Decodable {
 }
 
 enum ListClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEksAnywhereSubscriptionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let includeStatus = includeStatus {
+                includeStatus.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
+        }
+    }
+}
+
+extension ListEksAnywhereSubscriptionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/eks-anywhere-subscriptions"
+    }
+}
+
+public struct ListEksAnywhereSubscriptionsInput: Swift.Equatable {
+    /// An array of subscription statuses to filter on.
+    public var includeStatus: [EKSClientTypes.EksAnywhereSubscriptionStatus]?
+    /// The maximum number of cluster results returned by ListEksAnywhereSubscriptions in paginated output. When you use this parameter, ListEksAnywhereSubscriptions returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListEksAnywhereSubscriptions request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListEksAnywhereSubscriptions returns up to 10 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListEksAnywhereSubscriptions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+    public var nextToken: Swift.String?
+
+    public init(
+        includeStatus: [EKSClientTypes.EksAnywhereSubscriptionStatus]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.includeStatus = includeStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEksAnywhereSubscriptionsInputBody: Swift.Equatable {
+}
+
+extension ListEksAnywhereSubscriptionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEksAnywhereSubscriptionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEksAnywhereSubscriptionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.subscriptions = output.subscriptions
+        } else {
+            self.nextToken = nil
+            self.subscriptions = nil
+        }
+    }
+}
+
+public struct ListEksAnywhereSubscriptionsOutput: Swift.Equatable {
+    /// The nextToken value to include in a future ListEksAnywhereSubscriptions request. When the results of a ListEksAnywhereSubscriptions request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of all subscription objects in the region, filtered by includeStatus and paginated by nextToken and maxResults.
+    public var subscriptions: [EKSClientTypes.EksAnywhereSubscription]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        subscriptions: [EKSClientTypes.EksAnywhereSubscription]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.subscriptions = subscriptions
+    }
+}
+
+struct ListEksAnywhereSubscriptionsOutputBody: Swift.Equatable {
+    let subscriptions: [EKSClientTypes.EksAnywhereSubscription]?
+    let nextToken: Swift.String?
+}
+
+extension ListEksAnywhereSubscriptionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case subscriptions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriptionsContainer = try containerValues.decodeIfPresent([EKSClientTypes.EksAnywhereSubscription?].self, forKey: .subscriptions)
+        var subscriptionsDecoded0:[EKSClientTypes.EksAnywhereSubscription]? = nil
+        if let subscriptionsContainer = subscriptionsContainer {
+            subscriptionsDecoded0 = [EKSClientTypes.EksAnywhereSubscription]()
+            for structure0 in subscriptionsContainer {
+                if let structure0 = structure0 {
+                    subscriptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        subscriptions = subscriptionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEksAnywhereSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -6096,7 +7313,7 @@ extension ListIdentityProviderConfigsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListIdentityProviderConfigsOutput: Swift.Equatable {
     /// The identity provider configurations for the cluster.
     public var identityProviderConfigs: [EKSClientTypes.IdentityProviderConfig]?
-    /// The nextToken value returned from a previous paginated ListIdentityProviderConfigsResponse where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
+    /// The nextToken value to include in a future ListIdentityProviderConfigsResponse request. When the results of a ListIdentityProviderConfigsResponse request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init(
@@ -6278,6 +7495,159 @@ enum ListNodegroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPodIdentityAssociationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let namespace = namespace {
+                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+                items.append(namespaceQueryItem)
+            }
+            if let serviceAccount = serviceAccount {
+                let serviceAccountQueryItem = ClientRuntime.URLQueryItem(name: "serviceAccount".urlPercentEncoding(), value: Swift.String(serviceAccount).urlPercentEncoding())
+                items.append(serviceAccountQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListPodIdentityAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations"
+    }
+}
+
+public struct ListPodIdentityAssociationsInput: Swift.Equatable {
+    /// The name of the cluster that the associations are in.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The maximum number of EKS Pod Identity association results returned by ListPodIdentityAssociations in paginated output. When you use this parameter, ListPodIdentityAssociations returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListPodIdentityAssociations request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListPodIdentityAssociations returns up to 100 results and a nextToken value if applicable.
+    public var maxResults: Swift.Int?
+    /// The name of the Kubernetes namespace inside the cluster that the associations are in.
+    public var namespace: Swift.String?
+    /// The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The name of the Kubernetes service account that the associations use.
+    public var serviceAccount: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        serviceAccount: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.serviceAccount = serviceAccount
+    }
+}
+
+struct ListPodIdentityAssociationsInputBody: Swift.Equatable {
+}
+
+extension ListPodIdentityAssociationsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListPodIdentityAssociationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPodIdentityAssociationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associations = output.associations
+            self.nextToken = output.nextToken
+        } else {
+            self.associations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListPodIdentityAssociationsOutput: Swift.Equatable {
+    /// The list of summarized descriptions of the associations that are in the cluster and match any filters that you provided. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    ///
+    /// * The IAM role: roleArn
+    ///
+    /// * The timestamp that the association was created at: createdAt
+    ///
+    /// * The most recent timestamp that the association was modified at:. modifiedAt
+    ///
+    /// * The tags on the association: tags
+    public var associations: [EKSClientTypes.PodIdentityAssociationSummary]?
+    /// The nextToken value to include in a future ListPodIdentityAssociations request. When the results of a ListPodIdentityAssociations request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        associations: [EKSClientTypes.PodIdentityAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.associations = associations
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPodIdentityAssociationsOutputBody: Swift.Equatable {
+    let associations: [EKSClientTypes.PodIdentityAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPodIdentityAssociationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationsContainer = try containerValues.decodeIfPresent([EKSClientTypes.PodIdentityAssociationSummary?].self, forKey: .associations)
+        var associationsDecoded0:[EKSClientTypes.PodIdentityAssociationSummary]? = nil
+        if let associationsContainer = associationsContainer {
+            associationsDecoded0 = [EKSClientTypes.PodIdentityAssociationSummary]()
+            for structure0 in associationsContainer {
+                if let structure0 = structure0 {
+                    associationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associations = associationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPodIdentityAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -7420,6 +8790,7 @@ extension NotFoundException {
 public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// A service resource associated with the request could not be found. Clients should not retry such requests.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7918,6 +9289,230 @@ extension EKSClientTypes {
 
 }
 
+extension EKSClientTypes.PodIdentityAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationArn
+        case associationId
+        case clusterName
+        case createdAt
+        case modifiedAt
+        case namespace
+        case roleArn
+        case serviceAccount
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationArn = self.associationArn {
+            try encodeContainer.encode(associationArn, forKey: .associationArn)
+        }
+        if let associationId = self.associationId {
+            try encodeContainer.encode(associationId, forKey: .associationId)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .epochSeconds, forKey: .modifiedAt)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let serviceAccount = self.serviceAccount {
+            try encodeContainer.encode(serviceAccount, forKey: .serviceAccount)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let serviceAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccount)
+        serviceAccount = serviceAccountDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let associationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationArn)
+        associationArn = associationArnDecoded
+        let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
+        associationId = associationIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that 7EC2l instance profiles provide credentials to Amazon EC2 instances.
+    public struct PodIdentityAssociation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the association.
+        public var associationArn: Swift.String?
+        /// The ID of the association.
+        public var associationId: Swift.String?
+        /// The name of the cluster that the association is in.
+        public var clusterName: Swift.String?
+        /// The timestamp that the association was created at.
+        public var createdAt: ClientRuntime.Date?
+        /// The most recent timestamp that the association was modified at
+        public var modifiedAt: ClientRuntime.Date?
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        public var namespace: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the pods that use this service account.
+        public var roleArn: Swift.String?
+        /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+        public var serviceAccount: Swift.String?
+        /// The metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:
+        ///
+        /// * Maximum number of tags per resource – 50
+        ///
+        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+        ///
+        /// * Maximum key length – 128 Unicode characters in UTF-8
+        ///
+        /// * Maximum value length – 256 Unicode characters in UTF-8
+        ///
+        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+        ///
+        /// * Tag keys and values are case-sensitive.
+        ///
+        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            associationArn: Swift.String? = nil,
+            associationId: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            namespace: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            serviceAccount: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.associationArn = associationArn
+            self.associationId = associationId
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.namespace = namespace
+            self.roleArn = roleArn
+            self.serviceAccount = serviceAccount
+            self.tags = tags
+        }
+    }
+
+}
+
+extension EKSClientTypes.PodIdentityAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationArn
+        case associationId
+        case clusterName
+        case namespace
+        case serviceAccount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationArn = self.associationArn {
+            try encodeContainer.encode(associationArn, forKey: .associationArn)
+        }
+        if let associationId = self.associationId {
+            try encodeContainer.encode(associationId, forKey: .associationId)
+        }
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let serviceAccount = self.serviceAccount {
+            try encodeContainer.encode(serviceAccount, forKey: .serviceAccount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let serviceAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceAccount)
+        serviceAccount = serviceAccountDecoded
+        let associationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationArn)
+        associationArn = associationArnDecoded
+        let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
+        associationId = associationIdDecoded
+    }
+}
+
+extension EKSClientTypes {
+    /// The summarized description of the association. Each summary is simplified by removing these fields compared to the full [PodIdentityAssociation]:
+    ///
+    /// * The IAM role: roleArn
+    ///
+    /// * The timestamp that the association was created at: createdAt
+    ///
+    /// * The most recent timestamp that the association was modified at:. modifiedAt
+    ///
+    /// * The tags on the association: tags
+    public struct PodIdentityAssociationSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the association.
+        public var associationArn: Swift.String?
+        /// The ID of the association.
+        public var associationId: Swift.String?
+        /// The name of the cluster that the association is in.
+        public var clusterName: Swift.String?
+        /// The name of the Kubernetes namespace inside the cluster to create the association in. The service account and the pods that use the service account must be in this namespace.
+        public var namespace: Swift.String?
+        /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
+        public var serviceAccount: Swift.String?
+
+        public init(
+            associationArn: Swift.String? = nil,
+            associationId: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            serviceAccount: Swift.String? = nil
+        )
+        {
+            self.associationArn = associationArn
+            self.associationId = associationId
+            self.clusterName = clusterName
+            self.namespace = namespace
+            self.serviceAccount = serviceAccount
+        }
+    }
+
+}
+
 extension EKSClientTypes.Provider: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyArn
@@ -7940,7 +9535,7 @@ extension EKSClientTypes.Provider: Swift.Codable {
 extension EKSClientTypes {
     /// Identifies the Key Management Service (KMS) key used to encrypt the secrets.
     public struct Provider: Swift.Equatable {
-        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric, created in the same region as the cluster, and if the KMS key was created in a different account, the user must have access to the KMS key. For more information, see [Allowing Users in Other Accounts to Use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the Key Management Service Developer Guide.
+        /// Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be symmetric and created in the same Amazon Web Services Region as the cluster. If the KMS key was created in a different account, the [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) must have access to the KMS key. For more information, see [Allowing users in other accounts to use a KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html) in the Key Management Service Developer Guide.
         public var keyArn: Swift.String?
 
         public init(
@@ -8225,9 +9820,11 @@ extension ResourceInUseException {
 public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The specified add-on name is in use.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// The Amazon EKS message associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
@@ -8292,10 +9889,12 @@ extension ResourceLimitExceededException {
             self.properties.clusterName = output.clusterName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.clusterName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -8309,9 +9908,12 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public struct Properties {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// The Amazon EKS message associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -8326,18 +9928,21 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     public init(
         clusterName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
 struct ResourceLimitExceededExceptionBody: Swift.Equatable {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -8346,6 +9951,7 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         case clusterName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8354,6 +9960,8 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         clusterName = clusterNameDecoded
         let nodegroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodegroupName)
         nodegroupName = nodegroupNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -8369,12 +9977,14 @@ extension ResourceNotFoundException {
             self.properties.fargateProfileName = output.fargateProfileName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.addonName = nil
             self.properties.clusterName = nil
             self.properties.fargateProfileName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -8386,14 +9996,18 @@ extension ResourceNotFoundException {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// The Fargate profile associated with the exception.
         public internal(set) var fargateProfileName: Swift.String? = nil
+        /// The Amazon EKS message associated with the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -8410,7 +10024,8 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         clusterName: Swift.String? = nil,
         fargateProfileName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.addonName = addonName
@@ -8418,6 +10033,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.fargateProfileName = fargateProfileName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
@@ -8426,6 +10042,7 @@ struct ResourceNotFoundExceptionBody: Swift.Equatable {
     let nodegroupName: Swift.String?
     let fargateProfileName: Swift.String?
     let addonName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -8436,6 +10053,7 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         case fargateProfileName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8448,6 +10066,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         fargateProfileName = fargateProfileNameDecoded
         let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
         addonName = addonNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -8472,6 +10092,7 @@ extension ResourcePropagationDelayException {
 public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// Required resources (such as service-linked roles) were created and are still propagating. Retry later.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8517,11 +10138,13 @@ extension ServerException {
             self.properties.clusterName = output.clusterName
             self.properties.message = output.message
             self.properties.nodegroupName = output.nodegroupName
+            self.properties.subscriptionId = output.subscriptionId
         } else {
             self.properties.addonName = nil
             self.properties.clusterName = nil
             self.properties.message = nil
             self.properties.nodegroupName = nil
+            self.properties.subscriptionId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -8533,12 +10156,16 @@ extension ServerException {
 public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// These errors are usually caused by a server-side issue.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
+        /// The Amazon EKS subscription ID with the exception.
+        public internal(set) var subscriptionId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -8554,13 +10181,15 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
         addonName: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         message: Swift.String? = nil,
-        nodegroupName: Swift.String? = nil
+        nodegroupName: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
     )
     {
         self.properties.addonName = addonName
         self.properties.clusterName = clusterName
         self.properties.message = message
         self.properties.nodegroupName = nodegroupName
+        self.properties.subscriptionId = subscriptionId
     }
 }
 
@@ -8568,6 +10197,7 @@ struct ServerExceptionBody: Swift.Equatable {
     let clusterName: Swift.String?
     let nodegroupName: Swift.String?
     let addonName: Swift.String?
+    let subscriptionId: Swift.String?
     let message: Swift.String?
 }
 
@@ -8577,6 +10207,7 @@ extension ServerExceptionBody: Swift.Decodable {
         case clusterName
         case message
         case nodegroupName
+        case subscriptionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8587,6 +10218,8 @@ extension ServerExceptionBody: Swift.Decodable {
         nodegroupName = nodegroupNameDecoded
         let addonNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addonName)
         addonName = addonNameDecoded
+        let subscriptionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subscriptionId)
+        subscriptionId = subscriptionIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -8611,6 +10244,7 @@ extension ServiceUnavailableException {
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
+        /// The request has failed due to a temporary failure of the server.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8854,6 +10488,7 @@ public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, 
     public struct Properties {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
+        /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon EKS managed node group associated with the exception.
         public internal(set) var nodegroupName: Swift.String? = nil
@@ -9537,6 +11172,129 @@ enum UpdateClusterVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateEksAnywhereSubscriptionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRenew
+        case clientRequestToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoRenew = self.autoRenew {
+            try encodeContainer.encode(autoRenew, forKey: .autoRenew)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+    }
+}
+
+extension UpdateEksAnywhereSubscriptionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/eks-anywhere-subscriptions/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateEksAnywhereSubscriptionInput: Swift.Equatable {
+    /// A boolean indicating whether or not to automatically renew the subscription.
+    /// This member is required.
+    public var autoRenew: Swift.Bool?
+    /// Unique, case-sensitive identifier to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the subscription.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        autoRenew: Swift.Bool? = nil,
+        clientRequestToken: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.autoRenew = autoRenew
+        self.clientRequestToken = clientRequestToken
+        self.id = id
+    }
+}
+
+struct UpdateEksAnywhereSubscriptionInputBody: Swift.Equatable {
+    let autoRenew: Swift.Bool?
+    let clientRequestToken: Swift.String?
+}
+
+extension UpdateEksAnywhereSubscriptionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRenew
+        case clientRequestToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoRenewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoRenew)
+        autoRenew = autoRenewDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension UpdateEksAnywhereSubscriptionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEksAnywhereSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.subscription = output.subscription
+        } else {
+            self.subscription = nil
+        }
+    }
+}
+
+public struct UpdateEksAnywhereSubscriptionOutput: Swift.Equatable {
+    /// The full description of the updated subscription.
+    public var subscription: EKSClientTypes.EksAnywhereSubscription?
+
+    public init(
+        subscription: EKSClientTypes.EksAnywhereSubscription? = nil
+    )
+    {
+        self.subscription = subscription
+    }
+}
+
+struct UpdateEksAnywhereSubscriptionOutputBody: Swift.Equatable {
+    let subscription: EKSClientTypes.EksAnywhereSubscription?
+}
+
+extension UpdateEksAnywhereSubscriptionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case subscription
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subscriptionDecoded = try containerValues.decodeIfPresent(EKSClientTypes.EksAnywhereSubscription.self, forKey: .subscription)
+        subscription = subscriptionDecoded
+    }
+}
+
+enum UpdateEksAnywhereSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension EKSClientTypes.UpdateLabelsPayload: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addOrUpdateLabels
@@ -10085,6 +11843,135 @@ extension EKSClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = UpdateParamType(rawValue: rawValue) ?? UpdateParamType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension UpdatePodIdentityAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+}
+
+extension UpdatePodIdentityAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let clusterName = clusterName else {
+            return nil
+        }
+        guard let associationId = associationId else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/pod-identity-associations/\(associationId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdatePodIdentityAssociationInput: Swift.Equatable {
+    /// The ID of the association to be updated.
+    /// This member is required.
+    public var associationId: Swift.String?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the cluster that you want to update the association in.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The new IAM role to change the
+    public var roleArn: Swift.String?
+
+    public init(
+        associationId: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.associationId = associationId
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+        self.roleArn = roleArn
+    }
+}
+
+struct UpdatePodIdentityAssociationInputBody: Swift.Equatable {
+    let roleArn: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension UpdatePodIdentityAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken
+        case roleArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension UpdatePodIdentityAssociationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePodIdentityAssociationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.association = output.association
+        } else {
+            self.association = nil
+        }
+    }
+}
+
+public struct UpdatePodIdentityAssociationOutput: Swift.Equatable {
+    /// The full description of the EKS Pod Identity association that was updated.
+    public var association: EKSClientTypes.PodIdentityAssociation?
+
+    public init(
+        association: EKSClientTypes.PodIdentityAssociation? = nil
+    )
+    {
+        self.association = association
+    }
+}
+
+struct UpdatePodIdentityAssociationOutputBody: Swift.Equatable {
+    let association: EKSClientTypes.PodIdentityAssociation?
+}
+
+extension UpdatePodIdentityAssociationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case association
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationDecoded = try containerValues.decodeIfPresent(EKSClientTypes.PodIdentityAssociation.self, forKey: .association)
+        association = associationDecoded
+    }
+}
+
+enum UpdatePodIdentityAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

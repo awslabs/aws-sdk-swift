@@ -249,6 +249,222 @@ extension SSMIncidentsClientTypes {
 
 }
 
+extension SSMIncidentsClientTypes.BatchGetIncidentFindingsError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case findingId
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let findingId = self.findingId {
+            try encodeContainer.encode(findingId, forKey: .findingId)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .findingId)
+        findingId = findingIdDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Details about an error returned for a [BatchGetIncidentFindings] operation.
+    public struct BatchGetIncidentFindingsError: Swift.Equatable {
+        /// The code associated with an error that was returned for a BatchGetIncidentFindings operation.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The ID of a specified finding for which an error was returned for a BatchGetIncidentFindings operation.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// The description for an error that was returned for a BatchGetIncidentFindings operation.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            findingId: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.findingId = findingId
+            self.message = message
+        }
+    }
+
+}
+
+extension BatchGetIncidentFindingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingIds
+        case incidentRecordArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let findingIds = findingIds {
+            var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
+            for findingid0 in findingIds {
+                try findingIdsContainer.encode(findingid0)
+            }
+        }
+        if let incidentRecordArn = self.incidentRecordArn {
+            try encodeContainer.encode(incidentRecordArn, forKey: .incidentRecordArn)
+        }
+    }
+}
+
+extension BatchGetIncidentFindingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/batchGetIncidentFindings"
+    }
+}
+
+public struct BatchGetIncidentFindingsInput: Swift.Equatable {
+    /// A list of IDs of findings for which you want to view details.
+    /// This member is required.
+    public var findingIds: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the incident for which you want to view finding details.
+    /// This member is required.
+    public var incidentRecordArn: Swift.String?
+
+    public init(
+        findingIds: [Swift.String]? = nil,
+        incidentRecordArn: Swift.String? = nil
+    )
+    {
+        self.findingIds = findingIds
+        self.incidentRecordArn = incidentRecordArn
+    }
+}
+
+struct BatchGetIncidentFindingsInputBody: Swift.Equatable {
+    let incidentRecordArn: Swift.String?
+    let findingIds: [Swift.String]?
+}
+
+extension BatchGetIncidentFindingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findingIds
+        case incidentRecordArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let incidentRecordArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .incidentRecordArn)
+        incidentRecordArn = incidentRecordArnDecoded
+        let findingIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .findingIds)
+        var findingIdsDecoded0:[Swift.String]? = nil
+        if let findingIdsContainer = findingIdsContainer {
+            findingIdsDecoded0 = [Swift.String]()
+            for string0 in findingIdsContainer {
+                if let string0 = string0 {
+                    findingIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        findingIds = findingIdsDecoded0
+    }
+}
+
+extension BatchGetIncidentFindingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetIncidentFindingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.findings = output.findings
+        } else {
+            self.errors = nil
+            self.findings = nil
+        }
+    }
+}
+
+public struct BatchGetIncidentFindingsOutput: Swift.Equatable {
+    /// A list of errors encountered during the operation.
+    /// This member is required.
+    public var errors: [SSMIncidentsClientTypes.BatchGetIncidentFindingsError]?
+    /// Information about the requested findings.
+    /// This member is required.
+    public var findings: [SSMIncidentsClientTypes.Finding]?
+
+    public init(
+        errors: [SSMIncidentsClientTypes.BatchGetIncidentFindingsError]? = nil,
+        findings: [SSMIncidentsClientTypes.Finding]? = nil
+    )
+    {
+        self.errors = errors
+        self.findings = findings
+    }
+}
+
+struct BatchGetIncidentFindingsOutputBody: Swift.Equatable {
+    let findings: [SSMIncidentsClientTypes.Finding]?
+    let errors: [SSMIncidentsClientTypes.BatchGetIncidentFindingsError]?
+}
+
+extension BatchGetIncidentFindingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+        case findings
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.Finding?].self, forKey: .findings)
+        var findingsDecoded0:[SSMIncidentsClientTypes.Finding]? = nil
+        if let findingsContainer = findingsContainer {
+            findingsDecoded0 = [SSMIncidentsClientTypes.Finding]()
+            for structure0 in findingsContainer {
+                if let structure0 = structure0 {
+                    findingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        findings = findingsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.BatchGetIncidentFindingsError?].self, forKey: .errors)
+        var errorsDecoded0:[SSMIncidentsClientTypes.BatchGetIncidentFindingsError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [SSMIncidentsClientTypes.BatchGetIncidentFindingsError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum BatchGetIncidentFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension SSMIncidentsClientTypes.ChatChannel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case chatbotsns = "chatbotSns"
@@ -304,6 +520,131 @@ extension SSMIncidentsClientTypes {
         /// The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics.
         case chatbotsns([Swift.String])
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SSMIncidentsClientTypes.CloudFormationStackUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case stackArn
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let stackArn = self.stackArn {
+            try encodeContainer.encode(stackArn, forKey: .stackArn)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let stackArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stackArn)
+        stackArn = stackArnDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Information about an CloudFormation stack creation or update that occurred around the time of an incident and could be a potential cause of the incident.
+    public struct CloudFormationStackUpdate: Swift.Equatable {
+        /// The timestamp for when the CloudFormation stack creation or update ended. Not reported for deployments that are still in progress.
+        public var endTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the CloudFormation stack involved in the update.
+        /// This member is required.
+        public var stackArn: Swift.String?
+        /// The timestamp for when the CloudFormation stack creation or update began.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            stackArn: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.stackArn = stackArn
+            self.startTime = startTime
+        }
+    }
+
+}
+
+extension SSMIncidentsClientTypes.CodeDeployDeployment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentGroupArn
+        case deploymentId
+        case endTime
+        case startTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentGroupArn = self.deploymentGroupArn {
+            try encodeContainer.encode(deploymentGroupArn, forKey: .deploymentGroupArn)
+        }
+        if let deploymentId = self.deploymentId {
+            try encodeContainer.encode(deploymentId, forKey: .deploymentId)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let deploymentGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentGroupArn)
+        deploymentGroupArn = deploymentGroupArnDecoded
+        let deploymentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deploymentId)
+        deploymentId = deploymentIdDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Information about a CodeDeploy deployment that occurred around the time of an incident and could be a possible cause of the incident.
+    public struct CodeDeployDeployment: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the CodeDeploy deployment group associated with the deployment.
+        /// This member is required.
+        public var deploymentGroupArn: Swift.String?
+        /// The ID of the CodeDeploy deployment.
+        /// This member is required.
+        public var deploymentId: Swift.String?
+        /// The timestamp for when the CodeDeploy deployment ended. Not reported for deployments that are still in progress.
+        public var endTime: ClientRuntime.Date?
+        /// The timestamp for when the CodeDeploy deployment began.
+        /// This member is required.
+        public var startTime: ClientRuntime.Date?
+
+        public init(
+            deploymentGroupArn: Swift.String? = nil,
+            deploymentId: Swift.String? = nil,
+            endTime: ClientRuntime.Date? = nil,
+            startTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.deploymentGroupArn = deploymentGroupArn
+            self.deploymentId = deploymentId
+            self.endTime = endTime
+            self.startTime = startTime
+        }
     }
 
 }
@@ -904,10 +1245,10 @@ public struct CreateTimelineEventInput: Swift.Equatable {
     public var eventData: Swift.String?
     /// Adds one or more references to the TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item.
     public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
-    /// The time that the event occurred.
+    /// The timestamp for when the event occurred.
     /// This member is required.
     public var eventTime: ClientRuntime.Date?
-    /// The type of event. You can create timeline events of type Custom Event.
+    /// The type of event. You can create timeline events of type Custom Event and Note. To make a Note-type event appear on the Incident notes panel in the console, specify eventType as Noteand enter the Amazon Resource Name (ARN) of the incident as the value for eventReference.
     /// This member is required.
     public var eventType: Swift.String?
     /// The Amazon Resource Name (ARN) of the incident record that the action adds the incident to.
@@ -1637,13 +1978,13 @@ extension SSMIncidentsClientTypes {
         public var eventId: Swift.String?
         /// A list of references in a TimelineEvent.
         public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         /// This member is required.
         public var eventTime: ClientRuntime.Date?
-        /// The type of event. The timeline event must be Custom Event.
+        /// The type of event. The timeline event must be Custom Event or Note.
         /// This member is required.
         public var eventType: Swift.String?
-        /// The time that the timeline event was last updated.
+        /// The timestamp for when the timeline event was last updated.
         /// This member is required.
         public var eventUpdatedTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the incident that the event happened during.
@@ -1712,6 +2053,168 @@ extension SSMIncidentsClientTypes {
         {
             self.condition = condition
             self.key = key
+        }
+    }
+
+}
+
+extension SSMIncidentsClientTypes.Finding: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case details
+        case id
+        case lastModifiedTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let details = self.details {
+            try encodeContainer.encode(details, forKey: .details)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let detailsDecoded = try containerValues.decodeIfPresent(SSMIncidentsClientTypes.FindingDetails.self, forKey: .details)
+        details = detailsDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Information about a specific CodeDeploy deployment or CloudFormation stack creation or update that occurred around the time of a reported incident. These activities can be investigated as a potential cause of the incident.
+    public struct Finding: Swift.Equatable {
+        /// The timestamp for when a finding was created.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// Details about the finding.
+        public var details: SSMIncidentsClientTypes.FindingDetails?
+        /// The ID assigned to the finding.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp for when the finding was most recently updated with additional information.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            details: SSMIncidentsClientTypes.FindingDetails? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.details = details
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+        }
+    }
+
+}
+
+extension SSMIncidentsClientTypes.FindingDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudformationstackupdate = "cloudFormationStackUpdate"
+        case codedeploydeployment = "codeDeployDeployment"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .cloudformationstackupdate(cloudformationstackupdate):
+                try container.encode(cloudformationstackupdate, forKey: .cloudformationstackupdate)
+            case let .codedeploydeployment(codedeploydeployment):
+                try container.encode(codedeploydeployment, forKey: .codedeploydeployment)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let codedeploydeploymentDecoded = try values.decodeIfPresent(SSMIncidentsClientTypes.CodeDeployDeployment.self, forKey: .codedeploydeployment)
+        if let codedeploydeployment = codedeploydeploymentDecoded {
+            self = .codedeploydeployment(codedeploydeployment)
+            return
+        }
+        let cloudformationstackupdateDecoded = try values.decodeIfPresent(SSMIncidentsClientTypes.CloudFormationStackUpdate.self, forKey: .cloudformationstackupdate)
+        if let cloudformationstackupdate = cloudformationstackupdateDecoded {
+            self = .cloudformationstackupdate(cloudformationstackupdate)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Extended textual information about the finding.
+    public enum FindingDetails: Swift.Equatable {
+        /// Information about the CodeDeploy deployment associated with the finding.
+        case codedeploydeployment(SSMIncidentsClientTypes.CodeDeployDeployment)
+        /// Information about the CloudFormation stack creation or update associated with the finding.
+        case cloudformationstackupdate(SSMIncidentsClientTypes.CloudFormationStackUpdate)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension SSMIncidentsClientTypes.FindingSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id
+        case lastModifiedTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+extension SSMIncidentsClientTypes {
+    /// Identifying information about the finding.
+    public struct FindingSummary: Swift.Equatable {
+        /// The ID of the finding.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp for when the finding was last updated.
+        /// This member is required.
+        public var lastModifiedTime: ClientRuntime.Date?
+
+        public init(
+            id: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
         }
     }
 
@@ -1956,7 +2459,7 @@ extension GetResourcePoliciesInput: ClientRuntime.URLPathProvider {
 public struct GetResourcePoliciesInput: Swift.Equatable {
     /// The maximum number of resource policies to display for each page of results.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the response plan with the attached resource policy.
     /// This member is required.
@@ -2009,7 +2512,7 @@ extension GetResourcePoliciesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetResourcePoliciesOutput: Swift.Equatable {
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
     /// Details about the resource policy attached to the response plan.
     /// This member is required.
@@ -2508,13 +3011,23 @@ extension SSMIncidentsClientTypes {
         public var automationExecutions: [SSMIncidentsClientTypes.AutomationExecution]?
         /// The chat channel used for collaboration during an incident.
         public var chatChannel: SSMIncidentsClientTypes.ChatChannel?
-        /// The time that Incident Manager created the incident record.
+        /// The timestamp for when Incident Manager created the incident record.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
         /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
         /// This member is required.
         public var dedupeString: Swift.String?
-        /// The impact of the incident on customers and applications.
+        /// The impact of the incident on customers and applications. Supported impact codes
+        ///
+        /// * 1 - Critical
+        ///
+        /// * 2 - High
+        ///
+        /// * 3 - Medium
+        ///
+        /// * 4 - Low
+        ///
+        /// * 5 - No Impact
         /// This member is required.
         public var impact: Swift.Int?
         /// Details about the action that started the incident.
@@ -2523,12 +3036,12 @@ extension SSMIncidentsClientTypes {
         /// Who modified the incident most recently.
         /// This member is required.
         public var lastModifiedBy: Swift.String?
-        /// The time at which the incident was most recently modified.
+        /// The timestamp for when the incident was most recently modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
         /// The Amazon SNS targets that are notified when updates are made to an incident.
         public var notificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]?
-        /// The time at which the incident was resolved. This appears as a timeline event.
+        /// The timestamp for when the incident was resolved. This appears as a timeline event.
         public var resolvedTime: ClientRuntime.Date?
         /// The current status of the incident.
         /// This member is required.
@@ -2735,7 +3248,7 @@ extension SSMIncidentsClientTypes {
         /// The Amazon Resource Name (ARN) of the incident.
         /// This member is required.
         public var arn: Swift.String?
-        /// The time the incident was created.
+        /// The timestamp for when the incident was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
         /// Defines the impact to customers and applications.
@@ -2744,7 +3257,7 @@ extension SSMIncidentsClientTypes {
         /// What caused Incident Manager to create the incident.
         /// This member is required.
         public var incidentRecordSource: SSMIncidentsClientTypes.IncidentRecordSource?
-        /// The time the incident was resolved.
+        /// The timestamp for when the incident was resolved.
         public var resolvedTime: ClientRuntime.Date?
         /// The current status of the incident.
         /// This member is required.
@@ -2851,9 +3364,19 @@ extension SSMIncidentsClientTypes.IncidentTemplate: Swift.Codable {
 extension SSMIncidentsClientTypes {
     /// Basic details used in creating a response plan. The response plan is then used to create an incident record.
     public struct IncidentTemplate: Swift.Equatable {
-        /// Used to stop Incident Manager from creating multiple incident records for the same incident.
+        /// The string Incident Manager uses to prevent the same root cause from creating multiple incidents in the same account. A deduplication string is a term or phrase the system uses to check for duplicate incidents. If you specify a deduplication string, Incident Manager searches for open incidents that contain the same string in the dedupeString field when it creates the incident. If a duplicate is detected, Incident Manager deduplicates the newer incident into the existing incident. By default, Incident Manager automatically deduplicates multiple incidents created by the same Amazon CloudWatch alarm or Amazon EventBridge event. You don't have to enter your own deduplication string to prevent duplication for these resource types.
         public var dedupeString: Swift.String?
-        /// The impact of the incident on your customers and applications.
+        /// The impact of the incident on your customers and applications. Supported impact codes
+        ///
+        /// * 1 - Critical
+        ///
+        /// * 2 - High
+        ///
+        /// * 3 - Medium
+        ///
+        /// * 4 - Low
+        ///
+        /// * 5 - No Impact
         /// This member is required.
         public var impact: Swift.Int?
         /// Tags to assign to the template. When the StartIncident API action is called, Incident Manager assigns the tags specified in the template to the incident.
@@ -3146,6 +3669,153 @@ extension SSMIncidentsClientTypes {
 
 }
 
+extension ListIncidentFindingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case incidentRecordArn
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let incidentRecordArn = self.incidentRecordArn {
+            try encodeContainer.encode(incidentRecordArn, forKey: .incidentRecordArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListIncidentFindingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/listIncidentFindings"
+    }
+}
+
+public struct ListIncidentFindingsInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the incident for which you want to view associated findings.
+    /// This member is required.
+    public var incidentRecordArn: Swift.String?
+    /// The maximum number of findings to retrieve per call.
+    public var maxResults: Swift.Int?
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        incidentRecordArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.incidentRecordArn = incidentRecordArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIncidentFindingsInputBody: Swift.Equatable {
+    let incidentRecordArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListIncidentFindingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case incidentRecordArn
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let incidentRecordArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .incidentRecordArn)
+        incidentRecordArn = incidentRecordArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListIncidentFindingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListIncidentFindingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.findings = output.findings
+            self.nextToken = output.nextToken
+        } else {
+            self.findings = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListIncidentFindingsOutput: Swift.Equatable {
+    /// A list of findings that represent deployments that might be the potential cause of the incident.
+    /// This member is required.
+    public var findings: [SSMIncidentsClientTypes.FindingSummary]?
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        findings: [SSMIncidentsClientTypes.FindingSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.findings = findings
+        self.nextToken = nextToken
+    }
+}
+
+struct ListIncidentFindingsOutputBody: Swift.Equatable {
+    let findings: [SSMIncidentsClientTypes.FindingSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListIncidentFindingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case findings
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let findingsContainer = try containerValues.decodeIfPresent([SSMIncidentsClientTypes.FindingSummary?].self, forKey: .findings)
+        var findingsDecoded0:[SSMIncidentsClientTypes.FindingSummary]? = nil
+        if let findingsContainer = findingsContainer {
+            findingsDecoded0 = [SSMIncidentsClientTypes.FindingSummary]()
+            for structure0 in findingsContainer {
+                if let structure0 = structure0 {
+                    findingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        findings = findingsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListIncidentFindingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListIncidentRecordsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters
@@ -3198,7 +3868,7 @@ public struct ListIncidentRecordsInput: Swift.Equatable {
     public var filters: [SSMIncidentsClientTypes.Filter]?
     /// The maximum number of results per page.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3264,7 +3934,7 @@ public struct ListIncidentRecordsOutput: Swift.Equatable {
     /// The details of each listed incident record.
     /// This member is required.
     public var incidentRecordSummaries: [SSMIncidentsClientTypes.IncidentRecordSummary]?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
 
     public init(
@@ -3353,7 +4023,7 @@ public struct ListRelatedItemsInput: Swift.Equatable {
     public var incidentRecordArn: Swift.String?
     /// The maximum number of related items per page.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3407,7 +4077,7 @@ extension ListRelatedItemsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListRelatedItemsOutput: Swift.Equatable {
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
     /// Details about each related item.
     /// This member is required.
@@ -3492,7 +4162,7 @@ extension ListReplicationSetsInput: ClientRuntime.URLPathProvider {
 public struct ListReplicationSetsInput: Swift.Equatable {
     /// The maximum number of results per page.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3540,7 +4210,7 @@ extension ListReplicationSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListReplicationSetsOutput: Swift.Equatable {
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the list replication set.
     /// This member is required.
@@ -3625,7 +4295,7 @@ extension ListResponsePlansInput: ClientRuntime.URLPathProvider {
 public struct ListResponsePlansInput: Swift.Equatable {
     /// The maximum number of response plans per page.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3673,7 +4343,7 @@ extension ListResponsePlansOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListResponsePlansOutput: Swift.Equatable {
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
     /// Details of each response plan.
     /// This member is required.
@@ -3742,7 +4412,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the response plan.
+    /// The Amazon Resource Name (ARN) of the response plan or incident.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -3776,7 +4446,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutput: Swift.Equatable {
-    /// A list of tags for the response plan.
+    /// A list of tags for the response plan or incident.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3873,6 +4543,8 @@ extension ListTimelineEventsInput: ClientRuntime.URLPathProvider {
 public struct ListTimelineEventsInput: Swift.Equatable {
     /// Filters the timeline events based on the provided conditional values. You can filter timeline events with the following keys:
     ///
+    /// * eventReference
+    ///
     /// * eventTime
     ///
     /// * eventType
@@ -3891,7 +4563,7 @@ public struct ListTimelineEventsInput: Swift.Equatable {
     public var incidentRecordArn: Swift.String?
     /// The maximum number of results per page.
     public var maxResults: Swift.Int?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// Sort timeline events by the specified key value pair.
     public var sortBy: SSMIncidentsClientTypes.TimelineEventSort?
@@ -3979,7 +4651,7 @@ public struct ListTimelineEventsOutput: Swift.Equatable {
     /// Details about each event that occurred during the incident.
     /// This member is required.
     public var eventSummaries: [SSMIncidentsClientTypes.EventSummary]?
-    /// The pagination token to continue to the next page of results.
+    /// The pagination token to use when requesting the next set of items. If there are no additional items to return, the string is null.
     public var nextToken: Swift.String?
 
     public init(
@@ -4386,7 +5058,7 @@ extension SSMIncidentsClientTypes {
         public var status: SSMIncidentsClientTypes.RegionStatus?
         /// Information displayed about the status of the Amazon Web Services Region.
         public var statusMessage: Swift.String?
-        /// The most recent date and time that Incident Manager updated the Amazon Web Services Region's status.
+        /// The timestamp for when Incident Manager updated the status of the Amazon Web Services Region.
         /// This member is required.
         public var statusUpdateDateTime: ClientRuntime.Date?
 
@@ -5345,17 +6017,17 @@ extension StartIncidentInput: ClientRuntime.URLPathProvider {
 public struct StartIncidentInput: Swift.Equatable {
     /// A token ensuring that the operation is called only once with the specified details.
     public var clientToken: Swift.String?
-    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Possible impacts:
+    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Supported impact codes
     ///
-    /// * 1 - Critical impact, this typically relates to full application failure that impacts many to all customers.
+    /// * 1 - Critical
     ///
-    /// * 2 - High impact, partial application failure with impact to many customers.
+    /// * 2 - High
     ///
-    /// * 3 - Medium impact, the application is providing reduced service to customers.
+    /// * 3 - Medium
     ///
-    /// * 4 - Low impact, customer might aren't impacted by the problem yet.
+    /// * 4 - Low
     ///
-    /// * 5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+    /// * 5 - No Impact
     public var impact: Swift.Int?
     /// Add related items to the incident for other responders to use. Related items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3 bucket.
     public var relatedItems: [SSMIncidentsClientTypes.RelatedItem]?
@@ -5738,13 +6410,13 @@ extension SSMIncidentsClientTypes {
         public var eventId: Swift.String?
         /// A list of references in a TimelineEvent.
         public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
-        /// The time that the event occurred.
+        /// The timestamp for when the event occurred.
         /// This member is required.
         public var eventTime: ClientRuntime.Date?
-        /// The type of event that occurred. Currently Incident Manager supports only the Custom Event type.
+        /// The type of event that occurred. Currently Incident Manager supports only the Custom Event and Note types.
         /// This member is required.
         public var eventType: Swift.String?
-        /// The time that the timeline event was last updated.
+        /// The timestamp for when the timeline event was last updated.
         /// This member is required.
         public var eventUpdatedTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the incident that the event occurred during.
@@ -5847,7 +6519,7 @@ extension SSMIncidentsClientTypes {
         /// Identifies the service that sourced the event. All events sourced from within Amazon Web Services begin with "aws." Customer-generated events can have any value here, as long as it doesn't begin with "aws." We recommend the use of Java package-name style reverse domain-name strings.
         /// This member is required.
         public var source: Swift.String?
-        /// The time that the incident was detected.
+        /// The timestamp for when the incident was detected.
         /// This member is required.
         public var timestamp: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the source that detected the incident.
@@ -6104,17 +6776,17 @@ public struct UpdateIncidentRecordInput: Swift.Equatable {
     public var chatChannel: SSMIncidentsClientTypes.ChatChannel?
     /// A token that ensures that a client calls the operation only once with the specified details.
     public var clientToken: Swift.String?
-    /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan. Possible impacts:
+    /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan. Supported impact codes
     ///
-    /// * 1 - Critical impact, full application failure that impacts many to all customers.
+    /// * 1 - Critical
     ///
-    /// * 2 - High impact, partial application failure with impact to many customers.
+    /// * 2 - High
     ///
-    /// * 3 - Medium impact, the application is providing reduced service to customers.
+    /// * 3 - Medium
     ///
-    /// * 4 - Low impact, customer aren't impacted by the problem yet.
+    /// * 4 - Low
     ///
-    /// * 5 - No impact, customers aren't currently impacted but urgent action is needed to avoid impact.
+    /// * 5 - No Impact
     public var impact: Swift.Int?
     /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident.
     public var notificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]?
@@ -6581,17 +7253,17 @@ public struct UpdateResponsePlanInput: Swift.Equatable {
     public var engagements: [Swift.String]?
     /// The string Incident Manager uses to prevent duplicate incidents from being created by the same incident in the same account.
     public var incidentTemplateDedupeString: Swift.String?
-    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Possible impacts:
+    /// Defines the impact to the customers. Providing an impact overwrites the impact provided by a response plan. Supported impact codes
     ///
-    /// * 5 - Severe impact
+    /// * 1 - Critical
     ///
-    /// * 4 - High impact
+    /// * 2 - High
     ///
-    /// * 3 - Medium impact
+    /// * 3 - Medium
     ///
-    /// * 2 - Low impact
+    /// * 4 - Low
     ///
-    /// * 1 - No impact
+    /// * 5 - No Impact
     public var incidentTemplateImpact: Swift.Int?
     /// The Amazon SNS targets that are notified when updates are made to an incident.
     public var incidentTemplateNotificationTargets: [SSMIncidentsClientTypes.NotificationTargetItem]?
@@ -6827,9 +7499,9 @@ public struct UpdateTimelineEventInput: Swift.Equatable {
     public var eventId: Swift.String?
     /// Updates all existing references in a TimelineEvent. A reference is an Amazon Web Services resource involved or associated with the incident. To specify a reference, enter its Amazon Resource Name (ARN). You can also specify a related item associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated with the DynamoDB table as a related item. This update action overrides all existing references. If you want to keep existing references, you must specify them in the call. If you don't, this action removes any existing references and enters only new references.
     public var eventReferences: [SSMIncidentsClientTypes.EventReference]?
-    /// The time that the event occurred.
+    /// The timestamp for when the event occurred.
     public var eventTime: ClientRuntime.Date?
-    /// The type of event. You can update events of type Custom Event.
+    /// The type of event. You can update events of type Custom Event and Note.
     public var eventType: Swift.String?
     /// The Amazon Resource Name (ARN) of the incident that includes the timeline event.
     /// This member is required.

@@ -163,7 +163,7 @@ extension DynamoDBStreamsClientTypes.AttributeValue: Swift.Codable {
 
 extension DynamoDBStreamsClientTypes {
     /// Represents the data for an attribute. Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself. For more information, see [Data Types](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes) in the Amazon DynamoDB Developer Guide.
-    public enum AttributeValue: Swift.Equatable {
+    public indirect enum AttributeValue: Swift.Equatable {
         /// An attribute of type String. For example: "S": "Hello"
         case s(Swift.String)
         /// An attribute of type Number. For example: "N": "123.45" Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.

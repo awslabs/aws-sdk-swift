@@ -364,6 +364,38 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
     }
 }
 
+extension LakeFormationClientTypes {
+    public enum ApplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApplicationStatus(rawValue: rawValue) ?? ApplicationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AssumeDecoratedRoleWithSAMLInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case durationSeconds = "DurationSeconds"
@@ -1585,6 +1617,133 @@ enum CreateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case externalFiltering = "ExternalFiltering"
+        case instanceArn = "InstanceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let externalFiltering = self.externalFiltering {
+            try encodeContainer.encode(externalFiltering, forKey: .externalFiltering)
+        }
+        if let instanceArn = self.instanceArn {
+            try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+    }
+}
+
+extension CreateLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateLakeFormationIdentityCenterConfiguration"
+    }
+}
+
+public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Equatable {
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
+    public var catalogId: Swift.String?
+    /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to to access data managed by Lake Formation.
+    public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+    public var instanceArn: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
+        instanceArn: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.externalFiltering = externalFiltering
+        self.instanceArn = instanceArn
+    }
+}
+
+struct CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let instanceArn: Swift.String?
+    let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+}
+
+extension CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+        case externalFiltering = "ExternalFiltering"
+        case instanceArn = "InstanceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)
+        externalFiltering = externalFilteringDecoded
+    }
+}
+
+extension CreateLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateLakeFormationIdentityCenterConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationArn = output.applicationArn
+        } else {
+            self.applicationArn = nil
+        }
+    }
+}
+
+public struct CreateLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the integrated application.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+struct CreateLakeFormationIdentityCenterConfigurationOutputBody: Swift.Equatable {
+    let applicationArn: Swift.String?
+}
+
+extension CreateLakeFormationIdentityCenterConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+    }
+}
+
+enum CreateLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateLakeFormationOptInInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case principal = "Principal"
@@ -2129,7 +2288,7 @@ extension LakeFormationClientTypes {
         public var dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
-        /// A key-value map that provides an additional configuration on your data lake. CrossAccountVersion is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, and 3.
+        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, and 4.
         public var parameters: [Swift.String:Swift.String]?
         /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
         public var readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
@@ -2440,6 +2599,79 @@ enum DeleteLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+    }
+}
+
+extension DeleteLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteLakeFormationIdentityCenterConfiguration"
+    }
+}
+
+public struct DeleteLakeFormationIdentityCenterConfigurationInput: Swift.Equatable {
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definition, and other control information to manage your Lake Formation environment.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+    }
+}
+
+struct DeleteLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+}
+
+extension DeleteLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+    }
+}
+
+extension DeleteLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2815,6 +3047,138 @@ enum DeregisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+    }
+}
+
+extension DescribeLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DescribeLakeFormationIdentityCenterConfiguration"
+    }
+}
+
+public struct DescribeLakeFormationIdentityCenterConfigurationInput: Swift.Equatable {
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+    }
+}
+
+struct DescribeLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+}
+
+extension DescribeLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case catalogId = "CatalogId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+    }
+}
+
+extension DescribeLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeLakeFormationIdentityCenterConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.applicationArn = output.applicationArn
+            self.catalogId = output.catalogId
+            self.externalFiltering = output.externalFiltering
+            self.instanceArn = output.instanceArn
+        } else {
+            self.applicationArn = nil
+            self.catalogId = nil
+            self.externalFiltering = nil
+            self.instanceArn = nil
+        }
+    }
+}
+
+public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the integrated application.
+    public var applicationArn: Swift.String?
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+    public var catalogId: Swift.String?
+    /// Indicates if external filtering is enabled.
+    public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    /// The Amazon Resource Name (ARN) of the connection.
+    public var instanceArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        catalogId: Swift.String? = nil,
+        externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
+        instanceArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+        self.catalogId = catalogId
+        self.externalFiltering = externalFiltering
+        self.instanceArn = instanceArn
+    }
+}
+
+struct DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let instanceArn: Swift.String?
+    let applicationArn: Swift.String?
+    let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+}
+
+extension DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationArn = "ApplicationArn"
+        case catalogId = "CatalogId"
+        case externalFiltering = "ExternalFiltering"
+        case instanceArn = "InstanceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let instanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceArn)
+        instanceArn = instanceArnDecoded
+        let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
+        applicationArn = applicationArnDecoded
+        let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)
+        externalFiltering = externalFilteringDecoded
+    }
+}
+
+enum DescribeLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"
@@ -3064,6 +3428,38 @@ extension LakeFormationClientTypes {
         }
     }
 
+}
+
+extension LakeFormationClientTypes {
+    public enum EnableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnableStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EnableStatus(rawValue: rawValue) ?? EnableStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension EntityNotFoundException {
@@ -3350,6 +3746,65 @@ enum ExtendTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension LakeFormationClientTypes.ExternalFilteringConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authorizedTargets = "AuthorizedTargets"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authorizedTargets = authorizedTargets {
+            var authorizedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedTargets)
+            for scopetarget0 in authorizedTargets {
+                try authorizedTargetsContainer.encode(scopetarget0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.EnableStatus.self, forKey: .status)
+        status = statusDecoded
+        let authorizedTargetsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .authorizedTargets)
+        var authorizedTargetsDecoded0:[Swift.String]? = nil
+        if let authorizedTargetsContainer = authorizedTargetsContainer {
+            authorizedTargetsDecoded0 = [Swift.String]()
+            for string0 in authorizedTargetsContainer {
+                if let string0 = string0 {
+                    authorizedTargetsDecoded0?.append(string0)
+                }
+            }
+        }
+        authorizedTargets = authorizedTargetsDecoded0
+    }
+}
+
+extension LakeFormationClientTypes {
+    /// Configuration for enabling external data filtering for third-party applications to access data managed by Lake Formation .
+    public struct ExternalFilteringConfiguration: Swift.Equatable {
+        /// List of third-party application ARNs integrated with Lake Formation.
+        /// This member is required.
+        public var authorizedTargets: [Swift.String]?
+        /// Allows to enable or disable the third-party applications that are allowed to access data managed by Lake Formation.
+        /// This member is required.
+        public var status: LakeFormationClientTypes.EnableStatus?
+
+        public init(
+            authorizedTargets: [Swift.String]? = nil,
+            status: LakeFormationClientTypes.EnableStatus? = nil
+        )
+        {
+            self.authorizedTargets = authorizedTargets
+            self.status = status
+        }
+    }
+
 }
 
 extension LakeFormationClientTypes {
@@ -9102,7 +9557,7 @@ extension SearchTablesByLFTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct SearchTablesByLFTagsOutput: Swift.Equatable {
-    /// A continuation token, present if the current list segment is not the last.
+    /// A continuation token, present if the current list segment is not the last. On the first run, if you include a not null (a value) token you can get empty pages.
     public var nextToken: Swift.String?
     /// A list of tables that meet the LF-tag conditions.
     public var tableList: [LakeFormationClientTypes.TaggedTable]?
@@ -10507,6 +10962,103 @@ public struct UpdateLFTagOutput: Swift.Equatable {
 }
 
 enum UpdateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationStatus = "ApplicationStatus"
+        case catalogId = "CatalogId"
+        case externalFiltering = "ExternalFiltering"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationStatus = self.applicationStatus {
+            try encodeContainer.encode(applicationStatus.rawValue, forKey: .applicationStatus)
+        }
+        if let catalogId = self.catalogId {
+            try encodeContainer.encode(catalogId, forKey: .catalogId)
+        }
+        if let externalFiltering = self.externalFiltering {
+            try encodeContainer.encode(externalFiltering, forKey: .externalFiltering)
+        }
+    }
+}
+
+extension UpdateLakeFormationIdentityCenterConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/UpdateLakeFormationIdentityCenterConfiguration"
+    }
+}
+
+public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Equatable {
+    /// Allows to enable or disable the IAM Identity Center connection.
+    public var applicationStatus: LakeFormationClientTypes.ApplicationStatus?
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
+    public var catalogId: Swift.String?
+    /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
+    public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+
+    public init(
+        applicationStatus: LakeFormationClientTypes.ApplicationStatus? = nil,
+        catalogId: Swift.String? = nil,
+        externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil
+    )
+    {
+        self.applicationStatus = applicationStatus
+        self.catalogId = catalogId
+        self.externalFiltering = externalFiltering
+    }
+}
+
+struct UpdateLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable {
+    let catalogId: Swift.String?
+    let applicationStatus: LakeFormationClientTypes.ApplicationStatus?
+    let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+}
+
+extension UpdateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationStatus = "ApplicationStatus"
+        case catalogId = "CatalogId"
+        case externalFiltering = "ExternalFiltering"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
+        catalogId = catalogIdDecoded
+        let applicationStatusDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ApplicationStatus.self, forKey: .applicationStatus)
+        applicationStatus = applicationStatusDecoded
+        let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)
+        externalFiltering = externalFilteringDecoded
+    }
+}
+
+extension UpdateLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateLakeFormationIdentityCenterConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

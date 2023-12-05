@@ -12,7 +12,7 @@ extension MTurkClient {
     ///     - input: A `[ListAssignmentsForHITInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListAssignmentsForHITOutput`
     public func listAssignmentsForHITPaginated(input: ListAssignmentsForHITInput) -> ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutput> {
-        return ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutput>(input: input, inputKey: \ListAssignmentsForHITInput.nextToken, outputKey: \ListAssignmentsForHITOutput.nextToken, paginationFunction: self.listAssignmentsForHIT(input:))
+        return ClientRuntime.PaginatorSequence<ListAssignmentsForHITInput, ListAssignmentsForHITOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAssignmentsForHIT(input:))
     }
 }
 
@@ -35,7 +35,7 @@ extension MTurkClient {
     ///     - input: A `[ListBonusPaymentsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBonusPaymentsOutput`
     public func listBonusPaymentsPaginated(input: ListBonusPaymentsInput) -> ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutput>(input: input, inputKey: \ListBonusPaymentsInput.nextToken, outputKey: \ListBonusPaymentsOutput.nextToken, paginationFunction: self.listBonusPayments(input:))
+        return ClientRuntime.PaginatorSequence<ListBonusPaymentsInput, ListBonusPaymentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBonusPayments(input:))
     }
 }
 
@@ -58,7 +58,7 @@ extension MTurkClient {
     ///     - input: A `[ListHITsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHITsOutput`
     public func listHITsPaginated(input: ListHITsInput) -> ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutput> {
-        return ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutput>(input: input, inputKey: \ListHITsInput.nextToken, outputKey: \ListHITsOutput.nextToken, paginationFunction: self.listHITs(input:))
+        return ClientRuntime.PaginatorSequence<ListHITsInput, ListHITsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHITs(input:))
     }
 }
 
@@ -79,7 +79,7 @@ extension MTurkClient {
     ///     - input: A `[ListHITsForQualificationTypeInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListHITsForQualificationTypeOutput`
     public func listHITsForQualificationTypePaginated(input: ListHITsForQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput> {
-        return ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput>(input: input, inputKey: \ListHITsForQualificationTypeInput.nextToken, outputKey: \ListHITsForQualificationTypeOutput.nextToken, paginationFunction: self.listHITsForQualificationType(input:))
+        return ClientRuntime.PaginatorSequence<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHITsForQualificationType(input:))
     }
 }
 
@@ -101,7 +101,7 @@ extension MTurkClient {
     ///     - input: A `[ListQualificationRequestsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationRequestsOutput`
     public func listQualificationRequestsPaginated(input: ListQualificationRequestsInput) -> ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutput> {
-        return ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutput>(input: input, inputKey: \ListQualificationRequestsInput.nextToken, outputKey: \ListQualificationRequestsOutput.nextToken, paginationFunction: self.listQualificationRequests(input:))
+        return ClientRuntime.PaginatorSequence<ListQualificationRequestsInput, ListQualificationRequestsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQualificationRequests(input:))
     }
 }
 
@@ -123,7 +123,7 @@ extension MTurkClient {
     ///     - input: A `[ListQualificationTypesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListQualificationTypesOutput`
     public func listQualificationTypesPaginated(input: ListQualificationTypesInput) -> ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutput> {
-        return ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutput>(input: input, inputKey: \ListQualificationTypesInput.nextToken, outputKey: \ListQualificationTypesOutput.nextToken, paginationFunction: self.listQualificationTypes(input:))
+        return ClientRuntime.PaginatorSequence<ListQualificationTypesInput, ListQualificationTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listQualificationTypes(input:))
     }
 }
 
@@ -147,7 +147,7 @@ extension MTurkClient {
     ///     - input: A `[ListReviewableHITsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReviewableHITsOutput`
     public func listReviewableHITsPaginated(input: ListReviewableHITsInput) -> ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutput> {
-        return ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutput>(input: input, inputKey: \ListReviewableHITsInput.nextToken, outputKey: \ListReviewableHITsOutput.nextToken, paginationFunction: self.listReviewableHITs(input:))
+        return ClientRuntime.PaginatorSequence<ListReviewableHITsInput, ListReviewableHITsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReviewableHITs(input:))
     }
 }
 
@@ -170,7 +170,7 @@ extension MTurkClient {
     ///     - input: A `[ListReviewPolicyResultsForHITInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReviewPolicyResultsForHITOutput`
     public func listReviewPolicyResultsForHITPaginated(input: ListReviewPolicyResultsForHITInput) -> ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput> {
-        return ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput>(input: input, inputKey: \ListReviewPolicyResultsForHITInput.nextToken, outputKey: \ListReviewPolicyResultsForHITOutput.nextToken, paginationFunction: self.listReviewPolicyResultsForHIT(input:))
+        return ClientRuntime.PaginatorSequence<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReviewPolicyResultsForHIT(input:))
     }
 }
 
@@ -195,7 +195,7 @@ extension MTurkClient {
     ///     - input: A `[ListWorkerBlocksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkerBlocksOutput`
     public func listWorkerBlocksPaginated(input: ListWorkerBlocksInput) -> ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutput>(input: input, inputKey: \ListWorkerBlocksInput.nextToken, outputKey: \ListWorkerBlocksOutput.nextToken, paginationFunction: self.listWorkerBlocks(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkerBlocksInput, ListWorkerBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkerBlocks(input:))
     }
 }
 
@@ -216,7 +216,7 @@ extension MTurkClient {
     ///     - input: A `[ListWorkersWithQualificationTypeInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListWorkersWithQualificationTypeOutput`
     public func listWorkersWithQualificationTypePaginated(input: ListWorkersWithQualificationTypeInput) -> ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput> {
-        return ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput>(input: input, inputKey: \ListWorkersWithQualificationTypeInput.nextToken, outputKey: \ListWorkersWithQualificationTypeOutput.nextToken, paginationFunction: self.listWorkersWithQualificationType(input:))
+        return ClientRuntime.PaginatorSequence<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listWorkersWithQualificationType(input:))
     }
 }
 

@@ -12,7 +12,7 @@ extension TimestreamQueryClient {
     ///     - input: A `[ListScheduledQueriesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledQueriesOutput`
     public func listScheduledQueriesPaginated(input: ListScheduledQueriesInput) -> ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput> {
-        return ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput>(input: input, inputKey: \ListScheduledQueriesInput.nextToken, outputKey: \ListScheduledQueriesOutput.nextToken, paginationFunction: self.listScheduledQueries(input:))
+        return ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScheduledQueries(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListScheduledQueriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListScheduledQueriesInput, Output == ListScheduledQueriesOutput {
+extension PaginatorSequence where OperationStackInput == ListScheduledQueriesInput, OperationStackOutput == ListScheduledQueriesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listScheduledQueriesPaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.ScheduledQuery]`
     /// - Returns: `[TimestreamQueryClientTypes.ScheduledQuery]`
@@ -42,7 +42,7 @@ extension TimestreamQueryClient {
     ///     - input: A `[ListTagsForResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutput`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutput.nextToken, paginationFunction: self.listTagsForResource(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutput {
+extension PaginatorSequence where OperationStackInput == ListTagsForResourceInput, OperationStackOutput == ListTagsForResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.Tag]`
     /// - Returns: `[TimestreamQueryClientTypes.Tag]`
@@ -73,7 +73,7 @@ extension TimestreamQueryClient {
     ///     - input: A `[QueryInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `QueryOutput`
     public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutput> {
-        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \QueryInput.nextToken, outputKey: \QueryOutput.nextToken, paginationFunction: self.query(input:))
+        return ClientRuntime.PaginatorSequence<QueryInput, QueryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.query(input:))
     }
 }
 
@@ -87,7 +87,7 @@ extension QueryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == QueryInput, Output == QueryOutput {
+extension PaginatorSequence where OperationStackInput == QueryInput, OperationStackOutput == QueryOutput {
     /// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
     /// to access the nested member `[TimestreamQueryClientTypes.Row]`
     /// - Returns: `[TimestreamQueryClientTypes.Row]`

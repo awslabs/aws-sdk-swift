@@ -12,7 +12,7 @@ extension SNSClient {
     ///     - input: A `[ListEndpointsByPlatformApplicationInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListEndpointsByPlatformApplicationOutput`
     public func listEndpointsByPlatformApplicationPaginated(input: ListEndpointsByPlatformApplicationInput) -> ClientRuntime.PaginatorSequence<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput> {
-        return ClientRuntime.PaginatorSequence<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput>(input: input, inputKey: \ListEndpointsByPlatformApplicationInput.nextToken, outputKey: \ListEndpointsByPlatformApplicationOutput.nextToken, paginationFunction: self.listEndpointsByPlatformApplication(input:))
+        return ClientRuntime.PaginatorSequence<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEndpointsByPlatformApplication(input:))
     }
 }
 
@@ -24,7 +24,7 @@ extension ListEndpointsByPlatformApplicationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListEndpointsByPlatformApplicationInput, Output == ListEndpointsByPlatformApplicationOutput {
+extension PaginatorSequence where OperationStackInput == ListEndpointsByPlatformApplicationInput, OperationStackOutput == ListEndpointsByPlatformApplicationOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listEndpointsByPlatformApplicationPaginated`
     /// to access the nested member `[SNSClientTypes.Endpoint]`
     /// - Returns: `[SNSClientTypes.Endpoint]`
@@ -42,7 +42,7 @@ extension SNSClient {
     ///     - input: A `[ListOriginationNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOriginationNumbersOutput`
     public func listOriginationNumbersPaginated(input: ListOriginationNumbersInput) -> ClientRuntime.PaginatorSequence<ListOriginationNumbersInput, ListOriginationNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<ListOriginationNumbersInput, ListOriginationNumbersOutput>(input: input, inputKey: \ListOriginationNumbersInput.nextToken, outputKey: \ListOriginationNumbersOutput.nextToken, paginationFunction: self.listOriginationNumbers(input:))
+        return ClientRuntime.PaginatorSequence<ListOriginationNumbersInput, ListOriginationNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOriginationNumbers(input:))
     }
 }
 
@@ -54,7 +54,7 @@ extension ListOriginationNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListOriginationNumbersInput, Output == ListOriginationNumbersOutput {
+extension PaginatorSequence where OperationStackInput == ListOriginationNumbersInput, OperationStackOutput == ListOriginationNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listOriginationNumbersPaginated`
     /// to access the nested member `[SNSClientTypes.PhoneNumberInformation]`
     /// - Returns: `[SNSClientTypes.PhoneNumberInformation]`
@@ -72,7 +72,7 @@ extension SNSClient {
     ///     - input: A `[ListPhoneNumbersOptedOutInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPhoneNumbersOptedOutOutput`
     public func listPhoneNumbersOptedOutPaginated(input: ListPhoneNumbersOptedOutInput) -> ClientRuntime.PaginatorSequence<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput> {
-        return ClientRuntime.PaginatorSequence<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput>(input: input, inputKey: \ListPhoneNumbersOptedOutInput.nextToken, outputKey: \ListPhoneNumbersOptedOutOutput.nextToken, paginationFunction: self.listPhoneNumbersOptedOut(input:))
+        return ClientRuntime.PaginatorSequence<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPhoneNumbersOptedOut(input:))
     }
 }
 
@@ -83,7 +83,7 @@ extension ListPhoneNumbersOptedOutInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPhoneNumbersOptedOutInput, Output == ListPhoneNumbersOptedOutOutput {
+extension PaginatorSequence where OperationStackInput == ListPhoneNumbersOptedOutInput, OperationStackOutput == ListPhoneNumbersOptedOutOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPhoneNumbersOptedOutPaginated`
     /// to access the nested member `[Swift.String]`
     /// - Returns: `[Swift.String]`
@@ -101,7 +101,7 @@ extension SNSClient {
     ///     - input: A `[ListPlatformApplicationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListPlatformApplicationsOutput`
     public func listPlatformApplicationsPaginated(input: ListPlatformApplicationsInput) -> ClientRuntime.PaginatorSequence<ListPlatformApplicationsInput, ListPlatformApplicationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListPlatformApplicationsInput, ListPlatformApplicationsOutput>(input: input, inputKey: \ListPlatformApplicationsInput.nextToken, outputKey: \ListPlatformApplicationsOutput.nextToken, paginationFunction: self.listPlatformApplications(input:))
+        return ClientRuntime.PaginatorSequence<ListPlatformApplicationsInput, ListPlatformApplicationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlatformApplications(input:))
     }
 }
 
@@ -112,7 +112,7 @@ extension ListPlatformApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListPlatformApplicationsInput, Output == ListPlatformApplicationsOutput {
+extension PaginatorSequence where OperationStackInput == ListPlatformApplicationsInput, OperationStackOutput == ListPlatformApplicationsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listPlatformApplicationsPaginated`
     /// to access the nested member `[SNSClientTypes.PlatformApplication]`
     /// - Returns: `[SNSClientTypes.PlatformApplication]`
@@ -130,7 +130,7 @@ extension SNSClient {
     ///     - input: A `[ListSMSSandboxPhoneNumbersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSMSSandboxPhoneNumbersOutput`
     public func listSMSSandboxPhoneNumbersPaginated(input: ListSMSSandboxPhoneNumbersInput) -> ClientRuntime.PaginatorSequence<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput> {
-        return ClientRuntime.PaginatorSequence<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput>(input: input, inputKey: \ListSMSSandboxPhoneNumbersInput.nextToken, outputKey: \ListSMSSandboxPhoneNumbersOutput.nextToken, paginationFunction: self.listSMSSandboxPhoneNumbers(input:))
+        return ClientRuntime.PaginatorSequence<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSMSSandboxPhoneNumbers(input:))
     }
 }
 
@@ -142,7 +142,7 @@ extension ListSMSSandboxPhoneNumbersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSMSSandboxPhoneNumbersInput, Output == ListSMSSandboxPhoneNumbersOutput {
+extension PaginatorSequence where OperationStackInput == ListSMSSandboxPhoneNumbersInput, OperationStackOutput == ListSMSSandboxPhoneNumbersOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSMSSandboxPhoneNumbersPaginated`
     /// to access the nested member `[SNSClientTypes.SMSSandboxPhoneNumber]`
     /// - Returns: `[SNSClientTypes.SMSSandboxPhoneNumber]`
@@ -160,7 +160,7 @@ extension SNSClient {
     ///     - input: A `[ListSubscriptionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionsOutput`
     public func listSubscriptionsPaginated(input: ListSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \ListSubscriptionsInput.nextToken, outputKey: \ListSubscriptionsOutput.nextToken, paginationFunction: self.listSubscriptions(input:))
+        return ClientRuntime.PaginatorSequence<ListSubscriptionsInput, ListSubscriptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptions(input:))
     }
 }
 
@@ -171,7 +171,7 @@ extension ListSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSubscriptionsInput, Output == ListSubscriptionsOutput {
+extension PaginatorSequence where OperationStackInput == ListSubscriptionsInput, OperationStackOutput == ListSubscriptionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionsPaginated`
     /// to access the nested member `[SNSClientTypes.Subscription]`
     /// - Returns: `[SNSClientTypes.Subscription]`
@@ -189,7 +189,7 @@ extension SNSClient {
     ///     - input: A `[ListSubscriptionsByTopicInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListSubscriptionsByTopicOutput`
     public func listSubscriptionsByTopicPaginated(input: ListSubscriptionsByTopicInput) -> ClientRuntime.PaginatorSequence<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput> {
-        return ClientRuntime.PaginatorSequence<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput>(input: input, inputKey: \ListSubscriptionsByTopicInput.nextToken, outputKey: \ListSubscriptionsByTopicOutput.nextToken, paginationFunction: self.listSubscriptionsByTopic(input:))
+        return ClientRuntime.PaginatorSequence<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubscriptionsByTopic(input:))
     }
 }
 
@@ -201,7 +201,7 @@ extension ListSubscriptionsByTopicInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListSubscriptionsByTopicInput, Output == ListSubscriptionsByTopicOutput {
+extension PaginatorSequence where OperationStackInput == ListSubscriptionsByTopicInput, OperationStackOutput == ListSubscriptionsByTopicOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listSubscriptionsByTopicPaginated`
     /// to access the nested member `[SNSClientTypes.Subscription]`
     /// - Returns: `[SNSClientTypes.Subscription]`
@@ -219,7 +219,7 @@ extension SNSClient {
     ///     - input: A `[ListTopicsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTopicsOutput`
     public func listTopicsPaginated(input: ListTopicsInput) -> ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \ListTopicsInput.nextToken, outputKey: \ListTopicsOutput.nextToken, paginationFunction: self.listTopics(input:))
+        return ClientRuntime.PaginatorSequence<ListTopicsInput, ListTopicsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTopics(input:))
     }
 }
 
@@ -230,7 +230,7 @@ extension ListTopicsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListTopicsInput, Output == ListTopicsOutput {
+extension PaginatorSequence where OperationStackInput == ListTopicsInput, OperationStackOutput == ListTopicsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listTopicsPaginated`
     /// to access the nested member `[SNSClientTypes.Topic]`
     /// - Returns: `[SNSClientTypes.Topic]`

@@ -304,44 +304,6 @@ extension MedicalImagingClientTypes {
 
 }
 
-public struct CopyImageSetInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CopyImageSetInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<CopyImageSetInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CopyImageSetOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let copyImageSetInformation = input.operationInput.copyImageSetInformation {
-                let copyImageSetInformationData = try encoder.encode(copyImageSetInformation)
-                let copyImageSetInformationBody = ClientRuntime.HttpBody.data(copyImageSetInformationData)
-                input.builder.withBody(copyImageSetInformationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let copyImageSetInformationData = "{}".data(using: .utf8)!
-                    let copyImageSetInformationBody = ClientRuntime.HttpBody.data(copyImageSetInformationData)
-                    input.builder.withBody(copyImageSetInformationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<CopyImageSetInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<CopyImageSetOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension CopyImageSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case copyImageSetInformation
@@ -1911,44 +1873,6 @@ enum GetDatastoreOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public struct GetImageFrameInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "GetImageFrameInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<GetImageFrameInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<GetImageFrameOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let imageFrameInformation = input.operationInput.imageFrameInformation {
-                let imageFrameInformationData = try encoder.encode(imageFrameInformation)
-                let imageFrameInformationBody = ClientRuntime.HttpBody.data(imageFrameInformationData)
-                input.builder.withBody(imageFrameInformationBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let imageFrameInformationData = "{}".data(using: .utf8)!
-                    let imageFrameInformationBody = ClientRuntime.HttpBody.data(imageFrameInformationData)
-                    input.builder.withBody(imageFrameInformationBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<GetImageFrameInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<GetImageFrameOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension GetImageFrameInput: Swift.Encodable {
@@ -3654,44 +3578,6 @@ extension MedicalImagingClientTypes {
 
 }
 
-public struct SearchImageSetsInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "SearchImageSetsInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<SearchImageSetsInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<SearchImageSetsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let searchCriteria = input.operationInput.searchCriteria {
-                let searchCriteriaData = try encoder.encode(searchCriteria)
-                let searchCriteriaBody = ClientRuntime.HttpBody.data(searchCriteriaData)
-                input.builder.withBody(searchCriteriaBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let searchCriteriaData = "{}".data(using: .utf8)!
-                    let searchCriteriaBody = ClientRuntime.HttpBody.data(searchCriteriaData)
-                    input.builder.withBody(searchCriteriaBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<SearchImageSetsInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<SearchImageSetsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension SearchImageSetsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "SearchImageSetsInput(datastoreId: \(Swift.String(describing: datastoreId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), searchCriteria: \"CONTENT_REDACTED\")"}
@@ -4332,44 +4218,6 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-public struct UpdateImageSetMetadataInputBodyMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "UpdateImageSetMetadataInputBodyMiddleware"
-
-    public init() {}
-
-    public func handle<H>(context: Context,
-                  input: ClientRuntime.SerializeStepInput<UpdateImageSetMetadataInput>,
-                  next: H) async throws -> ClientRuntime.OperationOutput<UpdateImageSetMetadataOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        do {
-            let encoder = context.getEncoder()
-            if let updateImageSetMetadataUpdates = input.operationInput.updateImageSetMetadataUpdates {
-                let updateImageSetMetadataUpdatesData = try encoder.encode(updateImageSetMetadataUpdates)
-                let updateImageSetMetadataUpdatesBody = ClientRuntime.HttpBody.data(updateImageSetMetadataUpdatesData)
-                input.builder.withBody(updateImageSetMetadataUpdatesBody)
-            } else {
-                if encoder is JSONEncoder {
-                    // Encode an empty body as an empty structure in JSON
-                    let updateImageSetMetadataUpdatesData = "{}".data(using: .utf8)!
-                    let updateImageSetMetadataUpdatesBody = ClientRuntime.HttpBody.data(updateImageSetMetadataUpdatesData)
-                    input.builder.withBody(updateImageSetMetadataUpdatesBody)
-                }
-            }
-        } catch let err {
-            throw ClientRuntime.ClientError.unknownError(err.localizedDescription)
-        }
-        return try await next.handle(context: context, input: input)
-    }
-
-    public typealias MInput = ClientRuntime.SerializeStepInput<UpdateImageSetMetadataInput>
-    public typealias MOutput = ClientRuntime.OperationOutput<UpdateImageSetMetadataOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension UpdateImageSetMetadataInput: Swift.Encodable {

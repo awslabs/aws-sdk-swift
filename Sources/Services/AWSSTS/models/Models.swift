@@ -98,7 +98,7 @@ public struct AssumeRoleInput: Swift.Equatable {
     public var policy: Swift.String?
     /// The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide.
     public var policyArns: [STSClientTypes.PolicyDescriptorType]?
-    /// Reserved for future use.
+    /// A list of previously acquired trusted context assertions in the format of a JSON array. The trusted context assertion is signed and encrypted by Amazon Web Services STS. The following is an example of a ProvidedContext value that includes a single trusted context assertion and the ARN of the context provider from which the trusted context assertion was generated. [{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]
     public var providedContexts: [STSClientTypes.ProvidedContext]?
     /// The Amazon Resource Name (ARN) of the role to assume.
     /// This member is required.
@@ -1347,21 +1347,21 @@ extension GetCallerIdentityInput {
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutput, GetCallerIdentityOutputError>(id: "getCallerIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, GetCallerIdentityOutputError>())
+        var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutput>(id: "getCallerIdentity")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.serviceSpecific.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(xmlName: "GetCallerIdentityRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutput, GetCallerIdentityOutputError>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutput>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput, GetCallerIdentityOutputError>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCallerIdentityOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCallerIdentityOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetCallerIdentityOutput(), next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -2171,11 +2171,11 @@ extension STSClientTypes.ProvidedContext: Swift.Codable {
 }
 
 extension STSClientTypes {
-    /// Reserved for future use.
+    /// Contains information about the provided context. This includes the signed and encrypted trusted context assertion and the context provider ARN from which the trusted context assertion was generated.
     public struct ProvidedContext: Swift.Equatable {
-        /// Reserved for future use.
+        /// The signed and encrypted trusted context assertion generated by the context provider. The trusted context assertion is signed and encrypted by Amazon Web Services STS.
         public var contextAssertion: Swift.String?
-        /// Reserved for future use.
+        /// The context provider ARN from which the trusted context assertion was generated.
         public var providerArn: Swift.String?
 
         public init(

@@ -12,7 +12,7 @@ extension IdentitystoreClient {
     ///     - input: A `[ListGroupMembershipsForMemberInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsForMemberOutput`
     public func listGroupMembershipsForMemberPaginated(input: ListGroupMembershipsForMemberInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput> {
-        return ClientRuntime.PaginatorSequence<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(input: input, inputKey: \ListGroupMembershipsForMemberInput.nextToken, outputKey: \ListGroupMembershipsForMemberOutput.nextToken, paginationFunction: self.listGroupMembershipsForMember(input:))
+        return ClientRuntime.PaginatorSequence<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGroupMembershipsForMember(input:))
     }
 }
 
@@ -26,7 +26,7 @@ extension ListGroupMembershipsForMemberInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListGroupMembershipsForMemberInput, Output == ListGroupMembershipsForMemberOutput {
+extension PaginatorSequence where OperationStackInput == ListGroupMembershipsForMemberInput, OperationStackOutput == ListGroupMembershipsForMemberOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsForMemberPaginated`
     /// to access the nested member `[IdentitystoreClientTypes.GroupMembership]`
     /// - Returns: `[IdentitystoreClientTypes.GroupMembership]`

@@ -4,6 +4,8 @@ import ClientRuntime
 
 /// The Application Migration Service service.
 public protocol MgnClientProtocol {
+    /// Performs the `ArchiveApplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Archive application.
     ///
     /// - Parameter ArchiveApplicationInput : [no documentation found]
@@ -18,6 +20,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func archiveApplication(input: ArchiveApplicationInput) async throws -> ArchiveApplicationOutput
+    /// Performs the `ArchiveWave` operation on the `ApplicationMigrationService` service.
+    ///
     /// Archive wave.
     ///
     /// - Parameter ArchiveWaveInput : [no documentation found]
@@ -32,6 +36,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func archiveWave(input: ArchiveWaveInput) async throws -> ArchiveWaveOutput
+    /// Performs the `AssociateApplications` operation on the `ApplicationMigrationService` service.
+    ///
     /// Associate applications to wave.
     ///
     /// - Parameter AssociateApplicationsInput : [no documentation found]
@@ -46,6 +52,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func associateApplications(input: AssociateApplicationsInput) async throws -> AssociateApplicationsOutput
+    /// Performs the `AssociateSourceServers` operation on the `ApplicationMigrationService` service.
+    ///
     /// Associate source servers to application.
     ///
     /// - Parameter AssociateSourceServersInput : [no documentation found]
@@ -60,6 +68,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func associateSourceServers(input: AssociateSourceServersInput) async throws -> AssociateSourceServersOutput
+    /// Performs the `ChangeServerLifeCycleState` operation on the `ApplicationMigrationService` service.
+    ///
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
     ///
     /// - Parameter ChangeServerLifeCycleStateInput : [no documentation found]
@@ -74,6 +84,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func changeServerLifeCycleState(input: ChangeServerLifeCycleStateInput) async throws -> ChangeServerLifeCycleStateOutput
+    /// Performs the `CreateApplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Create application.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
@@ -87,6 +99,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput
+    /// Performs the `CreateConnector` operation on the `ApplicationMigrationService` service.
+    ///
     /// Create Connector.
     ///
     /// - Parameter CreateConnectorInput : [no documentation found]
@@ -99,6 +113,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutput
+    /// Performs the `CreateLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Creates a new Launch Configuration Template.
     ///
     /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
@@ -112,6 +128,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutput
+    /// Performs the `CreateReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Creates a new ReplicationConfigurationTemplate.
     ///
     /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
@@ -125,6 +143,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutput
+    /// Performs the `CreateWave` operation on the `ApplicationMigrationService` service.
+    ///
     /// Create wave.
     ///
     /// - Parameter CreateWaveInput : [no documentation found]
@@ -138,6 +158,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func createWave(input: CreateWaveInput) async throws -> CreateWaveOutput
+    /// Performs the `DeleteApplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Delete application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
@@ -151,6 +173,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput
+    /// Performs the `DeleteConnector` operation on the `ApplicationMigrationService` service.
+    ///
     /// Delete Connector.
     ///
     /// - Parameter DeleteConnectorInput : [no documentation found]
@@ -164,6 +188,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutput
+    /// Performs the `DeleteJob` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes a single Job by ID.
     ///
     /// - Parameter DeleteJobInput : [no documentation found]
@@ -177,6 +203,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutput
+    /// Performs the `DeleteLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes a single Launch Configuration Template by ID.
     ///
     /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
@@ -190,6 +218,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutput
+    /// Performs the `DeleteReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes a single Replication Configuration Template by ID
     ///
     /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
@@ -203,6 +233,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutput
+    /// Performs the `DeleteSourceServer` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes a single source server by ID.
     ///
     /// - Parameter DeleteSourceServerInput : [no documentation found]
@@ -216,6 +248,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutput
+    /// Performs the `DeleteVcenterClient` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes a given vCenter client by ID.
     ///
     /// - Parameter DeleteVcenterClientInput : [no documentation found]
@@ -229,6 +263,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func deleteVcenterClient(input: DeleteVcenterClientInput) async throws -> DeleteVcenterClientOutput
+    /// Performs the `DeleteWave` operation on the `ApplicationMigrationService` service.
+    ///
     /// Delete wave.
     ///
     /// - Parameter DeleteWaveInput : [no documentation found]
@@ -242,6 +278,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func deleteWave(input: DeleteWaveInput) async throws -> DeleteWaveOutput
+    /// Performs the `DescribeJobLogItems` operation on the `ApplicationMigrationService` service.
+    ///
     /// Retrieves detailed job log items with paging.
     ///
     /// - Parameter DescribeJobLogItemsInput : [no documentation found]
@@ -254,6 +292,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutput
+    /// Performs the `DescribeJobs` operation on the `ApplicationMigrationService` service.
+    ///
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// - Parameter DescribeJobsInput : [no documentation found]
@@ -266,6 +306,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutput
+    /// Performs the `DescribeLaunchConfigurationTemplates` operation on the `ApplicationMigrationService` service.
+    ///
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
     /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
@@ -279,6 +321,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutput
+    /// Performs the `DescribeReplicationConfigurationTemplates` operation on the `ApplicationMigrationService` service.
+    ///
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
     /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
@@ -292,6 +336,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutput
+    /// Performs the `DescribeSourceServers` operation on the `ApplicationMigrationService` service.
+    ///
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     ///
     /// - Parameter DescribeSourceServersInput : [no documentation found]
@@ -304,6 +350,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutput
+    /// Performs the `DescribeVcenterClients` operation on the `ApplicationMigrationService` service.
+    ///
     /// Returns a list of the installed vCenter clients.
     ///
     /// - Parameter DescribeVcenterClientsInput : [no documentation found]
@@ -317,6 +365,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func describeVcenterClients(input: DescribeVcenterClientsInput) async throws -> DescribeVcenterClientsOutput
+    /// Performs the `DisassociateApplications` operation on the `ApplicationMigrationService` service.
+    ///
     /// Disassociate applications from wave.
     ///
     /// - Parameter DisassociateApplicationsInput : [no documentation found]
@@ -330,6 +380,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func disassociateApplications(input: DisassociateApplicationsInput) async throws -> DisassociateApplicationsOutput
+    /// Performs the `DisassociateSourceServers` operation on the `ApplicationMigrationService` service.
+    ///
     /// Disassociate source servers from application.
     ///
     /// - Parameter DisassociateSourceServersInput : [no documentation found]
@@ -343,6 +395,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func disassociateSourceServers(input: DisassociateSourceServersInput) async throws -> DisassociateSourceServersOutput
+    /// Performs the `DisconnectFromService` operation on the `ApplicationMigrationService` service.
+    ///
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter DisconnectFromServiceInput : [no documentation found]
@@ -356,6 +410,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func disconnectFromService(input: DisconnectFromServiceInput) async throws -> DisconnectFromServiceOutput
+    /// Performs the `FinalizeCutover` operation on the `ApplicationMigrationService` service.
+    ///
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// - Parameter FinalizeCutoverInput : [no documentation found]
@@ -370,6 +426,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func finalizeCutover(input: FinalizeCutoverInput) async throws -> FinalizeCutoverOutput
+    /// Performs the `GetLaunchConfiguration` operation on the `ApplicationMigrationService` service.
+    ///
     /// Lists all LaunchConfigurations available, filtered by Source Server IDs.
     ///
     /// - Parameter GetLaunchConfigurationInput : [no documentation found]
@@ -382,6 +440,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutput
+    /// Performs the `GetReplicationConfiguration` operation on the `ApplicationMigrationService` service.
+    ///
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
     ///
     /// - Parameter GetReplicationConfigurationInput : [no documentation found]
@@ -394,6 +454,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutput
+    /// Performs the `InitializeService` operation on the `ApplicationMigrationService` service.
+    ///
     /// Initialize Application Migration Service.
     ///
     /// - Parameter InitializeServiceInput : [no documentation found]
@@ -406,6 +468,8 @@ public protocol MgnClientProtocol {
     /// - `AccessDeniedException` : Operating denied due to a file permission or access check error.
     /// - `ValidationException` : Validate exception.
     func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutput
+    /// Performs the `ListApplications` operation on the `ApplicationMigrationService` service.
+    ///
     /// Retrieves all applications or multiple applications by ID.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
@@ -417,6 +481,8 @@ public protocol MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput
+    /// Performs the `ListConnectors` operation on the `ApplicationMigrationService` service.
+    ///
     /// List Connectors.
     ///
     /// - Parameter ListConnectorsInput : [no documentation found]
@@ -429,6 +495,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutput
+    /// Performs the `ListExportErrors` operation on the `ApplicationMigrationService` service.
+    ///
     /// List export errors.
     ///
     /// - Parameter ListExportErrorsInput : List export errors request.
@@ -441,6 +509,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func listExportErrors(input: ListExportErrorsInput) async throws -> ListExportErrorsOutput
+    /// Performs the `ListExports` operation on the `ApplicationMigrationService` service.
+    ///
     /// List exports.
     ///
     /// - Parameter ListExportsInput : List export request.
@@ -452,6 +522,8 @@ public protocol MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func listExports(input: ListExportsInput) async throws -> ListExportsOutput
+    /// Performs the `ListImportErrors` operation on the `ApplicationMigrationService` service.
+    ///
     /// List import errors.
     ///
     /// - Parameter ListImportErrorsInput : List import errors request.
@@ -464,6 +536,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func listImportErrors(input: ListImportErrorsInput) async throws -> ListImportErrorsOutput
+    /// Performs the `ListImports` operation on the `ApplicationMigrationService` service.
+    ///
     /// List imports.
     ///
     /// - Parameter ListImportsInput : List imports request.
@@ -476,6 +550,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func listImports(input: ListImportsInput) async throws -> ListImportsOutput
+    /// Performs the `ListManagedAccounts` operation on the `ApplicationMigrationService` service.
+    ///
     /// List Managed Accounts.
     ///
     /// - Parameter ListManagedAccountsInput : List managed accounts request.
@@ -488,6 +564,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func listManagedAccounts(input: ListManagedAccountsInput) async throws -> ListManagedAccountsOutput
+    /// Performs the `ListSourceServerActions` operation on the `ApplicationMigrationService` service.
+    ///
     /// List source server post migration custom actions.
     ///
     /// - Parameter ListSourceServerActionsInput : [no documentation found]
@@ -500,6 +578,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func listSourceServerActions(input: ListSourceServerActionsInput) async throws -> ListSourceServerActionsOutput
+    /// Performs the `ListTagsForResource` operation on the `ApplicationMigrationService` service.
+    ///
     /// List all tags for your Application Migration Service resources.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -515,6 +595,8 @@ public protocol MgnClientProtocol {
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListTemplateActions` operation on the `ApplicationMigrationService` service.
+    ///
     /// List template post migration custom actions.
     ///
     /// - Parameter ListTemplateActionsInput : [no documentation found]
@@ -527,6 +609,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func listTemplateActions(input: ListTemplateActionsInput) async throws -> ListTemplateActionsOutput
+    /// Performs the `ListWaves` operation on the `ApplicationMigrationService` service.
+    ///
     /// Retrieves all waves or multiple waves by ID.
     ///
     /// - Parameter ListWavesInput : [no documentation found]
@@ -538,6 +622,8 @@ public protocol MgnClientProtocol {
     /// __Possible Exceptions:__
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func listWaves(input: ListWavesInput) async throws -> ListWavesOutput
+    /// Performs the `MarkAsArchived` operation on the `ApplicationMigrationService` service.
+    ///
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     ///
     /// - Parameter MarkAsArchivedInput : [no documentation found]
@@ -551,6 +637,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func markAsArchived(input: MarkAsArchivedInput) async throws -> MarkAsArchivedOutput
+    /// Performs the `PauseReplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Pause Replication.
     ///
     /// - Parameter PauseReplicationInput : [no documentation found]
@@ -566,6 +654,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func pauseReplication(input: PauseReplicationInput) async throws -> PauseReplicationOutput
+    /// Performs the `PutSourceServerAction` operation on the `ApplicationMigrationService` service.
+    ///
     /// Put source server post migration custom action.
     ///
     /// - Parameter PutSourceServerActionInput : [no documentation found]
@@ -580,6 +670,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func putSourceServerAction(input: PutSourceServerActionInput) async throws -> PutSourceServerActionOutput
+    /// Performs the `PutTemplateAction` operation on the `ApplicationMigrationService` service.
+    ///
     /// Put template post migration custom action.
     ///
     /// - Parameter PutTemplateActionInput : [no documentation found]
@@ -594,6 +686,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func putTemplateAction(input: PutTemplateActionInput) async throws -> PutTemplateActionOutput
+    /// Performs the `RemoveSourceServerAction` operation on the `ApplicationMigrationService` service.
+    ///
     /// Remove source server post migration custom action.
     ///
     /// - Parameter RemoveSourceServerActionInput : [no documentation found]
@@ -607,6 +701,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func removeSourceServerAction(input: RemoveSourceServerActionInput) async throws -> RemoveSourceServerActionOutput
+    /// Performs the `RemoveTemplateAction` operation on the `ApplicationMigrationService` service.
+    ///
     /// Remove template post migration custom action.
     ///
     /// - Parameter RemoveTemplateActionInput : [no documentation found]
@@ -620,6 +716,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func removeTemplateAction(input: RemoveTemplateActionInput) async throws -> RemoveTemplateActionOutput
+    /// Performs the `ResumeReplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Resume Replication.
     ///
     /// - Parameter ResumeReplicationInput : [no documentation found]
@@ -635,6 +733,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func resumeReplication(input: ResumeReplicationInput) async throws -> ResumeReplicationOutput
+    /// Performs the `RetryDataReplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     ///
     /// - Parameter RetryDataReplicationInput : [no documentation found]
@@ -648,6 +748,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutput
+    /// Performs the `StartCutover` operation on the `ApplicationMigrationService` service.
+    ///
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
     ///
     /// - Parameter StartCutoverInput : [no documentation found]
@@ -661,6 +763,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func startCutover(input: StartCutoverInput) async throws -> StartCutoverOutput
+    /// Performs the `StartExport` operation on the `ApplicationMigrationService` service.
+    ///
     /// Start export.
     ///
     /// - Parameter StartExportInput : Start export request.
@@ -674,6 +778,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func startExport(input: StartExportInput) async throws -> StartExportOutput
+    /// Performs the `StartImport` operation on the `ApplicationMigrationService` service.
+    ///
     /// Start import.
     ///
     /// - Parameter StartImportInput : Start import request.
@@ -689,6 +795,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func startImport(input: StartImportInput) async throws -> StartImportOutput
+    /// Performs the `StartReplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Starts replication for SNAPSHOT_SHIPPING agents.
     ///
     /// - Parameter StartReplicationInput : [no documentation found]
@@ -704,6 +812,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutput
+    /// Performs the `StartTest` operation on the `ApplicationMigrationService` service.
+    ///
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     ///
     /// - Parameter StartTestInput : [no documentation found]
@@ -717,6 +827,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func startTest(input: StartTestInput) async throws -> StartTestOutput
+    /// Performs the `StopReplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Stop Replication.
     ///
     /// - Parameter StopReplicationInput : [no documentation found]
@@ -732,6 +844,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutput
+    /// Performs the `TagResource` operation on the `ApplicationMigrationService` service.
+    ///
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
@@ -747,6 +861,8 @@ public protocol MgnClientProtocol {
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
+    /// Performs the `TerminateTargetInstances` operation on the `ApplicationMigrationService` service.
+    ///
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
     ///
     /// - Parameter TerminateTargetInstancesInput : [no documentation found]
@@ -760,6 +876,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func terminateTargetInstances(input: TerminateTargetInstancesInput) async throws -> TerminateTargetInstancesOutput
+    /// Performs the `UnarchiveApplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Unarchive application.
     ///
     /// - Parameter UnarchiveApplicationInput : [no documentation found]
@@ -773,6 +891,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func unarchiveApplication(input: UnarchiveApplicationInput) async throws -> UnarchiveApplicationOutput
+    /// Performs the `UnarchiveWave` operation on the `ApplicationMigrationService` service.
+    ///
     /// Unarchive wave.
     ///
     /// - Parameter UnarchiveWaveInput : [no documentation found]
@@ -786,6 +906,8 @@ public protocol MgnClientProtocol {
     /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func unarchiveWave(input: UnarchiveWaveInput) async throws -> UnarchiveWaveOutput
+    /// Performs the `UntagResource` operation on the `ApplicationMigrationService` service.
+    ///
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
@@ -801,6 +923,8 @@ public protocol MgnClientProtocol {
     /// - `ThrottlingException` : Reached throttling quota exception.
     /// - `ValidationException` : Validate exception.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
+    /// Performs the `UpdateApplication` operation on the `ApplicationMigrationService` service.
+    ///
     /// Update application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
@@ -814,6 +938,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput
+    /// Performs the `UpdateConnector` operation on the `ApplicationMigrationService` service.
+    ///
     /// Update Connector.
     ///
     /// - Parameter UpdateConnectorInput : [no documentation found]
@@ -827,6 +953,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutput
+    /// Performs the `UpdateLaunchConfiguration` operation on the `ApplicationMigrationService` service.
+    ///
     /// Updates multiple LaunchConfigurations by Source Server ID.
     ///
     /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
@@ -841,6 +969,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutput
+    /// Performs the `UpdateLaunchConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Updates an existing Launch Configuration Template by ID.
     ///
     /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
@@ -855,6 +985,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutput
+    /// Performs the `UpdateReplicationConfiguration` operation on the `ApplicationMigrationService` service.
+    ///
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     ///
     /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
@@ -870,6 +1002,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutput
+    /// Performs the `UpdateReplicationConfigurationTemplate` operation on the `ApplicationMigrationService` service.
+    ///
     /// Updates multiple ReplicationConfigurationTemplates by ID.
     ///
     /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
@@ -884,6 +1018,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutput
+    /// Performs the `UpdateSourceServer` operation on the `ApplicationMigrationService` service.
+    ///
     /// Update Source Server.
     ///
     /// - Parameter UpdateSourceServerInput : [no documentation found]
@@ -897,6 +1033,8 @@ public protocol MgnClientProtocol {
     /// - `ResourceNotFoundException` : Resource not found exception.
     /// - `UninitializedAccountException` : Uninitialized account exception.
     func updateSourceServer(input: UpdateSourceServerInput) async throws -> UpdateSourceServerOutput
+    /// Performs the `UpdateSourceServerReplicationType` operation on the `ApplicationMigrationService` service.
+    ///
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
     ///
     /// - Parameter UpdateSourceServerReplicationTypeInput : [no documentation found]
@@ -911,6 +1049,8 @@ public protocol MgnClientProtocol {
     /// - `UninitializedAccountException` : Uninitialized account exception.
     /// - `ValidationException` : Validate exception.
     func updateSourceServerReplicationType(input: UpdateSourceServerReplicationTypeInput) async throws -> UpdateSourceServerReplicationTypeOutput
+    /// Performs the `UpdateWave` operation on the `ApplicationMigrationService` service.
+    ///
     /// Update wave.
     ///
     /// - Parameter UpdateWaveInput : [no documentation found]

@@ -12,7 +12,7 @@ extension DetectiveClient {
     ///     - input: A `[ListDatasourcePackagesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListDatasourcePackagesOutput`
     public func listDatasourcePackagesPaginated(input: ListDatasourcePackagesInput) -> ClientRuntime.PaginatorSequence<ListDatasourcePackagesInput, ListDatasourcePackagesOutput> {
-        return ClientRuntime.PaginatorSequence<ListDatasourcePackagesInput, ListDatasourcePackagesOutput>(input: input, inputKey: \ListDatasourcePackagesInput.nextToken, outputKey: \ListDatasourcePackagesOutput.nextToken, paginationFunction: self.listDatasourcePackages(input:))
+        return ClientRuntime.PaginatorSequence<ListDatasourcePackagesInput, ListDatasourcePackagesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasourcePackages(input:))
     }
 }
 
@@ -34,7 +34,7 @@ extension DetectiveClient {
     ///     - input: A `[ListGraphsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListGraphsOutput`
     public func listGraphsPaginated(input: ListGraphsInput) -> ClientRuntime.PaginatorSequence<ListGraphsInput, ListGraphsOutput> {
-        return ClientRuntime.PaginatorSequence<ListGraphsInput, ListGraphsOutput>(input: input, inputKey: \ListGraphsInput.nextToken, outputKey: \ListGraphsOutput.nextToken, paginationFunction: self.listGraphs(input:))
+        return ClientRuntime.PaginatorSequence<ListGraphsInput, ListGraphsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGraphs(input:))
     }
 }
 
@@ -55,7 +55,7 @@ extension DetectiveClient {
     ///     - input: A `[ListInvitationsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListInvitationsOutput`
     public func listInvitationsPaginated(input: ListInvitationsInput) -> ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput> {
-        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \ListInvitationsInput.nextToken, outputKey: \ListInvitationsOutput.nextToken, paginationFunction: self.listInvitations(input:))
+        return ClientRuntime.PaginatorSequence<ListInvitationsInput, ListInvitationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInvitations(input:))
     }
 }
 
@@ -76,7 +76,7 @@ extension DetectiveClient {
     ///     - input: A `[ListMembersInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListMembersOutput`
     public func listMembersPaginated(input: ListMembersInput) -> ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput> {
-        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \ListMembersInput.nextToken, outputKey: \ListMembersOutput.nextToken, paginationFunction: self.listMembers(input:))
+        return ClientRuntime.PaginatorSequence<ListMembersInput, ListMembersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMembers(input:))
     }
 }
 
@@ -98,7 +98,7 @@ extension DetectiveClient {
     ///     - input: A `[ListOrganizationAdminAccountsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationAdminAccountsOutput`
     public func listOrganizationAdminAccountsPaginated(input: ListOrganizationAdminAccountsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput> {
-        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \ListOrganizationAdminAccountsInput.nextToken, outputKey: \ListOrganizationAdminAccountsOutput.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
+        return ClientRuntime.PaginatorSequence<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOrganizationAdminAccounts(input:))
     }
 }
 

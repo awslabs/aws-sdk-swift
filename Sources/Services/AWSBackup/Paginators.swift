@@ -12,7 +12,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupJobsOutput`
     public func listBackupJobsPaginated(input: ListBackupJobsInput) -> ClientRuntime.PaginatorSequence<ListBackupJobsInput, ListBackupJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupJobsInput, ListBackupJobsOutput>(input: input, inputKey: \ListBackupJobsInput.nextToken, outputKey: \ListBackupJobsOutput.nextToken, paginationFunction: self.listBackupJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupJobsInput, ListBackupJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupJobs(input:))
     }
 }
 
@@ -25,6 +25,7 @@ extension ListBackupJobsInput: ClientRuntime.PaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byMessageCategory: self.byMessageCategory,
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
@@ -34,13 +35,39 @@ extension ListBackupJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupJobsInput, Output == ListBackupJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupJobsInput, OperationStackOutput == ListBackupJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupJobsPaginated`
     /// to access the nested member `[BackupClientTypes.BackupJob]`
     /// - Returns: `[BackupClientTypes.BackupJob]`
     public func backupJobs() async throws -> [BackupClientTypes.BackupJob] {
         return try await self.asyncCompactMap { item in item.backupJobs }
     }
+}
+extension BackupClient {
+    /// Paginate over `[ListBackupJobSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBackupJobSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBackupJobSummariesOutput`
+    public func listBackupJobSummariesPaginated(input: ListBackupJobSummariesInput) -> ClientRuntime.PaginatorSequence<ListBackupJobSummariesInput, ListBackupJobSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListBackupJobSummariesInput, ListBackupJobSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupJobSummaries(input:))
+    }
+}
+
+extension ListBackupJobSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBackupJobSummariesInput {
+        return ListBackupJobSummariesInput(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            messageCategory: self.messageCategory,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
+        )}
 }
 extension BackupClient {
     /// Paginate over `[ListBackupPlansOutput]` results.
@@ -52,7 +79,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupPlansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupPlansOutput`
     public func listBackupPlansPaginated(input: ListBackupPlansInput) -> ClientRuntime.PaginatorSequence<ListBackupPlansInput, ListBackupPlansOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupPlansInput, ListBackupPlansOutput>(input: input, inputKey: \ListBackupPlansInput.nextToken, outputKey: \ListBackupPlansOutput.nextToken, paginationFunction: self.listBackupPlans(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupPlansInput, ListBackupPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupPlans(input:))
     }
 }
 
@@ -65,7 +92,7 @@ extension ListBackupPlansInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupPlansInput, Output == ListBackupPlansOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupPlansInput, OperationStackOutput == ListBackupPlansOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupPlansPaginated`
     /// to access the nested member `[BackupClientTypes.BackupPlansListMember]`
     /// - Returns: `[BackupClientTypes.BackupPlansListMember]`
@@ -83,7 +110,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupPlanTemplatesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupPlanTemplatesOutput`
     public func listBackupPlanTemplatesPaginated(input: ListBackupPlanTemplatesInput) -> ClientRuntime.PaginatorSequence<ListBackupPlanTemplatesInput, ListBackupPlanTemplatesOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupPlanTemplatesInput, ListBackupPlanTemplatesOutput>(input: input, inputKey: \ListBackupPlanTemplatesInput.nextToken, outputKey: \ListBackupPlanTemplatesOutput.nextToken, paginationFunction: self.listBackupPlanTemplates(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupPlanTemplatesInput, ListBackupPlanTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupPlanTemplates(input:))
     }
 }
 
@@ -95,7 +122,7 @@ extension ListBackupPlanTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupPlanTemplatesInput, Output == ListBackupPlanTemplatesOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupPlanTemplatesInput, OperationStackOutput == ListBackupPlanTemplatesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupPlanTemplatesPaginated`
     /// to access the nested member `[BackupClientTypes.BackupPlanTemplatesListMember]`
     /// - Returns: `[BackupClientTypes.BackupPlanTemplatesListMember]`
@@ -113,7 +140,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupPlanVersionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupPlanVersionsOutput`
     public func listBackupPlanVersionsPaginated(input: ListBackupPlanVersionsInput) -> ClientRuntime.PaginatorSequence<ListBackupPlanVersionsInput, ListBackupPlanVersionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupPlanVersionsInput, ListBackupPlanVersionsOutput>(input: input, inputKey: \ListBackupPlanVersionsInput.nextToken, outputKey: \ListBackupPlanVersionsOutput.nextToken, paginationFunction: self.listBackupPlanVersions(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupPlanVersionsInput, ListBackupPlanVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupPlanVersions(input:))
     }
 }
 
@@ -126,7 +153,7 @@ extension ListBackupPlanVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupPlanVersionsInput, Output == ListBackupPlanVersionsOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupPlanVersionsInput, OperationStackOutput == ListBackupPlanVersionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupPlanVersionsPaginated`
     /// to access the nested member `[BackupClientTypes.BackupPlansListMember]`
     /// - Returns: `[BackupClientTypes.BackupPlansListMember]`
@@ -144,7 +171,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupSelectionsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupSelectionsOutput`
     public func listBackupSelectionsPaginated(input: ListBackupSelectionsInput) -> ClientRuntime.PaginatorSequence<ListBackupSelectionsInput, ListBackupSelectionsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupSelectionsInput, ListBackupSelectionsOutput>(input: input, inputKey: \ListBackupSelectionsInput.nextToken, outputKey: \ListBackupSelectionsOutput.nextToken, paginationFunction: self.listBackupSelections(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupSelectionsInput, ListBackupSelectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupSelections(input:))
     }
 }
 
@@ -157,7 +184,7 @@ extension ListBackupSelectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupSelectionsInput, Output == ListBackupSelectionsOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupSelectionsInput, OperationStackOutput == ListBackupSelectionsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupSelectionsPaginated`
     /// to access the nested member `[BackupClientTypes.BackupSelectionsListMember]`
     /// - Returns: `[BackupClientTypes.BackupSelectionsListMember]`
@@ -175,7 +202,7 @@ extension BackupClient {
     ///     - input: A `[ListBackupVaultsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListBackupVaultsOutput`
     public func listBackupVaultsPaginated(input: ListBackupVaultsInput) -> ClientRuntime.PaginatorSequence<ListBackupVaultsInput, ListBackupVaultsOutput> {
-        return ClientRuntime.PaginatorSequence<ListBackupVaultsInput, ListBackupVaultsOutput>(input: input, inputKey: \ListBackupVaultsInput.nextToken, outputKey: \ListBackupVaultsOutput.nextToken, paginationFunction: self.listBackupVaults(input:))
+        return ClientRuntime.PaginatorSequence<ListBackupVaultsInput, ListBackupVaultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBackupVaults(input:))
     }
 }
 
@@ -189,7 +216,7 @@ extension ListBackupVaultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListBackupVaultsInput, Output == ListBackupVaultsOutput {
+extension PaginatorSequence where OperationStackInput == ListBackupVaultsInput, OperationStackOutput == ListBackupVaultsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listBackupVaultsPaginated`
     /// to access the nested member `[BackupClientTypes.BackupVaultListMember]`
     /// - Returns: `[BackupClientTypes.BackupVaultListMember]`
@@ -207,7 +234,7 @@ extension BackupClient {
     ///     - input: A `[ListCopyJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListCopyJobsOutput`
     public func listCopyJobsPaginated(input: ListCopyJobsInput) -> ClientRuntime.PaginatorSequence<ListCopyJobsInput, ListCopyJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListCopyJobsInput, ListCopyJobsOutput>(input: input, inputKey: \ListCopyJobsInput.nextToken, outputKey: \ListCopyJobsOutput.nextToken, paginationFunction: self.listCopyJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListCopyJobsInput, ListCopyJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCopyJobs(input:))
     }
 }
 
@@ -220,6 +247,7 @@ extension ListCopyJobsInput: ClientRuntime.PaginateToken {
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byDestinationVaultArn: self.byDestinationVaultArn,
+            byMessageCategory: self.byMessageCategory,
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
@@ -229,13 +257,39 @@ extension ListCopyJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListCopyJobsInput, Output == ListCopyJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListCopyJobsInput, OperationStackOutput == ListCopyJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listCopyJobsPaginated`
     /// to access the nested member `[BackupClientTypes.CopyJob]`
     /// - Returns: `[BackupClientTypes.CopyJob]`
     public func copyJobs() async throws -> [BackupClientTypes.CopyJob] {
         return try await self.asyncCompactMap { item in item.copyJobs }
     }
+}
+extension BackupClient {
+    /// Paginate over `[ListCopyJobSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCopyJobSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCopyJobSummariesOutput`
+    public func listCopyJobSummariesPaginated(input: ListCopyJobSummariesInput) -> ClientRuntime.PaginatorSequence<ListCopyJobSummariesInput, ListCopyJobSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCopyJobSummariesInput, ListCopyJobSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCopyJobSummaries(input:))
+    }
+}
+
+extension ListCopyJobSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCopyJobSummariesInput {
+        return ListCopyJobSummariesInput(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            messageCategory: self.messageCategory,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
+        )}
 }
 extension BackupClient {
     /// Paginate over `[ListFrameworksOutput]` results.
@@ -247,7 +301,7 @@ extension BackupClient {
     ///     - input: A `[ListFrameworksInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListFrameworksOutput`
     public func listFrameworksPaginated(input: ListFrameworksInput) -> ClientRuntime.PaginatorSequence<ListFrameworksInput, ListFrameworksOutput> {
-        return ClientRuntime.PaginatorSequence<ListFrameworksInput, ListFrameworksOutput>(input: input, inputKey: \ListFrameworksInput.nextToken, outputKey: \ListFrameworksOutput.nextToken, paginationFunction: self.listFrameworks(input:))
+        return ClientRuntime.PaginatorSequence<ListFrameworksInput, ListFrameworksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFrameworks(input:))
     }
 }
 
@@ -268,7 +322,7 @@ extension BackupClient {
     ///     - input: A `[ListLegalHoldsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListLegalHoldsOutput`
     public func listLegalHoldsPaginated(input: ListLegalHoldsInput) -> ClientRuntime.PaginatorSequence<ListLegalHoldsInput, ListLegalHoldsOutput> {
-        return ClientRuntime.PaginatorSequence<ListLegalHoldsInput, ListLegalHoldsOutput>(input: input, inputKey: \ListLegalHoldsInput.nextToken, outputKey: \ListLegalHoldsOutput.nextToken, paginationFunction: self.listLegalHolds(input:))
+        return ClientRuntime.PaginatorSequence<ListLegalHoldsInput, ListLegalHoldsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLegalHolds(input:))
     }
 }
 
@@ -280,7 +334,7 @@ extension ListLegalHoldsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListLegalHoldsInput, Output == ListLegalHoldsOutput {
+extension PaginatorSequence where OperationStackInput == ListLegalHoldsInput, OperationStackOutput == ListLegalHoldsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listLegalHoldsPaginated`
     /// to access the nested member `[BackupClientTypes.LegalHold]`
     /// - Returns: `[BackupClientTypes.LegalHold]`
@@ -298,7 +352,7 @@ extension BackupClient {
     ///     - input: A `[ListProtectedResourcesInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProtectedResourcesOutput`
     public func listProtectedResourcesPaginated(input: ListProtectedResourcesInput) -> ClientRuntime.PaginatorSequence<ListProtectedResourcesInput, ListProtectedResourcesOutput> {
-        return ClientRuntime.PaginatorSequence<ListProtectedResourcesInput, ListProtectedResourcesOutput>(input: input, inputKey: \ListProtectedResourcesInput.nextToken, outputKey: \ListProtectedResourcesOutput.nextToken, paginationFunction: self.listProtectedResources(input:))
+        return ClientRuntime.PaginatorSequence<ListProtectedResourcesInput, ListProtectedResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtectedResources(input:))
     }
 }
 
@@ -310,7 +364,7 @@ extension ListProtectedResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListProtectedResourcesInput, Output == ListProtectedResourcesOutput {
+extension PaginatorSequence where OperationStackInput == ListProtectedResourcesInput, OperationStackOutput == ListProtectedResourcesOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProtectedResourcesPaginated`
     /// to access the nested member `[BackupClientTypes.ProtectedResource]`
     /// - Returns: `[BackupClientTypes.ProtectedResource]`
@@ -328,7 +382,7 @@ extension BackupClient {
     ///     - input: A `[ListProtectedResourcesByBackupVaultInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListProtectedResourcesByBackupVaultOutput`
     public func listProtectedResourcesByBackupVaultPaginated(input: ListProtectedResourcesByBackupVaultInput) -> ClientRuntime.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput> {
-        return ClientRuntime.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput>(input: input, inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken, outputKey: \ListProtectedResourcesByBackupVaultOutput.nextToken, paginationFunction: self.listProtectedResourcesByBackupVault(input:))
+        return ClientRuntime.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtectedResourcesByBackupVault(input:))
     }
 }
 
@@ -342,7 +396,7 @@ extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.PaginateToken 
         )}
 }
 
-extension PaginatorSequence where Input == ListProtectedResourcesByBackupVaultInput, Output == ListProtectedResourcesByBackupVaultOutput {
+extension PaginatorSequence where OperationStackInput == ListProtectedResourcesByBackupVaultInput, OperationStackOutput == ListProtectedResourcesByBackupVaultOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listProtectedResourcesByBackupVaultPaginated`
     /// to access the nested member `[BackupClientTypes.ProtectedResource]`
     /// - Returns: `[BackupClientTypes.ProtectedResource]`
@@ -360,7 +414,7 @@ extension BackupClient {
     ///     - input: A `[ListRecoveryPointsByBackupVaultInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPointsByBackupVaultOutput`
     public func listRecoveryPointsByBackupVaultPaginated(input: ListRecoveryPointsByBackupVaultInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPointsByBackupVaultInput, ListRecoveryPointsByBackupVaultOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByBackupVaultInput, ListRecoveryPointsByBackupVaultOutput>(input: input, inputKey: \ListRecoveryPointsByBackupVaultInput.nextToken, outputKey: \ListRecoveryPointsByBackupVaultOutput.nextToken, paginationFunction: self.listRecoveryPointsByBackupVault(input:))
+        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByBackupVaultInput, ListRecoveryPointsByBackupVaultOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPointsByBackupVault(input:))
     }
 }
 
@@ -380,7 +434,7 @@ extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRecoveryPointsByBackupVaultInput, Output == ListRecoveryPointsByBackupVaultOutput {
+extension PaginatorSequence where OperationStackInput == ListRecoveryPointsByBackupVaultInput, OperationStackOutput == ListRecoveryPointsByBackupVaultOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPointsByBackupVaultPaginated`
     /// to access the nested member `[BackupClientTypes.RecoveryPointByBackupVault]`
     /// - Returns: `[BackupClientTypes.RecoveryPointByBackupVault]`
@@ -398,7 +452,7 @@ extension BackupClient {
     ///     - input: A `[ListRecoveryPointsByLegalHoldInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPointsByLegalHoldOutput`
     public func listRecoveryPointsByLegalHoldPaginated(input: ListRecoveryPointsByLegalHoldInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput>(input: input, inputKey: \ListRecoveryPointsByLegalHoldInput.nextToken, outputKey: \ListRecoveryPointsByLegalHoldOutput.nextToken, paginationFunction: self.listRecoveryPointsByLegalHold(input:))
+        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByLegalHoldInput, ListRecoveryPointsByLegalHoldOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPointsByLegalHold(input:))
     }
 }
 
@@ -411,7 +465,7 @@ extension ListRecoveryPointsByLegalHoldInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRecoveryPointsByLegalHoldInput, Output == ListRecoveryPointsByLegalHoldOutput {
+extension PaginatorSequence where OperationStackInput == ListRecoveryPointsByLegalHoldInput, OperationStackOutput == ListRecoveryPointsByLegalHoldOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPointsByLegalHoldPaginated`
     /// to access the nested member `[BackupClientTypes.RecoveryPointMember]`
     /// - Returns: `[BackupClientTypes.RecoveryPointMember]`
@@ -429,7 +483,7 @@ extension BackupClient {
     ///     - input: A `[ListRecoveryPointsByResourceInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryPointsByResourceOutput`
     public func listRecoveryPointsByResourcePaginated(input: ListRecoveryPointsByResourceInput) -> ClientRuntime.PaginatorSequence<ListRecoveryPointsByResourceInput, ListRecoveryPointsByResourceOutput> {
-        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByResourceInput, ListRecoveryPointsByResourceOutput>(input: input, inputKey: \ListRecoveryPointsByResourceInput.nextToken, outputKey: \ListRecoveryPointsByResourceOutput.nextToken, paginationFunction: self.listRecoveryPointsByResource(input:))
+        return ClientRuntime.PaginatorSequence<ListRecoveryPointsByResourceInput, ListRecoveryPointsByResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRecoveryPointsByResource(input:))
     }
 }
 
@@ -442,7 +496,7 @@ extension ListRecoveryPointsByResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where Input == ListRecoveryPointsByResourceInput, Output == ListRecoveryPointsByResourceOutput {
+extension PaginatorSequence where OperationStackInput == ListRecoveryPointsByResourceInput, OperationStackOutput == ListRecoveryPointsByResourceOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRecoveryPointsByResourcePaginated`
     /// to access the nested member `[BackupClientTypes.RecoveryPointByResource]`
     /// - Returns: `[BackupClientTypes.RecoveryPointByResource]`
@@ -460,7 +514,7 @@ extension BackupClient {
     ///     - input: A `[ListReportJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportJobsOutput`
     public func listReportJobsPaginated(input: ListReportJobsInput) -> ClientRuntime.PaginatorSequence<ListReportJobsInput, ListReportJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListReportJobsInput, ListReportJobsOutput>(input: input, inputKey: \ListReportJobsInput.nextToken, outputKey: \ListReportJobsOutput.nextToken, paginationFunction: self.listReportJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListReportJobsInput, ListReportJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReportJobs(input:))
     }
 }
 
@@ -485,7 +539,7 @@ extension BackupClient {
     ///     - input: A `[ListReportPlansInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListReportPlansOutput`
     public func listReportPlansPaginated(input: ListReportPlansInput) -> ClientRuntime.PaginatorSequence<ListReportPlansInput, ListReportPlansOutput> {
-        return ClientRuntime.PaginatorSequence<ListReportPlansInput, ListReportPlansOutput>(input: input, inputKey: \ListReportPlansInput.nextToken, outputKey: \ListReportPlansOutput.nextToken, paginationFunction: self.listReportPlans(input:))
+        return ClientRuntime.PaginatorSequence<ListReportPlansInput, ListReportPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReportPlans(input:))
     }
 }
 
@@ -506,7 +560,7 @@ extension BackupClient {
     ///     - input: A `[ListRestoreJobsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreJobsOutput`
     public func listRestoreJobsPaginated(input: ListRestoreJobsInput) -> ClientRuntime.PaginatorSequence<ListRestoreJobsInput, ListRestoreJobsOutput> {
-        return ClientRuntime.PaginatorSequence<ListRestoreJobsInput, ListRestoreJobsOutput>(input: input, inputKey: \ListRestoreJobsInput.nextToken, outputKey: \ListRestoreJobsOutput.nextToken, paginationFunction: self.listRestoreJobs(input:))
+        return ClientRuntime.PaginatorSequence<ListRestoreJobsInput, ListRestoreJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreJobs(input:))
     }
 }
 
@@ -518,18 +572,139 @@ extension ListRestoreJobsInput: ClientRuntime.PaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byRestoreTestingPlanArn: self.byRestoreTestingPlanArn,
             byStatus: self.byStatus,
             maxResults: self.maxResults,
             nextToken: token
         )}
 }
 
-extension PaginatorSequence where Input == ListRestoreJobsInput, Output == ListRestoreJobsOutput {
+extension PaginatorSequence where OperationStackInput == ListRestoreJobsInput, OperationStackOutput == ListRestoreJobsOutput {
     /// This paginator transforms the `AsyncSequence` returned by `listRestoreJobsPaginated`
     /// to access the nested member `[BackupClientTypes.RestoreJobsListMember]`
     /// - Returns: `[BackupClientTypes.RestoreJobsListMember]`
     public func restoreJobs() async throws -> [BackupClientTypes.RestoreJobsListMember] {
         return try await self.asyncCompactMap { item in item.restoreJobs }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListRestoreJobsByProtectedResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRestoreJobsByProtectedResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreJobsByProtectedResourceOutput`
+    public func listRestoreJobsByProtectedResourcePaginated(input: ListRestoreJobsByProtectedResourceInput) -> ClientRuntime.PaginatorSequence<ListRestoreJobsByProtectedResourceInput, ListRestoreJobsByProtectedResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListRestoreJobsByProtectedResourceInput, ListRestoreJobsByProtectedResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreJobsByProtectedResource(input:))
+    }
+}
+
+extension ListRestoreJobsByProtectedResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRestoreJobsByProtectedResourceInput {
+        return ListRestoreJobsByProtectedResourceInput(
+            byRecoveryPointCreationDateAfter: self.byRecoveryPointCreationDateAfter,
+            byRecoveryPointCreationDateBefore: self.byRecoveryPointCreationDateBefore,
+            byStatus: self.byStatus,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRestoreJobsByProtectedResourceInput, OperationStackOutput == ListRestoreJobsByProtectedResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRestoreJobsByProtectedResourcePaginated`
+    /// to access the nested member `[BackupClientTypes.RestoreJobsListMember]`
+    /// - Returns: `[BackupClientTypes.RestoreJobsListMember]`
+    public func restoreJobs() async throws -> [BackupClientTypes.RestoreJobsListMember] {
+        return try await self.asyncCompactMap { item in item.restoreJobs }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListRestoreJobSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRestoreJobSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreJobSummariesOutput`
+    public func listRestoreJobSummariesPaginated(input: ListRestoreJobSummariesInput) -> ClientRuntime.PaginatorSequence<ListRestoreJobSummariesInput, ListRestoreJobSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRestoreJobSummariesInput, ListRestoreJobSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreJobSummaries(input:))
+    }
+}
+
+extension ListRestoreJobSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRestoreJobSummariesInput {
+        return ListRestoreJobSummariesInput(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType,
+            state: self.state
+        )}
+}
+extension BackupClient {
+    /// Paginate over `[ListRestoreTestingPlansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRestoreTestingPlansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreTestingPlansOutput`
+    public func listRestoreTestingPlansPaginated(input: ListRestoreTestingPlansInput) -> ClientRuntime.PaginatorSequence<ListRestoreTestingPlansInput, ListRestoreTestingPlansOutput> {
+        return ClientRuntime.PaginatorSequence<ListRestoreTestingPlansInput, ListRestoreTestingPlansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreTestingPlans(input:))
+    }
+}
+
+extension ListRestoreTestingPlansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRestoreTestingPlansInput {
+        return ListRestoreTestingPlansInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRestoreTestingPlansInput, OperationStackOutput == ListRestoreTestingPlansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRestoreTestingPlansPaginated`
+    /// to access the nested member `[BackupClientTypes.RestoreTestingPlanForList]`
+    /// - Returns: `[BackupClientTypes.RestoreTestingPlanForList]`
+    public func restoreTestingPlans() async throws -> [BackupClientTypes.RestoreTestingPlanForList] {
+        return try await self.asyncCompactMap { item in item.restoreTestingPlans }
+    }
+}
+extension BackupClient {
+    /// Paginate over `[ListRestoreTestingSelectionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRestoreTestingSelectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRestoreTestingSelectionsOutput`
+    public func listRestoreTestingSelectionsPaginated(input: ListRestoreTestingSelectionsInput) -> ClientRuntime.PaginatorSequence<ListRestoreTestingSelectionsInput, ListRestoreTestingSelectionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRestoreTestingSelectionsInput, ListRestoreTestingSelectionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRestoreTestingSelections(input:))
+    }
+}
+
+extension ListRestoreTestingSelectionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRestoreTestingSelectionsInput {
+        return ListRestoreTestingSelectionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            restoreTestingPlanName: self.restoreTestingPlanName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRestoreTestingSelectionsInput, OperationStackOutput == ListRestoreTestingSelectionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRestoreTestingSelectionsPaginated`
+    /// to access the nested member `[BackupClientTypes.RestoreTestingSelectionForList]`
+    /// - Returns: `[BackupClientTypes.RestoreTestingSelectionForList]`
+    public func restoreTestingSelections() async throws -> [BackupClientTypes.RestoreTestingSelectionForList] {
+        return try await self.asyncCompactMap { item in item.restoreTestingSelections }
     }
 }
 extension BackupClient {
@@ -542,7 +717,7 @@ extension BackupClient {
     ///     - input: A `[ListTagsInput]` to start pagination
     /// - Returns: An `AsyncSequence` that can iterate over `ListTagsOutput`
     public func listTagsPaginated(input: ListTagsInput) -> ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput> {
-        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \ListTagsInput.nextToken, outputKey: \ListTagsOutput.nextToken, paginationFunction: self.listTags(input:))
+        return ClientRuntime.PaginatorSequence<ListTagsInput, ListTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTags(input:))
     }
 }
 

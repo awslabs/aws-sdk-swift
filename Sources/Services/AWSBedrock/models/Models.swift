@@ -208,6 +208,7 @@ extension CreateModelCustomizationJobInput: Swift.Encodable {
         case customModelKmsKeyId
         case customModelName
         case customModelTags
+        case customizationType
         case hyperParameters
         case jobName
         case jobTags
@@ -237,6 +238,9 @@ extension CreateModelCustomizationJobInput: Swift.Encodable {
             for tag0 in customModelTags {
                 try customModelTagsContainer.encode(tag0)
             }
+        }
+        if let customizationType = self.customizationType {
+            try encodeContainer.encode(customizationType.rawValue, forKey: .customizationType)
         }
         if let hyperParameters = hyperParameters {
             var hyperParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .hyperParameters)
@@ -290,6 +294,8 @@ public struct CreateModelCustomizationJobInput: Swift.Equatable {
     public var customModelName: Swift.String?
     /// Assign tags to the custom model.
     public var customModelTags: [BedrockClientTypes.Tag]?
+    /// The customization type.
+    public var customizationType: BedrockClientTypes.CustomizationType?
     /// Parameters related to tuning the model.
     /// This member is required.
     public var hyperParameters: [Swift.String:Swift.String]?
@@ -301,7 +307,7 @@ public struct CreateModelCustomizationJobInput: Swift.Equatable {
     /// S3 location for the output data.
     /// This member is required.
     public var outputDataConfig: BedrockClientTypes.OutputDataConfig?
-    /// The Amazon Resource Name (ARN) of an IAM role that Bedrock can assume to perform tasks on your behalf. For example, during model training, Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Bedrock, the caller of this API must have the iam:PassRole permission.
+    /// The Amazon Resource Name (ARN) of an IAM role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Information about the training dataset.
@@ -318,6 +324,7 @@ public struct CreateModelCustomizationJobInput: Swift.Equatable {
         customModelKmsKeyId: Swift.String? = nil,
         customModelName: Swift.String? = nil,
         customModelTags: [BedrockClientTypes.Tag]? = nil,
+        customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
         jobName: Swift.String? = nil,
         jobTags: [BedrockClientTypes.Tag]? = nil,
@@ -333,6 +340,7 @@ public struct CreateModelCustomizationJobInput: Swift.Equatable {
         self.customModelKmsKeyId = customModelKmsKeyId
         self.customModelName = customModelName
         self.customModelTags = customModelTags
+        self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobName = jobName
         self.jobTags = jobTags
@@ -350,6 +358,7 @@ struct CreateModelCustomizationJobInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let clientRequestToken: Swift.String?
     let baseModelIdentifier: Swift.String?
+    let customizationType: BedrockClientTypes.CustomizationType?
     let customModelKmsKeyId: Swift.String?
     let jobTags: [BedrockClientTypes.Tag]?
     let customModelTags: [BedrockClientTypes.Tag]?
@@ -367,6 +376,7 @@ extension CreateModelCustomizationJobInputBody: Swift.Decodable {
         case customModelKmsKeyId
         case customModelName
         case customModelTags
+        case customizationType
         case hyperParameters
         case jobName
         case jobTags
@@ -389,6 +399,8 @@ extension CreateModelCustomizationJobInputBody: Swift.Decodable {
         clientRequestToken = clientRequestTokenDecoded
         let baseModelIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseModelIdentifier)
         baseModelIdentifier = baseModelIdentifierDecoded
+        let customizationTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.CustomizationType.self, forKey: .customizationType)
+        customizationType = customizationTypeDecoded
         let customModelKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customModelKmsKeyId)
         customModelKmsKeyId = customModelKmsKeyIdDecoded
         let jobTagsContainer = try containerValues.decodeIfPresent([BedrockClientTypes.Tag?].self, forKey: .jobTags)
@@ -537,7 +549,7 @@ extension CreateProvisionedModelThroughputInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateProvisionedModelThroughputInput: Swift.Equatable {
-    /// Unique token value that you can provide. If this token matches a previous request, Bedrock ignores the request, but does not return an error.
+    /// Unique token value that you can provide. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
     public var clientRequestToken: Swift.String?
     /// Commitment duration requested for the provisioned throughput.
     public var commitmentDuration: BedrockClientTypes.CommitmentDuration?
@@ -679,6 +691,7 @@ extension BedrockClientTypes.CustomModelSummary: Swift.Codable {
         case baseModelArn
         case baseModelName
         case creationTime
+        case customizationType
         case modelArn
         case modelName
     }
@@ -693,6 +706,9 @@ extension BedrockClientTypes.CustomModelSummary: Swift.Codable {
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let customizationType = self.customizationType {
+            try encodeContainer.encode(customizationType.rawValue, forKey: .customizationType)
         }
         if let modelArn = self.modelArn {
             try encodeContainer.encode(modelArn, forKey: .modelArn)
@@ -714,6 +730,8 @@ extension BedrockClientTypes.CustomModelSummary: Swift.Codable {
         baseModelArn = baseModelArnDecoded
         let baseModelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseModelName)
         baseModelName = baseModelNameDecoded
+        let customizationTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.CustomizationType.self, forKey: .customizationType)
+        customizationType = customizationTypeDecoded
     }
 }
 
@@ -729,6 +747,8 @@ extension BedrockClientTypes {
         /// Creation time of the model.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
+        /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
+        public var customizationType: BedrockClientTypes.CustomizationType?
         /// The ARN of the custom model.
         /// This member is required.
         public var modelArn: Swift.String?
@@ -740,6 +760,7 @@ extension BedrockClientTypes {
             baseModelArn: Swift.String? = nil,
             baseModelName: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
+            customizationType: BedrockClientTypes.CustomizationType? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
         )
@@ -747,11 +768,44 @@ extension BedrockClientTypes {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
             self.creationTime = creationTime
+            self.customizationType = customizationType
             self.modelArn = modelArn
             self.modelName = modelName
         }
     }
 
+}
+
+extension BedrockClientTypes {
+    public enum CustomizationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case continuedPreTraining
+        case fineTuning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizationType] {
+            return [
+                .continuedPreTraining,
+                .fineTuning,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .fineTuning: return "FINE_TUNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomizationType(rawValue: rawValue) ?? CustomizationType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DeleteCustomModelInput: ClientRuntime.URLPathProvider {
@@ -959,6 +1013,7 @@ extension BedrockClientTypes.FoundationModelDetails: Swift.Codable {
         case inputModalities
         case modelArn
         case modelId
+        case modelLifecycle
         case modelName
         case outputModalities
         case providerName
@@ -990,6 +1045,9 @@ extension BedrockClientTypes.FoundationModelDetails: Swift.Codable {
         }
         if let modelId = self.modelId {
             try encodeContainer.encode(modelId, forKey: .modelId)
+        }
+        if let modelLifecycle = self.modelLifecycle {
+            try encodeContainer.encode(modelLifecycle, forKey: .modelLifecycle)
         }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
@@ -1064,6 +1122,8 @@ extension BedrockClientTypes.FoundationModelDetails: Swift.Codable {
             }
         }
         inferenceTypesSupported = inferenceTypesSupportedDecoded0
+        let modelLifecycleDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.FoundationModelLifecycle.self, forKey: .modelLifecycle)
+        modelLifecycle = modelLifecycleDecoded
     }
 }
 
@@ -1082,6 +1142,8 @@ extension BedrockClientTypes {
         /// The model identifier.
         /// This member is required.
         public var modelId: Swift.String?
+        /// Contains details about whether a model version is available or deprecated
+        public var modelLifecycle: BedrockClientTypes.FoundationModelLifecycle?
         /// The model name.
         public var modelName: Swift.String?
         /// The output modalities that the model supports.
@@ -1097,6 +1159,7 @@ extension BedrockClientTypes {
             inputModalities: [BedrockClientTypes.ModelModality]? = nil,
             modelArn: Swift.String? = nil,
             modelId: Swift.String? = nil,
+            modelLifecycle: BedrockClientTypes.FoundationModelLifecycle? = nil,
             modelName: Swift.String? = nil,
             outputModalities: [BedrockClientTypes.ModelModality]? = nil,
             providerName: Swift.String? = nil,
@@ -1108,6 +1171,7 @@ extension BedrockClientTypes {
             self.inputModalities = inputModalities
             self.modelArn = modelArn
             self.modelId = modelId
+            self.modelLifecycle = modelLifecycle
             self.modelName = modelName
             self.outputModalities = outputModalities
             self.providerName = providerName
@@ -1117,6 +1181,74 @@ extension BedrockClientTypes {
 
 }
 
+extension BedrockClientTypes.FoundationModelLifecycle: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.FoundationModelLifecycleStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension BedrockClientTypes {
+    /// Details about whether a model version is available or deprecated.
+    public struct FoundationModelLifecycle: Swift.Equatable {
+        /// Specifies whether a model version is available (ACTIVE) or deprecated (LEGACY.
+        /// This member is required.
+        public var status: BedrockClientTypes.FoundationModelLifecycleStatus?
+
+        public init(
+            status: BedrockClientTypes.FoundationModelLifecycleStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension BedrockClientTypes {
+    public enum FoundationModelLifecycleStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case legacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FoundationModelLifecycleStatus] {
+            return [
+                .active,
+                .legacy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .legacy: return "LEGACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FoundationModelLifecycleStatus(rawValue: rawValue) ?? FoundationModelLifecycleStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BedrockClientTypes.FoundationModelSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customizationsSupported
@@ -1124,6 +1256,7 @@ extension BedrockClientTypes.FoundationModelSummary: Swift.Codable {
         case inputModalities
         case modelArn
         case modelId
+        case modelLifecycle
         case modelName
         case outputModalities
         case providerName
@@ -1155,6 +1288,9 @@ extension BedrockClientTypes.FoundationModelSummary: Swift.Codable {
         }
         if let modelId = self.modelId {
             try encodeContainer.encode(modelId, forKey: .modelId)
+        }
+        if let modelLifecycle = self.modelLifecycle {
+            try encodeContainer.encode(modelLifecycle, forKey: .modelLifecycle)
         }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
@@ -1229,6 +1365,8 @@ extension BedrockClientTypes.FoundationModelSummary: Swift.Codable {
             }
         }
         inferenceTypesSupported = inferenceTypesSupportedDecoded0
+        let modelLifecycleDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.FoundationModelLifecycle.self, forKey: .modelLifecycle)
+        modelLifecycle = modelLifecycleDecoded
     }
 }
 
@@ -1247,6 +1385,8 @@ extension BedrockClientTypes {
         /// The model Id of the foundation model.
         /// This member is required.
         public var modelId: Swift.String?
+        /// Contains details about whether a model version is available or deprecated.
+        public var modelLifecycle: BedrockClientTypes.FoundationModelLifecycle?
         /// The name of the model.
         public var modelName: Swift.String?
         /// The output modalities that the model supports.
@@ -1262,6 +1402,7 @@ extension BedrockClientTypes {
             inputModalities: [BedrockClientTypes.ModelModality]? = nil,
             modelArn: Swift.String? = nil,
             modelId: Swift.String? = nil,
+            modelLifecycle: BedrockClientTypes.FoundationModelLifecycle? = nil,
             modelName: Swift.String? = nil,
             outputModalities: [BedrockClientTypes.ModelModality]? = nil,
             providerName: Swift.String? = nil,
@@ -1273,6 +1414,7 @@ extension BedrockClientTypes {
             self.inputModalities = inputModalities
             self.modelArn = modelArn
             self.modelId = modelId
+            self.modelLifecycle = modelLifecycle
             self.modelName = modelName
             self.outputModalities = outputModalities
             self.providerName = providerName
@@ -1320,6 +1462,7 @@ extension GetCustomModelOutput: ClientRuntime.HttpResponseBinding {
             let output: GetCustomModelOutputBody = try responseDecoder.decode(responseBody: data)
             self.baseModelArn = output.baseModelArn
             self.creationTime = output.creationTime
+            self.customizationType = output.customizationType
             self.hyperParameters = output.hyperParameters
             self.jobArn = output.jobArn
             self.jobName = output.jobName
@@ -1334,6 +1477,7 @@ extension GetCustomModelOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.baseModelArn = nil
             self.creationTime = nil
+            self.customizationType = nil
             self.hyperParameters = nil
             self.jobArn = nil
             self.jobName = nil
@@ -1356,6 +1500,8 @@ public struct GetCustomModelOutput: Swift.Equatable {
     /// Creation time of the model.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
+    /// The type of model customization.
+    public var customizationType: BedrockClientTypes.CustomizationType?
     /// Hyperparameter values associated with this model.
     public var hyperParameters: [Swift.String:Swift.String]?
     /// Job ARN associated with this model.
@@ -1387,6 +1533,7 @@ public struct GetCustomModelOutput: Swift.Equatable {
     public init(
         baseModelArn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -1402,6 +1549,7 @@ public struct GetCustomModelOutput: Swift.Equatable {
     {
         self.baseModelArn = baseModelArn
         self.creationTime = creationTime
+        self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobArn = jobArn
         self.jobName = jobName
@@ -1422,6 +1570,7 @@ struct GetCustomModelOutputBody: Swift.Equatable {
     let jobName: Swift.String?
     let jobArn: Swift.String?
     let baseModelArn: Swift.String?
+    let customizationType: BedrockClientTypes.CustomizationType?
     let modelKmsKeyArn: Swift.String?
     let hyperParameters: [Swift.String:Swift.String]?
     let trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
@@ -1436,6 +1585,7 @@ extension GetCustomModelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case baseModelArn
         case creationTime
+        case customizationType
         case hyperParameters
         case jobArn
         case jobName
@@ -1461,6 +1611,8 @@ extension GetCustomModelOutputBody: Swift.Decodable {
         jobArn = jobArnDecoded
         let baseModelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseModelArn)
         baseModelArn = baseModelArnDecoded
+        let customizationTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.CustomizationType.self, forKey: .customizationType)
+        customizationType = customizationTypeDecoded
         let modelKmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelKmsKeyArn)
         modelKmsKeyArn = modelKmsKeyArnDecoded
         let hyperParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .hyperParameters)
@@ -1638,6 +1790,7 @@ extension GetModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
             self.baseModelArn = output.baseModelArn
             self.clientRequestToken = output.clientRequestToken
             self.creationTime = output.creationTime
+            self.customizationType = output.customizationType
             self.endTime = output.endTime
             self.failureMessage = output.failureMessage
             self.hyperParameters = output.hyperParameters
@@ -1659,6 +1812,7 @@ extension GetModelCustomizationJobOutput: ClientRuntime.HttpResponseBinding {
             self.baseModelArn = nil
             self.clientRequestToken = nil
             self.creationTime = nil
+            self.customizationType = nil
             self.endTime = nil
             self.failureMessage = nil
             self.hyperParameters = nil
@@ -1689,11 +1843,13 @@ public struct GetModelCustomizationJobOutput: Swift.Equatable {
     /// Time that the resource was created.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
+    /// The type of model customization.
+    public var customizationType: BedrockClientTypes.CustomizationType?
     /// Time that the resource transitioned to terminal state.
     public var endTime: ClientRuntime.Date?
     /// Information about why the job failed.
     public var failureMessage: Swift.String?
-    /// The hyperparameter values for the job.
+    /// The hyperparameter values for the job. For information about hyperparameters for specific models, see [Guidelines for model customization](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-guidelines.html).
     /// This member is required.
     public var hyperParameters: [Swift.String:Swift.String]?
     /// The ARN of the customization job.
@@ -1736,6 +1892,7 @@ public struct GetModelCustomizationJobOutput: Swift.Equatable {
         baseModelArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
+        customizationType: BedrockClientTypes.CustomizationType? = nil,
         endTime: ClientRuntime.Date? = nil,
         failureMessage: Swift.String? = nil,
         hyperParameters: [Swift.String:Swift.String]? = nil,
@@ -1758,6 +1915,7 @@ public struct GetModelCustomizationJobOutput: Swift.Equatable {
         self.baseModelArn = baseModelArn
         self.clientRequestToken = clientRequestToken
         self.creationTime = creationTime
+        self.customizationType = customizationType
         self.endTime = endTime
         self.failureMessage = failureMessage
         self.hyperParameters = hyperParameters
@@ -1795,6 +1953,7 @@ struct GetModelCustomizationJobOutputBody: Swift.Equatable {
     let trainingDataConfig: BedrockClientTypes.TrainingDataConfig?
     let validationDataConfig: BedrockClientTypes.ValidationDataConfig?
     let outputDataConfig: BedrockClientTypes.OutputDataConfig?
+    let customizationType: BedrockClientTypes.CustomizationType?
     let outputModelKmsKeyArn: Swift.String?
     let trainingMetrics: BedrockClientTypes.TrainingMetrics?
     let validationMetrics: [BedrockClientTypes.ValidatorMetric]?
@@ -1806,6 +1965,7 @@ extension GetModelCustomizationJobOutputBody: Swift.Decodable {
         case baseModelArn
         case clientRequestToken
         case creationTime
+        case customizationType
         case endTime
         case failureMessage
         case hyperParameters
@@ -1868,6 +2028,8 @@ extension GetModelCustomizationJobOutputBody: Swift.Decodable {
         validationDataConfig = validationDataConfigDecoded
         let outputDataConfigDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.OutputDataConfig.self, forKey: .outputDataConfig)
         outputDataConfig = outputDataConfigDecoded
+        let customizationTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.CustomizationType.self, forKey: .customizationType)
+        customizationType = customizationTypeDecoded
         let outputModelKmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputModelKmsKeyArn)
         outputModelKmsKeyArn = outputModelKmsKeyArnDecoded
         let trainingMetricsDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.TrainingMetrics.self, forKey: .trainingMetrics)
@@ -2343,7 +2505,7 @@ public struct ListCustomModelsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Return custom models only if the job name contains these characters.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Bedrock to list the next set of results.
+    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
     public var nextToken: Swift.String?
     /// The field to sort by in the returned list of models.
     public var sortBy: BedrockClientTypes.SortModelsBy?
@@ -2494,7 +2656,7 @@ public struct ListFoundationModelsInput: Swift.Equatable {
     public var byInferenceType: BedrockClientTypes.InferenceType?
     /// List by output modality type.
     public var byOutputModality: BedrockClientTypes.ModelModality?
-    /// A Bedrock model provider.
+    /// A Amazon Bedrock model provider.
     public var byProvider: Swift.String?
 
     public init(
@@ -2533,7 +2695,7 @@ extension ListFoundationModelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListFoundationModelsOutput: Swift.Equatable {
-    /// A list of bedrock foundation models.
+    /// A list of Amazon Bedrock foundation models.
     public var modelSummaries: [BedrockClientTypes.FoundationModelSummary]?
 
     public init(
@@ -2639,7 +2801,7 @@ public struct ListModelCustomizationJobsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// Return customization jobs only if the job name contains these characters.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Bedrock to list the next set of results.
+    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
     public var nextToken: Swift.String?
     /// The field to sort by in the returned list of jobs.
     public var sortBy: BedrockClientTypes.SortJobsBy?
@@ -2814,7 +2976,7 @@ public struct ListProvisionedModelThroughputsInput: Swift.Equatable {
     public var modelArnEquals: Swift.String?
     /// Return the list of provisioned capacities if their name contains these characters.
     public var nameContains: Swift.String?
-    /// Continuation token from the previous response, for Bedrock to list the next set of results.
+    /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
     public var nextToken: Swift.String?
     /// The field to sort by in the returned list of provisioned capacities.
     public var sortBy: BedrockClientTypes.SortByProvisionedModels?
@@ -3118,11 +3280,13 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
     public enum ModelCustomization: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case continuedPreTraining
         case fineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelCustomization] {
             return [
+                .continuedPreTraining,
                 .fineTuning,
                 .sdkUnknown("")
             ]
@@ -3133,6 +3297,7 @@ extension BedrockClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
             case .fineTuning: return "FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
@@ -3192,6 +3357,7 @@ extension BedrockClientTypes.ModelCustomizationJobSummary: Swift.Codable {
         case creationTime
         case customModelArn
         case customModelName
+        case customizationType
         case endTime
         case jobArn
         case jobName
@@ -3212,6 +3378,9 @@ extension BedrockClientTypes.ModelCustomizationJobSummary: Swift.Codable {
         }
         if let customModelName = self.customModelName {
             try encodeContainer.encode(customModelName, forKey: .customModelName)
+        }
+        if let customizationType = self.customizationType {
+            try encodeContainer.encode(customizationType.rawValue, forKey: .customizationType)
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
@@ -3250,6 +3419,8 @@ extension BedrockClientTypes.ModelCustomizationJobSummary: Swift.Codable {
         customModelArn = customModelArnDecoded
         let customModelNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customModelName)
         customModelName = customModelNameDecoded
+        let customizationTypeDecoded = try containerValues.decodeIfPresent(BedrockClientTypes.CustomizationType.self, forKey: .customizationType)
+        customizationType = customizationTypeDecoded
     }
 }
 
@@ -3266,6 +3437,8 @@ extension BedrockClientTypes {
         public var customModelArn: Swift.String?
         /// Name of the custom model.
         public var customModelName: Swift.String?
+        /// Specifies whether to carry out continued pre-training of a model or whether to fine-tune it. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html).
+        public var customizationType: BedrockClientTypes.CustomizationType?
         /// Time that the customization job ended.
         public var endTime: ClientRuntime.Date?
         /// ARN of the customization job.
@@ -3285,6 +3458,7 @@ extension BedrockClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             customModelArn: Swift.String? = nil,
             customModelName: Swift.String? = nil,
+            customizationType: BedrockClientTypes.CustomizationType? = nil,
             endTime: ClientRuntime.Date? = nil,
             jobArn: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -3296,6 +3470,7 @@ extension BedrockClientTypes {
             self.creationTime = creationTime
             self.customModelArn = customModelArn
             self.customModelName = customModelName
+            self.customizationType = customizationType
             self.endTime = endTime
             self.jobArn = jobArn
             self.jobName = jobName
