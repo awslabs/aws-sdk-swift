@@ -11,40 +11,48 @@ import XCTest
 class PackageManifestBuilderTests: XCTestCase {
 
     let expected = """
-    <contents of base package>
-    
-    // MARK: - Generated
-    
-    addDependencies(
-        clientRuntimeVersion: "1.2.3",
-        crtVersion: "4.5.6"
-    )
+<contents of base package>
 
-    let serviceTargets: [String] = [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-    ]
+// MARK: - Generated
 
-    // Uncomment this line to enable service tests
-    serviceTargets.forEach(addServiceTarget)
+addDependencies(
+    clientRuntimeVersion: "1.2.3",
+    crtVersion: "4.5.6"
+)
 
-    let servicesWithIntegrationTests: [String] = [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-    ]
+// Uncomment this line to exclude runtime unit tests
+// excludeRuntimeUnitTests()
 
-    servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
+let serviceTargets: [String] = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+]
 
-    // Uncomment this line to enable protocol tests
-    // addProtocolTests()
-    """
-    
+// Uncomment this line to enable all services
+addAllServices()
+
+let servicesWithIntegrationTests: [String] = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+]
+
+// Uncomment this line to enable integration tests
+// addIntegrationTests()
+
+// Uncomment this line to enable protocol tests
+// addProtocolTests()
+
+addResolvedTargets()
+
+
+"""
+
     func testBuild() {
         let subject = PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),

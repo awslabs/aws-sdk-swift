@@ -31,6 +31,10 @@ class GeneratePackageManifestTests: CLITestCase {
                 withIntermediateDirectories: true
             )
         }
+        try! FileManager.default.createDirectory(
+            atPath: "IntegrationTests/Services",
+            withIntermediateDirectories: true
+        )
     }
     
     // MARK: - Tests
