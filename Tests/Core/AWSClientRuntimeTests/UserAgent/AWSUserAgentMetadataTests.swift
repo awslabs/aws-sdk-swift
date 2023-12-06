@@ -105,6 +105,12 @@ class AWSUseragentMetadataTests: XCTestCase {
             expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/macos#11.4 lang/swift#9.9"
         case .iOS:
             expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/ios#11.4 lang/swift#9.9"
+        case .tvOS:
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/tvos#11.4 lang/swift#9.9"
+        case .visionOS:
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/visionos#11.4 lang/swift#9.9"
+        case .watchOS:
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/watchos#11.4 lang/swift#9.9"
         case .unknown:
             expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/unknown#11.4 lang/swift#9.9"
         default:
