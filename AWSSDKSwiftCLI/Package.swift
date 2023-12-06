@@ -1,5 +1,4 @@
-// swift-tools-version: 5.5
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.7
 
 import PackageDescription
 
@@ -26,9 +25,6 @@ let package = Package(
             resources: [
                 .process("Resources/Package.Base.swift"),
                 .process("Resources/DocIndex.Base.md")
-            ],
-            swiftSettings: [
-                .unsafeFlags(["-package-description-version", "5.7"])
             ]
         ),
         .testTarget(
