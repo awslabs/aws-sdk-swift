@@ -22,7 +22,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
         let streamInput = MockStreamInput(body: byteStream)
         var stack = OperationStack<MockStreamInput, MockOutput>(id: "TreeHashMiddlewareTestStack")
         stack.serializeStep.intercept(position: .before, middleware: MockSerializeStreamMiddleware())
-        let mockHttpResponse = HttpResponse(body: HttpBody.none, statusCode: .accepted)
+        let mockHttpResponse = HttpResponse(body: .none, statusCode: .accepted)
         let mockOutput = try MockOutput(httpResponse: mockHttpResponse, decoder: nil)
         let output = OperationOutput<MockOutput>(httpResponse: mockHttpResponse, output: mockOutput)
         stack.finalizeStep.intercept(position: .after, middleware: Sha256TreeHashMiddleware<MockOutput>())
