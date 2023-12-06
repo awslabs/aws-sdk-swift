@@ -100,7 +100,6 @@ func addDoccDependency() {
 // MARK: - Services
 
 func addServiceTarget(_ name: String) {
-    let testName = "\(name)Tests"
     package.products += [
         .library(name: name, targets: [name]),
     ]
@@ -109,7 +108,13 @@ func addServiceTarget(_ name: String) {
             name: name,
             dependencies: [.clientRuntime, .awsClientRuntime],
             path: "./Sources/Services/\(name)"
-        ),
+        )
+    ]
+}
+
+func addServiceUnitTestTarget(_ name: String) {
+    let testName = "\(name)Tests"
+    package.targets += [
         .testTarget(
             name: "\(testName)",
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
@@ -120,7 +125,7 @@ func addServiceTarget(_ name: String) {
 
 func addIntegrationTestTarget(_ name: String) {
     let integrationTestName = "\(name)IntegrationTests"
-    var additionalDependencies: [PackageDescription.Target.Dependency] = []
+    var additionalDependencies: [String] = []
     var exclusions: [String] = []
     switch name {
     case "AWSECS":
@@ -134,15 +139,36 @@ func addIntegrationTestTarget(_ name: String) {
     default:
         break
     }
+    integrationTestServices.insert(name)
+    additionalDependencies.forEach { integrationTestServices.insert($0) }
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies,
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies.map { Target.Dependency.target(name: $0, condition: nil) },
             path: "./IntegrationTests/Services/\(integrationTestName)",
             exclude: exclusions,
             resources: [.process("Resources")]
         )
     ]
+}
+
+var enabledServices = Set<String>()
+
+var enabledServiceUnitTests = Set<String>()
+
+func addAllServices() {
+    enabledServices = Set(serviceTargets)
+    enabledServiceUnitTests = Set(serviceTargets)
+}
+
+var integrationTestServices = Set<String>()
+
+func addIntegrationTests() {
+    servicesWithIntegrationTests.forEach { addIntegrationTestTarget($0) }
+}
+
+func excludeRuntimeUnitTests() {
+    package.targets.removeAll { $0.name == "AWSClientRuntimeTests" }
 }
 
 func addProtocolTests() {
@@ -193,4 +219,9 @@ func addProtocolTests() {
             )
         ]
     }
+}
+
+func addResolvedTargets() {
+    enabledServices.union(integrationTestServices).forEach(addServiceTarget)
+    enabledServiceUnitTests.forEach(addServiceUnitTestTarget)
 }

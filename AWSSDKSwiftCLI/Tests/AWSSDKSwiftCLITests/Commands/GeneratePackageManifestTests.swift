@@ -31,6 +31,10 @@ class GeneratePackageManifestTests: CLITestCase {
                 withIntermediateDirectories: true
             )
         }
+        try! FileManager.default.createDirectory(
+            atPath: "IntegrationTests/Services",
+            withIntermediateDirectories: true
+        )
     }
     
     // MARK: - Tests
@@ -112,6 +116,8 @@ extension GeneratePackageManifest {
         services: [String]? = nil,
         includesIntegrationTests: Bool = false,
         includeProtocolTests: Bool = false,
+        excludeAWSServices: Bool = false,
+        excludeRuntimeTests: Bool = false,
         buildPackageManifest: @escaping BuildPackageManifest = { (_,_,_) throws -> String in "" }
     ) -> GeneratePackageManifest {
         GeneratePackageManifest(
@@ -122,6 +128,8 @@ extension GeneratePackageManifest {
             services: services,
             includeIntegrationTests: includesIntegrationTests,
             includeProtocolTests: includeProtocolTests,
+            excludeAWSServices: excludeAWSServices,
+            excludeRuntimeTests: excludeRuntimeTests,
             buildPackageManifest: buildPackageManifest
         )
     }
