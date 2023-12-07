@@ -55,7 +55,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
                   }
               case .empty:
                   break
-              case .none:
+              case .noStream:
                   break
               }
 
