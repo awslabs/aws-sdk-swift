@@ -19,7 +19,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
                 "X-Header": "Header",
                 "X-Amzn-Errortype": "ComplexError"
             ],
-            content: HttpBody.data("""
+            content: ByteStream.data("""
             {\"TopLevel\": \"Top level\"}
             """.data(using: .utf8))
             ) else {
