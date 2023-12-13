@@ -4,6 +4,7 @@ name: Codegen, Build, and Test
 
 on:
   workflow_dispatch:
+  pull_request:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
@@ -11,6 +12,7 @@ env:
 jobs:
   codegen-build-test:
     runs-on: macos-13
+    environment: Codegen-Build-Test
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
     steps:
