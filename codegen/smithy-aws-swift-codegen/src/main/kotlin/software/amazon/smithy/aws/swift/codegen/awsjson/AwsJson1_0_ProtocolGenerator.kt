@@ -32,15 +32,16 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        AWSJsonHttpResponseBindingErrorGenerator()
+        AWSJsonHttpResponseBindingErrorGenerator(),
     )
     override val serdeContext = serdeContextJSON
     override val shouldRenderEncodableConformance: Boolean = true
     override val shouldRenderDecodableBodyStructForInputShapes: Boolean = true
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_awsJson1_0",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0"
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsJson1_0",
     )
+    override val tagsToIgnore = setOf("defaults")
     override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
         HttpBindingResolver = AwsJsonHttpBindingResolver(ctx, defaultContentType)
 
