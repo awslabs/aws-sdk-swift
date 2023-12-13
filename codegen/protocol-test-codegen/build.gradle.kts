@@ -103,12 +103,6 @@ fun generateSmithyBuild(tests: List<ProtocolTest>): String {
                       "${test.serviceShapeId}"
                     ]
                   }
-                },
-                {
-                  "name": "excludeTraitsByTag",
-                  "args": {
-                    "tags": ["defaults"]
-                  }
                 }
               ],
               "plugins": {

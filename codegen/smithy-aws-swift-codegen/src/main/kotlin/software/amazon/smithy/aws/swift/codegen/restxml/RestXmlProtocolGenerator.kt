@@ -31,7 +31,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSRestXMLHttpResponseBindingErrorGenerator(),
-        AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
+        AWSXMLHttpResponseBindingErrorInitGeneratorFactory(),
     )
     override val shouldRenderDecodableBodyStructForInputShapes = false
     override val serdeContext = serdeContextXML
@@ -47,8 +47,9 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3EscapePathObjectKeyInUriLabel",
         "SDKAppliedContentEncoding_restXml",
         "SDKAppendedGzipAfterProvidedEncoding_restXml",
-        "S3OperationNoErrorWrappingResponse"
+        "S3OperationNoErrorWrappingResponse",
     )
+    override val tagsToIgnore = setOf("defaults")
 
     override val codableProtocol = SwiftTypes.Protocols.Decodable
     override val encodableProtocol = null
@@ -61,7 +62,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
+        path: String?,
     ) {
         val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer)
         encoder.render()
@@ -73,7 +74,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
+        path: String,
     ) {
         val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()

@@ -40,7 +40,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
         AWSEc2QueryHttpResponseBindingErrorGenerator(),
-        AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory()
+        AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory(),
     )
 
     override val serdeContext = HttpProtocolUnitTestGenerator.SerdeContext("FormURLEncoder()", "XMLDecoder()")
@@ -52,8 +52,9 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val shouldRenderEncodableConformance = true
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_ec2Query",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query"
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query",
     )
+    override val tagsToIgnore = setOf("defaults")
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
@@ -61,7 +62,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?
+        path: String?,
     ) {
         val customizations = Ec2QueryFormURLEncodeCustomizations()
         val encoder = StructEncodeFormURLGenerator(ctx, customizations, shapeContainingMembers, shapeMetadata, members, writer, defaultTimestampFormat)
@@ -74,7 +75,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
+        path: String,
     ) {
         val decoder = StructDecodeXMLGenerator(ctx, members, mapOf(), writer, defaultTimestampFormat)
         decoder.render()
