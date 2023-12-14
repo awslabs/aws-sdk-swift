@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Select smithy-swift branch
         run: |
-          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
+          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" \
           DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
