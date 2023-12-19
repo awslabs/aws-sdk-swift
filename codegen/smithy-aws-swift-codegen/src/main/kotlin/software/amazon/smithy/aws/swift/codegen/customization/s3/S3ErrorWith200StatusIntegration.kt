@@ -74,8 +74,10 @@ private object S3HandleError200ResponseMiddleware : MiddlewareRenderable {
                 write("}")
 
                 // Read the response body
-                write("let data = try await response.httpResponse.body.readData()")
-                write("let xmlString = String(data: data!, encoding: .utf8) ?? \"\"")
+                write("guard let data = try await response.httpResponse.body.readData() else {")
+                write("    return try await next.handle(context: context, input: input)")
+                write("}")
+                write("let xmlString = String(data: data, encoding: .utf8) ?? \"\"")
 
                 // Check for <Error> tag in the XML
                 write("if xmlString.contains(\"<Error>\") {")
