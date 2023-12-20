@@ -362,6 +362,25 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func createCertificateFromCsr(input: CreateCertificateFromCsrInput) async throws -> CreateCertificateFromCsrOutput
+    /// Performs the `CreateCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see [Customizing certificate signing using Amazon Web Services IoT Core certificate provider](https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html) from Amazon Web Services IoT Core Developer Guide. Requires permission to access the [CreateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. After you create a certificate provider, the behavior of [CreateCertificateFromCsr] API for fleet provisioning(https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr) will change and all API calls to CreateCertificateFromCsr will invoke the certificate provider to create the certificates. It can take up to a few minutes for this behavior to change after a certificate provider is created.
+    ///
+    /// - Parameter CreateCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : A limit has been exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func createCertificateProvider(input: CreateCertificateProviderInput) async throws -> CreateCertificateProviderOutput
     /// Performs the `CreateCustomMetric` operation on the `AWSIotService` service.
     ///
     /// Use this API to define a Custom Metric published by your devices to Device Defender. Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -941,6 +960,25 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput
+    /// Performs the `DeleteCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Deletes a certificate provider. Requires permission to access the [DeleteCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR).
+    ///
+    /// - Parameter DeleteCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DeleteConflictException` : You can't delete the resource because it is attached to one or more resources.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func deleteCertificateProvider(input: DeleteCertificateProviderInput) async throws -> DeleteCertificateProviderOutput
     /// Performs the `DeleteCustomMetric` operation on the `AWSIotService` service.
     ///
     /// Deletes a Device Defender detect custom metric. Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html) API with metricName set to your custom metric name.
@@ -1569,6 +1607,24 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func describeCertificate(input: DescribeCertificateInput) async throws -> DescribeCertificateOutput
+    /// Performs the `DescribeCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Describes a certificate provider. Requires permission to access the [DescribeCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DescribeCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func describeCertificateProvider(input: DescribeCertificateProviderInput) async throws -> DescribeCertificateProviderOutput
     /// Performs the `DescribeCustomMetric` operation on the `AWSIotService` service.
     ///
     /// Gets information about a Device Defender detect custom metric. Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -2566,6 +2622,23 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func listCACertificates(input: ListCACertificatesInput) async throws -> ListCACertificatesOutput
+    /// Performs the `ListCertificateProviders` operation on the `AWSIotService` service.
+    ///
+    /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the [ListCertificateProviders](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListCertificateProvidersInput : [no documentation found]
+    ///
+    /// - Returns: `ListCertificateProvidersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func listCertificateProviders(input: ListCertificateProvidersInput) async throws -> ListCertificateProvidersOutput
     /// Performs the `ListCertificates` operation on the `AWSIotService` service.
     ///
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -3936,6 +4009,24 @@ public protocol IoTClientProtocol {
     /// - `ThrottlingException` : The rate exceeds the limit.
     /// - `UnauthorizedException` : You are not authorized to perform this operation.
     func updateCertificate(input: UpdateCertificateInput) async throws -> UpdateCertificateOutput
+    /// Performs the `UpdateCertificateProvider` operation on the `AWSIotService` service.
+    ///
+    /// Updates a certificate provider. Requires permission to access the [UpdateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateCertificateProviderInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCertificateProviderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    func updateCertificateProvider(input: UpdateCertificateProviderInput) async throws -> UpdateCertificateProviderOutput
     /// Performs the `UpdateCustomMetric` operation on the `AWSIotService` service.
     ///
     /// Updates a Device Defender detect custom metric. Requires permission to access the [UpdateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.

@@ -989,7 +989,9 @@ extension CreateKxClusterInput: Swift.Encodable {
         case initializationScript
         case releaseLabel
         case savedownStorageConfiguration
+        case scalingGroupConfiguration
         case tags
+        case tickerplantLogConfiguration
         case vpcConfiguration
     }
 
@@ -1052,11 +1054,17 @@ extension CreateKxClusterInput: Swift.Encodable {
         if let savedownStorageConfiguration = self.savedownStorageConfiguration {
             try encodeContainer.encode(savedownStorageConfiguration, forKey: .savedownStorageConfiguration)
         }
+        if let scalingGroupConfiguration = self.scalingGroupConfiguration {
+            try encodeContainer.encode(scalingGroupConfiguration, forKey: .scalingGroupConfiguration)
+        }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let tickerplantLogConfiguration = self.tickerplantLogConfiguration {
+            try encodeContainer.encode(tickerplantLogConfiguration, forKey: .tickerplantLogConfiguration)
         }
         if let vpcConfiguration = self.vpcConfiguration {
             try encodeContainer.encode(vpcConfiguration, forKey: .vpcConfiguration)
@@ -1088,7 +1096,6 @@ public struct CreateKxClusterInput: Swift.Equatable {
     /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
     public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
     /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
-    /// This member is required.
     public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
@@ -1106,6 +1113,8 @@ public struct CreateKxClusterInput: Swift.Equatable {
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
     ///
     /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
+    ///
+    /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
     /// This member is required.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
@@ -1126,9 +1135,14 @@ public struct CreateKxClusterInput: Swift.Equatable {
     public var releaseLabel: Swift.String?
     /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
     public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// The structure that stores the configuration details of a scaling group.
+    public var scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
     /// A list of key-value pairs to label the cluster. You can add up to 50 tags to a cluster.
     public var tags: [Swift.String:Swift.String]?
+    /// A configuration to store Tickerplant logs. It consists of a list of volumes that will be mounted to your cluster. For the cluster type Tickerplant, the location of the TP volume on the cluster will be available by using the global variable .aws.tp_log_path.
+    public var tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
     /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
+    /// This member is required.
     public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
 
     public init(
@@ -1149,7 +1163,9 @@ public struct CreateKxClusterInput: Swift.Equatable {
         initializationScript: Swift.String? = nil,
         releaseLabel: Swift.String? = nil,
         savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
     )
     {
@@ -1170,7 +1186,9 @@ public struct CreateKxClusterInput: Swift.Equatable {
         self.initializationScript = initializationScript
         self.releaseLabel = releaseLabel
         self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.scalingGroupConfiguration = scalingGroupConfiguration
         self.tags = tags
+        self.tickerplantLogConfiguration = tickerplantLogConfiguration
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -1179,6 +1197,7 @@ struct CreateKxClusterInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let clusterName: Swift.String?
     let clusterType: FinspaceClientTypes.KxClusterType?
+    let tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
     let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
     let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
     let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
@@ -1194,6 +1213,7 @@ struct CreateKxClusterInputBody: Swift.Equatable {
     let azMode: FinspaceClientTypes.KxAzMode?
     let availabilityZoneId: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
 }
 
 extension CreateKxClusterInputBody: Swift.Decodable {
@@ -1214,7 +1234,9 @@ extension CreateKxClusterInputBody: Swift.Decodable {
         case initializationScript
         case releaseLabel
         case savedownStorageConfiguration
+        case scalingGroupConfiguration
         case tags
+        case tickerplantLogConfiguration
         case vpcConfiguration
     }
 
@@ -1226,6 +1248,8 @@ extension CreateKxClusterInputBody: Swift.Decodable {
         clusterName = clusterNameDecoded
         let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
         clusterType = clusterTypeDecoded
+        let tickerplantLogConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TickerplantLogConfiguration.self, forKey: .tickerplantLogConfiguration)
+        tickerplantLogConfiguration = tickerplantLogConfigurationDecoded
         let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
         var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
         if let databasesContainer = databasesContainer {
@@ -1292,6 +1316,8 @@ extension CreateKxClusterInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let scalingGroupConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupConfiguration.self, forKey: .scalingGroupConfiguration)
+        scalingGroupConfiguration = scalingGroupConfigurationDecoded
     }
 }
 
@@ -1318,8 +1344,11 @@ extension CreateKxClusterOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTimestamp = output.lastModifiedTimestamp
             self.releaseLabel = output.releaseLabel
             self.savedownStorageConfiguration = output.savedownStorageConfiguration
+            self.scalingGroupConfiguration = output.scalingGroupConfiguration
             self.status = output.status
             self.statusReason = output.statusReason
+            self.tickerplantLogConfiguration = output.tickerplantLogConfiguration
+            self.volumes = output.volumes
             self.vpcConfiguration = output.vpcConfiguration
         } else {
             self.autoScalingConfiguration = nil
@@ -1340,8 +1369,11 @@ extension CreateKxClusterOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTimestamp = nil
             self.releaseLabel = nil
             self.savedownStorageConfiguration = nil
+            self.scalingGroupConfiguration = nil
             self.status = nil
             self.statusReason = nil
+            self.tickerplantLogConfiguration = nil
+            self.volumes = nil
             self.vpcConfiguration = nil
         }
     }
@@ -1375,6 +1407,8 @@ public struct CreateKxClusterOutput: Swift.Equatable {
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
     ///
     /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
+    ///
+    /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
     public var code: FinspaceClientTypes.CodeConfiguration?
@@ -1396,6 +1430,8 @@ public struct CreateKxClusterOutput: Swift.Equatable {
     public var releaseLabel: Swift.String?
     /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
     public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// The structure that stores the configuration details of a scaling group.
+    public var scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
     /// The status of cluster creation.
     ///
     /// * PENDING – The cluster is pending creation.
@@ -1416,6 +1452,10 @@ public struct CreateKxClusterOutput: Swift.Equatable {
     public var status: FinspaceClientTypes.KxClusterStatus?
     /// The error message when a failed state occurs.
     public var statusReason: Swift.String?
+    /// A configuration to store the Tickerplant logs. It consists of a list of volumes that will be mounted to your cluster. For the cluster type Tickerplant, the location of the TP volume on the cluster will be available by using the global variable .aws.tp_log_path.
+    public var tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
+    /// A list of volumes mounted on the cluster.
+    public var volumes: [FinspaceClientTypes.Volume]?
     /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
     public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
 
@@ -1438,8 +1478,11 @@ public struct CreateKxClusterOutput: Swift.Equatable {
         lastModifiedTimestamp: ClientRuntime.Date? = nil,
         releaseLabel: Swift.String? = nil,
         savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration? = nil,
         status: FinspaceClientTypes.KxClusterStatus? = nil,
         statusReason: Swift.String? = nil,
+        tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
+        volumes: [FinspaceClientTypes.Volume]? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
     )
     {
@@ -1461,8 +1504,11 @@ public struct CreateKxClusterOutput: Swift.Equatable {
         self.lastModifiedTimestamp = lastModifiedTimestamp
         self.releaseLabel = releaseLabel
         self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.scalingGroupConfiguration = scalingGroupConfiguration
         self.status = status
         self.statusReason = statusReason
+        self.tickerplantLogConfiguration = tickerplantLogConfiguration
+        self.volumes = volumes
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -1473,6 +1519,8 @@ struct CreateKxClusterOutputBody: Swift.Equatable {
     let statusReason: Swift.String?
     let clusterName: Swift.String?
     let clusterType: FinspaceClientTypes.KxClusterType?
+    let tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
+    let volumes: [FinspaceClientTypes.Volume]?
     let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
     let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
     let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
@@ -1489,6 +1537,7 @@ struct CreateKxClusterOutputBody: Swift.Equatable {
     let azMode: FinspaceClientTypes.KxAzMode?
     let availabilityZoneId: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
+    let scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
 }
 
 extension CreateKxClusterOutputBody: Swift.Decodable {
@@ -1511,8 +1560,11 @@ extension CreateKxClusterOutputBody: Swift.Decodable {
         case lastModifiedTimestamp
         case releaseLabel
         case savedownStorageConfiguration
+        case scalingGroupConfiguration
         case status
         case statusReason
+        case tickerplantLogConfiguration
+        case volumes
         case vpcConfiguration
     }
 
@@ -1528,6 +1580,19 @@ extension CreateKxClusterOutputBody: Swift.Decodable {
         clusterName = clusterNameDecoded
         let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
         clusterType = clusterTypeDecoded
+        let tickerplantLogConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TickerplantLogConfiguration.self, forKey: .tickerplantLogConfiguration)
+        tickerplantLogConfiguration = tickerplantLogConfigurationDecoded
+        let volumesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.Volume?].self, forKey: .volumes)
+        var volumesDecoded0:[FinspaceClientTypes.Volume]? = nil
+        if let volumesContainer = volumesContainer {
+            volumesDecoded0 = [FinspaceClientTypes.Volume]()
+            for structure0 in volumesContainer {
+                if let structure0 = structure0 {
+                    volumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumes = volumesDecoded0
         let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
         var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
         if let databasesContainer = databasesContainer {
@@ -1587,6 +1652,8 @@ extension CreateKxClusterOutputBody: Swift.Decodable {
         availabilityZoneId = availabilityZoneIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+        let scalingGroupConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupConfiguration.self, forKey: .scalingGroupConfiguration)
+        scalingGroupConfiguration = scalingGroupConfigurationDecoded
     }
 }
 
@@ -1803,6 +1870,383 @@ extension CreateKxDatabaseOutputBody: Swift.Decodable {
 }
 
 enum CreateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxDataviewInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case clientToken
+        case dataviewName
+        case description
+        case segmentConfigurations
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoUpdate = self.autoUpdate {
+            try encodeContainer.encode(autoUpdate, forKey: .autoUpdate)
+        }
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let dataviewName = self.dataviewName {
+            try encodeContainer.encode(dataviewName, forKey: .dataviewName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let segmentConfigurations = segmentConfigurations {
+            var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
+            for kxdataviewsegmentconfiguration0 in segmentConfigurations {
+                try segmentConfigurationsContainer.encode(kxdataviewsegmentconfiguration0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateKxDataviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews"
+    }
+}
+
+public struct CreateKxDataviewInput: Swift.Equatable {
+    /// The option to specify whether you want to apply all the future additions and corrections automatically to the dataview, when you ingest new changesets. The default value is false.
+    public var autoUpdate: Swift.Bool?
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    /// This member is required.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// A unique identifier of the changeset that you want to use to ingest data.
+    public var changesetId: Swift.String?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the database where you want to create a dataview.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the dataview.
+    /// This member is required.
+    public var dataviewName: Swift.String?
+    /// A description of the dataview.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, where you want to create the dataview.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        autoUpdate: Swift.Bool? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        changesetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.autoUpdate = autoUpdate
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.changesetId = changesetId
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.description = description
+        self.environmentId = environmentId
+        self.segmentConfigurations = segmentConfigurations
+        self.tags = tags
+    }
+}
+
+struct CreateKxDataviewInputBody: Swift.Equatable {
+    let dataviewName: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let changesetId: Swift.String?
+    let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    let autoUpdate: Swift.Bool?
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientToken: Swift.String?
+}
+
+extension CreateKxDataviewInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case clientToken
+        case dataviewName
+        case description
+        case segmentConfigurations
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate)
+        autoUpdate = autoUpdateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxDataviewOutputBody = try responseDecoder.decode(responseBody: data)
+            self.autoUpdate = output.autoUpdate
+            self.availabilityZoneId = output.availabilityZoneId
+            self.azMode = output.azMode
+            self.changesetId = output.changesetId
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseName = output.databaseName
+            self.dataviewName = output.dataviewName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.segmentConfigurations = output.segmentConfigurations
+            self.status = output.status
+        } else {
+            self.autoUpdate = false
+            self.availabilityZoneId = nil
+            self.azMode = nil
+            self.changesetId = nil
+            self.createdTimestamp = nil
+            self.databaseName = nil
+            self.dataviewName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+            self.segmentConfigurations = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CreateKxDataviewOutput: Swift.Equatable {
+    /// The option to select whether you want to apply all the future additions and corrections automatically to the dataview when you ingest new changesets. The default value is false.
+    public var autoUpdate: Swift.Bool
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// A unique identifier for the changeset.
+    public var changesetId: Swift.String?
+    /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The name of the database where you want to create a dataview.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the dataview.
+    public var dataviewName: Swift.String?
+    /// A description of the dataview.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, where you want to create the dataview.
+    public var environmentId: Swift.String?
+    /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    /// The status of dataview creation.
+    ///
+    /// * CREATING – The dataview creation is in progress.
+    ///
+    /// * UPDATING – The dataview is in the process of being updated.
+    ///
+    /// * ACTIVE – The dataview is active.
+    public var status: FinspaceClientTypes.KxDataviewStatus?
+
+    public init(
+        autoUpdate: Swift.Bool = false,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        changesetId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+        status: FinspaceClientTypes.KxDataviewStatus? = nil
+    )
+    {
+        self.autoUpdate = autoUpdate
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.changesetId = changesetId
+        self.createdTimestamp = createdTimestamp
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.segmentConfigurations = segmentConfigurations
+        self.status = status
+    }
+}
+
+struct CreateKxDataviewOutputBody: Swift.Equatable {
+    let dataviewName: Swift.String?
+    let databaseName: Swift.String?
+    let environmentId: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let changesetId: Swift.String?
+    let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    let description: Swift.String?
+    let autoUpdate: Swift.Bool
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let status: FinspaceClientTypes.KxDataviewStatus?
+}
+
+extension CreateKxDataviewOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case dataviewName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case segmentConfigurations
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
+        autoUpdate = autoUpdateDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDataviewStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+enum CreateKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -2046,6 +2490,258 @@ enum CreateKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateKxScalingGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case clientToken
+        case hostType
+        case scalingGroupName
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let hostType = self.hostType {
+            try encodeContainer.encode(hostType, forKey: .hostType)
+        }
+        if let scalingGroupName = self.scalingGroupName {
+            try encodeContainer.encode(scalingGroupName, forKey: .scalingGroupName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateKxScalingGroupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups"
+    }
+}
+
+public struct CreateKxScalingGroupInput: Swift.Equatable {
+    /// The identifier of the availability zones.
+    /// This member is required.
+    public var availabilityZoneId: Swift.String?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// A unique identifier for the kdb environment, where you want to create the scaling group.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+    /// This member is required.
+    public var hostType: Swift.String?
+    /// A unique identifier for the kdb scaling group.
+    /// This member is required.
+    public var scalingGroupName: Swift.String?
+    /// A list of key-value pairs to label the scaling group. You can add up to 50 tags to a scaling group.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        availabilityZoneId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        hostType: Swift.String? = nil,
+        scalingGroupName: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.availabilityZoneId = availabilityZoneId
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.hostType = hostType
+        self.scalingGroupName = scalingGroupName
+        self.tags = tags
+    }
+}
+
+struct CreateKxScalingGroupInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let scalingGroupName: Swift.String?
+    let hostType: Swift.String?
+    let availabilityZoneId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateKxScalingGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case clientToken
+        case hostType
+        case scalingGroupName
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let scalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupName)
+        scalingGroupName = scalingGroupNameDecoded
+        let hostTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostType)
+        hostType = hostTypeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateKxScalingGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxScalingGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneId = output.availabilityZoneId
+            self.createdTimestamp = output.createdTimestamp
+            self.environmentId = output.environmentId
+            self.hostType = output.hostType
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.scalingGroupName = output.scalingGroupName
+            self.status = output.status
+        } else {
+            self.availabilityZoneId = nil
+            self.createdTimestamp = nil
+            self.environmentId = nil
+            self.hostType = nil
+            self.lastModifiedTimestamp = nil
+            self.scalingGroupName = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CreateKxScalingGroupOutput: Swift.Equatable {
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// A unique identifier for the kdb environment, where you create the scaling group.
+    public var environmentId: Swift.String?
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+    public var hostType: Swift.String?
+    /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// A unique identifier for the kdb scaling group.
+    public var scalingGroupName: Swift.String?
+    /// The status of scaling group.
+    ///
+    /// * CREATING – The scaling group creation is in progress.
+    ///
+    /// * CREATE_FAILED – The scaling group creation has failed.
+    ///
+    /// * ACTIVE – The scaling group is active.
+    ///
+    /// * UPDATING – The scaling group is in the process of being updated.
+    ///
+    /// * UPDATE_FAILED – The update action failed.
+    ///
+    /// * DELETING – The scaling group is in the process of being deleted.
+    ///
+    /// * DELETE_FAILED – The system failed to delete the scaling group.
+    ///
+    /// * DELETED – The scaling group is successfully deleted.
+    public var status: FinspaceClientTypes.KxScalingGroupStatus?
+
+    public init(
+        availabilityZoneId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        environmentId: Swift.String? = nil,
+        hostType: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        scalingGroupName: Swift.String? = nil,
+        status: FinspaceClientTypes.KxScalingGroupStatus? = nil
+    )
+    {
+        self.availabilityZoneId = availabilityZoneId
+        self.createdTimestamp = createdTimestamp
+        self.environmentId = environmentId
+        self.hostType = hostType
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.scalingGroupName = scalingGroupName
+        self.status = status
+    }
+}
+
+struct CreateKxScalingGroupOutputBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let scalingGroupName: Swift.String?
+    let hostType: Swift.String?
+    let availabilityZoneId: Swift.String?
+    let status: FinspaceClientTypes.KxScalingGroupStatus?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateKxScalingGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case createdTimestamp
+        case environmentId
+        case hostType
+        case lastModifiedTimestamp
+        case scalingGroupName
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let scalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupName)
+        scalingGroupName = scalingGroupNameDecoded
+        let hostTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostType)
+        hostType = hostTypeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupStatus.self, forKey: .status)
+        status = statusDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateKxUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
@@ -2222,6 +2918,358 @@ extension CreateKxUserOutputBody: Swift.Decodable {
 }
 
 enum CreateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateKxVolumeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case azMode
+        case clientToken
+        case description
+        case nas1Configuration
+        case tags
+        case volumeName
+        case volumeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneIds = availabilityZoneIds {
+            var availabilityZoneIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZoneIds)
+            for availabilityzoneid0 in availabilityZoneIds {
+                try availabilityZoneIdsContainer.encode(availabilityzoneid0)
+            }
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let nas1Configuration = self.nas1Configuration {
+            try encodeContainer.encode(nas1Configuration, forKey: .nas1Configuration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType.rawValue, forKey: .volumeType)
+        }
+    }
+}
+
+extension CreateKxVolumeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes"
+    }
+}
+
+public struct CreateKxVolumeInput: Swift.Equatable {
+    /// The identifier of the availability zones.
+    /// This member is required.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    /// This member is required.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A description of the volume.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume. This parameter is required when you choose volumeType as NAS_1.
+    public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    /// A list of key-value pairs to label the volume. You can add up to 50 tags to a volume.
+    public var tags: [Swift.String:Swift.String]?
+    /// A unique identifier for the volume.
+    /// This member is required.
+    public var volumeName: Swift.String?
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type. When you select NAS_1 volume type, you must also provide nas1Configuration.
+    /// This member is required.
+    public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        volumeName: Swift.String? = nil,
+        volumeType: FinspaceClientTypes.KxVolumeType? = nil
+    )
+    {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.azMode = azMode
+        self.clientToken = clientToken
+        self.description = description
+        self.environmentId = environmentId
+        self.nas1Configuration = nas1Configuration
+        self.tags = tags
+        self.volumeName = volumeName
+        self.volumeType = volumeType
+    }
+}
+
+struct CreateKxVolumeInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let volumeType: FinspaceClientTypes.KxVolumeType?
+    let volumeName: Swift.String?
+    let description: Swift.String?
+    let nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneIds: [Swift.String]?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateKxVolumeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case azMode
+        case clientToken
+        case description
+        case nas1Configuration
+        case tags
+        case volumeName
+        case volumeType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nas1ConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Configuration.self, forKey: .nas1Configuration)
+        nas1Configuration = nas1ConfigurationDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateKxVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateKxVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.azMode = output.azMode
+            self.createdTimestamp = output.createdTimestamp
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.nas1Configuration = output.nas1Configuration
+            self.status = output.status
+            self.statusReason = output.statusReason
+            self.volumeArn = output.volumeArn
+            self.volumeName = output.volumeName
+            self.volumeType = output.volumeType
+        } else {
+            self.availabilityZoneIds = nil
+            self.azMode = nil
+            self.createdTimestamp = nil
+            self.description = nil
+            self.environmentId = nil
+            self.nas1Configuration = nil
+            self.status = nil
+            self.statusReason = nil
+            self.volumeArn = nil
+            self.volumeName = nil
+            self.volumeType = nil
+        }
+    }
+}
+
+public struct CreateKxVolumeOutput: Swift.Equatable {
+    /// The identifier of the availability zones.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// A description of the volume.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    public var environmentId: Swift.String?
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
+    public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    /// The status of volume creation.
+    ///
+    /// * CREATING – The volume creation is in progress.
+    ///
+    /// * CREATE_FAILED – The volume creation has failed.
+    ///
+    /// * ACTIVE – The volume is active.
+    ///
+    /// * UPDATING – The volume is in the process of being updated.
+    ///
+    /// * UPDATE_FAILED – The update action failed.
+    ///
+    /// * UPDATED – The volume is successfully updated.
+    ///
+    /// * DELETING – The volume is in the process of being deleted.
+    ///
+    /// * DELETE_FAILED – The system failed to delete the volume.
+    ///
+    /// * DELETED – The volume is successfully deleted.
+    public var status: FinspaceClientTypes.KxVolumeStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+    /// The ARN identifier of the volume.
+    public var volumeArn: Swift.String?
+    /// A unique identifier for the volume.
+    public var volumeName: Swift.String?
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+    public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
+        status: FinspaceClientTypes.KxVolumeStatus? = nil,
+        statusReason: Swift.String? = nil,
+        volumeArn: Swift.String? = nil,
+        volumeName: Swift.String? = nil,
+        volumeType: FinspaceClientTypes.KxVolumeType? = nil
+    )
+    {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.azMode = azMode
+        self.createdTimestamp = createdTimestamp
+        self.description = description
+        self.environmentId = environmentId
+        self.nas1Configuration = nas1Configuration
+        self.status = status
+        self.statusReason = statusReason
+        self.volumeArn = volumeArn
+        self.volumeName = volumeName
+        self.volumeType = volumeType
+    }
+}
+
+struct CreateKxVolumeOutputBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let volumeName: Swift.String?
+    let volumeType: FinspaceClientTypes.KxVolumeType?
+    let volumeArn: Swift.String?
+    let nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    let status: FinspaceClientTypes.KxVolumeStatus?
+    let statusReason: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let description: Swift.String?
+    let availabilityZoneIds: [Swift.String]?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension CreateKxVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case azMode
+        case createdTimestamp
+        case description
+        case environmentId
+        case nas1Configuration
+        case status
+        case statusReason
+        case volumeArn
+        case volumeName
+        case volumeType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let volumeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeArn)
+        volumeArn = volumeArnDecoded
+        let nas1ConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Configuration.self, forKey: .nas1Configuration)
+        nas1Configuration = nas1ConfigurationDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum CreateKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -2510,6 +3558,112 @@ enum DeleteKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteKxDataviewInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let clientToken = clientToken else {
+                let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteKxDataviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        guard let dataviewName = dataviewName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxDataviewInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the database whose dataview you want to delete.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the dataview that you want to delete.
+    /// This member is required.
+    public var dataviewName: Swift.String?
+    /// A unique identifier for the kdb environment, from where you want to delete the dataview.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.environmentId = environmentId
+    }
+}
+
+struct DeleteKxDataviewInputBody: Swift.Equatable {
+}
+
+extension DeleteKxDataviewInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKxDataviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxDataviewOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxEnvironmentInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension DeleteKxEnvironmentInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -2520,14 +3674,18 @@ extension DeleteKxEnvironmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteKxEnvironmentInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
     /// A unique identifier for the kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.environmentId = environmentId
     }
 }
@@ -2557,11 +3715,108 @@ enum DeleteKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxScalingGroupInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteKxScalingGroupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let scalingGroupName = scalingGroupName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups/\(scalingGroupName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxScalingGroupInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A unique identifier for the kdb environment, from where you want to delete the dataview.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the kdb scaling group.
+    /// This member is required.
+    public var scalingGroupName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        scalingGroupName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.scalingGroupName = scalingGroupName
+    }
+}
+
+struct DeleteKxScalingGroupInputBody: Swift.Equatable {
+}
+
+extension DeleteKxScalingGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKxScalingGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxScalingGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxUserInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
         }
     }
 }
@@ -2579,6 +3834,8 @@ extension DeleteKxUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteKxUserInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
     /// A unique identifier for the kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -2587,10 +3844,12 @@ public struct DeleteKxUserInput: Swift.Equatable {
     public var userName: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         userName: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.environmentId = environmentId
         self.userName = userName
     }
@@ -2621,7 +3880,91 @@ enum DeleteKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteKxVolumeInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let clientToken = clientToken {
+                let clientTokenQueryItem = ClientRuntime.URLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+                items.append(clientTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteKxVolumeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let volumeName = volumeName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxVolumeInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The name of the volume that you want to delete.
+    /// This member is required.
+    public var volumeName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        volumeName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.environmentId = environmentId
+        self.volumeName = volumeName
+    }
+}
+
+struct DeleteKxVolumeInputBody: Swift.Equatable {
+}
+
+extension DeleteKxVolumeInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKxVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxVolumeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3450,8 +4793,11 @@ extension GetKxClusterOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTimestamp = output.lastModifiedTimestamp
             self.releaseLabel = output.releaseLabel
             self.savedownStorageConfiguration = output.savedownStorageConfiguration
+            self.scalingGroupConfiguration = output.scalingGroupConfiguration
             self.status = output.status
             self.statusReason = output.statusReason
+            self.tickerplantLogConfiguration = output.tickerplantLogConfiguration
+            self.volumes = output.volumes
             self.vpcConfiguration = output.vpcConfiguration
         } else {
             self.autoScalingConfiguration = nil
@@ -3471,8 +4817,11 @@ extension GetKxClusterOutput: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTimestamp = nil
             self.releaseLabel = nil
             self.savedownStorageConfiguration = nil
+            self.scalingGroupConfiguration = nil
             self.status = nil
             self.statusReason = nil
+            self.tickerplantLogConfiguration = nil
+            self.volumes = nil
             self.vpcConfiguration = nil
         }
     }
@@ -3506,6 +4855,8 @@ public struct GetKxClusterOutput: Swift.Equatable {
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
     ///
     /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
+    ///
+    /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// The details of the custom code that you want to use inside a cluster when analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the relative path from where the custom code is loaded into the cluster.
     public var code: FinspaceClientTypes.CodeConfiguration?
@@ -3525,6 +4876,8 @@ public struct GetKxClusterOutput: Swift.Equatable {
     public var releaseLabel: Swift.String?
     /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
     public var savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration?
+    /// The structure that stores the capacity configuration details of a scaling group.
+    public var scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
     /// The status of cluster creation.
     ///
     /// * PENDING – The cluster is pending creation.
@@ -3545,6 +4898,10 @@ public struct GetKxClusterOutput: Swift.Equatable {
     public var status: FinspaceClientTypes.KxClusterStatus?
     /// The error message when a failed state occurs.
     public var statusReason: Swift.String?
+    /// A configuration to store the Tickerplant logs. It consists of a list of volumes that will be mounted to your cluster. For the cluster type Tickerplant, the location of the TP volume on the cluster will be available by using the global variable .aws.tp_log_path.
+    public var tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
+    /// A list of volumes attached to the cluster.
+    public var volumes: [FinspaceClientTypes.Volume]?
     /// Configuration details about the network where the Privatelink endpoint of the cluster resides.
     public var vpcConfiguration: FinspaceClientTypes.VpcConfiguration?
 
@@ -3566,8 +4923,11 @@ public struct GetKxClusterOutput: Swift.Equatable {
         lastModifiedTimestamp: ClientRuntime.Date? = nil,
         releaseLabel: Swift.String? = nil,
         savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
+        scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration? = nil,
         status: FinspaceClientTypes.KxClusterStatus? = nil,
         statusReason: Swift.String? = nil,
+        tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration? = nil,
+        volumes: [FinspaceClientTypes.Volume]? = nil,
         vpcConfiguration: FinspaceClientTypes.VpcConfiguration? = nil
     )
     {
@@ -3588,8 +4948,11 @@ public struct GetKxClusterOutput: Swift.Equatable {
         self.lastModifiedTimestamp = lastModifiedTimestamp
         self.releaseLabel = releaseLabel
         self.savedownStorageConfiguration = savedownStorageConfiguration
+        self.scalingGroupConfiguration = scalingGroupConfiguration
         self.status = status
         self.statusReason = statusReason
+        self.tickerplantLogConfiguration = tickerplantLogConfiguration
+        self.volumes = volumes
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -3599,6 +4962,8 @@ struct GetKxClusterOutputBody: Swift.Equatable {
     let statusReason: Swift.String?
     let clusterName: Swift.String?
     let clusterType: FinspaceClientTypes.KxClusterType?
+    let tickerplantLogConfiguration: FinspaceClientTypes.TickerplantLogConfiguration?
+    let volumes: [FinspaceClientTypes.Volume]?
     let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
     let cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
     let autoScalingConfiguration: FinspaceClientTypes.AutoScalingConfiguration?
@@ -3615,6 +4980,7 @@ struct GetKxClusterOutputBody: Swift.Equatable {
     let azMode: FinspaceClientTypes.KxAzMode?
     let availabilityZoneId: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
+    let scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration?
 }
 
 extension GetKxClusterOutputBody: Swift.Decodable {
@@ -3636,8 +5002,11 @@ extension GetKxClusterOutputBody: Swift.Decodable {
         case lastModifiedTimestamp
         case releaseLabel
         case savedownStorageConfiguration
+        case scalingGroupConfiguration
         case status
         case statusReason
+        case tickerplantLogConfiguration
+        case volumes
         case vpcConfiguration
     }
 
@@ -3651,6 +5020,19 @@ extension GetKxClusterOutputBody: Swift.Decodable {
         clusterName = clusterNameDecoded
         let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
         clusterType = clusterTypeDecoded
+        let tickerplantLogConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.TickerplantLogConfiguration.self, forKey: .tickerplantLogConfiguration)
+        tickerplantLogConfiguration = tickerplantLogConfigurationDecoded
+        let volumesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.Volume?].self, forKey: .volumes)
+        var volumesDecoded0:[FinspaceClientTypes.Volume]? = nil
+        if let volumesContainer = volumesContainer {
+            volumesDecoded0 = [FinspaceClientTypes.Volume]()
+            for structure0 in volumesContainer {
+                if let structure0 = structure0 {
+                    volumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumes = volumesDecoded0
         let databasesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDatabaseConfiguration?].self, forKey: .databases)
         var databasesDecoded0:[FinspaceClientTypes.KxDatabaseConfiguration]? = nil
         if let databasesContainer = databasesContainer {
@@ -3710,6 +5092,8 @@ extension GetKxClusterOutputBody: Swift.Decodable {
         availabilityZoneId = availabilityZoneIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
+        let scalingGroupConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupConfiguration.self, forKey: .scalingGroupConfiguration)
+        scalingGroupConfiguration = scalingGroupConfigurationDecoded
     }
 }
 
@@ -4036,6 +5420,266 @@ enum GetKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetKxDataviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        guard let dataviewName = dataviewName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxDataviewInput: Swift.Equatable {
+    /// The name of the database where you created the dataview.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the dataview.
+    /// This member is required.
+    public var dataviewName: Swift.String?
+    /// A unique identifier for the kdb environment, from where you want to retrieve the dataview details.
+    /// This member is required.
+    public var environmentId: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        environmentId: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.environmentId = environmentId
+    }
+}
+
+struct GetKxDataviewInputBody: Swift.Equatable {
+}
+
+extension GetKxDataviewInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetKxDataviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxDataviewOutputBody = try responseDecoder.decode(responseBody: data)
+            self.activeVersions = output.activeVersions
+            self.autoUpdate = output.autoUpdate
+            self.availabilityZoneId = output.availabilityZoneId
+            self.azMode = output.azMode
+            self.changesetId = output.changesetId
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseName = output.databaseName
+            self.dataviewName = output.dataviewName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.segmentConfigurations = output.segmentConfigurations
+            self.status = output.status
+            self.statusReason = output.statusReason
+        } else {
+            self.activeVersions = nil
+            self.autoUpdate = false
+            self.availabilityZoneId = nil
+            self.azMode = nil
+            self.changesetId = nil
+            self.createdTimestamp = nil
+            self.databaseName = nil
+            self.dataviewName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+            self.segmentConfigurations = nil
+            self.status = nil
+            self.statusReason = nil
+        }
+    }
+}
+
+public struct GetKxDataviewOutput: Swift.Equatable {
+    /// The current active changeset versions of the database on the given dataview.
+    public var activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
+    /// The option to specify whether you want to apply all the future additions and corrections automatically to the dataview when new changesets are ingested. The default value is false.
+    public var autoUpdate: Swift.Bool
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// A unique identifier of the changeset that you want to use to ingest data.
+    public var changesetId: Swift.String?
+    /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The name of the database where you created the dataview.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the dataview.
+    public var dataviewName: Swift.String?
+    /// A description of the dataview.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, from where you want to retrieve the dataview details.
+    public var environmentId: Swift.String?
+    /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    /// The status of dataview creation.
+    ///
+    /// * CREATING – The dataview creation is in progress.
+    ///
+    /// * UPDATING – The dataview is in the process of being updated.
+    ///
+    /// * ACTIVE – The dataview is active.
+    public var status: FinspaceClientTypes.KxDataviewStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+
+    public init(
+        activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]? = nil,
+        autoUpdate: Swift.Bool = false,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        changesetId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+        status: FinspaceClientTypes.KxDataviewStatus? = nil,
+        statusReason: Swift.String? = nil
+    )
+    {
+        self.activeVersions = activeVersions
+        self.autoUpdate = autoUpdate
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.changesetId = changesetId
+        self.createdTimestamp = createdTimestamp
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.segmentConfigurations = segmentConfigurations
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+struct GetKxDataviewOutputBody: Swift.Equatable {
+    let databaseName: Swift.String?
+    let dataviewName: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let changesetId: Swift.String?
+    let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    let activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
+    let description: Swift.String?
+    let autoUpdate: Swift.Bool
+    let environmentId: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let status: FinspaceClientTypes.KxDataviewStatus?
+    let statusReason: Swift.String?
+}
+
+extension GetKxDataviewOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeVersions
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case dataviewName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case segmentConfigurations
+        case status
+        case statusReason
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let activeVersionsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewActiveVersion?].self, forKey: .activeVersions)
+        var activeVersionsDecoded0:[FinspaceClientTypes.KxDataviewActiveVersion]? = nil
+        if let activeVersionsContainer = activeVersionsContainer {
+            activeVersionsDecoded0 = [FinspaceClientTypes.KxDataviewActiveVersion]()
+            for structure0 in activeVersionsContainer {
+                if let structure0 = structure0 {
+                    activeVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        activeVersions = activeVersionsDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
+        autoUpdate = autoUpdateDecoded
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDataviewStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+    }
+}
+
+enum GetKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetKxEnvironmentInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let environmentId = environmentId else {
@@ -4291,8 +5935,210 @@ enum GetKxEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxScalingGroupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let scalingGroupName = scalingGroupName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups/\(scalingGroupName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxScalingGroupInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the kdb scaling group.
+    /// This member is required.
+    public var scalingGroupName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        scalingGroupName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.scalingGroupName = scalingGroupName
+    }
+}
+
+struct GetKxScalingGroupInputBody: Swift.Equatable {
+}
+
+extension GetKxScalingGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetKxScalingGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxScalingGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.availabilityZoneId = output.availabilityZoneId
+            self.clusters = output.clusters
+            self.createdTimestamp = output.createdTimestamp
+            self.hostType = output.hostType
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.scalingGroupArn = output.scalingGroupArn
+            self.scalingGroupName = output.scalingGroupName
+            self.status = output.status
+            self.statusReason = output.statusReason
+        } else {
+            self.availabilityZoneId = nil
+            self.clusters = nil
+            self.createdTimestamp = nil
+            self.hostType = nil
+            self.lastModifiedTimestamp = nil
+            self.scalingGroupArn = nil
+            self.scalingGroupName = nil
+            self.status = nil
+            self.statusReason = nil
+        }
+    }
+}
+
+public struct GetKxScalingGroupOutput: Swift.Equatable {
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The list of Managed kdb clusters that are currently active in the given scaling group.
+    public var clusters: [Swift.String]?
+    /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+    public var hostType: Swift.String?
+    /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The ARN identifier for the scaling group.
+    public var scalingGroupArn: Swift.String?
+    /// A unique identifier for the kdb scaling group.
+    public var scalingGroupName: Swift.String?
+    /// The status of scaling group.
+    ///
+    /// * CREATING – The scaling group creation is in progress.
+    ///
+    /// * CREATE_FAILED – The scaling group creation has failed.
+    ///
+    /// * ACTIVE – The scaling group is active.
+    ///
+    /// * UPDATING – The scaling group is in the process of being updated.
+    ///
+    /// * UPDATE_FAILED – The update action failed.
+    ///
+    /// * DELETING – The scaling group is in the process of being deleted.
+    ///
+    /// * DELETE_FAILED – The system failed to delete the scaling group.
+    ///
+    /// * DELETED – The scaling group is successfully deleted.
+    public var status: FinspaceClientTypes.KxScalingGroupStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+
+    public init(
+        availabilityZoneId: Swift.String? = nil,
+        clusters: [Swift.String]? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        hostType: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        scalingGroupArn: Swift.String? = nil,
+        scalingGroupName: Swift.String? = nil,
+        status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
+        statusReason: Swift.String? = nil
+    )
+    {
+        self.availabilityZoneId = availabilityZoneId
+        self.clusters = clusters
+        self.createdTimestamp = createdTimestamp
+        self.hostType = hostType
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.scalingGroupArn = scalingGroupArn
+        self.scalingGroupName = scalingGroupName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+struct GetKxScalingGroupOutputBody: Swift.Equatable {
+    let scalingGroupName: Swift.String?
+    let scalingGroupArn: Swift.String?
+    let hostType: Swift.String?
+    let clusters: [Swift.String]?
+    let availabilityZoneId: Swift.String?
+    let status: FinspaceClientTypes.KxScalingGroupStatus?
+    let statusReason: Swift.String?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let createdTimestamp: ClientRuntime.Date?
+}
+
+extension GetKxScalingGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case clusters
+        case createdTimestamp
+        case hostType
+        case lastModifiedTimestamp
+        case scalingGroupArn
+        case scalingGroupName
+        case status
+        case statusReason
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupName)
+        scalingGroupName = scalingGroupNameDecoded
+        let scalingGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupArn)
+        scalingGroupArn = scalingGroupArnDecoded
+        let hostTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostType)
+        hostType = hostTypeDecoded
+        let clustersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clusters)
+        var clustersDecoded0:[Swift.String]? = nil
+        if let clustersContainer = clustersContainer {
+            clustersDecoded0 = [Swift.String]()
+            for string0 in clustersContainer {
+                if let string0 = string0 {
+                    clustersDecoded0?.append(string0)
+                }
+            }
+        }
+        clusters = clustersDecoded0
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+enum GetKxScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4415,6 +6261,258 @@ enum GetKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetKxVolumeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let volumeName = volumeName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"
+    }
+}
+
+public struct GetKxVolumeInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the volume.
+    /// This member is required.
+    public var volumeName: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        volumeName: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.volumeName = volumeName
+    }
+}
+
+struct GetKxVolumeInputBody: Swift.Equatable {
+}
+
+extension GetKxVolumeInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetKxVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetKxVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attachedClusters = output.attachedClusters
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.azMode = output.azMode
+            self.createdTimestamp = output.createdTimestamp
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.nas1Configuration = output.nas1Configuration
+            self.status = output.status
+            self.statusReason = output.statusReason
+            self.volumeArn = output.volumeArn
+            self.volumeName = output.volumeName
+            self.volumeType = output.volumeType
+        } else {
+            self.attachedClusters = nil
+            self.availabilityZoneIds = nil
+            self.azMode = nil
+            self.createdTimestamp = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+            self.nas1Configuration = nil
+            self.status = nil
+            self.statusReason = nil
+            self.volumeArn = nil
+            self.volumeName = nil
+            self.volumeType = nil
+        }
+    }
+}
+
+public struct GetKxVolumeOutput: Swift.Equatable {
+    /// A list of cluster identifiers that a volume is attached to.
+    public var attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
+    /// The identifier of the availability zones.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// A description of the volume.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    public var environmentId: Swift.String?
+    /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
+    public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    /// The status of volume creation.
+    ///
+    /// * CREATING – The volume creation is in progress.
+    ///
+    /// * CREATE_FAILED – The volume creation has failed.
+    ///
+    /// * ACTIVE – The volume is active.
+    ///
+    /// * UPDATING – The volume is in the process of being updated.
+    ///
+    /// * UPDATE_FAILED – The update action failed.
+    ///
+    /// * UPDATED – The volume is successfully updated.
+    ///
+    /// * DELETING – The volume is in the process of being deleted.
+    ///
+    /// * DELETE_FAILED – The system failed to delete the volume.
+    ///
+    /// * DELETED – The volume is successfully deleted.
+    public var status: FinspaceClientTypes.KxVolumeStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+    /// The ARN identifier of the volume.
+    public var volumeArn: Swift.String?
+    /// A unique identifier for the volume.
+    public var volumeName: Swift.String?
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+    public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+    public init(
+        attachedClusters: [FinspaceClientTypes.KxAttachedCluster]? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
+        status: FinspaceClientTypes.KxVolumeStatus? = nil,
+        statusReason: Swift.String? = nil,
+        volumeArn: Swift.String? = nil,
+        volumeName: Swift.String? = nil,
+        volumeType: FinspaceClientTypes.KxVolumeType? = nil
+    )
+    {
+        self.attachedClusters = attachedClusters
+        self.availabilityZoneIds = availabilityZoneIds
+        self.azMode = azMode
+        self.createdTimestamp = createdTimestamp
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.nas1Configuration = nas1Configuration
+        self.status = status
+        self.statusReason = statusReason
+        self.volumeArn = volumeArn
+        self.volumeName = volumeName
+        self.volumeType = volumeType
+    }
+}
+
+struct GetKxVolumeOutputBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let volumeName: Swift.String?
+    let volumeType: FinspaceClientTypes.KxVolumeType?
+    let volumeArn: Swift.String?
+    let nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    let status: FinspaceClientTypes.KxVolumeStatus?
+    let statusReason: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let description: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneIds: [Swift.String]?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
+}
+
+extension GetKxVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachedClusters
+        case availabilityZoneIds
+        case azMode
+        case createdTimestamp
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case nas1Configuration
+        case status
+        case statusReason
+        case volumeArn
+        case volumeName
+        case volumeType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let volumeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeArn)
+        volumeArn = volumeArnDecoded
+        let nas1ConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Configuration.self, forKey: .nas1Configuration)
+        nas1Configuration = nas1ConfigurationDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let attachedClustersContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxAttachedCluster?].self, forKey: .attachedClusters)
+        var attachedClustersDecoded0:[FinspaceClientTypes.KxAttachedCluster]? = nil
+        if let attachedClustersContainer = attachedClustersContainer {
+            attachedClustersDecoded0 = [FinspaceClientTypes.KxAttachedCluster]()
+            for structure0 in attachedClustersContainer {
+                if let structure0 = structure0 {
+                    attachedClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        attachedClusters = attachedClustersDecoded0
+    }
+}
+
+enum GetKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4609,6 +6707,77 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+extension FinspaceClientTypes.KxAttachedCluster: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clusterName
+        case clusterStatus
+        case clusterType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clusterName = self.clusterName {
+            try encodeContainer.encode(clusterName, forKey: .clusterName)
+        }
+        if let clusterStatus = self.clusterStatus {
+            try encodeContainer.encode(clusterStatus.rawValue, forKey: .clusterStatus)
+        }
+        if let clusterType = self.clusterType {
+            try encodeContainer.encode(clusterType.rawValue, forKey: .clusterType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
+        clusterName = clusterNameDecoded
+        let clusterTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterType.self, forKey: .clusterType)
+        clusterType = clusterTypeDecoded
+        let clusterStatusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxClusterStatus.self, forKey: .clusterStatus)
+        clusterStatus = clusterStatusDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure containing the metadata of the attached clusters.
+    public struct KxAttachedCluster: Swift.Equatable {
+        /// A unique name for the attached cluster.
+        public var clusterName: Swift.String?
+        /// The status of the attached cluster.
+        ///
+        /// * PENDING – The cluster is pending creation.
+        ///
+        /// * CREATING – The cluster creation process is in progress.
+        ///
+        /// * CREATE_FAILED – The cluster creation process has failed.
+        ///
+        /// * RUNNING – The cluster creation process is running.
+        ///
+        /// * UPDATING – The cluster is in the process of being updated.
+        ///
+        /// * DELETING – The cluster is in the process of being deleted.
+        ///
+        /// * DELETED – The cluster has been deleted.
+        ///
+        /// * DELETE_FAILED – The cluster failed to delete.
+        public var clusterStatus: FinspaceClientTypes.KxClusterStatus?
+        /// Specifies the type of cluster. The volume for TP and RDB cluster types will be used for TP logs.
+        public var clusterType: FinspaceClientTypes.KxClusterType?
+
+        public init(
+            clusterName: Swift.String? = nil,
+            clusterStatus: FinspaceClientTypes.KxClusterStatus? = nil,
+            clusterType: FinspaceClientTypes.KxClusterType? = nil
+        )
+        {
+            self.clusterName = clusterName
+            self.clusterStatus = clusterStatus
+            self.clusterType = clusterType
+        }
+    }
+
+}
+
 extension FinspaceClientTypes {
     public enum KxAzMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case multi
@@ -4794,6 +6963,7 @@ extension FinspaceClientTypes.KxCluster: Swift.Codable {
         case releaseLabel
         case status
         case statusReason
+        case volumes
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4834,6 +7004,12 @@ extension FinspaceClientTypes.KxCluster: Swift.Codable {
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
         }
+        if let volumes = volumes {
+            var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4850,6 +7026,17 @@ extension FinspaceClientTypes.KxCluster: Swift.Codable {
         clusterDescription = clusterDescriptionDecoded
         let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
         releaseLabel = releaseLabelDecoded
+        let volumesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.Volume?].self, forKey: .volumes)
+        var volumesDecoded0:[FinspaceClientTypes.Volume]? = nil
+        if let volumesContainer = volumesContainer {
+            volumesDecoded0 = [FinspaceClientTypes.Volume]()
+            for structure0 in volumesContainer {
+                if let structure0 = structure0 {
+                    volumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumes = volumesDecoded0
         let initializationScriptDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationScript)
         initializationScript = initializationScriptDecoded
         let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
@@ -4889,6 +7076,8 @@ extension FinspaceClientTypes {
         /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
         ///
         /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
+        ///
+        /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
         public var clusterType: FinspaceClientTypes.KxClusterType?
         /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var createdTimestamp: ClientRuntime.Date?
@@ -4920,6 +7109,8 @@ extension FinspaceClientTypes {
         public var status: FinspaceClientTypes.KxClusterStatus?
         /// The error message when a failed state occurs.
         public var statusReason: Swift.String?
+        /// A list of volumes attached to the cluster.
+        public var volumes: [FinspaceClientTypes.Volume]?
 
         public init(
             availabilityZoneId: Swift.String? = nil,
@@ -4933,7 +7124,8 @@ extension FinspaceClientTypes {
             lastModifiedTimestamp: ClientRuntime.Date? = nil,
             releaseLabel: Swift.String? = nil,
             status: FinspaceClientTypes.KxClusterStatus? = nil,
-            statusReason: Swift.String? = nil
+            statusReason: Swift.String? = nil,
+            volumes: [FinspaceClientTypes.Volume]? = nil
         )
         {
             self.availabilityZoneId = availabilityZoneId
@@ -4948,6 +7140,7 @@ extension FinspaceClientTypes {
             self.releaseLabel = releaseLabel
             self.status = status
             self.statusReason = statusReason
+            self.volumes = volumes
         }
     }
 
@@ -5086,6 +7279,7 @@ extension FinspaceClientTypes {
         case gp
         case hdb
         case rdb
+        case tickerplant
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KxClusterType] {
@@ -5094,6 +7288,7 @@ extension FinspaceClientTypes {
                 .gp,
                 .hdb,
                 .rdb,
+                .tickerplant,
                 .sdkUnknown("")
             ]
         }
@@ -5107,6 +7302,7 @@ extension FinspaceClientTypes {
             case .gp: return "GP"
             case .hdb: return "HDB"
             case .rdb: return "RDB"
+            case .tickerplant: return "TICKERPLANT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5166,6 +7362,7 @@ extension FinspaceClientTypes {
 extension FinspaceClientTypes.KxDatabaseCacheConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheType
+        case dataviewName
         case dbPaths
     }
 
@@ -5173,6 +7370,9 @@ extension FinspaceClientTypes.KxDatabaseCacheConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cacheType = self.cacheType {
             try encodeContainer.encode(cacheType, forKey: .cacheType)
+        }
+        if let dataviewName = self.dataviewName {
+            try encodeContainer.encode(dataviewName, forKey: .dataviewName)
         }
         if let dbPaths = dbPaths {
             var dbPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dbPaths)
@@ -5197,6 +7397,8 @@ extension FinspaceClientTypes.KxDatabaseCacheConfiguration: Swift.Codable {
             }
         }
         dbPaths = dbPathsDecoded0
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
     }
 }
 
@@ -5208,16 +7410,20 @@ extension FinspaceClientTypes {
         /// * CACHE_1000 – This type provides at least 1000 MB/s disk access throughput.
         /// This member is required.
         public var cacheType: Swift.String?
+        /// The name of the dataview to be used for caching historical data on disk.
+        public var dataviewName: Swift.String?
         /// Specifies the portions of database that will be loaded into the cache for access.
         /// This member is required.
         public var dbPaths: [Swift.String]?
 
         public init(
             cacheType: Swift.String? = nil,
+            dataviewName: Swift.String? = nil,
             dbPaths: [Swift.String]? = nil
         )
         {
             self.cacheType = cacheType
+            self.dataviewName = dataviewName
             self.dbPaths = dbPaths
         }
     }
@@ -5229,6 +7435,8 @@ extension FinspaceClientTypes.KxDatabaseConfiguration: Swift.Codable {
         case cacheConfigurations
         case changesetId
         case databaseName
+        case dataviewConfiguration
+        case dataviewName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5244,6 +7452,12 @@ extension FinspaceClientTypes.KxDatabaseConfiguration: Swift.Codable {
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let dataviewConfiguration = self.dataviewConfiguration {
+            try encodeContainer.encode(dataviewConfiguration, forKey: .dataviewConfiguration)
+        }
+        if let dataviewName = self.dataviewName {
+            try encodeContainer.encode(dataviewName, forKey: .dataviewName)
         }
     }
 
@@ -5264,6 +7478,10 @@ extension FinspaceClientTypes.KxDatabaseConfiguration: Swift.Codable {
         cacheConfigurations = cacheConfigurationsDecoded0
         let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
         changesetId = changesetIdDecoded
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let dataviewConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDataviewConfiguration.self, forKey: .dataviewConfiguration)
+        dataviewConfiguration = dataviewConfigurationDecoded
     }
 }
 
@@ -5277,16 +7495,24 @@ extension FinspaceClientTypes {
         /// The name of the kdb database. When this parameter is specified in the structure, S3 with the whole database is included by default.
         /// This member is required.
         public var databaseName: Swift.String?
+        /// The configuration of the dataview to be used with specified cluster.
+        public var dataviewConfiguration: FinspaceClientTypes.KxDataviewConfiguration?
+        /// The name of the dataview to be used for caching historical data on disk.
+        public var dataviewName: Swift.String?
 
         public init(
             cacheConfigurations: [FinspaceClientTypes.KxDatabaseCacheConfiguration]? = nil,
             changesetId: Swift.String? = nil,
-            databaseName: Swift.String? = nil
+            databaseName: Swift.String? = nil,
+            dataviewConfiguration: FinspaceClientTypes.KxDataviewConfiguration? = nil,
+            dataviewName: Swift.String? = nil
         )
         {
             self.cacheConfigurations = cacheConfigurations
             self.changesetId = changesetId
             self.databaseName = databaseName
+            self.dataviewConfiguration = dataviewConfiguration
+            self.dataviewName = dataviewName
         }
     }
 
@@ -5345,6 +7571,475 @@ extension FinspaceClientTypes {
         }
     }
 
+}
+
+extension FinspaceClientTypes.KxDataviewActiveVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachedClusters
+        case changesetId
+        case createdTimestamp
+        case segmentConfigurations
+        case versionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachedClusters = attachedClusters {
+            var attachedClustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachedClusters)
+            for kxclustername0 in attachedClusters {
+                try attachedClustersContainer.encode(kxclustername0)
+            }
+        }
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let segmentConfigurations = segmentConfigurations {
+            var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
+            for kxdataviewsegmentconfiguration0 in segmentConfigurations {
+                try segmentConfigurationsContainer.encode(kxdataviewsegmentconfiguration0)
+            }
+        }
+        if let versionId = self.versionId {
+            try encodeContainer.encode(versionId, forKey: .versionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let attachedClustersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .attachedClusters)
+        var attachedClustersDecoded0:[Swift.String]? = nil
+        if let attachedClustersContainer = attachedClustersContainer {
+            attachedClustersDecoded0 = [Swift.String]()
+            for string0 in attachedClustersContainer {
+                if let string0 = string0 {
+                    attachedClustersDecoded0?.append(string0)
+                }
+            }
+        }
+        attachedClusters = attachedClustersDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
+        versionId = versionIdDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The active version of the dataview that is currently in use by this cluster.
+    public struct KxDataviewActiveVersion: Swift.Equatable {
+        /// The list of clusters that are currently using this dataview.
+        public var attachedClusters: [Swift.String]?
+        /// A unique identifier for the changeset.
+        public var changesetId: Swift.String?
+        /// The timestamp at which the dataview version was active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+        public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+        /// A unique identifier of the active version.
+        public var versionId: Swift.String?
+
+        public init(
+            attachedClusters: [Swift.String]? = nil,
+            changesetId: Swift.String? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+            versionId: Swift.String? = nil
+        )
+        {
+            self.attachedClusters = attachedClusters
+            self.changesetId = changesetId
+            self.createdTimestamp = createdTimestamp
+            self.segmentConfigurations = segmentConfigurations
+            self.versionId = versionId
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDataviewConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changesetId
+        case dataviewName
+        case dataviewVersionId
+        case segmentConfigurations
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let dataviewName = self.dataviewName {
+            try encodeContainer.encode(dataviewName, forKey: .dataviewName)
+        }
+        if let dataviewVersionId = self.dataviewVersionId {
+            try encodeContainer.encode(dataviewVersionId, forKey: .dataviewVersionId)
+        }
+        if let segmentConfigurations = segmentConfigurations {
+            var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
+            for kxdataviewsegmentconfiguration0 in segmentConfigurations {
+                try segmentConfigurationsContainer.encode(kxdataviewsegmentconfiguration0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let dataviewVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewVersionId)
+        dataviewVersionId = dataviewVersionIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure that stores the configuration details of a dataview.
+    public struct KxDataviewConfiguration: Swift.Equatable {
+        /// A unique identifier for the changeset.
+        public var changesetId: Swift.String?
+        /// The unique identifier of the dataview.
+        public var dataviewName: Swift.String?
+        /// The version of the dataview corresponding to a given changeset.
+        public var dataviewVersionId: Swift.String?
+        /// The db path and volume configuration for the segmented database.
+        public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+
+        public init(
+            changesetId: Swift.String? = nil,
+            dataviewName: Swift.String? = nil,
+            dataviewVersionId: Swift.String? = nil,
+            segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        )
+        {
+            self.changesetId = changesetId
+            self.dataviewName = dataviewName
+            self.dataviewVersionId = dataviewVersionId
+            self.segmentConfigurations = segmentConfigurations
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDataviewListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeVersions
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case dataviewName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case segmentConfigurations
+        case status
+        case statusReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let activeVersions = activeVersions {
+            var activeVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .activeVersions)
+            for kxdataviewactiveversion0 in activeVersions {
+                try activeVersionsContainer.encode(kxdataviewactiveversion0)
+            }
+        }
+        if autoUpdate != false {
+            try encodeContainer.encode(autoUpdate, forKey: .autoUpdate)
+        }
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let dataviewName = self.dataviewName {
+            try encodeContainer.encode(dataviewName, forKey: .dataviewName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let environmentId = self.environmentId {
+            try encodeContainer.encode(environmentId, forKey: .environmentId)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if let segmentConfigurations = segmentConfigurations {
+            var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
+            for kxdataviewsegmentconfiguration0 in segmentConfigurations {
+                try segmentConfigurationsContainer.encode(kxdataviewsegmentconfiguration0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let activeVersionsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewActiveVersion?].self, forKey: .activeVersions)
+        var activeVersionsDecoded0:[FinspaceClientTypes.KxDataviewActiveVersion]? = nil
+        if let activeVersionsContainer = activeVersionsContainer {
+            activeVersionsDecoded0 = [FinspaceClientTypes.KxDataviewActiveVersion]()
+            for structure0 in activeVersionsContainer {
+                if let structure0 = structure0 {
+                    activeVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        activeVersions = activeVersionsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDataviewStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
+        autoUpdate = autoUpdateDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A collection of kdb dataview entries.
+    public struct KxDataviewListEntry: Swift.Equatable {
+        /// The active changeset versions for the given dataview entry.
+        public var activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
+        /// The option to specify whether you want to apply all the future additions and corrections automatically to the dataview when you ingest new changesets. The default value is false.
+        public var autoUpdate: Swift.Bool
+        /// The identifier of the availability zones.
+        public var availabilityZoneId: Swift.String?
+        /// The number of availability zones you want to assign per cluster. This can be one of the following
+        ///
+        /// * SINGLE – Assigns one availability zone per cluster.
+        ///
+        /// * MULTI – Assigns all the availability zones per cluster.
+        public var azMode: FinspaceClientTypes.KxAzMode?
+        /// A unique identifier for the changeset.
+        public var changesetId: Swift.String?
+        /// The timestamp at which the dataview list entry was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// A unique identifier of the database.
+        public var databaseName: Swift.String?
+        /// A unique identifier of the dataview.
+        public var dataviewName: Swift.String?
+        /// A description for the dataview list entry.
+        public var description: Swift.String?
+        /// A unique identifier for the kdb environment.
+        public var environmentId: Swift.String?
+        /// The last time that the dataview list was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+        public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+        /// The status of a given dataview entry.
+        public var status: FinspaceClientTypes.KxDataviewStatus?
+        /// The error message when a failed state occurs.
+        public var statusReason: Swift.String?
+
+        public init(
+            activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]? = nil,
+            autoUpdate: Swift.Bool = false,
+            availabilityZoneId: Swift.String? = nil,
+            azMode: FinspaceClientTypes.KxAzMode? = nil,
+            changesetId: Swift.String? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            databaseName: Swift.String? = nil,
+            dataviewName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+            status: FinspaceClientTypes.KxDataviewStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.activeVersions = activeVersions
+            self.autoUpdate = autoUpdate
+            self.availabilityZoneId = availabilityZoneId
+            self.azMode = azMode
+            self.changesetId = changesetId
+            self.createdTimestamp = createdTimestamp
+            self.databaseName = databaseName
+            self.dataviewName = dataviewName
+            self.description = description
+            self.environmentId = environmentId
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.segmentConfigurations = segmentConfigurations
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxDataviewSegmentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbPaths
+        case volumeName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dbPaths = dbPaths {
+            var dbPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dbPaths)
+            for dbpath0 in dbPaths {
+                try dbPathsContainer.encode(dbpath0)
+            }
+        }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbPathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .dbPaths)
+        var dbPathsDecoded0:[Swift.String]? = nil
+        if let dbPathsContainer = dbPathsContainer {
+            dbPathsDecoded0 = [Swift.String]()
+            for string0 in dbPathsContainer {
+                if let string0 = string0 {
+                    dbPathsDecoded0?.append(string0)
+                }
+            }
+        }
+        dbPaths = dbPathsDecoded0
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public struct KxDataviewSegmentConfiguration: Swift.Equatable {
+        /// The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume.
+        /// This member is required.
+        public var dbPaths: [Swift.String]?
+        /// The name of the volume where you want to add data.
+        /// This member is required.
+        public var volumeName: Swift.String?
+
+        public init(
+            dbPaths: [Swift.String]? = nil,
+            volumeName: Swift.String? = nil
+        )
+        {
+            self.dbPaths = dbPaths
+            self.volumeName = volumeName
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxDataviewStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxDataviewStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxDataviewStatus(rawValue: rawValue) ?? KxDataviewStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FinspaceClientTypes.KxDeploymentConfiguration: Swift.Codable {
@@ -5656,6 +8351,86 @@ extension FinspaceClientTypes {
 
 }
 
+extension FinspaceClientTypes.KxNAS1Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case size
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let size = self.size {
+            try encodeContainer.encode(size, forKey: .size)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Type.self, forKey: .type)
+        type = typeDecoded
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
+        size = sizeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure containing the size and type of the network attached storage (NAS_1) file system volume.
+    public struct KxNAS1Configuration: Swift.Equatable {
+        /// The size of the network attached storage.
+        public var size: Swift.Int?
+        /// The type of the network attached storage.
+        public var type: FinspaceClientTypes.KxNAS1Type?
+
+        public init(
+            size: Swift.Int? = nil,
+            type: FinspaceClientTypes.KxNAS1Type? = nil
+        )
+        {
+            self.size = size
+            self.type = type
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxNAS1Type: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hdd12
+        case ssd1000
+        case ssd250
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxNAS1Type] {
+            return [
+                .hdd12,
+                .ssd1000,
+                .ssd250,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hdd12: return "HDD_12"
+            case .ssd1000: return "SSD_1000"
+            case .ssd250: return "SSD_250"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxNAS1Type(rawValue: rawValue) ?? KxNAS1Type.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FinspaceClientTypes.KxNode: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZoneId
@@ -5715,6 +8490,7 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case size
         case type
+        case volumeName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5725,6 +8501,9 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5733,6 +8512,8 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
         type = typeDecoded
         let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size)
         size = sizeDecoded
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
     }
 }
 
@@ -5740,21 +8521,23 @@ extension FinspaceClientTypes {
     /// The size and type of temporary storage that is used to hold data during the savedown process. All the data written to this storage space is lost when the cluster node is restarted.
     public struct KxSavedownStorageConfiguration: Swift.Equatable {
         /// The size of temporary storage in gibibytes.
-        /// This member is required.
         public var size: Swift.Int?
         /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:
         ///
         /// * SDS01 – This type represents 3000 IOPS and io2 ebs volume type.
-        /// This member is required.
         public var type: FinspaceClientTypes.KxSavedownStorageType?
+        /// The name of the kdb volume that you want to use as writeable save-down storage for clusters.
+        public var volumeName: Swift.String?
 
         public init(
             size: Swift.Int? = nil,
-            type: FinspaceClientTypes.KxSavedownStorageType? = nil
+            type: FinspaceClientTypes.KxSavedownStorageType? = nil,
+            volumeName: Swift.String? = nil
         )
         {
             self.size = size
             self.type = type
+            self.volumeName = volumeName
         }
     }
 
@@ -5785,6 +8568,245 @@ extension FinspaceClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = KxSavedownStorageType(rawValue: rawValue) ?? KxSavedownStorageType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes.KxScalingGroup: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneId
+        case clusters
+        case createdTimestamp
+        case hostType
+        case lastModifiedTimestamp
+        case scalingGroupName
+        case status
+        case statusReason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneId = self.availabilityZoneId {
+            try encodeContainer.encode(availabilityZoneId, forKey: .availabilityZoneId)
+        }
+        if let clusters = clusters {
+            var clustersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusters)
+            for kxclustername0 in clusters {
+                try clustersContainer.encode(kxclustername0)
+            }
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let hostType = self.hostType {
+            try encodeContainer.encode(hostType, forKey: .hostType)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if let scalingGroupName = self.scalingGroupName {
+            try encodeContainer.encode(scalingGroupName, forKey: .scalingGroupName)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupName)
+        scalingGroupName = scalingGroupNameDecoded
+        let hostTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostType)
+        hostType = hostTypeDecoded
+        let clustersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clusters)
+        var clustersDecoded0:[Swift.String]? = nil
+        if let clustersContainer = clustersContainer {
+            clustersDecoded0 = [Swift.String]()
+            for string0 in clustersContainer {
+                if let string0 = string0 {
+                    clustersDecoded0?.append(string0)
+                }
+            }
+        }
+        clusters = clustersDecoded0
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxScalingGroupStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A structure for storing metadata of scaling group.
+    public struct KxScalingGroup: Swift.Equatable {
+        /// The identifier of the availability zones.
+        public var availabilityZoneId: Swift.String?
+        /// The list of clusters currently active in a given scaling group.
+        public var clusters: [Swift.String]?
+        /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+        public var hostType: Swift.String?
+        /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// A unique identifier for the kdb scaling group.
+        public var scalingGroupName: Swift.String?
+        /// The status of scaling groups.
+        public var status: FinspaceClientTypes.KxScalingGroupStatus?
+        /// The error message when a failed state occurs.
+        public var statusReason: Swift.String?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            clusters: [Swift.String]? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            hostType: Swift.String? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            scalingGroupName: Swift.String? = nil,
+            status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.availabilityZoneId = availabilityZoneId
+            self.clusters = clusters
+            self.createdTimestamp = createdTimestamp
+            self.hostType = hostType
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.scalingGroupName = scalingGroupName
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.KxScalingGroupConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cpu
+        case memoryLimit
+        case memoryReservation
+        case nodeCount
+        case scalingGroupName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cpu = self.cpu {
+            try encodeContainer.encode(cpu, forKey: .cpu)
+        }
+        if let memoryLimit = self.memoryLimit {
+            try encodeContainer.encode(memoryLimit, forKey: .memoryLimit)
+        }
+        if let memoryReservation = self.memoryReservation {
+            try encodeContainer.encode(memoryReservation, forKey: .memoryReservation)
+        }
+        if let nodeCount = self.nodeCount {
+            try encodeContainer.encode(nodeCount, forKey: .nodeCount)
+        }
+        if let scalingGroupName = self.scalingGroupName {
+            try encodeContainer.encode(scalingGroupName, forKey: .scalingGroupName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalingGroupName)
+        scalingGroupName = scalingGroupNameDecoded
+        let memoryLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryLimit)
+        memoryLimit = memoryLimitDecoded
+        let memoryReservationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memoryReservation)
+        memoryReservation = memoryReservationDecoded
+        let nodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeCount)
+        nodeCount = nodeCountDecoded
+        let cpuDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .cpu)
+        cpu = cpuDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure that stores the capacity configuration details of a scaling group.
+    public struct KxScalingGroupConfiguration: Swift.Equatable {
+        /// The number of vCPUs that you want to reserve for each node of this kdb cluster on the scaling group host.
+        public var cpu: Swift.Double?
+        /// An optional hard limit on the amount of memory a kdb cluster can use.
+        public var memoryLimit: Swift.Int?
+        /// A reservation of the minimum amount of memory that should be available on the scaling group for a kdb cluster to be successfully placed in a scaling group.
+        /// This member is required.
+        public var memoryReservation: Swift.Int?
+        /// The number of kdb cluster nodes.
+        /// This member is required.
+        public var nodeCount: Swift.Int?
+        /// A unique identifier for the kdb scaling group.
+        /// This member is required.
+        public var scalingGroupName: Swift.String?
+
+        public init(
+            cpu: Swift.Double? = nil,
+            memoryLimit: Swift.Int? = nil,
+            memoryReservation: Swift.Int? = nil,
+            nodeCount: Swift.Int? = nil,
+            scalingGroupName: Swift.String? = nil
+        )
+        {
+            self.cpu = cpu
+            self.memoryLimit = memoryLimit
+            self.memoryReservation = memoryReservation
+            self.nodeCount = nodeCount
+            self.scalingGroupName = scalingGroupName
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxScalingGroupStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxScalingGroupStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxScalingGroupStatus(rawValue: rawValue) ?? KxScalingGroupStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -5862,6 +8884,233 @@ extension FinspaceClientTypes {
         }
     }
 
+}
+
+extension FinspaceClientTypes.KxVolume: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZoneIds
+        case azMode
+        case createdTimestamp
+        case description
+        case lastModifiedTimestamp
+        case status
+        case statusReason
+        case volumeName
+        case volumeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZoneIds = availabilityZoneIds {
+            var availabilityZoneIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZoneIds)
+            for availabilityzoneid0 in availabilityZoneIds {
+                try availabilityZoneIdsContainer.encode(availabilityzoneid0)
+            }
+        }
+        if let azMode = self.azMode {
+            try encodeContainer.encode(azMode.rawValue, forKey: .azMode)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let lastModifiedTimestamp = self.lastModifiedTimestamp {
+            try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType.rawValue, forKey: .volumeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure that contains the metadata of the volume.
+    public struct KxVolume: Swift.Equatable {
+        /// The identifier of the availability zones.
+        public var availabilityZoneIds: [Swift.String]?
+        /// The number of availability zones assigned to the volume. Currently, only SINGLE is supported.
+        public var azMode: FinspaceClientTypes.KxAzMode?
+        /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// A description of the volume.
+        public var description: Swift.String?
+        /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// The status of volume.
+        ///
+        /// * CREATING – The volume creation is in progress.
+        ///
+        /// * CREATE_FAILED – The volume creation has failed.
+        ///
+        /// * ACTIVE – The volume is active.
+        ///
+        /// * UPDATING – The volume is in the process of being updated.
+        ///
+        /// * UPDATE_FAILED – The update action failed.
+        ///
+        /// * UPDATED – The volume is successfully updated.
+        ///
+        /// * DELETING – The volume is in the process of being deleted.
+        ///
+        /// * DELETE_FAILED – The system failed to delete the volume.
+        ///
+        /// * DELETED – The volume is successfully deleted.
+        public var status: FinspaceClientTypes.KxVolumeStatus?
+        /// The error message when a failed state occurs.
+        public var statusReason: Swift.String?
+        /// A unique identifier for the volume.
+        public var volumeName: Swift.String?
+        /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+        public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+        public init(
+            availabilityZoneIds: [Swift.String]? = nil,
+            azMode: FinspaceClientTypes.KxAzMode? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            status: FinspaceClientTypes.KxVolumeStatus? = nil,
+            statusReason: Swift.String? = nil,
+            volumeName: Swift.String? = nil,
+            volumeType: FinspaceClientTypes.KxVolumeType? = nil
+        )
+        {
+            self.availabilityZoneIds = availabilityZoneIds
+            self.azMode = azMode
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.status = status
+            self.statusReason = statusReason
+            self.volumeName = volumeName
+            self.volumeType = volumeType
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxVolumeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case updated
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxVolumeStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .updated,
+                .updateFailed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .updated: return "UPDATED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxVolumeStatus(rawValue: rawValue) ?? KxVolumeStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FinspaceClientTypes {
+    public enum KxVolumeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nas1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxVolumeType] {
+            return [
+                .nas1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nas1: return "NAS_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxVolumeType(rawValue: rawValue) ?? KxVolumeType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension LimitExceededException {
@@ -6031,6 +9280,7 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6355,6 +9605,8 @@ public struct ListKxClustersInput: Swift.Equatable {
     /// * GATEWAY – A gateway cluster allows you to access data across processes in kdb systems. It allows you to create your own routing logic using the initialization scripts and custom code. This type of cluster does not require a writable local storage.
     ///
     /// * GP – A general purpose cluster allows you to quickly iterate on code during development by granting greater access to system commands and enabling a fast reload of custom code. This cluster type can optionally mount databases including cache and savedown storage. For this cluster type, the node count is fixed at 1. It does not support autoscaling and supports only SINGLE AZ mode.
+    ///
+    /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
     public var clusterType: FinspaceClientTypes.KxClusterType?
     /// A unique identifier for the kdb environment.
     /// This member is required.
@@ -6593,6 +9845,144 @@ enum ListKxDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListKxDataviewsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxDataviewsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews"
+    }
+}
+
+public struct ListKxDataviewsInput: Swift.Equatable {
+    /// The name of the database where the dataviews were created.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// A unique identifier for the kdb environment, for which you want to retrieve a list of dataviews.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxDataviewsInputBody: Swift.Equatable {
+}
+
+extension ListKxDataviewsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListKxDataviewsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxDataviewsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.kxDataviews = output.kxDataviews
+            self.nextToken = output.nextToken
+        } else {
+            self.kxDataviews = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxDataviewsOutput: Swift.Equatable {
+    /// The list of kdb dataviews that are currently active for the given database.
+    public var kxDataviews: [FinspaceClientTypes.KxDataviewListEntry]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        kxDataviews: [FinspaceClientTypes.KxDataviewListEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kxDataviews = kxDataviews
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxDataviewsOutputBody: Swift.Equatable {
+    let kxDataviews: [FinspaceClientTypes.KxDataviewListEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxDataviewsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kxDataviews
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kxDataviewsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewListEntry?].self, forKey: .kxDataviews)
+        var kxDataviewsDecoded0:[FinspaceClientTypes.KxDataviewListEntry]? = nil
+        if let kxDataviewsContainer = kxDataviewsContainer {
+            kxDataviewsDecoded0 = [FinspaceClientTypes.KxDataviewListEntry]()
+            for structure0 in kxDataviewsContainer {
+                if let structure0 = structure0 {
+                    kxDataviewsDecoded0?.append(structure0)
+                }
+            }
+        }
+        kxDataviews = kxDataviewsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListKxDataviewsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListKxEnvironmentsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6705,7 +10095,140 @@ enum ListKxEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxScalingGroupsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxScalingGroupsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/scalingGroups"
+    }
+}
+
+public struct ListKxScalingGroupsInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment, for which you want to retrieve a list of scaling groups.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxScalingGroupsInputBody: Swift.Equatable {
+}
+
+extension ListKxScalingGroupsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListKxScalingGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxScalingGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scalingGroups = output.scalingGroups
+        } else {
+            self.nextToken = nil
+            self.scalingGroups = nil
+        }
+    }
+}
+
+public struct ListKxScalingGroupsOutput: Swift.Equatable {
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+    /// A list of scaling groups available in a kdb environment.
+    public var scalingGroups: [FinspaceClientTypes.KxScalingGroup]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scalingGroups: [FinspaceClientTypes.KxScalingGroup]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scalingGroups = scalingGroups
+    }
+}
+
+struct ListKxScalingGroupsOutputBody: Swift.Equatable {
+    let scalingGroups: [FinspaceClientTypes.KxScalingGroup]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxScalingGroupsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case scalingGroups
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalingGroupsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxScalingGroup?].self, forKey: .scalingGroups)
+        var scalingGroupsDecoded0:[FinspaceClientTypes.KxScalingGroup]? = nil
+        if let scalingGroupsContainer = scalingGroupsContainer {
+            scalingGroupsDecoded0 = [FinspaceClientTypes.KxScalingGroup]()
+            for structure0 in scalingGroupsContainer {
+                if let structure0 = structure0 {
+                    scalingGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        scalingGroups = scalingGroupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListKxScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -6834,6 +10357,146 @@ enum ListKxUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKxVolumesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let volumeType = volumeType {
+                let volumeTypeQueryItem = ClientRuntime.URLQueryItem(name: "volumeType".urlPercentEncoding(), value: Swift.String(volumeType.rawValue).urlPercentEncoding())
+                items.append(volumeTypeQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListKxVolumesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes"
+    }
+}
+
+public struct ListKxVolumesInput: Swift.Equatable {
+    /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The maximum number of results to return in this request.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+    public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+    public init(
+        environmentId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        volumeType: FinspaceClientTypes.KxVolumeType? = nil
+    )
+    {
+        self.environmentId = environmentId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.volumeType = volumeType
+    }
+}
+
+struct ListKxVolumesInputBody: Swift.Equatable {
+}
+
+extension ListKxVolumesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListKxVolumesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKxVolumesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.kxVolumeSummaries = output.kxVolumeSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.kxVolumeSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKxVolumesOutput: Swift.Equatable {
+    /// A summary of volumes.
+    public var kxVolumeSummaries: [FinspaceClientTypes.KxVolume]?
+    /// A token that indicates where a results page should begin.
+    public var nextToken: Swift.String?
+
+    public init(
+        kxVolumeSummaries: [FinspaceClientTypes.KxVolume]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kxVolumeSummaries = kxVolumeSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKxVolumesOutputBody: Swift.Equatable {
+    let kxVolumeSummaries: [FinspaceClientTypes.KxVolume]?
+    let nextToken: Swift.String?
+}
+
+extension ListKxVolumesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kxVolumeSummaries
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kxVolumeSummariesContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxVolume?].self, forKey: .kxVolumeSummaries)
+        var kxVolumeSummariesDecoded0:[FinspaceClientTypes.KxVolume]? = nil
+        if let kxVolumeSummariesContainer = kxVolumeSummariesContainer {
+            kxVolumeSummariesDecoded0 = [FinspaceClientTypes.KxVolume]()
+            for structure0 in kxVolumeSummariesContainer {
+                if let structure0 = structure0 {
+                    kxVolumeSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        kxVolumeSummaries = kxVolumeSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListKxVolumesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7516,6 +11179,53 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension FinspaceClientTypes.TickerplantLogConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tickerplantLogVolumes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tickerplantLogVolumes = tickerplantLogVolumes {
+            var tickerplantLogVolumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tickerplantLogVolumes)
+            for volumename0 in tickerplantLogVolumes {
+                try tickerplantLogVolumesContainer.encode(volumename0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tickerplantLogVolumesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tickerplantLogVolumes)
+        var tickerplantLogVolumesDecoded0:[Swift.String]? = nil
+        if let tickerplantLogVolumesContainer = tickerplantLogVolumesContainer {
+            tickerplantLogVolumesDecoded0 = [Swift.String]()
+            for string0 in tickerplantLogVolumesContainer {
+                if let string0 = string0 {
+                    tickerplantLogVolumesDecoded0?.append(string0)
+                }
+            }
+        }
+        tickerplantLogVolumes = tickerplantLogVolumesDecoded0
+    }
+}
+
+extension FinspaceClientTypes {
+    /// A configuration to store the Tickerplant logs. It consists of a list of volumes that will be mounted to your cluster. For the cluster type Tickerplant, the location of the TP volume on the cluster will be available by using the global variable .aws.tp_log_path.
+    public struct TickerplantLogConfiguration: Swift.Equatable {
+        /// The name of the volumes for tickerplant logs.
+        public var tickerplantLogVolumes: [Swift.String]?
+
+        public init(
+            tickerplantLogVolumes: [Swift.String]? = nil
+        )
+        {
+            self.tickerplantLogVolumes = tickerplantLogVolumes
+        }
+    }
+
 }
 
 extension FinspaceClientTypes.TransitGatewayConfiguration: Swift.Codable {
@@ -8245,6 +11955,331 @@ enum UpdateKxDatabaseOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateKxDataviewInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changesetId
+        case clientToken
+        case description
+        case segmentConfigurations
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changesetId = self.changesetId {
+            try encodeContainer.encode(changesetId, forKey: .changesetId)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let segmentConfigurations = segmentConfigurations {
+            var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
+            for kxdataviewsegmentconfiguration0 in segmentConfigurations {
+                try segmentConfigurationsContainer.encode(kxdataviewsegmentconfiguration0)
+            }
+        }
+    }
+}
+
+extension UpdateKxDataviewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let databaseName = databaseName else {
+            return nil
+        }
+        guard let dataviewName = dataviewName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/databases/\(databaseName.urlPercentEncoding())/dataviews/\(dataviewName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKxDataviewInput: Swift.Equatable {
+    /// A unique identifier for the changeset.
+    public var changesetId: Swift.String?
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The name of the database.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the dataview that you want to update.
+    /// This member is required.
+    public var dataviewName: Swift.String?
+    /// The description for a dataview.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, where you want to update the dataview.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+
+    public init(
+        changesetId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+    )
+    {
+        self.changesetId = changesetId
+        self.clientToken = clientToken
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.description = description
+        self.environmentId = environmentId
+        self.segmentConfigurations = segmentConfigurations
+    }
+}
+
+struct UpdateKxDataviewInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let changesetId: Swift.String?
+    let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    let clientToken: Swift.String?
+}
+
+extension UpdateKxDataviewInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changesetId
+        case clientToken
+        case description
+        case segmentConfigurations
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxDataviewOutputBody = try responseDecoder.decode(responseBody: data)
+            self.activeVersions = output.activeVersions
+            self.autoUpdate = output.autoUpdate
+            self.availabilityZoneId = output.availabilityZoneId
+            self.azMode = output.azMode
+            self.changesetId = output.changesetId
+            self.createdTimestamp = output.createdTimestamp
+            self.databaseName = output.databaseName
+            self.dataviewName = output.dataviewName
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.segmentConfigurations = output.segmentConfigurations
+            self.status = output.status
+        } else {
+            self.activeVersions = nil
+            self.autoUpdate = false
+            self.availabilityZoneId = nil
+            self.azMode = nil
+            self.changesetId = nil
+            self.createdTimestamp = nil
+            self.databaseName = nil
+            self.dataviewName = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+            self.segmentConfigurations = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct UpdateKxDataviewOutput: Swift.Equatable {
+    /// The current active changeset versions of the database on the given dataview.
+    public var activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
+    /// The option to specify whether you want to apply all the future additions and corrections automatically to the dataview when new changesets are ingested. The default value is false.
+    public var autoUpdate: Swift.Bool
+    /// The identifier of the availability zones.
+    public var availabilityZoneId: Swift.String?
+    /// The number of availability zones you want to assign per cluster. This can be one of the following
+    ///
+    /// * SINGLE – Assigns one availability zone per cluster.
+    ///
+    /// * MULTI – Assigns all the availability zones per cluster.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// A unique identifier for the changeset.
+    public var changesetId: Swift.String?
+    /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The name of the database.
+    public var databaseName: Swift.String?
+    /// The name of the database under which the dataview was created.
+    public var dataviewName: Swift.String?
+    /// A description of the dataview.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment, where you want to update the dataview.
+    public var environmentId: Swift.String?
+    /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
+    public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    /// The status of dataview creation.
+    ///
+    /// * CREATING – The dataview creation is in progress.
+    ///
+    /// * UPDATING – The dataview is in the process of being updated.
+    ///
+    /// * ACTIVE – The dataview is active.
+    public var status: FinspaceClientTypes.KxDataviewStatus?
+
+    public init(
+        activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]? = nil,
+        autoUpdate: Swift.Bool = false,
+        availabilityZoneId: Swift.String? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        changesetId: Swift.String? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        databaseName: Swift.String? = nil,
+        dataviewName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
+        status: FinspaceClientTypes.KxDataviewStatus? = nil
+    )
+    {
+        self.activeVersions = activeVersions
+        self.autoUpdate = autoUpdate
+        self.availabilityZoneId = availabilityZoneId
+        self.azMode = azMode
+        self.changesetId = changesetId
+        self.createdTimestamp = createdTimestamp
+        self.databaseName = databaseName
+        self.dataviewName = dataviewName
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.segmentConfigurations = segmentConfigurations
+        self.status = status
+    }
+}
+
+struct UpdateKxDataviewOutputBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let databaseName: Swift.String?
+    let dataviewName: Swift.String?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneId: Swift.String?
+    let changesetId: Swift.String?
+    let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
+    let activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
+    let status: FinspaceClientTypes.KxDataviewStatus?
+    let autoUpdate: Swift.Bool
+    let description: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+}
+
+extension UpdateKxDataviewOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case activeVersions
+        case autoUpdate
+        case availabilityZoneId
+        case azMode
+        case changesetId
+        case createdTimestamp
+        case databaseName
+        case dataviewName
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case segmentConfigurations
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let dataviewNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataviewName)
+        dataviewName = dataviewNameDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZoneId)
+        availabilityZoneId = availabilityZoneIdDecoded
+        let changesetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changesetId)
+        changesetId = changesetIdDecoded
+        let segmentConfigurationsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewSegmentConfiguration?].self, forKey: .segmentConfigurations)
+        var segmentConfigurationsDecoded0:[FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil
+        if let segmentConfigurationsContainer = segmentConfigurationsContainer {
+            segmentConfigurationsDecoded0 = [FinspaceClientTypes.KxDataviewSegmentConfiguration]()
+            for structure0 in segmentConfigurationsContainer {
+                if let structure0 = structure0 {
+                    segmentConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        segmentConfigurations = segmentConfigurationsDecoded0
+        let activeVersionsContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxDataviewActiveVersion?].self, forKey: .activeVersions)
+        var activeVersionsDecoded0:[FinspaceClientTypes.KxDataviewActiveVersion]? = nil
+        if let activeVersionsContainer = activeVersionsContainer {
+            activeVersionsDecoded0 = [FinspaceClientTypes.KxDataviewActiveVersion]()
+            for structure0 in activeVersionsContainer {
+                if let structure0 = structure0 {
+                    activeVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        activeVersions = activeVersionsDecoded0
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDataviewStatus.self, forKey: .status)
+        status = statusDecoded
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
+        autoUpdate = autoUpdateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+    }
+}
+
+enum UpdateKxDataviewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9034,6 +13069,306 @@ enum UpdateKxUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateKxVolumeInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case nas1Configuration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let nas1Configuration = self.nas1Configuration {
+            try encodeContainer.encode(nas1Configuration, forKey: .nas1Configuration)
+        }
+    }
+}
+
+extension UpdateKxVolumeInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let environmentId = environmentId else {
+            return nil
+        }
+        guard let volumeName = volumeName else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/kxvolumes/\(volumeName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKxVolumeInput: Swift.Equatable {
+    /// A token that ensures idempotency. This token expires in 10 minutes.
+    public var clientToken: Swift.String?
+    /// A description of the volume.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment where you created the storage volume.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
+    public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    /// A unique identifier for the volume.
+    /// This member is required.
+    public var volumeName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
+        volumeName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.environmentId = environmentId
+        self.nas1Configuration = nas1Configuration
+        self.volumeName = volumeName
+    }
+}
+
+struct UpdateKxVolumeInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let clientToken: Swift.String?
+    let nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+}
+
+extension UpdateKxVolumeInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case description
+        case nas1Configuration
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let nas1ConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Configuration.self, forKey: .nas1Configuration)
+        nas1Configuration = nas1ConfigurationDecoded
+    }
+}
+
+extension UpdateKxVolumeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKxVolumeOutputBody = try responseDecoder.decode(responseBody: data)
+            self.attachedClusters = output.attachedClusters
+            self.availabilityZoneIds = output.availabilityZoneIds
+            self.azMode = output.azMode
+            self.createdTimestamp = output.createdTimestamp
+            self.description = output.description
+            self.environmentId = output.environmentId
+            self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.nas1Configuration = output.nas1Configuration
+            self.status = output.status
+            self.statusReason = output.statusReason
+            self.volumeArn = output.volumeArn
+            self.volumeName = output.volumeName
+            self.volumeType = output.volumeType
+        } else {
+            self.attachedClusters = nil
+            self.availabilityZoneIds = nil
+            self.azMode = nil
+            self.createdTimestamp = nil
+            self.description = nil
+            self.environmentId = nil
+            self.lastModifiedTimestamp = nil
+            self.nas1Configuration = nil
+            self.status = nil
+            self.statusReason = nil
+            self.volumeArn = nil
+            self.volumeName = nil
+            self.volumeType = nil
+        }
+    }
+}
+
+public struct UpdateKxVolumeOutput: Swift.Equatable {
+    /// Specifies the clusters that a volume is attached to.
+    public var attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
+    /// The identifier of the availability zones.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    public var azMode: FinspaceClientTypes.KxAzMode?
+    /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The description for the volume.
+    public var description: Swift.String?
+    /// A unique identifier for the kdb environment where you want to update the volume.
+    public var environmentId: Swift.String?
+    /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+    public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
+    public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    /// The status of the volume.
+    ///
+    /// * CREATING – The volume creation is in progress.
+    ///
+    /// * CREATE_FAILED – The volume creation has failed.
+    ///
+    /// * ACTIVE – The volume is active.
+    ///
+    /// * UPDATING – The volume is in the process of being updated.
+    ///
+    /// * UPDATE_FAILED – The update action failed.
+    ///
+    /// * UPDATED – The volume is successfully updated.
+    ///
+    /// * DELETING – The volume is in the process of being deleted.
+    ///
+    /// * DELETE_FAILED – The system failed to delete the volume.
+    ///
+    /// * DELETED – The volume is successfully deleted.
+    public var status: FinspaceClientTypes.KxVolumeStatus?
+    /// The error message when a failed state occurs.
+    public var statusReason: Swift.String?
+    /// The ARN identifier of the volume.
+    public var volumeArn: Swift.String?
+    /// A unique identifier for the volume that you want to update.
+    public var volumeName: Swift.String?
+    /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+    public var volumeType: FinspaceClientTypes.KxVolumeType?
+
+    public init(
+        attachedClusters: [FinspaceClientTypes.KxAttachedCluster]? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
+        azMode: FinspaceClientTypes.KxAzMode? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
+        status: FinspaceClientTypes.KxVolumeStatus? = nil,
+        statusReason: Swift.String? = nil,
+        volumeArn: Swift.String? = nil,
+        volumeName: Swift.String? = nil,
+        volumeType: FinspaceClientTypes.KxVolumeType? = nil
+    )
+    {
+        self.attachedClusters = attachedClusters
+        self.availabilityZoneIds = availabilityZoneIds
+        self.azMode = azMode
+        self.createdTimestamp = createdTimestamp
+        self.description = description
+        self.environmentId = environmentId
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.nas1Configuration = nas1Configuration
+        self.status = status
+        self.statusReason = statusReason
+        self.volumeArn = volumeArn
+        self.volumeName = volumeName
+        self.volumeType = volumeType
+    }
+}
+
+struct UpdateKxVolumeOutputBody: Swift.Equatable {
+    let environmentId: Swift.String?
+    let volumeName: Swift.String?
+    let volumeType: FinspaceClientTypes.KxVolumeType?
+    let volumeArn: Swift.String?
+    let nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
+    let status: FinspaceClientTypes.KxVolumeStatus?
+    let description: Swift.String?
+    let statusReason: Swift.String?
+    let createdTimestamp: ClientRuntime.Date?
+    let azMode: FinspaceClientTypes.KxAzMode?
+    let availabilityZoneIds: [Swift.String]?
+    let lastModifiedTimestamp: ClientRuntime.Date?
+    let attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
+}
+
+extension UpdateKxVolumeOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachedClusters
+        case availabilityZoneIds
+        case azMode
+        case createdTimestamp
+        case description
+        case environmentId
+        case lastModifiedTimestamp
+        case nas1Configuration
+        case status
+        case statusReason
+        case volumeArn
+        case volumeName
+        case volumeType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
+        environmentId = environmentIdDecoded
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+        let volumeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeArn)
+        volumeArn = volumeArnDecoded
+        let nas1ConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNAS1Configuration.self, forKey: .nas1Configuration)
+        nas1Configuration = nas1ConfigurationDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxVolumeStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let azModeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxAzMode.self, forKey: .azMode)
+        azMode = azModeDecoded
+        let availabilityZoneIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZoneIds)
+        var availabilityZoneIdsDecoded0:[Swift.String]? = nil
+        if let availabilityZoneIdsContainer = availabilityZoneIdsContainer {
+            availabilityZoneIdsDecoded0 = [Swift.String]()
+            for string0 in availabilityZoneIdsContainer {
+                if let string0 = string0 {
+                    availabilityZoneIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        availabilityZoneIds = availabilityZoneIdsDecoded0
+        let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
+        lastModifiedTimestamp = lastModifiedTimestampDecoded
+        let attachedClustersContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.KxAttachedCluster?].self, forKey: .attachedClusters)
+        var attachedClustersDecoded0:[FinspaceClientTypes.KxAttachedCluster]? = nil
+        if let attachedClustersContainer = attachedClustersContainer {
+            attachedClustersDecoded0 = [FinspaceClientTypes.KxAttachedCluster]()
+            for structure0 in attachedClustersContainer {
+                if let structure0 = structure0 {
+                    attachedClustersDecoded0?.append(structure0)
+                }
+            }
+        }
+        attachedClusters = attachedClustersDecoded0
+    }
+}
+
+enum UpdateKxVolumeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9086,6 +13421,80 @@ extension ValidationExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension FinspaceClientTypes.Volume: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case volumeName
+        case volumeType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let volumeName = self.volumeName {
+            try encodeContainer.encode(volumeName, forKey: .volumeName)
+        }
+        if let volumeType = self.volumeType {
+            try encodeContainer.encode(volumeType.rawValue, forKey: .volumeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
+        volumeName = volumeNameDecoded
+        let volumeTypeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.VolumeType.self, forKey: .volumeType)
+        volumeType = volumeTypeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The structure that consists of name and type of volume.
+    public struct Volume: Swift.Equatable {
+        /// A unique identifier for the volume.
+        public var volumeName: Swift.String?
+        /// The type of file system volume. Currently, FinSpace only supports NAS_1 volume type.
+        public var volumeType: FinspaceClientTypes.VolumeType?
+
+        public init(
+            volumeName: Swift.String? = nil,
+            volumeType: FinspaceClientTypes.VolumeType? = nil
+        )
+        {
+            self.volumeName = volumeName
+            self.volumeType = volumeType
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum VolumeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nas1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeType] {
+            return [
+                .nas1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nas1: return "NAS_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VolumeType(rawValue: rawValue) ?? VolumeType.sdkUnknown(rawValue)
+        }
     }
 }
 

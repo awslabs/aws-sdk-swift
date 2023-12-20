@@ -4865,6 +4865,70 @@ extension InvalidKMSResourceExceptionBody: Swift.Decodable {
     }
 }
 
+extension InvalidSourceException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InvalidSourceExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.code = output.code
+            self.properties.message = output.message
+        } else {
+            self.properties.code = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Only requests from CloudWatch Logs are supported when CloudWatch Logs decompression is enabled.
+public struct InvalidSourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidSourceException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+struct InvalidSourceExceptionBody: Swift.Equatable {
+    let code: Swift.String?
+    let message: Swift.String?
+}
+
+extension InvalidSourceExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension FirehoseClientTypes.KMSEncryptionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awskmsKeyARN = "AWSKMSKeyARN"
@@ -6406,6 +6470,7 @@ enum PutRecordBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSourceException": return try await InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -6587,6 +6652,7 @@ enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InvalidArgumentException": return try await InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKMSResourceException": return try await InvalidKMSResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidSourceException": return try await InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -7850,8 +7916,54 @@ extension FirehoseClientTypes {
 
 }
 
+extension FirehoseClientTypes.SplunkBufferingHints: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case intervalInSeconds = "IntervalInSeconds"
+        case sizeInMBs = "SizeInMBs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let intervalInSeconds = self.intervalInSeconds {
+            try encodeContainer.encode(intervalInSeconds, forKey: .intervalInSeconds)
+        }
+        if let sizeInMBs = self.sizeInMBs {
+            try encodeContainer.encode(sizeInMBs, forKey: .sizeInMBs)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let intervalInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .intervalInSeconds)
+        intervalInSeconds = intervalInSecondsDecoded
+        let sizeInMBsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInMBs)
+        sizeInMBs = sizeInMBsDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// The buffering options. If no value is specified, the default values for Splunk are used.
+    public struct SplunkBufferingHints: Swift.Equatable {
+        /// Buffer incoming data for the specified period of time, in seconds, before delivering it to the destination. The default value is 60 (1 minute).
+        public var intervalInSeconds: Swift.Int?
+        /// Buffer incoming data to the specified size, in MBs, before delivering it to the destination. The default value is 5.
+        public var sizeInMBs: Swift.Int?
+
+        public init(
+            intervalInSeconds: Swift.Int? = nil,
+            sizeInMBs: Swift.Int? = nil
+        )
+        {
+            self.intervalInSeconds = intervalInSeconds
+            self.sizeInMBs = sizeInMBs
+        }
+    }
+
+}
+
 extension FirehoseClientTypes.SplunkDestinationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
         case hecEndpoint = "HECEndpoint"
@@ -7865,6 +7977,9 @@ extension FirehoseClientTypes.SplunkDestinationConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
         if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
             try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
         }
@@ -7914,12 +8029,16 @@ extension FirehoseClientTypes.SplunkDestinationConfiguration: Swift.Codable {
         processingConfiguration = processingConfigurationDecoded
         let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SplunkBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
     }
 }
 
 extension FirehoseClientTypes {
     /// Describes the configuration of a destination in Splunk.
     public struct SplunkDestinationConfiguration: Swift.Equatable {
+        /// The buffering options. If no value is specified, the default values for Splunk are used.
+        public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
@@ -7944,6 +8063,7 @@ extension FirehoseClientTypes {
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
 
         public init(
+            bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -7955,6 +8075,7 @@ extension FirehoseClientTypes {
             s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil
         )
         {
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
             self.hecEndpoint = hecEndpoint
@@ -7971,6 +8092,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.SplunkDestinationDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
         case hecEndpoint = "HECEndpoint"
@@ -7984,6 +8106,9 @@ extension FirehoseClientTypes.SplunkDestinationDescription: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
         if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
             try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
         }
@@ -8033,12 +8158,16 @@ extension FirehoseClientTypes.SplunkDestinationDescription: Swift.Codable {
         processingConfiguration = processingConfigurationDecoded
         let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SplunkBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
     }
 }
 
 extension FirehoseClientTypes {
     /// Describes a destination in Splunk.
     public struct SplunkDestinationDescription: Swift.Equatable {
+        /// The buffering options. If no value is specified, the default values for Splunk are used.
+        public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
@@ -8059,6 +8188,7 @@ extension FirehoseClientTypes {
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
 
         public init(
+            bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -8070,6 +8200,7 @@ extension FirehoseClientTypes {
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil
         )
         {
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
             self.hecEndpoint = hecEndpoint
@@ -8086,6 +8217,7 @@ extension FirehoseClientTypes {
 
 extension FirehoseClientTypes.SplunkDestinationUpdate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
         case hecEndpoint = "HECEndpoint"
@@ -8099,6 +8231,9 @@ extension FirehoseClientTypes.SplunkDestinationUpdate: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bufferingHints = self.bufferingHints {
+            try encodeContainer.encode(bufferingHints, forKey: .bufferingHints)
+        }
         if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
             try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
         }
@@ -8148,12 +8283,16 @@ extension FirehoseClientTypes.SplunkDestinationUpdate: Swift.Codable {
         processingConfiguration = processingConfigurationDecoded
         let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let bufferingHintsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SplunkBufferingHints.self, forKey: .bufferingHints)
+        bufferingHints = bufferingHintsDecoded
     }
 }
 
 extension FirehoseClientTypes {
     /// Describes an update for a destination in Splunk.
     public struct SplunkDestinationUpdate: Swift.Equatable {
+        /// The buffering options. If no value is specified, the default values for Splunk are used.
+        public var bufferingHints: FirehoseClientTypes.SplunkBufferingHints?
         /// The Amazon CloudWatch logging options for your delivery stream.
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
@@ -8174,6 +8313,7 @@ extension FirehoseClientTypes {
         public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
 
         public init(
+            bufferingHints: FirehoseClientTypes.SplunkBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             hecAcknowledgmentTimeoutInSeconds: Swift.Int? = nil,
             hecEndpoint: Swift.String? = nil,
@@ -8185,6 +8325,7 @@ extension FirehoseClientTypes {
             s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil
         )
         {
+            self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
             self.hecEndpoint = hecEndpoint

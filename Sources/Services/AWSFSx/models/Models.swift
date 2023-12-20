@@ -4219,7 +4219,9 @@ extension FSxClientTypes {
         ///
         /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
-        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
+        ///
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -9822,6 +9824,7 @@ enum DescribeSharedVpcConfigurationOutputError: ClientRuntime.HttpResponseErrorB
 extension DescribeSnapshotsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
+        case includeShared = "IncludeShared"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case snapshotIds = "SnapshotIds"
@@ -9834,6 +9837,9 @@ extension DescribeSnapshotsInput: Swift.Encodable {
             for snapshotfilter0 in filters {
                 try filtersContainer.encode(snapshotfilter0)
             }
+        }
+        if let includeShared = self.includeShared {
+            try encodeContainer.encode(includeShared, forKey: .includeShared)
         }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
@@ -9859,6 +9865,8 @@ extension DescribeSnapshotsInput: ClientRuntime.URLPathProvider {
 public struct DescribeSnapshotsInput: Swift.Equatable {
     /// The filters structure. The supported names are file-system-id or volume-id.
     public var filters: [FSxClientTypes.SnapshotFilter]?
+    /// Set to false (default) if you want to only see the snapshots in your Amazon Web Services account. Set to true if you want to see the snapshots in your account and the ones shared with you from another account.
+    public var includeShared: Swift.Bool?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
     public var maxResults: Swift.Int?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -9868,12 +9876,14 @@ public struct DescribeSnapshotsInput: Swift.Equatable {
 
     public init(
         filters: [FSxClientTypes.SnapshotFilter]? = nil,
+        includeShared: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         snapshotIds: [Swift.String]? = nil
     )
     {
         self.filters = filters
+        self.includeShared = includeShared
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.snapshotIds = snapshotIds
@@ -9885,11 +9895,13 @@ struct DescribeSnapshotsInputBody: Swift.Equatable {
     let filters: [FSxClientTypes.SnapshotFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let includeShared: Swift.Bool?
 }
 
 extension DescribeSnapshotsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
+        case includeShared = "IncludeShared"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case snapshotIds = "SnapshotIds"
@@ -9923,6 +9935,8 @@ extension DescribeSnapshotsInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let includeSharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeShared)
+        includeShared = includeSharedDecoded
     }
 }
 
@@ -15148,6 +15162,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyStrategy = "CopyStrategy"
         case copyTagsToSnapshots = "CopyTagsToSnapshots"
         case dataCompressionType = "DataCompressionType"
         case deleteClonedVolumes = "DeleteClonedVolumes"
@@ -15169,6 +15184,9 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyStrategy = self.copyStrategy {
+            try encodeContainer.encode(copyStrategy.rawValue, forKey: .copyStrategy)
+        }
         if let copyTagsToSnapshots = self.copyTagsToSnapshots {
             try encodeContainer.encode(copyTagsToSnapshots, forKey: .copyTagsToSnapshots)
         }
@@ -15282,12 +15300,23 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
         sourceSnapshotARN = sourceSnapshotARNDecoded
         let destinationSnapshotDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationSnapshot)
         destinationSnapshot = destinationSnapshotDecoded
+        let copyStrategyDecoded = try containerValues.decodeIfPresent(FSxClientTypes.OpenZFSCopyStrategy.self, forKey: .copyStrategy)
+        copyStrategy = copyStrategyDecoded
     }
 }
 
 extension FSxClientTypes {
     /// The configuration of an Amazon FSx for OpenZFS volume.
     public struct OpenZFSVolumeConfiguration: Swift.Equatable {
+        /// Specifies the strategy used when copying data from the snapshot to the new volume.
+        ///
+        /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying data from the snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
+        ///
+        /// * FULL_COPY - Copies all data from the snapshot to the new volume. Specify this option to create the volume from a snapshot on another FSx for OpenZFS file system.
+        ///
+        ///
+        /// The INCREMENTAL_COPY option is only for updating an existing volume by using a snapshot from another FSx for OpenZFS file system. For more information, see [CopySnapshotAndUpdateVolume](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CopySnapshotAndUpdateVolume.html).
+        public var copyStrategy: FSxClientTypes.OpenZFSCopyStrategy?
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public var copyTagsToSnapshots: Swift.Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
@@ -15330,6 +15359,7 @@ extension FSxClientTypes {
         public var volumePath: Swift.String?
 
         public init(
+            copyStrategy: FSxClientTypes.OpenZFSCopyStrategy? = nil,
             copyTagsToSnapshots: Swift.Bool? = nil,
             dataCompressionType: FSxClientTypes.OpenZFSDataCompressionType? = nil,
             deleteClonedVolumes: Swift.Bool? = nil,
@@ -15349,6 +15379,7 @@ extension FSxClientTypes {
             volumePath: Swift.String? = nil
         )
         {
+            self.copyStrategy = copyStrategy
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.deleteClonedVolumes = deleteClonedVolumes
@@ -19108,7 +19139,13 @@ extension FSxClientTypes {
         /// * For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.
         ///
         ///
-        /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions: The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value. The value of ThroughputCapacityPerHAPair is not a valid value.
+        /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        ///
+        /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
+        ///
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
+        ///
+        /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?

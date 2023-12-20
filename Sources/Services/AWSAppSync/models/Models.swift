@@ -2759,12 +2759,15 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         case additionalAuthenticationProviders
         case apiType
         case authenticationType
+        case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
         case mergedApiExecutionRoleArn
         case name
         case openIDConnectConfig
         case ownerContact
+        case queryDepthLimit
+        case resolverCountLimit
         case tags
         case userPoolConfig
         case visibility
@@ -2785,6 +2788,9 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
         }
+        if let introspectionConfig = self.introspectionConfig {
+            try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
+        }
         if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
             try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
         }
@@ -2802,6 +2808,12 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         }
         if let ownerContact = self.ownerContact {
             try encodeContainer.encode(ownerContact, forKey: .ownerContact)
+        }
+        if let queryDepthLimit = self.queryDepthLimit {
+            try encodeContainer.encode(queryDepthLimit, forKey: .queryDepthLimit)
+        }
+        if let resolverCountLimit = self.resolverCountLimit {
+            try encodeContainer.encode(resolverCountLimit, forKey: .resolverCountLimit)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -2835,6 +2847,8 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
     /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
     /// This member is required.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
+    /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
+    public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     /// Configuration for Lambda function authorization.
     public var lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
     /// The Amazon CloudWatch Logs configuration.
@@ -2848,6 +2862,10 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
     public var openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig?
     /// The owner contact information for an API resource. This field accepts any string input with a length of 0 - 256 characters.
     public var ownerContact: Swift.String?
+    /// The maximum depth a query can have in a single request. Depth refers to the amount of nested levels allowed in the body of query. The default value is 0 (or unspecified), which indicates there's no depth limit. If you set a limit, it can be between 1 and 75 nested levels. This field will produce a limit error if the operation falls out of bounds. Note that fields can still be set to nullable or non-nullable. If a non-nullable field produces an error, the error will be thrown upwards to the first nullable field available.
+    public var queryDepthLimit: Swift.Int?
+    /// The maximum number of resolvers that can be invoked in a single request. The default value is 0 (or unspecified), which will set the limit to 10000. When specified, the limit value can be between 1 and 10000. This field will produce a limit error if the operation falls out of bounds.
+    public var resolverCountLimit: Swift.Int?
     /// A TagMap object.
     public var tags: [Swift.String:Swift.String]?
     /// The Amazon Cognito user pool configuration.
@@ -2861,12 +2879,15 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
         apiType: AppSyncClientTypes.GraphQLApiType? = nil,
         authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
+        introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
         logConfig: AppSyncClientTypes.LogConfig? = nil,
         mergedApiExecutionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         ownerContact: Swift.String? = nil,
+        queryDepthLimit: Swift.Int? = nil,
+        resolverCountLimit: Swift.Int? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
         visibility: AppSyncClientTypes.GraphQLApiVisibility? = nil,
@@ -2876,12 +2897,15 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiType = apiType
         self.authenticationType = authenticationType
+        self.introspectionConfig = introspectionConfig
         self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
         self.logConfig = logConfig
         self.mergedApiExecutionRoleArn = mergedApiExecutionRoleArn
         self.name = name
         self.openIDConnectConfig = openIDConnectConfig
         self.ownerContact = ownerContact
+        self.queryDepthLimit = queryDepthLimit
+        self.resolverCountLimit = resolverCountLimit
         self.tags = tags
         self.userPoolConfig = userPoolConfig
         self.visibility = visibility
@@ -2903,6 +2927,9 @@ struct CreateGraphqlApiInputBody: Swift.Equatable {
     let apiType: AppSyncClientTypes.GraphQLApiType?
     let mergedApiExecutionRoleArn: Swift.String?
     let ownerContact: Swift.String?
+    let introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
+    let queryDepthLimit: Swift.Int?
+    let resolverCountLimit: Swift.Int?
 }
 
 extension CreateGraphqlApiInputBody: Swift.Decodable {
@@ -2910,12 +2937,15 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
         case additionalAuthenticationProviders
         case apiType
         case authenticationType
+        case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
         case mergedApiExecutionRoleArn
         case name
         case openIDConnectConfig
         case ownerContact
+        case queryDepthLimit
+        case resolverCountLimit
         case tags
         case userPoolConfig
         case visibility
@@ -2968,6 +2998,12 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
         mergedApiExecutionRoleArn = mergedApiExecutionRoleArnDecoded
         let ownerContactDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerContact)
         ownerContact = ownerContactDecoded
+        let introspectionConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphQLApiIntrospectionConfig.self, forKey: .introspectionConfig)
+        introspectionConfig = introspectionConfigDecoded
+        let queryDepthLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryDepthLimit)
+        queryDepthLimit = queryDepthLimitDecoded
+        let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit)
+        resolverCountLimit = resolverCountLimitDecoded
     }
 }
 
@@ -6889,6 +6925,38 @@ enum GetTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
 }
 
 extension AppSyncClientTypes {
+    public enum GraphQLApiIntrospectionConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GraphQLApiIntrospectionConfig] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GraphQLApiIntrospectionConfig(rawValue: rawValue) ?? GraphQLApiIntrospectionConfig.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
     public enum GraphQLApiType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case graphql
         case merged
@@ -7015,6 +7083,7 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         case arn
         case authenticationType
         case dns
+        case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
         case mergedApiExecutionRoleArn
@@ -7022,6 +7091,8 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         case openIDConnectConfig
         case owner
         case ownerContact
+        case queryDepthLimit
+        case resolverCountLimit
         case tags
         case uris
         case userPoolConfig
@@ -7056,6 +7127,9 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
                 try dnsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let introspectionConfig = self.introspectionConfig {
+            try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
+        }
         if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
             try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
         }
@@ -7076,6 +7150,12 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         }
         if let ownerContact = self.ownerContact {
             try encodeContainer.encode(ownerContact, forKey: .ownerContact)
+        }
+        if queryDepthLimit != 0 {
+            try encodeContainer.encode(queryDepthLimit, forKey: .queryDepthLimit)
+        }
+        if resolverCountLimit != 0 {
+            try encodeContainer.encode(resolverCountLimit, forKey: .resolverCountLimit)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -7179,6 +7259,12 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         owner = ownerDecoded
         let ownerContactDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerContact)
         ownerContact = ownerContactDecoded
+        let introspectionConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphQLApiIntrospectionConfig.self, forKey: .introspectionConfig)
+        introspectionConfig = introspectionConfigDecoded
+        let queryDepthLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryDepthLimit) ?? 0
+        queryDepthLimit = queryDepthLimitDecoded
+        let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit) ?? 0
+        resolverCountLimit = resolverCountLimitDecoded
     }
 }
 
@@ -7197,6 +7283,8 @@ extension AppSyncClientTypes {
         public var authenticationType: AppSyncClientTypes.AuthenticationType?
         /// The DNS records for the API.
         public var dns: [Swift.String:Swift.String]?
+        /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
+        public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
         /// Configuration for Lambda function authorization.
         public var lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
@@ -7211,6 +7299,10 @@ extension AppSyncClientTypes {
         public var owner: Swift.String?
         /// The owner contact information for an API resource. This field accepts any string input with a length of 0 - 256 characters.
         public var ownerContact: Swift.String?
+        /// The maximum depth a query can have in a single request. Depth refers to the amount of nested levels allowed in the body of query. The default value is 0 (or unspecified), which indicates there's no depth limit. If you set a limit, it can be between 1 and 75 nested levels. This field will produce a limit error if the operation falls out of bounds. Note that fields can still be set to nullable or non-nullable. If a non-nullable field produces an error, the error will be thrown upwards to the first nullable field available.
+        public var queryDepthLimit: Swift.Int
+        /// The maximum number of resolvers that can be invoked in a single request. The default value is 0 (or unspecified), which will set the limit to 10000. When specified, the limit value can be between 1 and 10000. This field will produce a limit error if the operation falls out of bounds.
+        public var resolverCountLimit: Swift.Int
         /// The tags.
         public var tags: [Swift.String:Swift.String]?
         /// The URIs.
@@ -7231,6 +7323,7 @@ extension AppSyncClientTypes {
             arn: Swift.String? = nil,
             authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
             dns: [Swift.String:Swift.String]? = nil,
+            introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
             lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
             logConfig: AppSyncClientTypes.LogConfig? = nil,
             mergedApiExecutionRoleArn: Swift.String? = nil,
@@ -7238,6 +7331,8 @@ extension AppSyncClientTypes {
             openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
             owner: Swift.String? = nil,
             ownerContact: Swift.String? = nil,
+            queryDepthLimit: Swift.Int = 0,
+            resolverCountLimit: Swift.Int = 0,
             tags: [Swift.String:Swift.String]? = nil,
             uris: [Swift.String:Swift.String]? = nil,
             userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
@@ -7252,6 +7347,7 @@ extension AppSyncClientTypes {
             self.arn = arn
             self.authenticationType = authenticationType
             self.dns = dns
+            self.introspectionConfig = introspectionConfig
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
             self.mergedApiExecutionRoleArn = mergedApiExecutionRoleArn
@@ -7259,6 +7355,8 @@ extension AppSyncClientTypes {
             self.openIDConnectConfig = openIDConnectConfig
             self.owner = owner
             self.ownerContact = ownerContact
+            self.queryDepthLimit = queryDepthLimit
+            self.resolverCountLimit = resolverCountLimit
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
@@ -11760,12 +11858,15 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAuthenticationProviders
         case authenticationType
+        case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
         case mergedApiExecutionRoleArn
         case name
         case openIDConnectConfig
         case ownerContact
+        case queryDepthLimit
+        case resolverCountLimit
         case userPoolConfig
         case xrayEnabled
     }
@@ -11780,6 +11881,9 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
         }
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let introspectionConfig = self.introspectionConfig {
+            try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
         }
         if let lambdaAuthorizerConfig = self.lambdaAuthorizerConfig {
             try encodeContainer.encode(lambdaAuthorizerConfig, forKey: .lambdaAuthorizerConfig)
@@ -11798,6 +11902,12 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
         }
         if let ownerContact = self.ownerContact {
             try encodeContainer.encode(ownerContact, forKey: .ownerContact)
+        }
+        if let queryDepthLimit = self.queryDepthLimit {
+            try encodeContainer.encode(queryDepthLimit, forKey: .queryDepthLimit)
+        }
+        if let resolverCountLimit = self.resolverCountLimit {
+            try encodeContainer.encode(resolverCountLimit, forKey: .resolverCountLimit)
         }
         if let userPoolConfig = self.userPoolConfig {
             try encodeContainer.encode(userPoolConfig, forKey: .userPoolConfig)
@@ -11825,6 +11935,8 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// The new authentication type for the GraphqlApi object.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
+    /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
+    public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     /// Configuration for Lambda function authorization.
     public var lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
     /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
@@ -11838,6 +11950,10 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
     public var openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig?
     /// The owner contact information for an API resource. This field accepts any string input with a length of 0 - 256 characters.
     public var ownerContact: Swift.String?
+    /// The maximum depth a query can have in a single request. Depth refers to the amount of nested levels allowed in the body of query. The default value is 0 (or unspecified), which indicates there's no depth limit. If you set a limit, it can be between 1 and 75 nested levels. This field will produce a limit error if the operation falls out of bounds. Note that fields can still be set to nullable or non-nullable. If a non-nullable field produces an error, the error will be thrown upwards to the first nullable field available.
+    public var queryDepthLimit: Swift.Int?
+    /// The maximum number of resolvers that can be invoked in a single request. The default value is 0 (or unspecified), which will set the limit to 10000. When specified, the limit value can be between 1 and 10000. This field will produce a limit error if the operation falls out of bounds.
+    public var resolverCountLimit: Swift.Int?
     /// The new Amazon Cognito user pool configuration for the ~GraphqlApi object.
     public var userPoolConfig: AppSyncClientTypes.UserPoolConfig?
     /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
@@ -11847,12 +11963,15 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
         apiId: Swift.String? = nil,
         authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
+        introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
         logConfig: AppSyncClientTypes.LogConfig? = nil,
         mergedApiExecutionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil,
         ownerContact: Swift.String? = nil,
+        queryDepthLimit: Swift.Int? = nil,
+        resolverCountLimit: Swift.Int? = nil,
         userPoolConfig: AppSyncClientTypes.UserPoolConfig? = nil,
         xrayEnabled: Swift.Bool? = nil
     )
@@ -11860,12 +11979,15 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiId = apiId
         self.authenticationType = authenticationType
+        self.introspectionConfig = introspectionConfig
         self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
         self.logConfig = logConfig
         self.mergedApiExecutionRoleArn = mergedApiExecutionRoleArn
         self.name = name
         self.openIDConnectConfig = openIDConnectConfig
         self.ownerContact = ownerContact
+        self.queryDepthLimit = queryDepthLimit
+        self.resolverCountLimit = resolverCountLimit
         self.userPoolConfig = userPoolConfig
         self.xrayEnabled = xrayEnabled
     }
@@ -11882,18 +12004,24 @@ struct UpdateGraphqlApiInputBody: Swift.Equatable {
     let lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
     let mergedApiExecutionRoleArn: Swift.String?
     let ownerContact: Swift.String?
+    let introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
+    let queryDepthLimit: Swift.Int?
+    let resolverCountLimit: Swift.Int?
 }
 
 extension UpdateGraphqlApiInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAuthenticationProviders
         case authenticationType
+        case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
         case mergedApiExecutionRoleArn
         case name
         case openIDConnectConfig
         case ownerContact
+        case queryDepthLimit
+        case resolverCountLimit
         case userPoolConfig
         case xrayEnabled
     }
@@ -11929,6 +12057,12 @@ extension UpdateGraphqlApiInputBody: Swift.Decodable {
         mergedApiExecutionRoleArn = mergedApiExecutionRoleArnDecoded
         let ownerContactDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerContact)
         ownerContact = ownerContactDecoded
+        let introspectionConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.GraphQLApiIntrospectionConfig.self, forKey: .introspectionConfig)
+        introspectionConfig = introspectionConfigDecoded
+        let queryDepthLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryDepthLimit)
+        queryDepthLimit = queryDepthLimitDecoded
+        let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit)
+        resolverCountLimit = resolverCountLimitDecoded
     }
 }
 

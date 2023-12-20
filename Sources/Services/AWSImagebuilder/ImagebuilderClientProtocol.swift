@@ -227,6 +227,29 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutput
+    /// Performs the `CreateWorkflow` operation on the `imagebuilder` service.
+    ///
+    /// Create a new workflow or a new version of an existing workflow.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutput
     /// Performs the `DeleteComponent` operation on the `imagebuilder` service.
     ///
     /// Deletes a component build version.
@@ -385,6 +408,25 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutput
+    /// Performs the `DeleteWorkflow` operation on the `imagebuilder` service.
+    ///
+    /// Deletes a specific workflow resource.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutput
     /// Performs the `GetComponent` operation on the `imagebuilder` service.
     ///
     /// Gets a component object.
@@ -619,6 +661,24 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutput
+    /// Performs the `GetWorkflow` operation on the `imagebuilder` service.
+    ///
+    /// Get a workflow resource object.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutput
     /// Performs the `GetWorkflowExecution` operation on the `imagebuilder` service.
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow.
@@ -1021,6 +1081,44 @@ public protocol ImagebuilderClientProtocol {
     /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
+    /// Performs the `ListWaitingWorkflowSteps` operation on the `imagebuilder` service.
+    ///
+    /// Get a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
+    ///
+    /// - Parameter ListWaitingWorkflowStepsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWaitingWorkflowStepsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func listWaitingWorkflowSteps(input: ListWaitingWorkflowStepsInput) async throws -> ListWaitingWorkflowStepsOutput
+    /// Performs the `ListWorkflowBuildVersions` operation on the `imagebuilder` service.
+    ///
+    /// Returns a list of build versions for a specific workflow resource.
+    ///
+    /// - Parameter ListWorkflowBuildVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowBuildVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func listWorkflowBuildVersions(input: ListWorkflowBuildVersionsInput) async throws -> ListWorkflowBuildVersionsOutput
     /// Performs the `ListWorkflowExecutions` operation on the `imagebuilder` service.
     ///
     /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
@@ -1040,9 +1138,28 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutput
+    /// Performs the `ListWorkflows` operation on the `imagebuilder` service.
+    ///
+    /// Lists workflow build versions based on filtering parameters.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutput
     /// Performs the `ListWorkflowStepExecutions` operation on the `imagebuilder` service.
     ///
-    /// Shows runtime data for each step in a runtime instance of the workflow that you specify in the request.
+    /// Returns runtime data for each step in a runtime instance of the workflow that you specify in the request.
     ///
     /// - Parameter ListWorkflowStepExecutionsInput : [no documentation found]
     ///
@@ -1139,6 +1256,28 @@ public protocol ImagebuilderClientProtocol {
     /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutput
+    /// Performs the `SendWorkflowStepAction` operation on the `imagebuilder` service.
+    ///
+    /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step.
+    ///
+    /// - Parameter SendWorkflowStepActionInput : [no documentation found]
+    ///
+    /// - Returns: `SendWorkflowStepActionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
+    func sendWorkflowStepAction(input: SendWorkflowStepActionInput) async throws -> SendWorkflowStepActionOutput
     /// Performs the `StartImagePipelineExecution` operation on the `imagebuilder` service.
     ///
     /// Manually triggers a pipeline to create an image.
@@ -1234,7 +1373,7 @@ public protocol ImagebuilderClientProtocol {
     func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutput
     /// Performs the `UpdateImagePipeline` operation on the `imagebuilder` service.
     ///
-    /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
+    /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     ///
     /// - Parameter UpdateImagePipelineInput : [no documentation found]
     ///

@@ -230,7 +230,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.36.0",
+    clientRuntimeVersion: "0.37.0",
     crtVersion: "0.17.0"
 )
 
@@ -484,6 +484,7 @@ let serviceTargets: [String] = [
     "AWSMobile",
     "AWSMq",
     "AWSNeptune",
+    "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
     "AWSNetworkManager",

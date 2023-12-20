@@ -6,7 +6,7 @@ import ClientRuntime
 public protocol B2biClientProtocol {
     /// Performs the `CreateCapability` operation on the `B2BI` service.
     ///
-    /// Instantiates a capability based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
     /// - Parameter CreateCapabilityInput : [no documentation found]
     ///
@@ -25,7 +25,7 @@ public protocol B2biClientProtocol {
     func createCapability(input: CreateCapabilityInput) async throws -> CreateCapabilityOutput
     /// Performs the `CreatePartnership` operation on the `B2BI` service.
     ///
-    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
     /// - Parameter CreatePartnershipInput : [no documentation found]
     ///
@@ -44,7 +44,7 @@ public protocol B2biClientProtocol {
     func createPartnership(input: CreatePartnershipInput) async throws -> CreatePartnershipOutput
     /// Performs the `CreateProfile` operation on the `B2BI` service.
     ///
-    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. Profiles contain basic information about you and your business.
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
     ///
     /// - Parameter CreateProfileInput : [no documentation found]
     ///
@@ -63,7 +63,7 @@ public protocol B2biClientProtocol {
     func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput
     /// Performs the `CreateTransformer` operation on the `B2BI` service.
     ///
-    /// Creates a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Creates a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     ///
     /// - Parameter CreateTransformerInput : [no documentation found]
     ///
@@ -82,7 +82,7 @@ public protocol B2biClientProtocol {
     func createTransformer(input: CreateTransformerInput) async throws -> CreateTransformerOutput
     /// Performs the `DeleteCapability` operation on the `B2BI` service.
     ///
-    /// Deletes the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
     /// - Parameter DeleteCapabilityInput : [no documentation found]
     ///
@@ -100,7 +100,7 @@ public protocol B2biClientProtocol {
     func deleteCapability(input: DeleteCapabilityInput) async throws -> DeleteCapabilityOutput
     /// Performs the `DeletePartnership` operation on the `B2BI` service.
     ///
-    /// Deletes the specified partnership. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
     /// - Parameter DeletePartnershipInput : [no documentation found]
     ///
@@ -118,7 +118,7 @@ public protocol B2biClientProtocol {
     func deletePartnership(input: DeletePartnershipInput) async throws -> DeletePartnershipOutput
     /// Performs the `DeleteProfile` operation on the `B2BI` service.
     ///
-    /// Deletes the specified profile. Profiles contain basic information about you and your business.
+    /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
     ///
     /// - Parameter DeleteProfileInput : [no documentation found]
     ///
@@ -136,7 +136,7 @@ public protocol B2biClientProtocol {
     func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput
     /// Performs the `DeleteTransformer` operation on the `B2BI` service.
     ///
-    /// Deletes the specified transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Deletes the specified transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     ///
     /// - Parameter DeleteTransformerInput : [no documentation found]
     ///
@@ -154,7 +154,7 @@ public protocol B2biClientProtocol {
     func deleteTransformer(input: DeleteTransformerInput) async throws -> DeleteTransformerOutput
     /// Performs the `GetCapability` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the specified capability. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
     /// - Parameter GetCapabilityInput : [no documentation found]
     ///
@@ -171,7 +171,7 @@ public protocol B2biClientProtocol {
     func getCapability(input: GetCapabilityInput) async throws -> GetCapabilityOutput
     /// Performs the `GetPartnership` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
     /// - Parameter GetPartnershipInput : [no documentation found]
     ///
@@ -188,7 +188,7 @@ public protocol B2biClientProtocol {
     func getPartnership(input: GetPartnershipInput) async throws -> GetPartnershipOutput
     /// Performs the `GetProfile` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the profile specified by the profile ID. Profiles contain basic information about you and your business.
+    /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
     ///
     /// - Parameter GetProfileInput : [no documentation found]
     ///
@@ -205,7 +205,7 @@ public protocol B2biClientProtocol {
     func getProfile(input: GetProfileInput) async throws -> GetProfileOutput
     /// Performs the `GetTransformer` operation on the `B2BI` service.
     ///
-    /// Retrieves the details for the transformer specified by the transformer ID. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Retrieves the details for the transformer specified by the transformer ID. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     ///
     /// - Parameter GetTransformerInput : [no documentation found]
     ///
@@ -239,7 +239,7 @@ public protocol B2biClientProtocol {
     func getTransformerJob(input: GetTransformerJobInput) async throws -> GetTransformerJobOutput
     /// Performs the `ListCapabilities` operation on the `B2BI` service.
     ///
-    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
     /// - Parameter ListCapabilitiesInput : [no documentation found]
     ///
@@ -247,7 +247,7 @@ public protocol B2biClientProtocol {
     func listCapabilities(input: ListCapabilitiesInput) async throws -> ListCapabilitiesOutput
     /// Performs the `ListPartnerships` operation on the `B2BI` service.
     ///
-    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
     /// - Parameter ListPartnershipsInput : [no documentation found]
     ///
@@ -264,7 +264,7 @@ public protocol B2biClientProtocol {
     func listPartnerships(input: ListPartnershipsInput) async throws -> ListPartnershipsOutput
     /// Performs the `ListProfiles` operation on the `B2BI` service.
     ///
-    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. Profiles contain basic information about you and your business.
+    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
     ///
     /// - Parameter ListProfilesInput : [no documentation found]
     ///
@@ -286,7 +286,7 @@ public protocol B2biClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput
     /// Performs the `ListTransformers` operation on the `B2BI` service.
     ///
-    /// Lists the available transformers. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     ///
     /// - Parameter ListTransformersInput : [no documentation found]
     ///
@@ -294,7 +294,7 @@ public protocol B2biClientProtocol {
     func listTransformers(input: ListTransformersInput) async throws -> ListTransformersOutput
     /// Performs the `StartTransformerJob` operation on the `B2BI` service.
     ///
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
     ///
     /// - Parameter StartTransformerJobInput : [no documentation found]
     ///
@@ -326,7 +326,7 @@ public protocol B2biClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutput
     /// Performs the `TestMapping` operation on the `B2BI` service.
     ///
-    /// Maps the input file according to the provided template file.
+    /// Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the inputFileContent parameter.
     ///
     /// - Parameter TestMappingInput : [no documentation found]
     ///
@@ -374,7 +374,7 @@ public protocol B2biClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput
     /// Performs the `UpdateCapability` operation on the `B2BI` service.
     ///
-    /// Updates some of the parameters for a capability, based on the specified parameters. Capabilities contain the information necessary to process incoming EDI (electronic data interchange) documents.
+    /// Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
     ///
     /// - Parameter UpdateCapabilityInput : [no documentation found]
     ///
@@ -393,7 +393,7 @@ public protocol B2biClientProtocol {
     func updateCapability(input: UpdateCapabilityInput) async throws -> UpdateCapabilityOutput
     /// Performs the `UpdatePartnership` operation on the `B2BI` service.
     ///
-    /// Updates some of the parameters for a partnership between a customer and trading partner. Partnerships link trading partners with your profile and a specific transformer, so that the EDI (electronic data interchange) documents that they upload to Amazon S3 can be processed according to their specifications.
+    /// Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
     ///
     /// - Parameter UpdatePartnershipInput : [no documentation found]
     ///
@@ -412,7 +412,7 @@ public protocol B2biClientProtocol {
     func updatePartnership(input: UpdatePartnershipInput) async throws -> UpdatePartnershipOutput
     /// Performs the `UpdateProfile` operation on the `B2BI` service.
     ///
-    /// Updates the specified parameters for a profile. Profiles contain basic information about you and your business.
+    /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
     ///
     /// - Parameter UpdateProfileInput : [no documentation found]
     ///
@@ -431,7 +431,7 @@ public protocol B2biClientProtocol {
     func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput
     /// Performs the `UpdateTransformer` operation on the `B2BI` service.
     ///
-    /// Updates the specified parameters for a transformer. Transformers describe how to process the incoming EDI (electronic data interchange) documents, and extract the necessary information.
+    /// Updates the specified parameters for a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
     ///
     /// - Parameter UpdateTransformerInput : [no documentation found]
     ///
