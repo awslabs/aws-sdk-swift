@@ -231,7 +231,7 @@ func addResolvedTargets() {
 
 addDependencies(
     clientRuntimeVersion: "0.36.0",
-    crtVersion: "0.17.0"
+    crtVersion: "0.19.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
