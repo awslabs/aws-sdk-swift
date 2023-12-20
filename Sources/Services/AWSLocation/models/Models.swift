@@ -6844,7 +6844,7 @@ extension GetMapGlyphsOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -6990,7 +6990,7 @@ extension GetMapSpritesOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -7117,7 +7117,7 @@ extension GetMapStyleDescriptorOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }
@@ -7268,7 +7268,7 @@ extension GetMapTileOutput: ClientRuntime.HttpResponseBinding {
             self.blob = data
         case .stream(let stream):
             self.blob = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.blob = nil
         }
     }

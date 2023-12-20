@@ -6438,7 +6438,7 @@ extension GetIntrospectionSchemaOutput: ClientRuntime.HttpResponseBinding {
             self.schema = data
         case .stream(let stream):
             self.schema = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.schema = nil
         }
     }
