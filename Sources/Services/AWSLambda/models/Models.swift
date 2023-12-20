@@ -10530,7 +10530,7 @@ extension InvokeOutput: ClientRuntime.HttpResponseBinding {
             self.payload = data
         case .stream(let stream):
             self.payload = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.payload = nil
         }
         self.statusCode = httpResponse.statusCode.rawValue

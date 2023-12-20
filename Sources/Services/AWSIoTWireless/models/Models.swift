@@ -7364,7 +7364,7 @@ extension GetPositionEstimateOutput: ClientRuntime.HttpResponseBinding {
             self.geoJsonPayload = data
         case .stream(let stream):
             self.geoJsonPayload = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.geoJsonPayload = nil
         }
     }
@@ -7898,7 +7898,7 @@ extension GetResourcePositionOutput: ClientRuntime.HttpResponseBinding {
             self.geoJsonPayload = data
         case .stream(let stream):
             self.geoJsonPayload = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.geoJsonPayload = nil
         }
     }

@@ -6758,7 +6758,7 @@ extension GetReadSetOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-        case .none:
+        case .noStream:
             self.payload = nil
         }
     }
@@ -7269,7 +7269,7 @@ extension GetReferenceOutput: ClientRuntime.HttpResponseBinding {
             self.payload = .data(data)
         case .stream(let stream):
             self.payload = .stream(stream)
-        case .none:
+        case .noStream:
             self.payload = nil
         }
     }
