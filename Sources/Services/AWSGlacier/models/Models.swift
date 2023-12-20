@@ -2006,7 +2006,7 @@ extension GetJobOutputOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
         self.status = httpResponse.statusCode.rawValue

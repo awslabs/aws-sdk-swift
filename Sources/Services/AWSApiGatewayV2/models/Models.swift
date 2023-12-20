@@ -6111,7 +6111,7 @@ extension ExportApiOutput: ClientRuntime.HttpResponseBinding {
             self.body = data
         case .stream(let stream):
             self.body = try stream.readToEnd()
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }

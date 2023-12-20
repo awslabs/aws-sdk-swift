@@ -10430,7 +10430,7 @@ extension GetObjectOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -10608,7 +10608,7 @@ extension GetObjectOutputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -10953,7 +10953,7 @@ extension GetObjectTorrentOutput: ClientRuntime.HttpResponseBinding {
             self.body = .data(data)
         case .stream(let stream):
             self.body = .stream(stream)
-        case .none:
+        case .noStream:
             self.body = nil
         }
     }
@@ -10991,7 +10991,7 @@ extension GetObjectTorrentOutputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -20797,7 +20797,7 @@ extension PutObjectInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -25124,7 +25124,7 @@ extension UploadPartInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil
@@ -25745,7 +25745,7 @@ extension WriteGetObjectResponseInputBody: Swift.Decodable {
                 let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .body)
                 body = bodyDecoded
             } catch {
-                body = ClientRuntime.ByteStream.from(data: "".data(using: .utf8)!)
+                body = ClientRuntime.ByteStream.data("".data(using: .utf8)!)
             }
         } else {
             body = nil

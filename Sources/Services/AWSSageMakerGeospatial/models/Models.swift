@@ -2428,7 +2428,7 @@ extension GetTileOutput: ClientRuntime.HttpResponseBinding {
             self.binaryFile = .data(data)
         case .stream(let stream):
             self.binaryFile = .stream(stream)
-        case .none:
+        case .noStream:
             self.binaryFile = nil
         }
     }

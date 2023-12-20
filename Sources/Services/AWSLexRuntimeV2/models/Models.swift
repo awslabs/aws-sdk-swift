@@ -2388,7 +2388,7 @@ extension PutSessionOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
@@ -2928,7 +2928,7 @@ extension RecognizeUtteranceOutput: ClientRuntime.HttpResponseBinding {
             self.audioStream = .data(data)
         case .stream(let stream):
             self.audioStream = .stream(stream)
-        case .none:
+        case .noStream:
             self.audioStream = nil
         }
     }
