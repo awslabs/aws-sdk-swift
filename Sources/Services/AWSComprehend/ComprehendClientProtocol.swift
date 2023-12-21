@@ -35,7 +35,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func batchDetectEntities(input: BatchDetectEntitiesInput) async throws -> BatchDetectEntitiesOutput
     /// Performs the `BatchDetectKeyPhrases` operation on the `Comprehend_20171127` service.
     ///
@@ -52,7 +52,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func batchDetectKeyPhrases(input: BatchDetectKeyPhrasesInput) async throws -> BatchDetectKeyPhrasesOutput
     /// Performs the `BatchDetectSentiment` operation on the `Comprehend_20171127` service.
     ///
@@ -69,7 +69,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func batchDetectSentiment(input: BatchDetectSentimentInput) async throws -> BatchDetectSentimentOutput
     /// Performs the `BatchDetectSyntax` operation on the `Comprehend_20171127` service.
     ///
@@ -86,7 +86,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func batchDetectSyntax(input: BatchDetectSyntaxInput) async throws -> BatchDetectSyntaxOutput
     /// Performs the `BatchDetectTargetedSentiment` operation on the `Comprehend_20171127` service.
     ///
@@ -103,18 +103,18 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func batchDetectTargetedSentiment(input: BatchDetectTargetedSentimentInput) async throws -> BatchDetectTargetedSentimentOutput
     /// Performs the `ClassifyDocument` operation on the `Comprehend_20171127` service.
     ///
     /// Creates a classification request to analyze a single document in real-time. ClassifyDocument supports the following model types:
     ///
-    /// * Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Textract API output. For more information, see [Custom classification](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification.html) in the Amazon Comprehend Developer Guide.
+    /// * Custom classifier - a custom model that you have created and trained. For input, you can provide plain text, a single-page document (PDF, Word, or image), or Amazon Textract API output. For more information, see [Custom classification](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// * Prompt classifier - Amazon Comprehend provides a model for classifying prompts. For input, you provide English plain text input. For prompt classification, the response includes only the Classes field. For more information about prompt classifiers, see [Prompt classifiers](https://docs.aws.amazon.com/comprehend/latest/dg/prompt-classification.html) in the Amazon Comprehend Developer Guide.
+    /// * Prompt safety classifier - Amazon Comprehend provides a pre-trained model for classifying input prompts for generative AI applications. For input, you provide English plain text input. For prompt safety classification, the response includes only the Classes field. For more information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification) in the Amazon Comprehend Developer Guide.
     ///
     ///
-    /// If the system detects errors while processing a page in the input document, the API response includes an entry in Errors that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see [ Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html) in the Comprehend Developer Guide.
+    /// If the system detects errors while processing a page in the input document, the API response includes an Errors field that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see [ Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html) in the Comprehend Developer Guide.
     ///
     /// - Parameter ClassifyDocumentInput : [no documentation found]
     ///
@@ -142,7 +142,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func containsPiiEntities(input: ContainsPiiEntitiesInput) async throws -> ContainsPiiEntitiesOutput
     /// Performs the `CreateDataset` operation on the `Comprehend_20171127` service.
     ///
@@ -181,7 +181,7 @@ public protocol ComprehendClientProtocol {
     /// - `ResourceLimitExceededException` : The maximum number of resources per account has been exceeded. Review the resources, and then try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func createDocumentClassifier(input: CreateDocumentClassifierInput) async throws -> CreateDocumentClassifierOutput
     /// Performs the `CreateEndpoint` operation on the `Comprehend_20171127` service.
     ///
@@ -221,7 +221,7 @@ public protocol ComprehendClientProtocol {
     /// - `ResourceLimitExceededException` : The maximum number of resources per account has been exceeded. Review the resources, and then try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func createEntityRecognizer(input: CreateEntityRecognizerInput) async throws -> CreateEntityRecognizerOutput
     /// Performs the `CreateFlywheel` operation on the `Comprehend_20171127` service.
     ///
@@ -243,7 +243,7 @@ public protocol ComprehendClientProtocol {
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TooManyRequestsException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func createFlywheel(input: CreateFlywheelInput) async throws -> CreateFlywheelOutput
     /// Performs the `DeleteDocumentClassifier` operation on the `Comprehend_20171127` service.
     ///
@@ -616,7 +616,7 @@ public protocol ComprehendClientProtocol {
     /// - `InvalidRequestException` : The request is invalid.
     /// - `ResourceUnavailableException` : The specified resource is not available. Check the resource and try your request again.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectEntities(input: DetectEntitiesInput) async throws -> DetectEntitiesOutput
     /// Performs the `DetectKeyPhrases` operation on the `Comprehend_20171127` service.
     ///
@@ -632,7 +632,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectKeyPhrases(input: DetectKeyPhrasesInput) async throws -> DetectKeyPhrasesOutput
     /// Performs the `DetectPiiEntities` operation on the `Comprehend_20171127` service.
     ///
@@ -648,7 +648,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectPiiEntities(input: DetectPiiEntitiesInput) async throws -> DetectPiiEntitiesOutput
     /// Performs the `DetectSentiment` operation on the `Comprehend_20171127` service.
     ///
@@ -664,7 +664,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectSentiment(input: DetectSentimentInput) async throws -> DetectSentimentOutput
     /// Performs the `DetectSyntax` operation on the `Comprehend_20171127` service.
     ///
@@ -680,7 +680,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectSyntax(input: DetectSyntaxInput) async throws -> DetectSyntaxOutput
     /// Performs the `DetectTargetedSentiment` operation on the `Comprehend_20171127` service.
     ///
@@ -696,11 +696,11 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectTargetedSentiment(input: DetectTargetedSentimentInput) async throws -> DetectTargetedSentimentOutput
     /// Performs the `DetectToxicContent` operation on the `Comprehend_20171127` service.
     ///
-    /// Performs toxicity analysis on the list of text strings that you provide as input. The analysis uses the order of strings in the list to determine context when predicting toxicity. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide
+    /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
     ///
     /// - Parameter DetectToxicContentInput : [no documentation found]
     ///
@@ -712,7 +712,7 @@ public protocol ComprehendClientProtocol {
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
     /// - `InvalidRequestException` : The request is invalid.
     /// - `TextSizeLimitExceededException` : The size of the input text exceeds the limit. Use a smaller document.
-    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+    /// - `UnsupportedLanguageException` : Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
     func detectToxicContent(input: DetectToxicContentInput) async throws -> DetectToxicContentOutput
     /// Performs the `ImportModel` operation on the `Comprehend_20171127` service.
     ///
@@ -1038,7 +1038,7 @@ public protocol ComprehendClientProtocol {
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput
     /// Performs the `StartDocumentClassificationJob` operation on the `Comprehend_20171127` service.
     ///
-    /// Starts an asynchronous document classification job. Use the DescribeDocumentClassificationJob operation to track the progress of the job.
+    /// Starts an asynchronous document classification job using a custom classification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job.
     ///
     /// - Parameter StartDocumentClassificationJobInput : [no documentation found]
     ///

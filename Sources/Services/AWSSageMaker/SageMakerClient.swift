@@ -480,7 +480,7 @@ extension SageMakerClient: SageMakerClientProtocol {
 
     /// Performs the `CreateAutoMLJob` operation on the `SageMaker` service.
     ///
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
     ///
     /// - Parameter CreateAutoMLJobInput : [no documentation found]
     ///
@@ -528,7 +528,7 @@ extension SageMakerClient: SageMakerClientProtocol {
 
     /// Performs the `CreateAutoMLJobV2` operation on the `SageMaker` service.
     ///
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment-api.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
     ///
     /// - Parameter CreateAutoMLJobV2Input : [no documentation found]
     ///
@@ -2295,6 +2295,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func createPipeline(input: CreatePipelineInput) async throws -> CreatePipelineOutput
@@ -3034,6 +3035,11 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter DeleteAlgorithmInput : [no documentation found]
     ///
     /// - Returns: `DeleteAlgorithmOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public func deleteAlgorithm(input: DeleteAlgorithmInput) async throws -> DeleteAlgorithmOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3344,6 +3350,53 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCodeRepositoryOutput>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCodeRepositoryOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCodeRepositoryOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCodeRepositoryOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteCompilationJob` operation on the `SageMaker` service.
+    ///
+    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
+    ///
+    /// - Parameter DeleteCompilationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCompilationJobOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteCompilationJob(input: DeleteCompilationJobInput) async throws -> DeleteCompilationJobOutput
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCompilationJob")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteCompilationJobInput, DeleteCompilationJobOutput>(id: "deleteCompilationJob")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCompilationJobOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(xAmzTarget: "SageMaker.DeleteCompilationJob"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCompilationJobOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCompilationJobOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCompilationJobOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCompilationJobOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCompilationJobOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -4695,6 +4748,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func deletePipeline(input: DeletePipelineInput) async throws -> DeletePipelineOutput
     {
@@ -7867,6 +7921,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutput
     {
@@ -11702,6 +11757,11 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter PutModelPackageGroupPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutModelPackageGroupPolicyOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public func putModelPackageGroupPolicy(input: PutModelPackageGroupPolicyInput) async throws -> PutModelPackageGroupPolicyOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -11981,6 +12041,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func sendPipelineExecutionStepFailure(input: SendPipelineExecutionStepFailureInput) async throws -> SendPipelineExecutionStepFailureOutput
@@ -12030,6 +12091,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func sendPipelineExecutionStepSuccess(input: SendPipelineExecutionStepSuccessInput) async throws -> SendPipelineExecutionStepSuccessOutput
@@ -12263,6 +12325,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutput
@@ -12768,6 +12831,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func stopPipelineExecution(input: StopPipelineExecutionInput) async throws -> StopPipelineExecutionOutput
     {
@@ -13145,6 +13209,11 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter UpdateCodeRepositoryInput : [no documentation found]
     ///
     /// - Returns: `UpdateCodeRepositoryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public func updateCodeRepository(input: UpdateCodeRepositoryInput) async throws -> UpdateCodeRepositoryOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -13519,6 +13588,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutput
     {
@@ -13943,6 +14013,11 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter UpdateModelPackageInput : [no documentation found]
     ///
     /// - Returns: `UpdateModelPackageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public func updateModelPackage(input: UpdateModelPackageInput) async throws -> UpdateModelPackageOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -14179,6 +14254,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func updatePipeline(input: UpdatePipelineInput) async throws -> UpdatePipelineOutput
     {
@@ -14226,6 +14302,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func updatePipelineExecution(input: UpdatePipelineExecutionInput) async throws -> UpdatePipelineExecutionOutput
     {
@@ -14269,6 +14346,11 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Parameter UpdateProjectInput : [no documentation found]
     ///
     /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
     public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -14364,6 +14446,7 @@ extension SageMakerClient: SageMakerClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     /// - `ResourceNotFound` : Resource being access is not found.
     public func updateTrainingJob(input: UpdateTrainingJobInput) async throws -> UpdateTrainingJobOutput
     {

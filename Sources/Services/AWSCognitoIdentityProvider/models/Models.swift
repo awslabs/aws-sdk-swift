@@ -377,13 +377,13 @@ extension AdminAddUserToGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AdminAddUserToGroupInput: Swift.Equatable {
-    /// The group name.
+    /// The name of the group that you want to add your user to.
     /// This member is required.
     public var groupName: Swift.String?
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username for the user.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -497,7 +497,7 @@ public struct AdminConfirmSignUpInput: Swift.Equatable {
     /// The user pool ID for which you want to confirm user registration.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name for which you want to confirm user registration.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -737,7 +737,7 @@ public struct AdminCreateUserInput: Swift.Equatable {
     /// * You can only provide a value if usernames are a valid sign-in attribute for your user pool. If your user pool only supports phone numbers or email addresses as sign-in attributes, Amazon Cognito automatically generates a username value. For more information, see [Customizing sign-in attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases).
     /// This member is required.
     public var username: Swift.String?
-    /// The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data isn't persisted.
+    /// Temporary user attributes that contribute to the outcomes of your pre sign-up Lambda trigger. This set of key-value pairs are for custom validation of information that you collect from your users but don't need to retain. Your Lambda function can analyze this additional data and act on it. Your function might perform external API operations like logging user attributes and validation data to Amazon CloudWatch Logs. Validation data might also affect the response that your function returns to Amazon Cognito, like automatically confirming the user if they sign up from within your network. For more information about the pre sign-up Lambda trigger, see [Pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
     public var validationData: [CognitoIdentityProviderClientTypes.AttributeType]?
 
     public init(
@@ -958,7 +958,7 @@ public struct AdminDeleteUserAttributesInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to delete user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user from which you would like to delete attributes.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1067,7 +1067,7 @@ public struct AdminDeleteUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to delete the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user you want to delete.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1248,7 +1248,7 @@ public struct AdminDisableUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to disable the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user you want to disable.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1342,7 +1342,7 @@ public struct AdminEnableUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to enable the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user you want to enable.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1443,7 +1443,7 @@ public struct AdminForgetDeviceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1550,7 +1550,7 @@ public struct AdminGetDeviceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1681,7 +1681,7 @@ public struct AdminGetUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to get information about the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user you want to retrieve.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2012,8 +2012,6 @@ public struct AdminInitiateAuthInput: Swift.Equatable {
     ///
     /// * Define auth challenge
     ///
-    /// * Verify auth challenge
-    ///
     ///
     /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
     ///
@@ -2154,7 +2152,7 @@ public struct AdminInitiateAuthOutput: Swift.Equatable {
     ///
     /// * NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with NEW_PASSWORD and any required attributes that Amazon Cognito returned in the requiredAttributes parameter. You can also set values for attributes that aren't required by your user pool and that your app client can write. For more information, see [AdminRespondToAuthChallenge](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminRespondToAuthChallenge.html). In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In AdminRespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the AdminUpdateUserAttributes API operation to modify the value of any additional attributes.
     ///
-    /// * MFA_SETUP: For users who are required to set up an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFA_CAN_SETUP value. To set up software token MFA, use the session returned here from InitiateAuth as an input to AssociateSoftwareToken, and use the session returned by VerifySoftwareToken as an input to RespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS MFA, users will need help from an administrator to add a phone number to their account and then call InitiateAuth again to restart sign-in.
+    /// * MFA_SETUP: For users who are required to set up an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value. To set up software token MFA, use the session returned here from InitiateAuth as an input to AssociateSoftwareToken, and use the session returned by VerifySoftwareToken as an input to RespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS MFA, users will need help from an administrator to add a phone number to their account and then call InitiateAuth again to restart sign-in.
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
     /// The challenge parameters. These are returned to you in the AdminInitiateAuth response if you must pass another challenge. The responses in this parameter should be used to compute inputs to the next call (AdminRespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable). The value of the USER_ID_FOR_SRP attribute is the user's actual username, not an alias (such as email address or phone number), even if you specified an alias in your call to AdminInitiateAuth. This happens because, in the AdminRespondToAuthChallenge API ChallengeResponses, the USERNAME attribute can't be an alias.
     public var challengeParameters: [Swift.String:Swift.String]?
@@ -2379,12 +2377,12 @@ extension AdminListDevicesInput: ClientRuntime.URLPathProvider {
 public struct AdminListDevicesInput: Swift.Equatable {
     /// The limit of the devices request.
     public var limit: Swift.Int?
-    /// The pagination token.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2448,7 +2446,7 @@ extension AdminListDevicesOutput: ClientRuntime.HttpResponseBinding {
 public struct AdminListDevicesOutput: Swift.Equatable {
     /// The devices in the list of devices response.
     public var devices: [CognitoIdentityProviderClientTypes.DeviceType]?
-    /// The pagination token.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
 
     public init(
@@ -2550,7 +2548,7 @@ public struct AdminListGroupsForUserInput: Swift.Equatable {
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username for the user.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2715,7 +2713,7 @@ public struct AdminListUserAuthEventsInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user pool username or an alias.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2876,7 +2874,7 @@ public struct AdminRemoveUserFromGroupInput: Swift.Equatable {
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username for the user.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2990,7 +2988,7 @@ public struct AdminResetUserPasswordInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to reset the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user whose password you want to reset.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3138,20 +3136,7 @@ public struct AdminRespondToAuthChallengeInput: Swift.Equatable {
     /// The challenge name. For more information, see [AdminInitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminInitiateAuth.html).
     /// This member is required.
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
-    /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:
-    ///
-    /// * SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).
-    ///
-    /// * PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret). PASSWORD_VERIFIER requires DEVICE_KEY when signing in with a remembered device.
-    ///
-    /// * ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret).
-    ///
-    /// * NEW_PASSWORD_REQUIRED: NEW_PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret). To set any required attributes that Amazon Cognito returned as requiredAttributes in the AdminInitiateAuth response, add a userAttributes.attributename  parameter. This parameter can also set values for writable attributes that aren't required by your user pool. In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In AdminRespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the AdminUpdateUserAttributes API operation to modify the value of any additional attributes.
-    ///
-    /// * MFA_SETUP requires USERNAME, plus you must use the session value returned by VerifySoftwareToken in the Session parameter.
-    ///
-    ///
-    /// The value of the USERNAME attribute must be the user's actual username, not an alias (such as an email address or phone number). To make this simpler, the AdminInitiateAuth response includes the actual username value in the USERNAMEUSER_ID_FOR_SRP attribute. This happens even if you specified an alias in your call to AdminInitiateAuth. For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
+    /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters. You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. SMS_MFA "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[SMS_code]", "USERNAME": "[username]"} PASSWORD_VERIFIER "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} Add "DEVICE_KEY" when you sign in with a remembered device. CUSTOM_CHALLENGE "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"} Add "DEVICE_KEY" when you sign in with a remembered device. NEW_PASSWORD_REQUIRED "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"} To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool. In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the UpdateUserAttributes API operation to modify the value of any additional attributes. SOFTWARE_TOKEN_MFA "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]} DEVICE_SRP_AUTH "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"} DEVICE_PASSWORD_VERIFIER "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} MFA_SETUP "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]" SELECT_MFA_TYPE "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"} For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
     public var challengeResponses: [Swift.String:Swift.String]?
     /// The app client ID.
     /// This member is required.
@@ -3434,7 +3419,7 @@ public struct AdminSetUserMFAPreferenceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user pool username or alias.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3552,7 +3537,7 @@ public struct AdminSetUserPasswordInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to set the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user whose password you want to set.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3668,7 +3653,7 @@ public struct AdminSetUserSettingsInput: Swift.Equatable {
     /// The ID of the user pool that contains the user whose options you're setting.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user whose options you're setting.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3789,7 +3774,7 @@ public struct AdminUpdateAuthEventFeedbackInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user pool username.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3908,7 +3893,7 @@ public struct AdminUpdateDeviceStatusInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -4040,7 +4025,7 @@ public struct AdminUpdateUserAttributesInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to update user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name of the user for whom you want to update user attributes.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -4171,7 +4156,7 @@ public struct AdminUserGlobalSignOutInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user name.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -5843,7 +5828,7 @@ public struct ConfirmForgotPasswordInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The user name of the user for whom you want to enter a code to retrieve a forgotten password.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -6038,7 +6023,7 @@ public struct ConfirmSignUpInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The user name of the user whose registration you want to confirm.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -7179,7 +7164,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     ///
     /// * LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
-    /// The read attributes.
+    /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
@@ -7190,7 +7175,7 @@ public struct CreateUserPoolClientInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to create a user pool client.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user pool attributes that the app client can write to. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
+    /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an [UpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html) API request and sets family_name to the new value. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
     public var writeAttributes: [Swift.String]?
 
     public init(
@@ -8097,12 +8082,12 @@ extension CognitoIdentityProviderClientTypes.CustomEmailLambdaVersionConfigType:
 }
 
 extension CognitoIdentityProviderClientTypes {
-    /// A custom email sender Lambda configuration type.
+    /// The properties of a custom email sender Lambda trigger.
     public struct CustomEmailLambdaVersionConfigType: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Lambda function that Amazon Cognito activates to send email notifications to users.
+        /// The Amazon Resource Name (ARN) of the function that you want to assign to your Lambda trigger.
         /// This member is required.
         public var lambdaArn: Swift.String?
-        /// Signature of the "request" attribute in the "event" information Amazon Cognito passes to your custom email Lambda function. The only supported value is V1_0.
+        /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features. You must use a LambdaVersion of V1_0 with a custom sender function.
         /// This member is required.
         public var lambdaVersion: CognitoIdentityProviderClientTypes.CustomEmailSenderLambdaVersionType?
 
@@ -8173,12 +8158,12 @@ extension CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType: S
 }
 
 extension CognitoIdentityProviderClientTypes {
-    /// A custom SMS sender Lambda configuration type.
+    /// The properties of a custom SMS sender Lambda trigger.
     public struct CustomSMSLambdaVersionConfigType: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Lambda function that Amazon Cognito activates to send SMS notifications to users.
+        /// The Amazon Resource Name (ARN) of the function that you want to assign to your Lambda trigger.
         /// This member is required.
         public var lambdaArn: Swift.String?
-        /// Signature of the "request" attribute in the "event" information that Amazon Cognito passes to your custom SMS Lambda function. The only supported value is V1_0.
+        /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features. You must use a LambdaVersion of V1_0 with a custom sender function.
         /// This member is required.
         public var lambdaVersion: CognitoIdentityProviderClientTypes.CustomSMSSenderLambdaVersionType?
 
@@ -11091,7 +11076,7 @@ public struct ForgotPasswordInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The user name of the user for whom you want to enter a code to reset a forgotten password.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -13175,8 +13160,6 @@ public struct InitiateAuthInput: Swift.Equatable {
     ///
     /// * Define auth challenge
     ///
-    /// * Verify auth challenge
-    ///
     ///
     /// For more information, see [ Customizing user pool Workflows with Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) in the Amazon Cognito Developer Guide. When you use the ClientMetadata parameter, remember that Amazon Cognito won't do the following:
     ///
@@ -13288,7 +13271,7 @@ extension InitiateAuthOutput: ClientRuntime.HttpResponseBinding {
 public struct InitiateAuthOutput: Swift.Equatable {
     /// The result of the authentication response. This result is only returned if the caller doesn't need to pass another challenge. If the caller does need to pass another challenge before it gets tokens, ChallengeName, ChallengeParameters, and Session are returned.
     public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
-    /// The name of the challenge that you're responding to with this call. This name is returned in the AdminInitiateAuth response if you must pass another challenge. Valid values include the following: All of the following challenges require USERNAME and SECRET_HASH (if applicable) in the parameters.
+    /// The name of the challenge that you're responding to with this call. This name is returned in the InitiateAuth response if you must pass another challenge. Valid values include the following: All of the following challenges require USERNAME and SECRET_HASH (if applicable) in the parameters.
     ///
     /// * SMS_MFA: Next challenge is to supply an SMS_MFA_CODE, delivered via SMS.
     ///
@@ -13302,7 +13285,7 @@ public struct InitiateAuthOutput: Swift.Equatable {
     ///
     /// * NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with NEW_PASSWORD and any required attributes that Amazon Cognito returned in the requiredAttributes parameter. You can also set values for attributes that aren't required by your user pool and that your app client can write. For more information, see [RespondToAuthChallenge](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RespondToAuthChallenge.html). In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the UpdateUserAttributes API operation to modify the value of any additional attributes.
     ///
-    /// * MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFA_CAN_SETUP value. To set up software token MFA, use the session returned here from InitiateAuth as an input to AssociateSoftwareToken. Use the session returned by VerifySoftwareToken as an input to RespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS MFA, an administrator should help the user to add a phone number to their account, and then the user should call InitiateAuth again to restart sign-in.
+    /// * MFA_SETUP: For users who are required to setup an MFA factor before they can sign in. The MFA types activated for the user pool will be listed in the challenge parameters MFAS_CAN_SETUP value. To set up software token MFA, use the session returned here from InitiateAuth as an input to AssociateSoftwareToken. Use the session returned by VerifySoftwareToken as an input to RespondToAuthChallenge with challenge name MFA_SETUP to complete sign-in. To set up SMS MFA, an administrator should help the user to add a phone number to their account, and then the user should call InitiateAuth again to restart sign-in.
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
     /// The challenge parameters. These are returned in the InitiateAuth response if you must pass another challenge. The responses in this parameter should be used to compute inputs to the next call (RespondToAuthChallenge). All challenges require USERNAME and SECRET_HASH (if applicable).
     public var challengeParameters: [Swift.String:Swift.String]?
@@ -13901,6 +13884,7 @@ extension CognitoIdentityProviderClientTypes.LambdaConfigType: Swift.Codable {
         case preAuthentication = "PreAuthentication"
         case preSignUp = "PreSignUp"
         case preTokenGeneration = "PreTokenGeneration"
+        case preTokenGenerationConfig = "PreTokenGenerationConfig"
         case userMigration = "UserMigration"
         case verifyAuthChallengeResponse = "VerifyAuthChallengeResponse"
     }
@@ -13940,6 +13924,9 @@ extension CognitoIdentityProviderClientTypes.LambdaConfigType: Swift.Codable {
         if let preTokenGeneration = self.preTokenGeneration {
             try encodeContainer.encode(preTokenGeneration, forKey: .preTokenGeneration)
         }
+        if let preTokenGenerationConfig = self.preTokenGenerationConfig {
+            try encodeContainer.encode(preTokenGenerationConfig, forKey: .preTokenGenerationConfig)
+        }
         if let userMigration = self.userMigration {
             try encodeContainer.encode(userMigration, forKey: .userMigration)
         }
@@ -13968,6 +13955,8 @@ extension CognitoIdentityProviderClientTypes.LambdaConfigType: Swift.Codable {
         verifyAuthChallengeResponse = verifyAuthChallengeResponseDecoded
         let preTokenGenerationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preTokenGeneration)
         preTokenGeneration = preTokenGenerationDecoded
+        let preTokenGenerationConfigDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType.self, forKey: .preTokenGenerationConfig)
+        preTokenGenerationConfig = preTokenGenerationConfigDecoded
         let userMigrationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userMigration)
         userMigration = userMigrationDecoded
         let customSMSSenderDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType.self, forKey: .customSMSSender)
@@ -14002,8 +13991,10 @@ extension CognitoIdentityProviderClientTypes {
         public var preAuthentication: Swift.String?
         /// A pre-registration Lambda trigger.
         public var preSignUp: Swift.String?
-        /// A Lambda trigger that is invoked before token generation.
+        /// The Amazon Resource Name (ARN) of the function that you want to assign to your Lambda trigger. Set this parameter for legacy purposes. If you also set an ARN in PreTokenGenerationConfig, its value must be identical to PreTokenGeneration. For new instances of pre token generation triggers, set the LambdaArn of PreTokenGenerationConfig. You can set
         public var preTokenGeneration: Swift.String?
+        /// The detailed configuration of a pre token generation trigger. If you also set an ARN in PreTokenGeneration, its value must be identical to PreTokenGenerationConfig.
+        public var preTokenGenerationConfig: CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType?
         /// The user migration Lambda config type.
         public var userMigration: Swift.String?
         /// Verifies the authentication challenge response.
@@ -14021,6 +14012,7 @@ extension CognitoIdentityProviderClientTypes {
             preAuthentication: Swift.String? = nil,
             preSignUp: Swift.String? = nil,
             preTokenGeneration: Swift.String? = nil,
+            preTokenGenerationConfig: CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType? = nil,
             userMigration: Swift.String? = nil,
             verifyAuthChallengeResponse: Swift.String? = nil
         )
@@ -14036,6 +14028,7 @@ extension CognitoIdentityProviderClientTypes {
             self.preAuthentication = preAuthentication
             self.preSignUp = preSignUp
             self.preTokenGeneration = preTokenGeneration
+            self.preTokenGenerationConfig = preTokenGenerationConfig
             self.userMigration = userMigration
             self.verifyAuthChallengeResponse = verifyAuthChallengeResponse
         }
@@ -14138,7 +14131,7 @@ public struct ListDevicesInput: Swift.Equatable {
     public var accessToken: Swift.String?
     /// The limit of the device request.
     public var limit: Swift.Int?
-    /// The pagination token for the list request.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
 
     public init(
@@ -14195,7 +14188,7 @@ extension ListDevicesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListDevicesOutput: Swift.Equatable {
     /// The devices returned in the list devices response.
     public var devices: [CognitoIdentityProviderClientTypes.DeviceType]?
-    /// The pagination token for the list device response.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
 
     public init(
@@ -14841,7 +14834,7 @@ public struct ListUserImportJobsInput: Swift.Equatable {
     /// The maximum number of import jobs you want the request to return.
     /// This member is required.
     public var maxResults: Swift.Int?
-    /// An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
     /// The user pool ID for the user pool that the users are being imported into.
     /// This member is required.
@@ -14899,7 +14892,7 @@ extension ListUserImportJobsOutput: ClientRuntime.HttpResponseBinding {
 
 /// Represents the response from the server to the request to list the user import jobs.
 public struct ListUserImportJobsOutput: Swift.Equatable {
-    /// An identifier that can be used to return the next set of user import jobs in the list.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
     /// The user import jobs.
     public var userImportJobs: [CognitoIdentityProviderClientTypes.UserImportJobType]?
@@ -15276,7 +15269,7 @@ public struct ListUsersInGroupInput: Swift.Equatable {
     /// The name of the group.
     /// This member is required.
     public var groupName: Swift.String?
-    /// The limit of the request to list users.
+    /// The maximum number of users that you want to retrieve before pagination.
     public var limit: Swift.Int?
     /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     public var nextToken: Swift.String?
@@ -15343,7 +15336,7 @@ extension ListUsersInGroupOutput: ClientRuntime.HttpResponseBinding {
 public struct ListUsersInGroupOutput: Swift.Equatable {
     /// An identifier that you can use in a later request to return the next set of items in the list.
     public var nextToken: Swift.String?
-    /// The users returned in the request to list users.
+    /// A list of users in the group, and their attributes.
     public var users: [CognitoIdentityProviderClientTypes.UserType]?
 
     public init(
@@ -15440,7 +15433,7 @@ extension ListUsersInput: ClientRuntime.URLPathProvider {
 
 /// Represents the request to list users.
 public struct ListUsersInput: Swift.Equatable {
-    /// A JSON array of user attribute names, for example given_name, that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user.
+    /// A JSON array of user attribute names, for example given_name, that you want Amazon Cognito to include in the response for each user. When you don't provide an AttributesToGet parameter, Amazon Cognito returns all attributes for each user. Use AttributesToGet with required attributes in your user pool, or in conjunction with Filter. Amazon Cognito returns an error if not all users in the results have set a value for the attribute you request. Attributes that you can't filter on, including custom attributes, must have a value set in every user profile before an AttributesToGet parameter returns results.
     public var attributesToGet: [Swift.String]?
     /// A filter string of the form "AttributeName Filter-Type "AttributeValue"". Quotation marks within the filter string must be escaped using the backslash (\) character. For example, "family_name = \"Reddy\"".
     ///
@@ -15478,7 +15471,7 @@ public struct ListUsersInput: Swift.Equatable {
     public var filter: Swift.String?
     /// Maximum number of users to be returned.
     public var limit: Swift.Int?
-    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+    /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
     /// The user pool ID for the user pool on which the search should be performed.
     /// This member is required.
@@ -15557,7 +15550,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
 
 /// The response from the request to list users.
 public struct ListUsersOutput: Swift.Equatable {
-    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+    /// The identifier that Amazon Cognito returned with the previous request to this operation. When you include a pagination token in your request, Amazon Cognito returns the next set of items in the list. By use of this token, you can paginate through the full list of items.
     public var paginationToken: Swift.String?
     /// A list of the user pool users, and their attributes, that match your query. Amazon Cognito creates a profile in your user pool for each native user in your user pool, and each unique user ID from your third-party identity providers (IdPs). When you link users with the [AdminLinkProviderForUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminLinkProviderForUser.html) API operation, the output of ListUsers displays both the IdP user and the native user that you linked. You can identify IdP users in the Users object of this API response by the IdP prefix that Amazon Cognito appends to Username.
     public var users: [CognitoIdentityProviderClientTypes.UserType]?
@@ -16334,7 +16327,7 @@ extension CognitoIdentityProviderClientTypes {
         public var requireSymbols: Swift.Bool
         /// In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
         public var requireUppercase: Swift.Bool
-        /// The number of days a temporary password is valid in the password policy. If the user doesn't sign in during this time, an administrator must reset their password. When you set TemporaryPasswordValidityDays for a user pool, you can no longer set a value for the legacy UnusedAccountValidityDays parameter in that user pool.
+        /// The number of days a temporary password is valid in the password policy. If the user doesn't sign in during this time, an administrator must reset their password. Defaults to 7. If you submit a value of 0, Amazon Cognito treats it as a null value and sets TemporaryPasswordValidityDays to its default value. When you set TemporaryPasswordValidityDays for a user pool, you can no longer set a value for the legacy UnusedAccountValidityDays parameter in that user pool.
         public var temporaryPasswordValidityDays: Swift.Int
 
         public init(
@@ -16411,6 +16404,85 @@ extension PasswordResetRequiredExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CognitoIdentityProviderClientTypes {
+    public enum PreTokenGenerationLambdaVersionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case v10
+        case v20
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreTokenGenerationLambdaVersionType] {
+            return [
+                .v10,
+                .v20,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .v10: return "V1_0"
+            case .v20: return "V2_0"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PreTokenGenerationLambdaVersionType(rawValue: rawValue) ?? PreTokenGenerationLambdaVersionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.PreTokenGenerationVersionConfigType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lambdaArn = "LambdaArn"
+        case lambdaVersion = "LambdaVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lambdaArn = self.lambdaArn {
+            try encodeContainer.encode(lambdaArn, forKey: .lambdaArn)
+        }
+        if let lambdaVersion = self.lambdaVersion {
+            try encodeContainer.encode(lambdaVersion.rawValue, forKey: .lambdaVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lambdaVersionDecoded = try containerValues.decodeIfPresent(CognitoIdentityProviderClientTypes.PreTokenGenerationLambdaVersionType.self, forKey: .lambdaVersion)
+        lambdaVersion = lambdaVersionDecoded
+        let lambdaArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lambdaArn)
+        lambdaArn = lambdaArnDecoded
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+    /// The properties of a pre token generation Lambda trigger.
+    public struct PreTokenGenerationVersionConfigType: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the function that you want to assign to your Lambda trigger. This parameter and the PreTokenGeneration property of LambdaConfig have the same value. For new instances of pre token generation triggers, set LambdaArn.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+        /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features.
+        /// This member is required.
+        public var lambdaVersion: CognitoIdentityProviderClientTypes.PreTokenGenerationLambdaVersionType?
+
+        public init(
+            lambdaArn: Swift.String? = nil,
+            lambdaVersion: CognitoIdentityProviderClientTypes.PreTokenGenerationLambdaVersionType? = nil
+        )
+        {
+            self.lambdaArn = lambdaArn
+            self.lambdaVersion = lambdaVersion
+        }
+    }
+
 }
 
 extension PreconditionNotMetException {
@@ -16769,7 +16841,7 @@ public struct ResendConfirmationCodeInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The username attribute of the user to whom you want to resend a confirmation code.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -17143,24 +17215,7 @@ public struct RespondToAuthChallengeInput: Swift.Equatable {
     /// The challenge name. For more information, see [InitiateAuth](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_InitiateAuth.html). ADMIN_NO_SRP_AUTH isn't a valid value.
     /// This member is required.
     public var challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType?
-    /// The challenge responses. These are inputs corresponding to the value of ChallengeName, for example: SECRET_HASH (if app client is configured with client secret) applies to all of the inputs that follow (including SOFTWARE_TOKEN_MFA).
-    ///
-    /// * SMS_MFA: SMS_MFA_CODE, USERNAME.
-    ///
-    /// * PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME. PASSWORD_VERIFIER requires DEVICE_KEY when you sign in with a remembered device.
-    ///
-    /// * NEW_PASSWORD_REQUIRED: NEW_PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret). To set any required attributes that Amazon Cognito returned as requiredAttributes in the InitiateAuth response, add a userAttributes.attributename  parameter. This parameter can also set values for writable attributes that aren't required by your user pool. In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the UpdateUserAttributes API operation to modify the value of any additional attributes.
-    ///
-    /// * SOFTWARE_TOKEN_MFA: USERNAME and SOFTWARE_TOKEN_MFA_CODE are required attributes.
-    ///
-    /// * DEVICE_SRP_AUTH requires USERNAME, DEVICE_KEY, SRP_A (and SECRET_HASH).
-    ///
-    /// * DEVICE_PASSWORD_VERIFIER requires everything that PASSWORD_VERIFIER requires, plus DEVICE_KEY.
-    ///
-    /// * MFA_SETUP requires USERNAME, plus you must use the session value returned by VerifySoftwareToken in the Session parameter.
-    ///
-    ///
-    /// For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
+    /// The responses to the challenge that you received in the previous request. Each challenge has its own required response parameters. The following examples are partial JSON request bodies that highlight challenge-response parameters. You must provide a SECRET_HASH parameter in all challenge responses to an app client that has a client secret. SMS_MFA "ChallengeName": "SMS_MFA", "ChallengeResponses": {"SMS_MFA_CODE": "[SMS_code]", "USERNAME": "[username]"} PASSWORD_VERIFIER "ChallengeName": "PASSWORD_VERIFIER", "ChallengeResponses": {"PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} Add "DEVICE_KEY" when you sign in with a remembered device. CUSTOM_CHALLENGE "ChallengeName": "CUSTOM_CHALLENGE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[challenge_answer]"} Add "DEVICE_KEY" when you sign in with a remembered device. NEW_PASSWORD_REQUIRED "ChallengeName": "NEW_PASSWORD_REQUIRED", "ChallengeResponses": {"NEW_PASSWORD": "[new_password]", "USERNAME": "[username]"} To set any required attributes that InitiateAuth returned in an requiredAttributes parameter, add "userAttributes.[attribute_name]": "[attribute_value]". This parameter can also set values for writable attributes that aren't required by your user pool. In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value. In RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the requiredAttributes parameter, then use the UpdateUserAttributes API operation to modify the value of any additional attributes. SOFTWARE_TOKEN_MFA "ChallengeName": "SOFTWARE_TOKEN_MFA", "ChallengeResponses": {"USERNAME": "[username]", "SOFTWARE_TOKEN_MFA_CODE": [authenticator_code]} DEVICE_SRP_AUTH "ChallengeName": "DEVICE_SRP_AUTH", "ChallengeResponses": {"USERNAME": "[username]", "DEVICE_KEY": "[device_key]", "SRP_A": "[srp_a]"} DEVICE_PASSWORD_VERIFIER "ChallengeName": "DEVICE_PASSWORD_VERIFIER", "ChallengeResponses": {"DEVICE_KEY": "[device_key]", "PASSWORD_CLAIM_SIGNATURE": "[claim_signature]", "PASSWORD_CLAIM_SECRET_BLOCK": "[secret_block]", "TIMESTAMP": [timestamp], "USERNAME": "[username]"} MFA_SETUP "ChallengeName": "MFA_SETUP", "ChallengeResponses": {"USERNAME": "[username]"}, "SESSION": "[Session ID from VerifySoftwareToken]" SELECT_MFA_TYPE "ChallengeName": "SELECT_MFA_TYPE", "ChallengeResponses": {"USERNAME": "[username]", "ANSWER": "[SMS_MFA or SOFTWARE_TOKEN_MFA]"} For more information about SECRET_HASH, see [Computing secret hash values](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#cognito-user-pools-computing-secret-hash). For information about DEVICE_KEY, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
     public var challengeResponses: [Swift.String:Swift.String]?
     /// The app client ID.
     /// This member is required.
@@ -17809,13 +17864,13 @@ extension CognitoIdentityProviderClientTypes.SchemaAttributeType: Swift.Codable 
 extension CognitoIdentityProviderClientTypes {
     /// A list of the user attributes and their properties in your user pool. The attribute schema contains standard attributes, custom attributes with a custom: prefix, and developer attributes with a dev: prefix. For more information, see [User pool attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html). Developer-only attributes are a legacy feature of user pools, are read-only to all app clients. You can create and update developer-only attributes only with IAM-authenticated API operations. Use app client read/write permissions instead.
     public struct SchemaAttributeType: Swift.Equatable {
-        /// The data format of the values for your attribute.
+        /// The data format of the values for your attribute. When you choose an AttributeDataType, Amazon Cognito validates the input against the data type. A custom attribute value in your user's ID token is always a string, for example "custom:isMember" : "true" or "custom:YearsAsMember" : "12".
         public var attributeDataType: CognitoIdentityProviderClientTypes.AttributeDataType?
         /// You should use [WriteAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UserPoolClientType.html#CognitoUserPools-Type-UserPoolClientType-WriteAttributes) in the user pool client to control how attributes can be mutated for new use cases instead of using DeveloperOnlyAttribute. Specifies whether the attribute type is developer only. This attribute can only be modified by an administrator. Users won't be able to modify this attribute using their access token. For example, DeveloperOnlyAttribute can be modified using AdminUpdateUserAttributes but can't be updated using UpdateUserAttributes.
         public var developerOnlyAttribute: Swift.Bool?
         /// Specifies whether the value of the attribute can be changed. Any user pool attribute whose value you map from an IdP attribute must be mutable, with a parameter value of true. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If an attribute is immutable, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see [Specifying Identity Provider Attribute Mappings for Your User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
         public var mutable: Swift.Bool?
-        /// The name of your user pool attribute, for example username or custom:costcenter.
+        /// The name of your user pool attribute. When you create or update a user pool, adding a schema attribute creates a custom or developer-only attribute. When you add an attribute with a Name value of MyAttribute, Amazon Cognito creates the custom attribute custom:MyAttribute. When DeveloperOnlyAttribute is true, Amazon Cognito creates your attribute as dev:MyAttribute. In an operation that describes a user pool, Amazon Cognito returns this value as value for standard attributes, custom:value for custom attributes, and dev:value for developer-only attributes..
         public var name: Swift.String?
         /// Specifies the constraints for an attribute of the number type.
         public var numberAttributeConstraints: CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType?
@@ -18809,10 +18864,10 @@ public struct SignUpInput: Swift.Equatable {
     public var userAttributes: [CognitoIdentityProviderClientTypes.AttributeType]?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The user name of the user you want to register.
+    /// The username of the user that you want to sign up. The value of this parameter is typically a username, but can be any alias attribute in your user pool.
     /// This member is required.
     public var username: Swift.String?
-    /// The validation data in the request to register a user.
+    /// Temporary user attributes that contribute to the outcomes of your pre sign-up Lambda trigger. This set of key-value pairs are for custom validation of information that you collect from your users but don't need to retain. Your Lambda function can analyze this additional data and act on it. Your function might perform external API operations like logging user attributes and validation data to Amazon CloudWatch Logs. Validation data might also affect the response that your function returns to Amazon Cognito, like automatically confirming the user if they sign up from within your network. For more information about the pre sign-up Lambda trigger, see [Pre sign-up Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
     public var validationData: [CognitoIdentityProviderClientTypes.AttributeType]?
 
     public init(
@@ -20439,7 +20494,7 @@ public struct UpdateAuthEventFeedbackInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The user pool username.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
     /// This member is required.
     public var username: Swift.String?
 
@@ -21526,7 +21581,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
     ///
     /// * LEGACY - This represents the early behavior of Amazon Cognito where user existence related errors aren't prevented.
     public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
-    /// The read-only attributes of the user pool.
+    /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
     public var readAttributes: [Swift.String]?
     /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
     public var refreshTokenValidity: Swift.Int?
@@ -21537,7 +21592,7 @@ public struct UpdateUserPoolClientInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to update the user pool client.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The writeable attributes of the user pool.
+    /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an [UpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html) API request and sets family_name to the new value. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
     public var writeAttributes: [Swift.String]?
 
     public init(
@@ -23324,7 +23379,7 @@ extension CognitoIdentityProviderClientTypes {
         ///
         /// * LEGACY - This represents the old behavior of Amazon Cognito where user existence related errors aren't prevented.
         public var preventUserExistenceErrors: CognitoIdentityProviderClientTypes.PreventUserExistenceErrorTypes?
-        /// The Read-only attributes.
+        /// The list of user attributes that you want your app client to have read-only access to. After your user authenticates in your app, their access token authorizes them to read their own attribute value for any attribute in this list. An example of this kind of activity is when your user selects a link to view their profile information. Your app makes a [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API request to retrieve and display your user's profile data. When you don't specify the ReadAttributes for your app client, your app can read the values of email_verified, phone_number_verified, and the Standard attributes of your user pool. When your user pool has read access to these default attributes, ReadAttributes doesn't return any information. Amazon Cognito only populates ReadAttributes in the API response if you have specified your own custom set of read attributes.
         public var readAttributes: [Swift.String]?
         /// The refresh token time limit. After this limit expires, your user can't use their refresh token. To specify the time unit for RefreshTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set RefreshTokenValidity as 10 and TokenValidityUnits as days, your user can refresh their session and retrieve new access and ID tokens for 10 days. The default time unit for RefreshTokenValidity in an API request is days. You can't set RefreshTokenValidity to 0. If you do, Amazon Cognito overrides the value with the default value of 30 days. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your refresh tokens are valid for 30 days.
         public var refreshTokenValidity: Swift.Int
@@ -23334,7 +23389,7 @@ extension CognitoIdentityProviderClientTypes {
         public var tokenValidityUnits: CognitoIdentityProviderClientTypes.TokenValidityUnitsType?
         /// The user pool ID for the user pool client.
         public var userPoolId: Swift.String?
-        /// The writeable attributes.
+        /// The list of user attributes that you want your app client to have write access to. After your user authenticates in your app, their access token authorizes them to set or modify their own attribute value for any attribute in this list. An example of this kind of activity is when you present your user with a form to update their profile information and they change their last name. Your app then makes an [UpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html) API request and sets family_name to the new value. When you don't specify the WriteAttributes for your app client, your app can write the values of the Standard attributes of your user pool. When your user pool has write access to these default attributes, WriteAttributes doesn't return any information. Amazon Cognito only populates WriteAttributes in the API response if you have specified your own custom set of write attributes. If your app client allows users to sign in through an IdP, this array must include all attributes that you have mapped to IdP attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an IdP. If your app client does not have write access to a mapped attribute, Amazon Cognito throws an error when it tries to update the attribute. For more information, see [Specifying IdP Attribute Mappings for Your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html).
         public var writeAttributes: [Swift.String]?
 
         public init(
@@ -23938,7 +23993,7 @@ extension CognitoIdentityProviderClientTypes {
         public var smsConfigurationFailure: Swift.String?
         /// This parameter is no longer used. See [VerificationMessageTemplateType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerificationMessageTemplateType.html).
         public var smsVerificationMessage: Swift.String?
-        /// The status of a user pool.
+        /// This parameter is no longer used.
         @available(*, deprecated, message: "This property is no longer available.")
         public var status: CognitoIdentityProviderClientTypes.StatusType?
         /// The settings for updates to user attributes. These settings include the property AttributesRequireVerificationBeforeUpdate, a user-pool setting that tells Amazon Cognito how to handle changes to the value of your users' email address and phone number attributes. For more information, see [ Verifying updates to email addresses and phone numbers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html#user-pool-settings-verifications-verify-attribute-updates).

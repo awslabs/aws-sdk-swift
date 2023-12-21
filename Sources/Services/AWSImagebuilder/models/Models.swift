@@ -851,7 +851,7 @@ extension ImagebuilderClientTypes {
     public struct Component: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the component.
         public var arn: Swift.String?
-        /// The change description of the component.
+        /// Describes what change has been made in this version of the component, or what makes this version different from other versions of the component.
         public var changeDescription: Swift.String?
         /// Component data contains the YAML document content for the component.
         public var data: Swift.String?
@@ -1181,7 +1181,7 @@ extension ImagebuilderClientTypes.ComponentState: Swift.Codable {
 }
 
 extension ImagebuilderClientTypes {
-    /// A group of fields that describe the current status of components that are no longer active.
+    /// A group of fields that describe the current status of components.
     public struct ComponentState: Swift.Equatable {
         /// Describes how or why the component changed state.
         public var reason: Swift.String?
@@ -2174,7 +2174,7 @@ extension CreateComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateComponentInput: Swift.Equatable {
-    /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
+    /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of the component.
     public var changeDescription: Swift.String?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
@@ -2932,11 +2932,13 @@ extension CreateImageInput: Swift.Encodable {
         case containerRecipeArn
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipeArn
         case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case tags
+        case workflows
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2952,6 +2954,9 @@ extension CreateImageInput: Swift.Encodable {
         }
         if let enhancedImageMetadataEnabled = self.enhancedImageMetadataEnabled {
             try encodeContainer.encode(enhancedImageMetadataEnabled, forKey: .enhancedImageMetadataEnabled)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
@@ -2969,6 +2974,12 @@ extension CreateImageInput: Swift.Encodable {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let workflows = workflows {
+            var workflowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflows)
+            for workflowconfiguration0 in workflows {
+                try workflowsContainer.encode(workflowconfiguration0)
             }
         }
     }
@@ -2990,6 +3001,8 @@ public struct CreateImageInput: Swift.Equatable {
     public var distributionConfigurationArn: Swift.String?
     /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
     public var enhancedImageMetadataEnabled: Swift.Bool?
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions.
+    public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed.
     public var imageRecipeArn: Swift.String?
     /// Contains settings for vulnerability scans.
@@ -3001,28 +3014,34 @@ public struct CreateImageInput: Swift.Equatable {
     public var infrastructureConfigurationArn: Swift.String?
     /// The tags of the image.
     public var tags: [Swift.String:Swift.String]?
+    /// Contains an array of workflow configuration objects.
+    public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
     public init(
         clientToken: Swift.String? = nil,
         containerRecipeArn: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
+        executionRole: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
     )
     {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
         self.distributionConfigurationArn = distributionConfigurationArn
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
+        self.executionRole = executionRole
         self.imageRecipeArn = imageRecipeArn
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.tags = tags
+        self.workflows = workflows
     }
 }
 
@@ -3036,6 +3055,8 @@ struct CreateImageInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+    let workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
+    let executionRole: Swift.String?
 }
 
 extension CreateImageInputBody: Swift.Decodable {
@@ -3044,11 +3065,13 @@ extension CreateImageInputBody: Swift.Decodable {
         case containerRecipeArn
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipeArn
         case imageScanningConfiguration
         case imageTestsConfiguration
         case infrastructureConfigurationArn
         case tags
+        case workflows
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3080,6 +3103,19 @@ extension CreateImageInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
         imageScanningConfiguration = imageScanningConfigurationDecoded
+        let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
+        var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
+        if let workflowsContainer = workflowsContainer {
+            workflowsDecoded0 = [ImagebuilderClientTypes.WorkflowConfiguration]()
+            for structure0 in workflowsContainer {
+                if let structure0 = structure0 {
+                    workflowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflows = workflowsDecoded0
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
     }
 }
 
@@ -3169,6 +3205,7 @@ extension CreateImagePipelineInput: Swift.Encodable {
         case description
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipeArn
         case imageScanningConfiguration
         case imageTestsConfiguration
@@ -3177,6 +3214,7 @@ extension CreateImagePipelineInput: Swift.Encodable {
         case schedule
         case status
         case tags
+        case workflows
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3195,6 +3233,9 @@ extension CreateImagePipelineInput: Swift.Encodable {
         }
         if let enhancedImageMetadataEnabled = self.enhancedImageMetadataEnabled {
             try encodeContainer.encode(enhancedImageMetadataEnabled, forKey: .enhancedImageMetadataEnabled)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
@@ -3223,6 +3264,12 @@ extension CreateImagePipelineInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let workflows = workflows {
+            var workflowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflows)
+            for workflowconfiguration0 in workflows {
+                try workflowsContainer.encode(workflowconfiguration0)
+            }
+        }
     }
 }
 
@@ -3244,6 +3291,8 @@ public struct CreateImagePipelineInput: Swift.Equatable {
     public var distributionConfigurationArn: Swift.String?
     /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
     public var enhancedImageMetadataEnabled: Swift.Bool?
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions.
+    public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline.
     public var imageRecipeArn: Swift.String?
     /// Contains settings for vulnerability scans.
@@ -3262,6 +3311,8 @@ public struct CreateImagePipelineInput: Swift.Equatable {
     public var status: ImagebuilderClientTypes.PipelineStatus?
     /// The tags of the image pipeline.
     public var tags: [Swift.String:Swift.String]?
+    /// Contains an array of workflow configuration objects.
+    public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -3269,6 +3320,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         description: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
+        executionRole: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
@@ -3276,7 +3328,8 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         name: Swift.String? = nil,
         schedule: ImagebuilderClientTypes.Schedule? = nil,
         status: ImagebuilderClientTypes.PipelineStatus? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
     )
     {
         self.clientToken = clientToken
@@ -3284,6 +3337,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         self.description = description
         self.distributionConfigurationArn = distributionConfigurationArn
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
+        self.executionRole = executionRole
         self.imageRecipeArn = imageRecipeArn
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
@@ -3292,6 +3346,7 @@ public struct CreateImagePipelineInput: Swift.Equatable {
         self.schedule = schedule
         self.status = status
         self.tags = tags
+        self.workflows = workflows
     }
 }
 
@@ -3309,6 +3364,8 @@ struct CreateImagePipelineInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+    let workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
+    let executionRole: Swift.String?
 }
 
 extension CreateImagePipelineInputBody: Swift.Decodable {
@@ -3318,6 +3375,7 @@ extension CreateImagePipelineInputBody: Swift.Decodable {
         case description
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipeArn
         case imageScanningConfiguration
         case imageTestsConfiguration
@@ -3326,6 +3384,7 @@ extension CreateImagePipelineInputBody: Swift.Decodable {
         case schedule
         case status
         case tags
+        case workflows
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3365,6 +3424,19 @@ extension CreateImagePipelineInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
         imageScanningConfiguration = imageScanningConfigurationDecoded
+        let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
+        var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
+        if let workflowsContainer = workflowsContainer {
+            workflowsDecoded0 = [ImagebuilderClientTypes.WorkflowConfiguration]()
+            for structure0 in workflowsContainer {
+                if let structure0 = structure0 {
+                    workflowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflows = workflowsDecoded0
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
     }
 }
 
@@ -4122,7 +4194,7 @@ public struct CreateLifecyclePolicyInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// Optional description for the lifecycle policy.
     public var description: Swift.String?
-    /// The role name or Amazon Resource Name (ARN) for the IAM role that grants Image Builder access to run lifecycle actions.
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to run lifecycle actions.
     /// This member is required.
     public var executionRole: Swift.String?
     /// The name of the lifecycle policy to create.
@@ -4293,6 +4365,248 @@ enum CreateLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceAlreadyExistsException": return try await ResourceAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateWorkflowInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeDescription
+        case clientToken
+        case data
+        case description
+        case kmsKeyId
+        case name
+        case semanticVersion
+        case tags
+        case type
+        case uri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let changeDescription = self.changeDescription {
+            try encodeContainer.encode(changeDescription, forKey: .changeDescription)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let semanticVersion = self.semanticVersion {
+            try encodeContainer.encode(semanticVersion, forKey: .semanticVersion)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let uri = self.uri {
+            try encodeContainer.encode(uri, forKey: .uri)
+        }
+    }
+}
+
+extension CreateWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateWorkflow"
+    }
+}
+
+public struct CreateWorkflowInput: Swift.Equatable {
+    /// Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
+    public var changeDescription: Swift.String?
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// Contains the UTF-8 encoded YAML document content for the workflow. Alternatively, you can specify the uri of a YAML document file stored in Amazon S3. However, you cannot specify both properties.
+    public var data: Swift.String?
+    /// Describes the workflow.
+    public var description: Swift.String?
+    /// The ID of the KMS key that is used to encrypt this workflow resource.
+    public var kmsKeyId: Swift.String?
+    /// The name of the workflow to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The semantic version of this workflow resource. The semantic version syntax adheres to the following rules. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+    /// This member is required.
+    public var semanticVersion: Swift.String?
+    /// Tags that apply to the workflow resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The phase in the image build process for which the workflow resource is responsible.
+    /// This member is required.
+    public var type: ImagebuilderClientTypes.WorkflowType?
+    /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key), and the requester must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
+    public var uri: Swift.String?
+
+    public init(
+        changeDescription: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        data: Swift.String? = nil,
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        semanticVersion: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        type: ImagebuilderClientTypes.WorkflowType? = nil,
+        uri: Swift.String? = nil
+    )
+    {
+        self.changeDescription = changeDescription
+        self.clientToken = clientToken
+        self.data = data
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.semanticVersion = semanticVersion
+        self.tags = tags
+        self.type = type
+        self.uri = uri
+    }
+}
+
+struct CreateWorkflowInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let semanticVersion: Swift.String?
+    let description: Swift.String?
+    let changeDescription: Swift.String?
+    let data: Swift.String?
+    let uri: Swift.String?
+    let kmsKeyId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+    let clientToken: Swift.String?
+    let type: ImagebuilderClientTypes.WorkflowType?
+}
+
+extension CreateWorkflowInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case changeDescription
+        case clientToken
+        case data
+        case description
+        case kmsKeyId
+        case name
+        case semanticVersion
+        case tags
+        case type
+        case uri
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let semanticVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .semanticVersion)
+        semanticVersion = semanticVersionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let changeDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeDescription)
+        changeDescription = changeDescriptionDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .data)
+        data = dataDecoded
+        let uriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .uri)
+        uri = uriDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension CreateWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.workflowBuildVersionArn = output.workflowBuildVersionArn
+        } else {
+            self.clientToken = nil
+            self.workflowBuildVersionArn = nil
+        }
+    }
+}
+
+public struct CreateWorkflowOutput: Swift.Equatable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
+    public var workflowBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        workflowBuildVersionArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+struct CreateWorkflowOutputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let workflowBuildVersionArn: Swift.String?
+}
+
+extension CreateWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case workflowBuildVersionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+    }
+}
+
+enum CreateWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidVersionNumberException": return try await InvalidVersionNumberException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5379,6 +5693,106 @@ enum DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteWorkflowInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowBuildVersionArn = workflowBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let workflowBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
+            items.append(workflowBuildVersionArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeleteWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteWorkflow"
+    }
+}
+
+public struct DeleteWorkflowInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the workflow resource to delete.
+    /// This member is required.
+    public var workflowBuildVersionArn: Swift.String?
+
+    public init(
+        workflowBuildVersionArn: Swift.String? = nil
+    )
+    {
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+struct DeleteWorkflowInputBody: Swift.Equatable {
+}
+
+extension DeleteWorkflowInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workflowBuildVersionArn = output.workflowBuildVersionArn
+        } else {
+            self.workflowBuildVersionArn = nil
+        }
+    }
+}
+
+public struct DeleteWorkflowOutput: Swift.Equatable {
+    /// The ARN of the workflow resource that this request deleted.
+    public var workflowBuildVersionArn: Swift.String?
+
+    public init(
+        workflowBuildVersionArn: Swift.String? = nil
+    )
+    {
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+struct DeleteWorkflowOutputBody: Swift.Equatable {
+    let workflowBuildVersionArn: Swift.String?
+}
+
+extension DeleteWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workflowBuildVersionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+    }
+}
+
+enum DeleteWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceDependencyException": return try await ResourceDependencyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ImagebuilderClientTypes {
     public enum DiskImageFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case raw
@@ -6340,7 +6754,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComponentOutput: Swift.Equatable {
-    /// The component object associated with the specified ARN.
+    /// The component object specified in the request.
     public var component: ImagebuilderClientTypes.Component?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -7732,6 +8146,7 @@ extension GetWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.endTime = output.endTime
             self.imageBuildVersionArn = output.imageBuildVersionArn
             self.message = output.message
+            self.parallelGroup = output.parallelGroup
             self.requestId = output.requestId
             self.startTime = output.startTime
             self.status = output.status
@@ -7746,6 +8161,7 @@ extension GetWorkflowExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.endTime = nil
             self.imageBuildVersionArn = nil
             self.message = nil
+            self.parallelGroup = nil
             self.requestId = nil
             self.startTime = nil
             self.status = nil
@@ -7767,6 +8183,8 @@ public struct GetWorkflowExecutionOutput: Swift.Equatable {
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the specified runtime instance of the workflow, if applicable.
     public var message: Swift.String?
+    /// Test workflows are defined within named runtime groups. The parallel group is a named group that contains one or more test workflows.
+    public var parallelGroup: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
     /// The timestamp when the specified runtime instance of the workflow started.
@@ -7792,6 +8210,7 @@ public struct GetWorkflowExecutionOutput: Swift.Equatable {
         endTime: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
         message: Swift.String? = nil,
+        parallelGroup: Swift.String? = nil,
         requestId: Swift.String? = nil,
         startTime: Swift.String? = nil,
         status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
@@ -7807,6 +8226,7 @@ public struct GetWorkflowExecutionOutput: Swift.Equatable {
         self.endTime = endTime
         self.imageBuildVersionArn = imageBuildVersionArn
         self.message = message
+        self.parallelGroup = parallelGroup
         self.requestId = requestId
         self.startTime = startTime
         self.status = status
@@ -7834,6 +8254,7 @@ struct GetWorkflowExecutionOutputBody: Swift.Equatable {
     let totalStepsSkipped: Swift.Int
     let startTime: Swift.String?
     let endTime: Swift.String?
+    let parallelGroup: Swift.String?
 }
 
 extension GetWorkflowExecutionOutputBody: Swift.Decodable {
@@ -7841,6 +8262,7 @@ extension GetWorkflowExecutionOutputBody: Swift.Decodable {
         case endTime
         case imageBuildVersionArn
         case message
+        case parallelGroup
         case requestId
         case startTime
         case status
@@ -7881,10 +8303,111 @@ extension GetWorkflowExecutionOutputBody: Swift.Decodable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
         endTime = endTimeDecoded
+        let parallelGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parallelGroup)
+        parallelGroup = parallelGroupDecoded
     }
 }
 
 enum GetWorkflowExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetWorkflowInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let workflowBuildVersionArn = workflowBuildVersionArn else {
+                let message = "Creating a URL Query Item failed. workflowBuildVersionArn is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let workflowBuildVersionArnQueryItem = ClientRuntime.URLQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
+            items.append(workflowBuildVersionArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetWorkflowInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/GetWorkflow"
+    }
+}
+
+public struct GetWorkflowInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the workflow resource that you want to get.
+    /// This member is required.
+    public var workflowBuildVersionArn: Swift.String?
+
+    public init(
+        workflowBuildVersionArn: Swift.String? = nil
+    )
+    {
+        self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+struct GetWorkflowInputBody: Swift.Equatable {
+}
+
+extension GetWorkflowInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetWorkflowOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetWorkflowOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workflow = output.workflow
+        } else {
+            self.workflow = nil
+        }
+    }
+}
+
+public struct GetWorkflowOutput: Swift.Equatable {
+    /// The workflow resource specified in the request.
+    public var workflow: ImagebuilderClientTypes.Workflow?
+
+    public init(
+        workflow: ImagebuilderClientTypes.Workflow? = nil
+    )
+    {
+        self.workflow = workflow
+    }
+}
+
+struct GetWorkflowOutputBody: Swift.Equatable {
+    let workflow: ImagebuilderClientTypes.Workflow?
+}
+
+extension GetWorkflowOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workflow
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.Workflow.self, forKey: .workflow)
+        workflow = workflowDecoded
+    }
+}
+
+enum GetWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -8223,6 +8746,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         case deprecationTime
         case distributionConfiguration
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipe
         case imageScanningConfiguration
         case imageSource
@@ -8240,6 +8764,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         case tags
         case type
         case version
+        case workflows
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8264,6 +8789,9 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         }
         if let enhancedImageMetadataEnabled = self.enhancedImageMetadataEnabled {
             try encodeContainer.encode(enhancedImageMetadataEnabled, forKey: .enhancedImageMetadataEnabled)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
         if let imageRecipe = self.imageRecipe {
             try encodeContainer.encode(imageRecipe, forKey: .imageRecipe)
@@ -8318,6 +8846,12 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         }
         if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
+        }
+        if let workflows = workflows {
+            var workflowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflows)
+            for workflowconfiguration0 in workflows {
+                try workflowsContainer.encode(workflowconfiguration0)
+            }
         }
     }
 
@@ -8380,6 +8914,19 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         deprecationTime = deprecationTimeDecoded
         let lifecycleExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleExecutionId)
         lifecycleExecutionId = lifecycleExecutionIdDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
+        var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
+        if let workflowsContainer = workflowsContainer {
+            workflowsDecoded0 = [ImagebuilderClientTypes.WorkflowConfiguration]()
+            for structure0 in workflowsContainer {
+                if let structure0 = structure0 {
+                    workflowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflows = workflowsDecoded0
     }
 }
 
@@ -8412,6 +8959,8 @@ extension ImagebuilderClientTypes {
         public var distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration?
         /// Indicates whether Image Builder collects additional information about the image, such as the operating system (OS) version and package list.
         public var enhancedImageMetadataEnabled: Swift.Bool?
+        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions.
+        public var executionRole: Swift.String?
         /// For images that distribute an AMI, this is the image recipe that Image Builder used to create the image. For container images, this is empty.
         public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
         /// Contains settings for vulnerability scans.
@@ -8446,6 +8995,8 @@ extension ImagebuilderClientTypes {
         public var type: ImagebuilderClientTypes.ImageType?
         /// The semantic version of the image. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
         public var version: Swift.String?
+        /// Contains the build and test workflows that are associated with the image.
+        public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
         public init(
             arn: Swift.String? = nil,
@@ -8455,6 +9006,7 @@ extension ImagebuilderClientTypes {
             deprecationTime: ClientRuntime.Date? = nil,
             distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration? = nil,
             enhancedImageMetadataEnabled: Swift.Bool? = nil,
+            executionRole: Swift.String? = nil,
             imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
             imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
             imageSource: ImagebuilderClientTypes.ImageSource? = nil,
@@ -8471,7 +9023,8 @@ extension ImagebuilderClientTypes {
             state: ImagebuilderClientTypes.ImageState? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: ImagebuilderClientTypes.ImageType? = nil,
-            version: Swift.String? = nil
+            version: Swift.String? = nil,
+            workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
         )
         {
             self.arn = arn
@@ -8481,6 +9034,7 @@ extension ImagebuilderClientTypes {
             self.deprecationTime = deprecationTime
             self.distributionConfiguration = distributionConfiguration
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
+            self.executionRole = executionRole
             self.imageRecipe = imageRecipe
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageSource = imageSource
@@ -8498,6 +9052,7 @@ extension ImagebuilderClientTypes {
             self.tags = tags
             self.type = type
             self.version = version
+            self.workflows = workflows
         }
     }
 
@@ -8604,6 +9159,7 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         case description
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imageRecipeArn
         case imageScanningConfiguration
         case imageTestsConfiguration
@@ -8613,6 +9169,7 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         case schedule
         case status
         case tags
+        case workflows
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8644,6 +9201,9 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         if let enhancedImageMetadataEnabled = self.enhancedImageMetadataEnabled {
             try encodeContainer.encode(enhancedImageMetadataEnabled, forKey: .enhancedImageMetadataEnabled)
         }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
+        }
         if let imageRecipeArn = self.imageRecipeArn {
             try encodeContainer.encode(imageRecipeArn, forKey: .imageRecipeArn)
         }
@@ -8672,6 +9232,12 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tagMap0) in tags {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let workflows = workflows {
+            var workflowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflows)
+            for workflowconfiguration0 in workflows {
+                try workflowsContainer.encode(workflowconfiguration0)
             }
         }
     }
@@ -8723,6 +9289,19 @@ extension ImagebuilderClientTypes.ImagePipeline: Swift.Codable {
         tags = tagsDecoded0
         let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
         imageScanningConfiguration = imageScanningConfigurationDecoded
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
+        let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
+        var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
+        if let workflowsContainer = workflowsContainer {
+            workflowsDecoded0 = [ImagebuilderClientTypes.WorkflowConfiguration]()
+            for structure0 in workflowsContainer {
+                if let structure0 = structure0 {
+                    workflowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflows = workflowsDecoded0
     }
 }
 
@@ -8747,6 +9326,8 @@ extension ImagebuilderClientTypes {
         public var distributionConfigurationArn: Swift.String?
         /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public var enhancedImageMetadataEnabled: Swift.Bool?
+        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions.
+        public var executionRole: Swift.String?
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image pipeline.
         public var imageRecipeArn: Swift.String?
         /// Contains settings for vulnerability scans.
@@ -8765,6 +9346,8 @@ extension ImagebuilderClientTypes {
         public var status: ImagebuilderClientTypes.PipelineStatus?
         /// The tags of this image pipeline.
         public var tags: [Swift.String:Swift.String]?
+        /// Contains the workflows that run for the image pipeline.
+        public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
         public init(
             arn: Swift.String? = nil,
@@ -8776,6 +9359,7 @@ extension ImagebuilderClientTypes {
             description: Swift.String? = nil,
             distributionConfigurationArn: Swift.String? = nil,
             enhancedImageMetadataEnabled: Swift.Bool? = nil,
+            executionRole: Swift.String? = nil,
             imageRecipeArn: Swift.String? = nil,
             imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
@@ -8784,7 +9368,8 @@ extension ImagebuilderClientTypes {
             platform: ImagebuilderClientTypes.Platform? = nil,
             schedule: ImagebuilderClientTypes.Schedule? = nil,
             status: ImagebuilderClientTypes.PipelineStatus? = nil,
-            tags: [Swift.String:Swift.String]? = nil
+            tags: [Swift.String:Swift.String]? = nil,
+            workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
         )
         {
             self.arn = arn
@@ -8796,6 +9381,7 @@ extension ImagebuilderClientTypes {
             self.description = description
             self.distributionConfigurationArn = distributionConfigurationArn
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
+            self.executionRole = executionRole
             self.imageRecipeArn = imageRecipeArn
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
@@ -8805,6 +9391,7 @@ extension ImagebuilderClientTypes {
             self.schedule = schedule
             self.status = status
             self.tags = tags
+            self.workflows = workflows
         }
     }
 
@@ -10206,7 +10793,7 @@ extension ImportComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportComponentInput: Swift.Equatable {
-    /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of this component.
+    /// The change description of the component. This description indicates the change that has been made in this version, or what makes this version different from other versions of the component.
     public var changeDescription: Swift.String?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
@@ -12393,7 +12980,7 @@ extension ImagebuilderClientTypes {
         public var dateUpdated: ClientRuntime.Date?
         /// Optional description for the lifecycle policy.
         public var description: Swift.String?
-        /// The name of the IAM role that Image Builder uses to run the lifecycle policy. This is a custom role that you create.
+        /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to run the lifecycle policy. This is a custom role that you create.
         public var executionRole: Swift.String?
         /// The name of the lifecycle policy.
         public var name: Swift.String?
@@ -12675,7 +13262,7 @@ extension ImagebuilderClientTypes {
     public struct LifecyclePolicyDetailExclusionRules: Swift.Equatable {
         /// Lists configuration values that apply to AMIs that Image Builder should exclude from the lifecycle action.
         public var amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis?
-        /// Contains a list of tags that Image Builder uses to skip lifecycle actions for AMIs that have them.
+        /// Contains a list of tags that Image Builder uses to skip lifecycle actions for resources that have them.
         public var tagMap: [Swift.String:Swift.String]?
 
         public init(
@@ -12774,11 +13361,11 @@ extension ImagebuilderClientTypes {
     public struct LifecyclePolicyDetailExclusionRulesAmis: Swift.Equatable {
         /// Configures whether public AMIs are excluded from the lifecycle action.
         public var isPublic: Swift.Bool
-        /// Configures Amazon Web Services Regions that are excluded from the lifecycle action.
-        public var lastLaunched: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLaunched?
-        /// Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action.
-        public var regions: [Swift.String]?
         /// Specifies configuration details for Image Builder to exclude the most recent resources from lifecycle actions.
+        public var lastLaunched: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmisLastLaunched?
+        /// Configures Amazon Web Services Regions that are excluded from the lifecycle action.
+        public var regions: [Swift.String]?
+        /// Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action.
         public var sharedAccounts: [Swift.String]?
         /// Lists tags that should be excluded from lifecycle actions for the AMIs that have them.
         public var tagMap: [Swift.String:Swift.String]?
@@ -13225,7 +13812,7 @@ extension ImagebuilderClientTypes {
         public var dateUpdated: ClientRuntime.Date?
         /// Optional description for the lifecycle policy.
         public var description: Swift.String?
-        /// The name of the IAM role that Image Builder uses to run the lifecycle policy.
+        /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to run the lifecycle policy.
         public var executionRole: Swift.String?
         /// The name of the lifecycle policy.
         public var name: Swift.String?
@@ -16239,6 +16826,289 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListWaitingWorkflowStepsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListWaitingWorkflowStepsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListWaitingWorkflowSteps"
+    }
+}
+
+public struct ListWaitingWorkflowStepsInput: Swift.Equatable {
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListWaitingWorkflowStepsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListWaitingWorkflowStepsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListWaitingWorkflowStepsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListWaitingWorkflowStepsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.steps = output.steps
+        } else {
+            self.nextToken = nil
+            self.steps = nil
+        }
+    }
+}
+
+public struct ListWaitingWorkflowStepsOutput: Swift.Equatable {
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// An array of the workflow steps that are waiting for action in your Amazon Web Services account.
+    public var steps: [ImagebuilderClientTypes.WorkflowStepExecution]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        steps: [ImagebuilderClientTypes.WorkflowStepExecution]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.steps = steps
+    }
+}
+
+struct ListWaitingWorkflowStepsOutputBody: Swift.Equatable {
+    let steps: [ImagebuilderClientTypes.WorkflowStepExecution]?
+    let nextToken: Swift.String?
+}
+
+extension ListWaitingWorkflowStepsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case steps
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowStepExecution?].self, forKey: .steps)
+        var stepsDecoded0:[ImagebuilderClientTypes.WorkflowStepExecution]? = nil
+        if let stepsContainer = stepsContainer {
+            stepsDecoded0 = [ImagebuilderClientTypes.WorkflowStepExecution]()
+            for structure0 in stepsContainer {
+                if let structure0 = structure0 {
+                    stepsDecoded0?.append(structure0)
+                }
+            }
+        }
+        steps = stepsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWaitingWorkflowStepsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListWorkflowBuildVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case workflowVersionArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let workflowVersionArn = self.workflowVersionArn {
+            try encodeContainer.encode(workflowVersionArn, forKey: .workflowVersionArn)
+        }
+    }
+}
+
+extension ListWorkflowBuildVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListWorkflowBuildVersions"
+    }
+}
+
+public struct ListWorkflowBuildVersionsInput: Swift.Equatable {
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
+    /// This member is required.
+    public var workflowVersionArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workflowVersionArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workflowVersionArn = workflowVersionArn
+    }
+}
+
+struct ListWorkflowBuildVersionsInputBody: Swift.Equatable {
+    let workflowVersionArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowBuildVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case workflowVersionArn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowVersionArn)
+        workflowVersionArn = workflowVersionArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListWorkflowBuildVersionsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListWorkflowBuildVersionsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.workflowSummaryList = output.workflowSummaryList
+        } else {
+            self.nextToken = nil
+            self.workflowSummaryList = nil
+        }
+    }
+}
+
+public struct ListWorkflowBuildVersionsOutput: Swift.Equatable {
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// A list that contains metadata for the workflow builds that have run for the workflow resource specified in the request.
+    public var workflowSummaryList: [ImagebuilderClientTypes.WorkflowSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workflowSummaryList: [ImagebuilderClientTypes.WorkflowSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.workflowSummaryList = workflowSummaryList
+    }
+}
+
+struct ListWorkflowBuildVersionsOutputBody: Swift.Equatable {
+    let workflowSummaryList: [ImagebuilderClientTypes.WorkflowSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowBuildVersionsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case workflowSummaryList
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowSummaryListContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowSummary?].self, forKey: .workflowSummaryList)
+        var workflowSummaryListDecoded0:[ImagebuilderClientTypes.WorkflowSummary]? = nil
+        if let workflowSummaryListContainer = workflowSummaryListContainer {
+            workflowSummaryListDecoded0 = [ImagebuilderClientTypes.WorkflowSummary]()
+            for structure0 in workflowSummaryListContainer {
+                if let structure0 = structure0 {
+                    workflowSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflowSummaryList = workflowSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorkflowBuildVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListWorkflowExecutionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case imageBuildVersionArn
@@ -16615,6 +17485,189 @@ enum ListWorkflowStepExecutionsOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension ListWorkflowsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byName
+        case filters
+        case maxResults
+        case nextToken
+        case owner
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let byName = self.byName {
+            try encodeContainer.encode(byName, forKey: .byName)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner.rawValue, forKey: .owner)
+        }
+    }
+}
+
+extension ListWorkflowsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListWorkflows"
+    }
+}
+
+public struct ListWorkflowsInput: Swift.Equatable {
+    /// Specify all or part of the workflow name to streamline results.
+    public var byName: Swift.Bool?
+    /// Used to streamline search results.
+    public var filters: [ImagebuilderClientTypes.Filter]?
+    /// The maximum items to return in a request.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// Used to get a list of workflow build version filtered by the identity of the creator.
+    public var owner: ImagebuilderClientTypes.Ownership?
+
+    public init(
+        byName: Swift.Bool? = nil,
+        filters: [ImagebuilderClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        owner: ImagebuilderClientTypes.Ownership? = nil
+    )
+    {
+        self.byName = byName
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.owner = owner
+    }
+}
+
+struct ListWorkflowsInputBody: Swift.Equatable {
+    let owner: ImagebuilderClientTypes.Ownership?
+    let filters: [ImagebuilderClientTypes.Filter]?
+    let byName: Swift.Bool?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case byName
+        case filters
+        case maxResults
+        case nextToken
+        case owner
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ownerDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.Ownership.self, forKey: .owner)
+        owner = ownerDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[ImagebuilderClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ImagebuilderClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let byNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .byName)
+        byName = byNameDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListWorkflowsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.workflowVersionList = output.workflowVersionList
+        } else {
+            self.nextToken = nil
+            self.workflowVersionList = nil
+        }
+    }
+}
+
+public struct ListWorkflowsOutput: Swift.Equatable {
+    /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
+    public var nextToken: Swift.String?
+    /// A list of workflow build versions that match the request criteria.
+    public var workflowVersionList: [ImagebuilderClientTypes.WorkflowVersion]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        workflowVersionList: [ImagebuilderClientTypes.WorkflowVersion]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.workflowVersionList = workflowVersionList
+    }
+}
+
+struct ListWorkflowsOutputBody: Swift.Equatable {
+    let workflowVersionList: [ImagebuilderClientTypes.WorkflowVersion]?
+    let nextToken: Swift.String?
+}
+
+extension ListWorkflowsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case workflowVersionList
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowVersionListContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowVersion?].self, forKey: .workflowVersionList)
+        var workflowVersionListDecoded0:[ImagebuilderClientTypes.WorkflowVersion]? = nil
+        if let workflowVersionListContainer = workflowVersionListContainer {
+            workflowVersionListDecoded0 = [ImagebuilderClientTypes.WorkflowVersion]()
+            for structure0 in workflowVersionListContainer {
+                if let structure0 = structure0 {
+                    workflowVersionListDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflowVersionList = workflowVersionListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidPaginationTokenException": return try await InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ImagebuilderClientTypes.Logging: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case s3Logs
@@ -16648,6 +17701,38 @@ extension ImagebuilderClientTypes {
         }
     }
 
+}
+
+extension ImagebuilderClientTypes {
+    public enum OnWorkflowFailure: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case abort
+        case `continue`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnWorkflowFailure] {
+            return [
+                .abort,
+                .continue,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .continue: return "CONTINUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OnWorkflowFailure(rawValue: rawValue) ?? OnWorkflowFailure.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ImagebuilderClientTypes.OutputResources: Swift.Codable {
@@ -18157,7 +19242,7 @@ extension ImagebuilderClientTypes.Schedule: Swift.Codable {
 }
 
 extension ImagebuilderClientTypes {
-    /// A schedule configures how often and when a pipeline will automatically create a new image.
+    /// A schedule configures when and how often a pipeline will automatically create a new image.
     public struct Schedule: Swift.Equatable {
         /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html) in the EC2 Image Builder API Reference.
         public var pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition?
@@ -18178,6 +19263,185 @@ extension ImagebuilderClientTypes {
         }
     }
 
+}
+
+extension SendWorkflowStepActionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case clientToken
+        case imageBuildVersionArn
+        case reason
+        case stepExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let imageBuildVersionArn = self.imageBuildVersionArn {
+            try encodeContainer.encode(imageBuildVersionArn, forKey: .imageBuildVersionArn)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let stepExecutionId = self.stepExecutionId {
+            try encodeContainer.encode(stepExecutionId, forKey: .stepExecutionId)
+        }
+    }
+}
+
+extension SendWorkflowStepActionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/SendWorkflowStepAction"
+    }
+}
+
+public struct SendWorkflowStepActionInput: Swift.Equatable {
+    /// The action for the image creation process to take while a workflow WaitForAction step waits for an asynchronous action to complete.
+    /// This member is required.
+    public var action: ImagebuilderClientTypes.WorkflowStepActionType?
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image build version to send action for.
+    /// This member is required.
+    public var imageBuildVersionArn: Swift.String?
+    /// The reason why this action is sent.
+    public var reason: Swift.String?
+    /// Uniquely identifies the workflow step that sent the step action.
+    /// This member is required.
+    public var stepExecutionId: Swift.String?
+
+    public init(
+        action: ImagebuilderClientTypes.WorkflowStepActionType? = nil,
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil,
+        reason: Swift.String? = nil,
+        stepExecutionId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.reason = reason
+        self.stepExecutionId = stepExecutionId
+    }
+}
+
+struct SendWorkflowStepActionInputBody: Swift.Equatable {
+    let stepExecutionId: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+    let action: ImagebuilderClientTypes.WorkflowStepActionType?
+    let reason: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension SendWorkflowStepActionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case clientToken
+        case imageBuildVersionArn
+        case reason
+        case stepExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStepActionType.self, forKey: .action)
+        action = actionDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension SendWorkflowStepActionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendWorkflowStepActionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.clientToken = output.clientToken
+            self.imageBuildVersionArn = output.imageBuildVersionArn
+            self.stepExecutionId = output.stepExecutionId
+        } else {
+            self.clientToken = nil
+            self.imageBuildVersionArn = nil
+            self.stepExecutionId = nil
+        }
+    }
+}
+
+public struct SendWorkflowStepActionOutput: Swift.Equatable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image build version that received the action request.
+    public var imageBuildVersionArn: Swift.String?
+    /// The workflow step that sent the step action.
+    public var stepExecutionId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil,
+        stepExecutionId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+        self.stepExecutionId = stepExecutionId
+    }
+}
+
+struct SendWorkflowStepActionOutputBody: Swift.Equatable {
+    let stepExecutionId: Swift.String?
+    let imageBuildVersionArn: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension SendWorkflowStepActionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case imageBuildVersionArn
+        case stepExecutionId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+enum SendWorkflowStepActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CallRateLimitExceededException": return try await CallRateLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClientException": return try await ClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "IdempotentParameterMismatchException": return try await IdempotentParameterMismatchException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ServiceException {
@@ -19174,6 +20438,7 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         case description
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imagePipelineArn
         case imageRecipeArn
         case imageScanningConfiguration
@@ -19181,6 +20446,7 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         case infrastructureConfigurationArn
         case schedule
         case status
+        case workflows
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -19199,6 +20465,9 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         }
         if let enhancedImageMetadataEnabled = self.enhancedImageMetadataEnabled {
             try encodeContainer.encode(enhancedImageMetadataEnabled, forKey: .enhancedImageMetadataEnabled)
+        }
+        if let executionRole = self.executionRole {
+            try encodeContainer.encode(executionRole, forKey: .executionRole)
         }
         if let imagePipelineArn = self.imagePipelineArn {
             try encodeContainer.encode(imagePipelineArn, forKey: .imagePipelineArn)
@@ -19221,6 +20490,12 @@ extension UpdateImagePipelineInput: Swift.Encodable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let workflows = workflows {
+            var workflowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workflows)
+            for workflowconfiguration0 in workflows {
+                try workflowsContainer.encode(workflowconfiguration0)
+            }
+        }
     }
 }
 
@@ -19242,6 +20517,8 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
     public var distributionConfigurationArn: Swift.String?
     /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
     public var enhancedImageMetadataEnabled: Swift.Bool?
+    /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to perform workflow actions.
+    public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the image pipeline that you want to update.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
@@ -19258,6 +20535,8 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
     public var schedule: ImagebuilderClientTypes.Schedule?
     /// The status of the image pipeline.
     public var status: ImagebuilderClientTypes.PipelineStatus?
+    /// Contains the workflows to run for the pipeline.
+    public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -19265,13 +20544,15 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
         description: Swift.String? = nil,
         distributionConfigurationArn: Swift.String? = nil,
         enhancedImageMetadataEnabled: Swift.Bool? = nil,
+        executionRole: Swift.String? = nil,
         imagePipelineArn: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         schedule: ImagebuilderClientTypes.Schedule? = nil,
-        status: ImagebuilderClientTypes.PipelineStatus? = nil
+        status: ImagebuilderClientTypes.PipelineStatus? = nil,
+        workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
     )
     {
         self.clientToken = clientToken
@@ -19279,6 +20560,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
         self.description = description
         self.distributionConfigurationArn = distributionConfigurationArn
         self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
+        self.executionRole = executionRole
         self.imagePipelineArn = imagePipelineArn
         self.imageRecipeArn = imageRecipeArn
         self.imageScanningConfiguration = imageScanningConfiguration
@@ -19286,6 +20568,7 @@ public struct UpdateImagePipelineInput: Swift.Equatable {
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.schedule = schedule
         self.status = status
+        self.workflows = workflows
     }
 }
 
@@ -19302,6 +20585,8 @@ struct UpdateImagePipelineInputBody: Swift.Equatable {
     let status: ImagebuilderClientTypes.PipelineStatus?
     let clientToken: Swift.String?
     let imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
+    let workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
+    let executionRole: Swift.String?
 }
 
 extension UpdateImagePipelineInputBody: Swift.Decodable {
@@ -19311,6 +20596,7 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         case description
         case distributionConfigurationArn
         case enhancedImageMetadataEnabled
+        case executionRole
         case imagePipelineArn
         case imageRecipeArn
         case imageScanningConfiguration
@@ -19318,6 +20604,7 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         case infrastructureConfigurationArn
         case schedule
         case status
+        case workflows
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -19346,6 +20633,19 @@ extension UpdateImagePipelineInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let imageScanningConfigurationDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageScanningConfiguration.self, forKey: .imageScanningConfiguration)
         imageScanningConfiguration = imageScanningConfigurationDecoded
+        let workflowsContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowConfiguration?].self, forKey: .workflows)
+        var workflowsDecoded0:[ImagebuilderClientTypes.WorkflowConfiguration]? = nil
+        if let workflowsContainer = workflowsContainer {
+            workflowsDecoded0 = [ImagebuilderClientTypes.WorkflowConfiguration]()
+            for structure0 in workflowsContainer {
+                if let structure0 = structure0 {
+                    workflowsDecoded0?.append(structure0)
+                }
+            }
+        }
+        workflows = workflowsDecoded0
+        let executionRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRole)
+        executionRole = executionRoleDecoded
     }
 }
 
@@ -19795,7 +21095,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// Optional description for the lifecycle policy.
     public var description: Swift.String?
-    /// The name of the IAM role that Image Builder should use to update the lifecycle policy.
+    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to update the lifecycle policy.
     /// This member is required.
     public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
@@ -20117,10 +21417,268 @@ extension ImagebuilderClientTypes {
 
 }
 
+extension ImagebuilderClientTypes.Workflow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case changeDescription
+        case data
+        case dateCreated
+        case description
+        case kmsKeyId
+        case name
+        case owner
+        case parameters
+        case state
+        case tags
+        case type
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let changeDescription = self.changeDescription {
+            try encodeContainer.encode(changeDescription, forKey: .changeDescription)
+        }
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let dateCreated = self.dateCreated {
+            try encodeContainer.encode(dateCreated, forKey: .dateCreated)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for workflowparameterdetail0 in parameters {
+                try parametersContainer.encode(workflowparameterdetail0)
+            }
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let changeDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeDescription)
+        changeDescription = changeDescriptionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowState.self, forKey: .state)
+        state = stateDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .data)
+        data = dataDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let dateCreatedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateCreated)
+        dateCreated = dateCreatedDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let parametersContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowParameterDetail?].self, forKey: .parameters)
+        var parametersDecoded0:[ImagebuilderClientTypes.WorkflowParameterDetail]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ImagebuilderClientTypes.WorkflowParameterDetail]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Defines a process that Image Builder uses to build and test images during the image creation process.
+    public struct Workflow: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the workflow resource.
+        public var arn: Swift.String?
+        /// Describes what change has been made in this version of the workflow, or what makes this version different from other versions of the workflow.
+        public var changeDescription: Swift.String?
+        /// Contains the YAML document content for the workflow.
+        public var data: Swift.String?
+        /// The timestamp when Image Builder created the workflow resource.
+        public var dateCreated: Swift.String?
+        /// The description of the workflow.
+        public var description: Swift.String?
+        /// The KMS key identifier used to encrypt the workflow resource.
+        public var kmsKeyId: Swift.String?
+        /// The name of the workflow resource.
+        public var name: Swift.String?
+        /// The owner of the workflow resource.
+        public var owner: Swift.String?
+        /// An array of input parameters that that the image workflow uses to control actions or configure settings.
+        public var parameters: [ImagebuilderClientTypes.WorkflowParameterDetail]?
+        /// Describes the current status of the workflow and the reason for that status.
+        public var state: ImagebuilderClientTypes.WorkflowState?
+        /// The tags that apply to the workflow resource
+        public var tags: [Swift.String:Swift.String]?
+        /// Specifies the image creation stage that the workflow applies to. Image Builder currently supports build and test workflows.
+        public var type: ImagebuilderClientTypes.WorkflowType?
+        /// The workflow resource version. Workflow resources are immutable. To make a change, you can clone a workflow or create a new version.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            changeDescription: Swift.String? = nil,
+            data: Swift.String? = nil,
+            dateCreated: Swift.String? = nil,
+            description: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            parameters: [ImagebuilderClientTypes.WorkflowParameterDetail]? = nil,
+            state: ImagebuilderClientTypes.WorkflowState? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            type: ImagebuilderClientTypes.WorkflowType? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.changeDescription = changeDescription
+            self.data = data
+            self.dateCreated = dateCreated
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.owner = owner
+            self.parameters = parameters
+            self.state = state
+            self.tags = tags
+            self.type = type
+            self.version = version
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.WorkflowConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case onFailure
+        case parallelGroup
+        case parameters
+        case workflowArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let onFailure = self.onFailure {
+            try encodeContainer.encode(onFailure.rawValue, forKey: .onFailure)
+        }
+        if let parallelGroup = self.parallelGroup {
+            try encodeContainer.encode(parallelGroup, forKey: .parallelGroup)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for workflowparameter0 in parameters {
+                try parametersContainer.encode(workflowparameter0)
+            }
+        }
+        if let workflowArn = self.workflowArn {
+            try encodeContainer.encode(workflowArn, forKey: .workflowArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowArn)
+        workflowArn = workflowArnDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([ImagebuilderClientTypes.WorkflowParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[ImagebuilderClientTypes.WorkflowParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ImagebuilderClientTypes.WorkflowParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let parallelGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parallelGroup)
+        parallelGroup = parallelGroupDecoded
+        let onFailureDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.OnWorkflowFailure.self, forKey: .onFailure)
+        onFailure = onFailureDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains control settings and configurable inputs for a workflow resource.
+    public struct WorkflowConfiguration: Swift.Equatable {
+        /// The action to take if the workflow fails.
+        public var onFailure: ImagebuilderClientTypes.OnWorkflowFailure?
+        /// Test workflows are defined within named runtime groups called parallel groups. The parallel group is the named group that contains this test workflow. Test workflows within a parallel group can run at the same time. Image Builder starts up to five test workflows in the group at the same time, and starts additional workflows as others complete, until all workflows in the group have completed. This field only applies for test workflows.
+        public var parallelGroup: Swift.String?
+        /// Contains parameter values for each of the parameters that the workflow document defined for the workflow resource.
+        public var parameters: [ImagebuilderClientTypes.WorkflowParameter]?
+        /// The Amazon Resource Name (ARN) of the workflow resource.
+        /// This member is required.
+        public var workflowArn: Swift.String?
+
+        public init(
+            onFailure: ImagebuilderClientTypes.OnWorkflowFailure? = nil,
+            parallelGroup: Swift.String? = nil,
+            parameters: [ImagebuilderClientTypes.WorkflowParameter]? = nil,
+            workflowArn: Swift.String? = nil
+        )
+        {
+            self.onFailure = onFailure
+            self.parallelGroup = parallelGroup
+            self.parameters = parameters
+            self.workflowArn = workflowArn
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes.WorkflowExecutionMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
         case message
+        case parallelGroup
         case startTime
         case status
         case totalStepCount
@@ -20139,6 +21697,9 @@ extension ImagebuilderClientTypes.WorkflowExecutionMetadata: Swift.Codable {
         }
         if let message = self.message {
             try encodeContainer.encode(message, forKey: .message)
+        }
+        if let parallelGroup = self.parallelGroup {
+            try encodeContainer.encode(parallelGroup, forKey: .parallelGroup)
         }
         if let startTime = self.startTime {
             try encodeContainer.encode(startTime, forKey: .startTime)
@@ -20193,6 +21754,8 @@ extension ImagebuilderClientTypes.WorkflowExecutionMetadata: Swift.Codable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
         endTime = endTimeDecoded
+        let parallelGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parallelGroup)
+        parallelGroup = parallelGroupDecoded
     }
 }
 
@@ -20203,6 +21766,8 @@ extension ImagebuilderClientTypes {
         public var endTime: Swift.String?
         /// The runtime output message from the workflow, if applicable.
         public var message: Swift.String?
+        /// The name of the test group that included the test workflow resource at runtime.
+        public var parallelGroup: Swift.String?
         /// The timestamp when the runtime instance of this workflow started.
         public var startTime: Swift.String?
         /// The current runtime status for this workflow.
@@ -20225,6 +21790,7 @@ extension ImagebuilderClientTypes {
         public init(
             endTime: Swift.String? = nil,
             message: Swift.String? = nil,
+            parallelGroup: Swift.String? = nil,
             startTime: Swift.String? = nil,
             status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
             totalStepCount: Swift.Int = 0,
@@ -20238,6 +21804,7 @@ extension ImagebuilderClientTypes {
         {
             self.endTime = endTime
             self.message = message
+            self.parallelGroup = parallelGroup
             self.startTime = startTime
             self.status = status
             self.totalStepCount = totalStepCount
@@ -20254,6 +21821,7 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
     public enum WorkflowExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
         case completed
         case failed
         case pending
@@ -20265,6 +21833,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [WorkflowExecutionStatus] {
             return [
+                .cancelled,
                 .completed,
                 .failed,
                 .pending,
@@ -20281,6 +21850,7 @@ extension ImagebuilderClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
@@ -20297,6 +21867,345 @@ extension ImagebuilderClientTypes {
             self = WorkflowExecutionStatus(rawValue: rawValue) ?? WorkflowExecutionStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ImagebuilderClientTypes.WorkflowParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = value {
+            var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
+            for workflowparametervalue0 in value {
+                try valueContainer.encode(workflowparametervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .value)
+        var valueDecoded0:[Swift.String]? = nil
+        if let valueContainer = valueContainer {
+            valueDecoded0 = [Swift.String]()
+            for string0 in valueContainer {
+                if let string0 = string0 {
+                    valueDecoded0?.append(string0)
+                }
+            }
+        }
+        value = valueDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains a key/value pair that sets the named workflow parameter.
+    public struct WorkflowParameter: Swift.Equatable {
+        /// The name of the workflow parameter to set.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Sets the value for the named workflow parameter.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            value: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.WorkflowParameterDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultValue
+        case description
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultValue = defaultValue {
+            var defaultValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultValue)
+            for workflowparametervalue0 in defaultValue {
+                try defaultValueContainer.encode(workflowparametervalue0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let defaultValueContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .defaultValue)
+        var defaultValueDecoded0:[Swift.String]? = nil
+        if let defaultValueContainer = defaultValueContainer {
+            defaultValueDecoded0 = [Swift.String]()
+            for string0 in defaultValueContainer {
+                if let string0 = string0 {
+                    defaultValueDecoded0?.append(string0)
+                }
+            }
+        }
+        defaultValue = defaultValueDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Defines a parameter that's used to provide configuration details for the workflow.
+    public struct WorkflowParameterDetail: Swift.Equatable {
+        /// The default value of this parameter if no input is provided.
+        public var defaultValue: [Swift.String]?
+        /// Describes this parameter.
+        public var description: Swift.String?
+        /// The name of this input parameter.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of input this parameter provides. The currently supported value is "string".
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            defaultValue: [Swift.String]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes.WorkflowState: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowStatus.self, forKey: .status)
+        status = statusDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// A group of fields that describe the current status of workflow.
+    public struct WorkflowState: Swift.Equatable {
+        /// Describes how or why the workflow changed state.
+        public var reason: Swift.String?
+        /// The current state of the workflow.
+        public var status: ImagebuilderClientTypes.WorkflowStatus?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: ImagebuilderClientTypes.WorkflowStatus? = nil
+        )
+        {
+            self.reason = reason
+            self.status = status
+        }
+    }
+
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deprecated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowStatus] {
+            return [
+                .deprecated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deprecated: return "DEPRECATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowStatus(rawValue: rawValue) ?? WorkflowStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+    public enum WorkflowStepActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case resume
+        case stop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkflowStepActionType] {
+            return [
+                .resume,
+                .stop,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .resume: return "RESUME"
+            case .stop: return "STOP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkflowStepActionType(rawValue: rawValue) ?? WorkflowStepActionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ImagebuilderClientTypes.WorkflowStepExecution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case imageBuildVersionArn
+        case name
+        case startTime
+        case stepExecutionId
+        case workflowBuildVersionArn
+        case workflowExecutionId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let imageBuildVersionArn = self.imageBuildVersionArn {
+            try encodeContainer.encode(imageBuildVersionArn, forKey: .imageBuildVersionArn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
+        if let stepExecutionId = self.stepExecutionId {
+            try encodeContainer.encode(stepExecutionId, forKey: .stepExecutionId)
+        }
+        if let workflowBuildVersionArn = self.workflowBuildVersionArn {
+            try encodeContainer.encode(workflowBuildVersionArn, forKey: .workflowBuildVersionArn)
+        }
+        if let workflowExecutionId = self.workflowExecutionId {
+            try encodeContainer.encode(workflowExecutionId, forKey: .workflowExecutionId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepExecutionId)
+        stepExecutionId = stepExecutionIdDecoded
+        let imageBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageBuildVersionArn)
+        imageBuildVersionArn = imageBuildVersionArnDecoded
+        let workflowExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowExecutionId)
+        workflowExecutionId = workflowExecutionIdDecoded
+        let workflowBuildVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workflowBuildVersionArn)
+        workflowBuildVersionArn = workflowBuildVersionArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .action)
+        action = actionDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
+        startTime = startTimeDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains runtime details for an instance of a workflow that ran for the associated image build version.
+    public struct WorkflowStepExecution: Swift.Equatable {
+        /// The name of the step action.
+        public var action: Swift.String?
+        /// The Amazon Resource Name (ARN) of the image build version that ran the workflow.
+        public var imageBuildVersionArn: Swift.String?
+        /// The name of the workflow step.
+        public var name: Swift.String?
+        /// The timestamp when the workflow step started.
+        public var startTime: Swift.String?
+        /// Uniquely identifies the workflow step that ran for the associated image build version.
+        public var stepExecutionId: Swift.String?
+        /// The ARN of the workflow resource that ran.
+        public var workflowBuildVersionArn: Swift.String?
+        /// Uniquely identifies the runtime instance of the workflow that contains the workflow step that ran for the associated image build version.
+        public var workflowExecutionId: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            imageBuildVersionArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            startTime: Swift.String? = nil,
+            stepExecutionId: Swift.String? = nil,
+            workflowBuildVersionArn: Swift.String? = nil,
+            workflowExecutionId: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.imageBuildVersionArn = imageBuildVersionArn
+            self.name = name
+            self.startTime = startTime
+            self.stepExecutionId = stepExecutionId
+            self.workflowBuildVersionArn = workflowBuildVersionArn
+            self.workflowExecutionId = workflowExecutionId
+        }
+    }
+
 }
 
 extension ImagebuilderClientTypes {
@@ -20339,6 +22248,7 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
     public enum WorkflowStepExecutionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
         case completed
         case failed
         case pending
@@ -20348,6 +22258,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [WorkflowStepExecutionStatus] {
             return [
+                .cancelled,
                 .completed,
                 .failed,
                 .pending,
@@ -20362,6 +22273,7 @@ extension ImagebuilderClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
@@ -20513,6 +22425,143 @@ extension ImagebuilderClientTypes {
 
 }
 
+extension ImagebuilderClientTypes.WorkflowSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case changeDescription
+        case dateCreated
+        case description
+        case name
+        case owner
+        case state
+        case tags
+        case type
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let changeDescription = self.changeDescription {
+            try encodeContainer.encode(changeDescription, forKey: .changeDescription)
+        }
+        if let dateCreated = self.dateCreated {
+            try encodeContainer.encode(dateCreated, forKey: .dateCreated)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let changeDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeDescription)
+        changeDescription = changeDescriptionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowState.self, forKey: .state)
+        state = stateDecoded
+        let dateCreatedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateCreated)
+        dateCreated = dateCreatedDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains metadata about the workflow resource.
+    public struct WorkflowSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the workflow resource.
+        public var arn: Swift.String?
+        /// The change description for the current version of the workflow resource.
+        public var changeDescription: Swift.String?
+        /// The original creation date of the workflow resource.
+        public var dateCreated: Swift.String?
+        /// Describes the workflow.
+        public var description: Swift.String?
+        /// The name of the workflow.
+        public var name: Swift.String?
+        /// The owner of the workflow resource.
+        public var owner: Swift.String?
+        /// Describes the current state of the workflow resource.
+        public var state: ImagebuilderClientTypes.WorkflowState?
+        /// Contains a list of tags that are defined for the workflow.
+        public var tags: [Swift.String:Swift.String]?
+        /// The image creation stage that this workflow applies to. Image Builder currently supports build and test stage workflows.
+        public var type: ImagebuilderClientTypes.WorkflowType?
+        /// The version of the workflow.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            changeDescription: Swift.String? = nil,
+            dateCreated: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            state: ImagebuilderClientTypes.WorkflowState? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            type: ImagebuilderClientTypes.WorkflowType? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.changeDescription = changeDescription
+            self.dateCreated = dateCreated
+            self.description = description
+            self.name = name
+            self.owner = owner
+            self.state = state
+            self.tags = tags
+            self.type = type
+            self.version = version
+        }
+    }
+
+}
+
 extension ImagebuilderClientTypes {
     public enum WorkflowType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case build
@@ -20546,4 +22595,99 @@ extension ImagebuilderClientTypes {
             self = WorkflowType(rawValue: rawValue) ?? WorkflowType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ImagebuilderClientTypes.WorkflowVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case dateCreated
+        case description
+        case name
+        case owner
+        case type
+        case version
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let dateCreated = self.dateCreated {
+            try encodeContainer.encode(dateCreated, forKey: .dateCreated)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let owner = self.owner {
+            try encodeContainer.encode(owner, forKey: .owner)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.WorkflowType.self, forKey: .type)
+        type = typeDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let dateCreatedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dateCreated)
+        dateCreated = dateCreatedDecoded
+    }
+}
+
+extension ImagebuilderClientTypes {
+    /// Contains details about this version of the workflow.
+    public struct WorkflowVersion: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the workflow resource.
+        public var arn: Swift.String?
+        /// The timestamp when Image Builder created the workflow version.
+        public var dateCreated: Swift.String?
+        /// Describes the workflow.
+        public var description: Swift.String?
+        /// The name of the workflow.
+        public var name: Swift.String?
+        /// The owner of the workflow resource.
+        public var owner: Swift.String?
+        /// The image creation stage that this workflow applies to. Image Builder currently supports build and test stage workflows.
+        public var type: ImagebuilderClientTypes.WorkflowType?
+        /// The semantic version of the workflow resource. The format includes three nodes: ...
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            dateCreated: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            owner: Swift.String? = nil,
+            type: ImagebuilderClientTypes.WorkflowType? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.dateCreated = dateCreated
+            self.description = description
+            self.name = name
+            self.owner = owner
+            self.type = type
+            self.version = version
+        }
+    }
+
 }

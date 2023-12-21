@@ -96,17 +96,23 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
     public enum ActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case assignContactCategory
+        case createCase
         case createTask
+        case endAssociatedTasks
         case generateEventbridgeEvent
         case sendNotification
+        case updateCase
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionType] {
             return [
                 .assignContactCategory,
+                .createCase,
                 .createTask,
+                .endAssociatedTasks,
                 .generateEventbridgeEvent,
                 .sendNotification,
+                .updateCase,
                 .sdkUnknown("")
             ]
         }
@@ -117,9 +123,12 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .assignContactCategory: return "ASSIGN_CONTACT_CATEGORY"
+            case .createCase: return "CREATE_CASE"
             case .createTask: return "CREATE_TASK"
+            case .endAssociatedTasks: return "END_ASSOCIATED_TASKS"
             case .generateEventbridgeEvent: return "GENERATE_EVENTBRIDGE_EVENT"
             case .sendNotification: return "SEND_NOTIFICATION"
+            case .updateCase: return "UPDATE_CASE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -450,12 +459,16 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.AgentInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentPauseDurationInSeconds = "AgentPauseDurationInSeconds"
         case connectedToAgentTimestamp = "ConnectedToAgentTimestamp"
         case id = "Id"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentPauseDurationInSeconds = self.agentPauseDurationInSeconds {
+            try encodeContainer.encode(agentPauseDurationInSeconds, forKey: .agentPauseDurationInSeconds)
+        }
         if let connectedToAgentTimestamp = self.connectedToAgentTimestamp {
             try encodeContainer.encodeTimestamp(connectedToAgentTimestamp, format: .epochSeconds, forKey: .connectedToAgentTimestamp)
         }
@@ -470,22 +483,28 @@ extension ConnectClientTypes.AgentInfo: Swift.Codable {
         id = idDecoded
         let connectedToAgentTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .connectedToAgentTimestamp)
         connectedToAgentTimestamp = connectedToAgentTimestampDecoded
+        let agentPauseDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .agentPauseDurationInSeconds)
+        agentPauseDurationInSeconds = agentPauseDurationInSecondsDecoded
     }
 }
 
 extension ConnectClientTypes {
     /// Information about the agent who accepted the contact.
     public struct AgentInfo: Swift.Equatable {
+        /// Agent pause duration for a contact in seconds.
+        public var agentPauseDurationInSeconds: Swift.Int?
         /// The timestamp when the contact was connected to the agent.
         public var connectedToAgentTimestamp: ClientRuntime.Date?
         /// The identifier of the agent who accepted the contact.
         public var id: Swift.String?
 
         public init(
+            agentPauseDurationInSeconds: Swift.Int? = nil,
             connectedToAgentTimestamp: ClientRuntime.Date? = nil,
             id: Swift.String? = nil
         )
         {
+            self.agentPauseDurationInSeconds = agentPauseDurationInSeconds
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
             self.id = id
         }
@@ -597,7 +616,7 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The state of the agent status.
         public var state: ConnectClientTypes.AgentStatusState?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The type of agent status.
         public var type: ConnectClientTypes.AgentStatusType?
@@ -3697,7 +3716,7 @@ public struct ClaimPhoneNumberInput: Swift.Equatable {
     public var phoneNumber: Swift.String?
     /// The description of the phone number.
     public var phoneNumberDescription: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     public var targetArn: Swift.String?
@@ -3952,7 +3971,7 @@ extension ConnectClientTypes {
         public var phoneNumberType: ConnectClientTypes.PhoneNumberType?
         /// The claimed phone number ARN that was previously imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number that was imported from Amazon Pinpoint.
         public var sourcePhoneNumberArn: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public var targetArn: Swift.String?
@@ -4016,6 +4035,61 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConnectClientTypes.ConnectionData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attendee = "Attendee"
@@ -4072,12 +4146,17 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         case initialContactId = "InitialContactId"
         case initiationMethod = "InitiationMethod"
         case initiationTimestamp = "InitiationTimestamp"
+        case lastPausedTimestamp = "LastPausedTimestamp"
+        case lastResumedTimestamp = "LastResumedTimestamp"
         case lastUpdateTimestamp = "LastUpdateTimestamp"
         case name = "Name"
         case previousContactId = "PreviousContactId"
         case queueInfo = "QueueInfo"
         case relatedContactId = "RelatedContactId"
         case scheduledTimestamp = "ScheduledTimestamp"
+        case tags = "Tags"
+        case totalPauseCount = "TotalPauseCount"
+        case totalPauseDurationInSeconds = "TotalPauseDurationInSeconds"
         case wisdomInfo = "WisdomInfo"
     }
 
@@ -4110,6 +4189,12 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         if let initiationTimestamp = self.initiationTimestamp {
             try encodeContainer.encodeTimestamp(initiationTimestamp, format: .epochSeconds, forKey: .initiationTimestamp)
         }
+        if let lastPausedTimestamp = self.lastPausedTimestamp {
+            try encodeContainer.encodeTimestamp(lastPausedTimestamp, format: .epochSeconds, forKey: .lastPausedTimestamp)
+        }
+        if let lastResumedTimestamp = self.lastResumedTimestamp {
+            try encodeContainer.encodeTimestamp(lastResumedTimestamp, format: .epochSeconds, forKey: .lastResumedTimestamp)
+        }
         if let lastUpdateTimestamp = self.lastUpdateTimestamp {
             try encodeContainer.encodeTimestamp(lastUpdateTimestamp, format: .epochSeconds, forKey: .lastUpdateTimestamp)
         }
@@ -4127,6 +4212,18 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         }
         if let scheduledTimestamp = self.scheduledTimestamp {
             try encodeContainer.encodeTimestamp(scheduledTimestamp, format: .epochSeconds, forKey: .scheduledTimestamp)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, contactTagMap0) in tags {
+                try tagsContainer.encode(contactTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let totalPauseCount = self.totalPauseCount {
+            try encodeContainer.encode(totalPauseCount, forKey: .totalPauseCount)
+        }
+        if let totalPauseDurationInSeconds = self.totalPauseDurationInSeconds {
+            try encodeContainer.encode(totalPauseDurationInSeconds, forKey: .totalPauseDurationInSeconds)
         }
         if let wisdomInfo = self.wisdomInfo {
             try encodeContainer.encode(wisdomInfo, forKey: .wisdomInfo)
@@ -4161,12 +4258,31 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         disconnectTimestamp = disconnectTimestampDecoded
         let lastUpdateTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTimestamp)
         lastUpdateTimestamp = lastUpdateTimestampDecoded
+        let lastPausedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastPausedTimestamp)
+        lastPausedTimestamp = lastPausedTimestampDecoded
+        let lastResumedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastResumedTimestamp)
+        lastResumedTimestamp = lastResumedTimestampDecoded
+        let totalPauseCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPauseCount)
+        totalPauseCount = totalPauseCountDecoded
+        let totalPauseDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPauseDurationInSeconds)
+        totalPauseDurationInSeconds = totalPauseDurationInSecondsDecoded
         let scheduledTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scheduledTimestamp)
         scheduledTimestamp = scheduledTimestampDecoded
         let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
         relatedContactId = relatedContactIdDecoded
         let wisdomInfoDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.WisdomInfo.self, forKey: .wisdomInfo)
         wisdomInfo = wisdomInfoDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contacttagvalue0) in tagsContainer {
+                if let contacttagvalue0 = contacttagvalue0 {
+                    tagsDecoded0?[key0] = contacttagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -4191,6 +4307,10 @@ extension ConnectClientTypes {
         public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
         /// The date and time this contact was initiated, in UTC time. For INBOUND, this is when the contact arrived. For OUTBOUND, this is when the agent began dialing. For CALLBACK, this is when the callback contact was created. For TRANSFER and QUEUE_TRANSFER, this is when the transfer was initiated. For API, this is when the request arrived. For EXTERNAL_OUTBOUND, this is when the agent started dialing the external participant. For MONITOR, this is when the supervisor started listening to a contact.
         public var initiationTimestamp: ClientRuntime.Date?
+        /// The timestamp when the contact was last paused.
+        public var lastPausedTimestamp: ClientRuntime.Date?
+        /// The timestamp when the contact was last resumed.
+        public var lastResumedTimestamp: ClientRuntime.Date?
         /// The timestamp when contact was last updated.
         public var lastUpdateTimestamp: ClientRuntime.Date?
         /// The name of the contact.
@@ -4203,6 +4323,12 @@ extension ConnectClientTypes {
         public var relatedContactId: Swift.String?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: ClientRuntime.Date?
+        /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
+        public var tags: [Swift.String:Swift.String]?
+        /// Total pause count for a contact.
+        public var totalPauseCount: Swift.Int?
+        /// Total pause duration for a contact in seconds.
+        public var totalPauseDurationInSeconds: Swift.Int?
         /// Information about Amazon Connect Wisdom.
         public var wisdomInfo: ConnectClientTypes.WisdomInfo?
 
@@ -4216,12 +4342,17 @@ extension ConnectClientTypes {
             initialContactId: Swift.String? = nil,
             initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
             initiationTimestamp: ClientRuntime.Date? = nil,
+            lastPausedTimestamp: ClientRuntime.Date? = nil,
+            lastResumedTimestamp: ClientRuntime.Date? = nil,
             lastUpdateTimestamp: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             previousContactId: Swift.String? = nil,
             queueInfo: ConnectClientTypes.QueueInfo? = nil,
             relatedContactId: Swift.String? = nil,
             scheduledTimestamp: ClientRuntime.Date? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            totalPauseCount: Swift.Int? = nil,
+            totalPauseDurationInSeconds: Swift.Int? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
         )
         {
@@ -4234,12 +4365,17 @@ extension ConnectClientTypes {
             self.initialContactId = initialContactId
             self.initiationMethod = initiationMethod
             self.initiationTimestamp = initiationTimestamp
+            self.lastPausedTimestamp = lastPausedTimestamp
+            self.lastResumedTimestamp = lastResumedTimestamp
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
             self.previousContactId = previousContactId
             self.queueInfo = queueInfo
             self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
+            self.tags = tags
+            self.totalPauseCount = totalPauseCount
+            self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
             self.wisdomInfo = wisdomInfo
         }
     }
@@ -4478,7 +4614,7 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The type of flow.
         public var state: ConnectClientTypes.ContactFlowState?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Amazon Connect Administrator Guide.
         public var type: ConnectClientTypes.ContactFlowType?
@@ -4597,7 +4733,7 @@ extension ConnectClientTypes {
         public var state: ConnectClientTypes.ContactFlowModuleState?
         /// The status of the flow module.
         public var status: ConnectClientTypes.ContactFlowModuleStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -5280,7 +5416,7 @@ public struct CreateAgentStatusInput: Swift.Equatable {
     /// The state of the status.
     /// This member is required.
     public var state: ConnectClientTypes.AgentStatusState?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -5409,6 +5545,65 @@ enum CreateAgentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ConnectClientTypes.CreateCaseActionDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields = "Fields"
+        case templateId = "TemplateId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
+            for fieldvalue0 in fields {
+                try fieldsContainer.encode(fieldvalue0)
+            }
+        }
+        if let templateId = self.templateId {
+            try encodeContainer.encode(templateId, forKey: .templateId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.FieldValue?].self, forKey: .fields)
+        var fieldsDecoded0:[ConnectClientTypes.FieldValue]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [ConnectClientTypes.FieldValue]()
+            for structure0 in fieldsContainer {
+                if let structure0 = structure0 {
+                    fieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fields = fieldsDecoded0
+        let templateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateId)
+        templateId = templateIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The CreateCase action definition.
+    public struct CreateCaseActionDefinition: Swift.Equatable {
+        /// An array of objects with Field ID and Value data.
+        /// This member is required.
+        public var fields: [ConnectClientTypes.FieldValue]?
+        /// A unique identifier of a template.
+        /// This member is required.
+        public var templateId: Swift.String?
+
+        public init(
+            fields: [ConnectClientTypes.FieldValue]? = nil,
+            templateId: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.templateId = templateId
+        }
+    }
+
+}
+
 extension CreateContactFlowInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
@@ -5462,7 +5657,7 @@ public struct CreateContactFlowInput: Swift.Equatable {
     /// The name of the flow.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// The type of the flow. For descriptions of the available types, see [Choose a flow type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types) in the Amazon Connect Administrator Guide.
     /// This member is required.
@@ -5582,7 +5777,7 @@ public struct CreateContactFlowModuleInput: Swift.Equatable {
     /// The name of the flow module.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -6023,7 +6218,7 @@ public struct CreateHoursOfOperationInput: Swift.Equatable {
     /// The name of the hours of operation.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// The time zone of the hours of operation.
     /// This member is required.
@@ -6166,7 +6361,7 @@ enum CreateHoursOfOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateInstanceInput(clientToken: \(Swift.String(describing: clientToken)), directoryId: \(Swift.String(describing: directoryId)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), instanceAlias: \"CONTENT_REDACTED\")"}
+        "CreateInstanceInput(clientToken: \(Swift.String(describing: clientToken)), directoryId: \(Swift.String(describing: directoryId)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), tags: \(Swift.String(describing: tags)), instanceAlias: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateInstanceInput: Swift.Encodable {
@@ -6177,6 +6372,7 @@ extension CreateInstanceInput: Swift.Encodable {
         case inboundCallsEnabled = "InboundCallsEnabled"
         case instanceAlias = "InstanceAlias"
         case outboundCallsEnabled = "OutboundCallsEnabled"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6198,6 +6394,12 @@ extension CreateInstanceInput: Swift.Encodable {
         }
         if let outboundCallsEnabled = self.outboundCallsEnabled {
             try encodeContainer.encode(outboundCallsEnabled, forKey: .outboundCallsEnabled)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -6224,6 +6426,8 @@ public struct CreateInstanceInput: Swift.Equatable {
     /// Your contact center allows outbound calls.
     /// This member is required.
     public var outboundCallsEnabled: Swift.Bool?
+    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String:Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -6231,7 +6435,8 @@ public struct CreateInstanceInput: Swift.Equatable {
         identityManagementType: ConnectClientTypes.DirectoryType? = nil,
         inboundCallsEnabled: Swift.Bool? = nil,
         instanceAlias: Swift.String? = nil,
-        outboundCallsEnabled: Swift.Bool? = nil
+        outboundCallsEnabled: Swift.Bool? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.clientToken = clientToken
@@ -6240,6 +6445,7 @@ public struct CreateInstanceInput: Swift.Equatable {
         self.inboundCallsEnabled = inboundCallsEnabled
         self.instanceAlias = instanceAlias
         self.outboundCallsEnabled = outboundCallsEnabled
+        self.tags = tags
     }
 }
 
@@ -6250,6 +6456,7 @@ struct CreateInstanceInputBody: Swift.Equatable {
     let directoryId: Swift.String?
     let inboundCallsEnabled: Swift.Bool?
     let outboundCallsEnabled: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateInstanceInputBody: Swift.Decodable {
@@ -6260,6 +6467,7 @@ extension CreateInstanceInputBody: Swift.Decodable {
         case inboundCallsEnabled = "InboundCallsEnabled"
         case instanceAlias = "InstanceAlias"
         case outboundCallsEnabled = "OutboundCallsEnabled"
+        case tags = "Tags"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6276,6 +6484,17 @@ extension CreateInstanceInputBody: Swift.Decodable {
         inboundCallsEnabled = inboundCallsEnabledDecoded
         let outboundCallsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .outboundCallsEnabled)
         outboundCallsEnabled = outboundCallsEnabledDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -6405,7 +6624,7 @@ public struct CreateIntegrationAssociationInput: Swift.Equatable {
     public var sourceApplicationUrl: Swift.String?
     /// The type of the data source. This field is only required for the EVENT integration type.
     public var sourceType: ConnectClientTypes.SourceType?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -6926,7 +7145,7 @@ public struct CreatePromptInput: Swift.Equatable {
     /// The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the [GetPromptFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetPromptFile.html) API instead of providing S3 URIs.
     /// This member is required.
     public var s3Uri: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -7118,7 +7337,7 @@ public struct CreateQueueInput: Swift.Equatable {
     public var outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
     /// The quick connects available to agents who are working the queue.
     public var quickConnectIds: [Swift.String]?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -7317,7 +7536,7 @@ public struct CreateQuickConnectInput: Swift.Equatable {
     /// Configuration settings for the quick connect.
     /// This member is required.
     public var quickConnectConfig: ConnectClientTypes.QuickConnectConfig?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -7515,7 +7734,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
     public var name: Swift.String?
     /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -7953,7 +8172,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var securityProfileName: Swift.String?
     /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue | RoutingProfile
     public var tagRestrictedResources: [Swift.String]?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -8400,7 +8619,7 @@ public struct CreateTrafficDistributionGroupInput: Swift.Equatable {
     /// The name for the traffic distribution group.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -8567,7 +8786,7 @@ public struct CreateUseCaseInput: Swift.Equatable {
     /// The identifier for the integration association.
     /// This member is required.
     public var integrationAssociationId: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
     /// This member is required.
@@ -8723,7 +8942,7 @@ public struct CreateUserHierarchyGroupInput: Swift.Equatable {
     public var name: Swift.String?
     /// The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
     public var parentGroupId: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -8921,7 +9140,7 @@ public struct CreateUserInput: Swift.Equatable {
     /// The identifier of the security profile for the user.
     /// This member is required.
     public var securityProfileIds: [Swift.String]?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\@]+.
     /// This member is required.
@@ -9466,7 +9685,7 @@ public struct CreateVocabularyInput: Swift.Equatable {
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
     /// This member is required.
     public var languageCode: ConnectClientTypes.VocabularyLanguageCode?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
     /// A unique name of the custom vocabulary.
     /// This member is required.
@@ -15262,6 +15481,26 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.EmptyFieldValue: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ConnectClientTypes {
+    /// An empty value.
+    public struct EmptyFieldValue: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
 extension ConnectClientTypes.EncryptionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptionType = "EncryptionType"
@@ -15336,6 +15575,26 @@ extension ConnectClientTypes {
             self = EncryptionType(rawValue: rawValue) ?? EncryptionType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectClientTypes.EndAssociatedTasksActionDefinition: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ConnectClientTypes {
+    /// End associated tasks related to a case.
+    public struct EndAssociatedTasksActionDefinition: Swift.Equatable {
+
+        public init() { }
+    }
+
 }
 
 extension ConnectClientTypes.Endpoint: Swift.Codable {
@@ -15613,7 +15872,7 @@ extension ConnectClientTypes {
         /// The status of the contact evaluation.
         /// This member is required.
         public var status: ConnectClientTypes.EvaluationStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -15939,7 +16198,7 @@ extension ConnectClientTypes {
         /// The status of the evaluation form.
         /// This member is required.
         public var status: ConnectClientTypes.EvaluationFormVersionStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// A title of the evaluation form.
         /// This member is required.
@@ -17615,6 +17874,8 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
     public enum EventSourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oncasecreate
+        case oncaseupdate
         case oncontactevaluationsubmit
         case onmetricdataupdate
         case onpostcallanalysisavailable
@@ -17628,6 +17889,8 @@ extension ConnectClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
+                .oncasecreate,
+                .oncaseupdate,
                 .oncontactevaluationsubmit,
                 .onmetricdataupdate,
                 .onpostcallanalysisavailable,
@@ -17646,6 +17909,8 @@ extension ConnectClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .oncasecreate: return "OnCaseCreate"
+            case .oncaseupdate: return "OnCaseUpdate"
             case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
             case .onmetricdataupdate: return "OnMetricDataUpdate"
             case .onpostcallanalysisavailable: return "OnPostCallAnalysisAvailable"
@@ -17775,6 +18040,118 @@ extension ConnectClientTypes {
             self = FailureReasonCode(rawValue: rawValue) ?? FailureReasonCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectClientTypes.FieldValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.FieldValueUnion.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Object for case field values.
+    public struct FieldValue: Swift.Equatable {
+        /// Unique identifier of a field.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Union of potential field value types.
+        /// This member is required.
+        public var value: ConnectClientTypes.FieldValueUnion?
+
+        public init(
+            id: Swift.String? = nil,
+            value: ConnectClientTypes.FieldValueUnion? = nil
+        )
+        {
+            self.id = id
+            self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.FieldValueUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case booleanValue = "BooleanValue"
+        case doubleValue = "DoubleValue"
+        case emptyValue = "EmptyValue"
+        case stringValue = "StringValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if booleanValue != false {
+            try encodeContainer.encode(booleanValue, forKey: .booleanValue)
+        }
+        if let doubleValue = self.doubleValue {
+            try encodeContainer.encode(doubleValue, forKey: .doubleValue)
+        }
+        if let emptyValue = self.emptyValue {
+            try encodeContainer.encode(emptyValue, forKey: .emptyValue)
+        }
+        if let stringValue = self.stringValue {
+            try encodeContainer.encode(stringValue, forKey: .stringValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let booleanValueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .booleanValue) ?? false
+        booleanValue = booleanValueDecoded
+        let doubleValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .doubleValue)
+        doubleValue = doubleValueDecoded
+        let emptyValueDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EmptyFieldValue.self, forKey: .emptyValue)
+        emptyValue = emptyValueDecoded
+        let stringValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stringValue)
+        stringValue = stringValueDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Object to store union of Field values.
+    public struct FieldValueUnion: Swift.Equatable {
+        /// A Boolean number value type.
+        public var booleanValue: Swift.Bool
+        /// a Double number value type.
+        public var doubleValue: Swift.Double?
+        /// An empty value.
+        public var emptyValue: ConnectClientTypes.EmptyFieldValue?
+        /// String value type.
+        public var stringValue: Swift.String?
+
+        public init(
+            booleanValue: Swift.Bool = false,
+            doubleValue: Swift.Double? = nil,
+            emptyValue: ConnectClientTypes.EmptyFieldValue? = nil,
+            stringValue: Swift.String? = nil
+        )
+        {
+            self.booleanValue = booleanValue
+            self.doubleValue = doubleValue
+            self.emptyValue = emptyValue
+            self.stringValue = stringValue
+        }
+    }
+
 }
 
 extension ConnectClientTypes.FilterV2: Swift.Codable {
@@ -19131,7 +19508,7 @@ public struct GetMetricDataV2Input: Swift.Equatable {
     public var interval: ConnectClientTypes.IntervalDetails?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype
+    /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator's Guide. ABANDONMENT_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AGENT_ADHERENT_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_ANSWER_RATE Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_ADHERENT_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. AGENT_OCCUPANCY Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULE_ADHERENCE This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AGENT_SCHEDULED_TIME This metric is available only in Amazon Web Services Regions where [Forecasting, capacity planning, and scheduling](https://docs.aws.amazon.com/connect/latest/adminguide/regions.html#optimization_region) is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_ABANDON_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_ACTIVE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_AGENT_CONNECTING_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. AVG_AGENT_PAUSE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy AVG_CONTACT_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_CONVERSATION_DURATION Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype AVG_GREETING_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_HOLD_TIME_ALL_CONTACTS Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_HOLDS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERACTION_TIME Unit: Seconds Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_INTERRUPTIONS_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_INTERRUPTION_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_QUEUE_ANSWER_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. AVG_RESOLUTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype AVG_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ABANDONED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_CREATED Unit: Count Valid metric filter key: INITIATION_METHOD Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HANDLED Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_HOLD_ABANDONS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_ON_HOLD_AGENT_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_PUT_ON_HOLD Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_EXTERNAL Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_TRANSFERRED_OUT_INTERNAL Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy CONTACTS_QUEUED Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_RESOLVED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). CONTACTS_TRANSFERRED_OUT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype Feature is a valid filter but not a valid grouping. CONTACTS_TRANSFERRED_OUT_BY_AGENT Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype MAX_QUEUED_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_NON_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_AGENT This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype PERCENT_TALK_TIME_CUSTOMER This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_AFTER_CONTACT_WORK_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONNECTING_TIME_AGENT Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy The Negate key in Metric Level Filters is not applicable for this metric. SUM_CONTACT_FLOW_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACT_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_CONTACTS_ANSWERED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_ABANDONED_IN_X Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than"). SUM_CONTACTS_DISCONNECTED Valid metric filter key: DISCONNECT_REASON Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype SUM_ERROR_STATUS_TIME_AGENT Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HANDLE_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_HOLD_TIME Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_IDLE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_AND_HOLD_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_INTERACTION_TIME Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy SUM_NON_PRODUCTIVE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_ONLINE_TIME_AGENT Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy SUM_RETRY_CALLBACK_ATTEMPTS Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype
     /// This member is required.
     public var metrics: [ConnectClientTypes.MetricV2]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -19550,7 +19927,7 @@ public struct GetTaskTemplateOutput: Swift.Equatable {
     public var name: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -19933,7 +20310,7 @@ extension ConnectClientTypes {
         public var levelId: Swift.String?
         /// The name of the hierarchy group.
         public var name: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -20945,7 +21322,7 @@ extension ConnectClientTypes {
         public var lastModifiedTime: ClientRuntime.Date?
         /// The name for the hours of operation.
         public var name: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The time zone for the hours of operation.
         public var timeZone: Swift.String?
@@ -21425,7 +21802,7 @@ public struct ImportPhoneNumberInput: Swift.Equatable {
     /// The claimed phone number ARN being imported from the external service, such as Amazon Pinpoint. If it is from Amazon Pinpoint, it looks like the ARN of the phone number to import from Amazon Pinpoint.
     /// This member is required.
     public var sourcePhoneNumberArn: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -21564,6 +21941,7 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         case outboundCallsEnabled = "OutboundCallsEnabled"
         case serviceRole = "ServiceRole"
         case statusReason = "StatusReason"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -21601,6 +21979,12 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         if let statusReason = self.statusReason {
             try encodeContainer.encode(statusReason, forKey: .statusReason)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -21627,12 +22011,23 @@ extension ConnectClientTypes.Instance: Swift.Codable {
         outboundCallsEnabled = outboundCallsEnabledDecoded
         let instanceAccessUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceAccessUrl)
         instanceAccessUrl = instanceAccessUrlDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
 extension ConnectClientTypes.Instance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Instance(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceAccessUrl: \(Swift.String(describing: instanceAccessUrl)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), statusReason: \(Swift.String(describing: statusReason)), instanceAlias: \"CONTENT_REDACTED\")"}
+        "Instance(arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), id: \(Swift.String(describing: id)), identityManagementType: \(Swift.String(describing: identityManagementType)), inboundCallsEnabled: \(Swift.String(describing: inboundCallsEnabled)), instanceAccessUrl: \(Swift.String(describing: instanceAccessUrl)), instanceStatus: \(Swift.String(describing: instanceStatus)), outboundCallsEnabled: \(Swift.String(describing: outboundCallsEnabled)), serviceRole: \(Swift.String(describing: serviceRole)), statusReason: \(Swift.String(describing: statusReason)), tags: \(Swift.String(describing: tags)), instanceAlias: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -21660,6 +22055,8 @@ extension ConnectClientTypes {
         public var serviceRole: Swift.String?
         /// Relevant details why the instance was not successfully created.
         public var statusReason: ConnectClientTypes.InstanceStatusReason?
+        /// The tags of an instance.
+        public var tags: [Swift.String:Swift.String]?
 
         public init(
             arn: Swift.String? = nil,
@@ -21672,7 +22069,8 @@ extension ConnectClientTypes {
             instanceStatus: ConnectClientTypes.InstanceStatus? = nil,
             outboundCallsEnabled: Swift.Bool? = nil,
             serviceRole: Swift.String? = nil,
-            statusReason: ConnectClientTypes.InstanceStatusReason? = nil
+            statusReason: ConnectClientTypes.InstanceStatusReason? = nil,
+            tags: [Swift.String:Swift.String]? = nil
         )
         {
             self.arn = arn
@@ -21686,6 +22084,7 @@ extension ConnectClientTypes {
             self.outboundCallsEnabled = outboundCallsEnabled
             self.serviceRole = serviceRole
             self.statusReason = statusReason
+            self.tags = tags
         }
     }
 
@@ -30144,7 +30543,7 @@ extension ConnectClientTypes {
     public struct NotificationRecipientType: Swift.Equatable {
         /// A list of user IDs.
         public var userIds: [Swift.String]?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
         public var userTags: [Swift.String:Swift.String]?
 
         public init(
@@ -30827,6 +31226,107 @@ extension ConnectClientTypes {
         }
     }
 
+}
+
+extension PauseContactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactFlowId = "ContactFlowId"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactFlowId = self.contactFlowId {
+            try encodeContainer.encode(contactFlowId, forKey: .contactFlowId)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+    }
+}
+
+extension PauseContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/contact/pause"
+    }
+}
+
+public struct PauseContactInput: Swift.Equatable {
+    /// The identifier of the flow.
+    public var contactFlowId: Swift.String?
+    /// The identifier of the contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowId: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.contactFlowId = contactFlowId
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+struct PauseContactInputBody: Swift.Equatable {
+    let contactId: Swift.String?
+    let instanceId: Swift.String?
+    let contactFlowId: Swift.String?
+}
+
+extension PauseContactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactFlowId = "ContactFlowId"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let contactFlowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactFlowId)
+        contactFlowId = contactFlowIdDecoded
+    }
+}
+
+extension PauseContactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct PauseContactOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum PauseContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ConnectClientTypes.PersistentChat: Swift.Codable {
@@ -32011,7 +32511,7 @@ extension ConnectClientTypes {
         public var promptARN: Swift.String?
         /// A unique identifier for the prompt.
         public var promptId: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -32609,7 +33109,7 @@ extension ConnectClientTypes {
         public var queueId: Swift.String?
         /// The status of the queue.
         public var status: ConnectClientTypes.QueueStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -33146,7 +33646,7 @@ extension ConnectClientTypes {
         public var quickConnectConfig: ConnectClientTypes.QuickConnectConfig?
         /// The identifier for the quick connect.
         public var quickConnectId: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -35445,6 +35945,106 @@ extension ConnectClientTypes {
     }
 }
 
+extension ResumeContactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactFlowId = "ContactFlowId"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactFlowId = self.contactFlowId {
+            try encodeContainer.encode(contactFlowId, forKey: .contactFlowId)
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+    }
+}
+
+extension ResumeContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/contact/resume"
+    }
+}
+
+public struct ResumeContactInput: Swift.Equatable {
+    /// The identifier of the flow.
+    public var contactFlowId: Swift.String?
+    /// The identifier of the contact.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactFlowId: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.contactFlowId = contactFlowId
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+struct ResumeContactInputBody: Swift.Equatable {
+    let contactId: Swift.String?
+    let instanceId: Swift.String?
+    let contactFlowId: Swift.String?
+}
+
+extension ResumeContactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactFlowId = "ContactFlowId"
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let contactFlowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactFlowId)
+        contactFlowId = contactFlowIdDecoded
+    }
+}
+
+extension ResumeContactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct ResumeContactOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum ResumeContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ResumeContactRecordingInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
@@ -35692,7 +36292,7 @@ extension ConnectClientTypes {
         public var routingProfileArn: Swift.String?
         /// The identifier of the routing profile.
         public var routingProfileId: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -36298,7 +36898,7 @@ extension ConnectClientTypes {
         /// A unique identifier for the rule.
         /// This member is required.
         public var ruleId: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The event source to trigger the rule.
         /// This member is required.
@@ -36338,9 +36938,12 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionType = "ActionType"
         case assignContactCategoryAction = "AssignContactCategoryAction"
+        case createCaseAction = "CreateCaseAction"
+        case endAssociatedTasksAction = "EndAssociatedTasksAction"
         case eventBridgeAction = "EventBridgeAction"
         case sendNotificationAction = "SendNotificationAction"
         case taskAction = "TaskAction"
+        case updateCaseAction = "UpdateCaseAction"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -36351,6 +36954,12 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         if let assignContactCategoryAction = self.assignContactCategoryAction {
             try encodeContainer.encode(assignContactCategoryAction, forKey: .assignContactCategoryAction)
         }
+        if let createCaseAction = self.createCaseAction {
+            try encodeContainer.encode(createCaseAction, forKey: .createCaseAction)
+        }
+        if let endAssociatedTasksAction = self.endAssociatedTasksAction {
+            try encodeContainer.encode(endAssociatedTasksAction, forKey: .endAssociatedTasksAction)
+        }
         if let eventBridgeAction = self.eventBridgeAction {
             try encodeContainer.encode(eventBridgeAction, forKey: .eventBridgeAction)
         }
@@ -36359,6 +36968,9 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         }
         if let taskAction = self.taskAction {
             try encodeContainer.encode(taskAction, forKey: .taskAction)
+        }
+        if let updateCaseAction = self.updateCaseAction {
+            try encodeContainer.encode(updateCaseAction, forKey: .updateCaseAction)
         }
     }
 
@@ -36374,6 +36986,12 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         assignContactCategoryAction = assignContactCategoryActionDecoded
         let sendNotificationActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SendNotificationActionDefinition.self, forKey: .sendNotificationAction)
         sendNotificationAction = sendNotificationActionDecoded
+        let createCaseActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.CreateCaseActionDefinition.self, forKey: .createCaseAction)
+        createCaseAction = createCaseActionDecoded
+        let updateCaseActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.UpdateCaseActionDefinition.self, forKey: .updateCaseAction)
+        updateCaseAction = updateCaseActionDecoded
+        let endAssociatedTasksActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EndAssociatedTasksActionDefinition.self, forKey: .endAssociatedTasksAction)
+        endAssociatedTasksAction = endAssociatedTasksActionDecoded
     }
 }
 
@@ -36385,26 +37003,38 @@ extension ConnectClientTypes {
         public var actionType: ConnectClientTypes.ActionType?
         /// Information about the contact category action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
         public var assignContactCategoryAction: ConnectClientTypes.AssignContactCategoryActionDefinition?
+        /// Information about the create case action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnPostChatAnalysisAvailable.
+        public var createCaseAction: ConnectClientTypes.CreateCaseActionDefinition?
+        /// Information about the end associated tasks action. Supported only for TriggerEventSource values: OnCaseUpdate.
+        public var endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition?
         /// Information about the EventBridge action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
         public var eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition?
         /// Information about the send notification action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
         public var sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition?
         /// Information about the task action. This field is required if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
         public var taskAction: ConnectClientTypes.TaskActionDefinition?
+        /// Information about the update case action. Supported only for TriggerEventSource values: OnCaseCreate | OnCaseUpdate.
+        public var updateCaseAction: ConnectClientTypes.UpdateCaseActionDefinition?
 
         public init(
             actionType: ConnectClientTypes.ActionType? = nil,
             assignContactCategoryAction: ConnectClientTypes.AssignContactCategoryActionDefinition? = nil,
+            createCaseAction: ConnectClientTypes.CreateCaseActionDefinition? = nil,
+            endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition? = nil,
             eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition? = nil,
             sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition? = nil,
-            taskAction: ConnectClientTypes.TaskActionDefinition? = nil
+            taskAction: ConnectClientTypes.TaskActionDefinition? = nil,
+            updateCaseAction: ConnectClientTypes.UpdateCaseActionDefinition? = nil
         )
         {
             self.actionType = actionType
             self.assignContactCategoryAction = assignContactCategoryAction
+            self.createCaseAction = createCaseAction
+            self.endAssociatedTasksAction = endAssociatedTasksAction
             self.eventBridgeAction = eventBridgeAction
             self.sendNotificationAction = sendNotificationAction
             self.taskAction = taskAction
+            self.updateCaseAction = updateCaseAction
         }
     }
 
@@ -38697,7 +39327,7 @@ extension ConnectClientTypes {
         public var securityProfileName: Swift.String?
         /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
         public var tagRestrictedResources: [Swift.String]?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -38881,7 +39511,7 @@ extension ConnectClientTypes {
         public var organizationResourceId: Swift.String?
         /// The name of the security profile.
         public var securityProfileName: Swift.String?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -39569,12 +40199,14 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
     public enum SourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cases
         case salesforce
         case zendesk
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceType] {
             return [
+                .cases,
                 .salesforce,
                 .zendesk,
                 .sdkUnknown("")
@@ -39586,6 +40218,7 @@ extension ConnectClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cases: return "CASES"
             case .salesforce: return "SALESFORCE"
             case .zendesk: return "ZENDESK"
             case let .sdkUnknown(s): return s
@@ -40300,9 +40933,13 @@ extension StartOutboundVoiceContactInput: Swift.Encodable {
         case campaignId = "CampaignId"
         case clientToken = "ClientToken"
         case contactFlowId = "ContactFlowId"
+        case description = "Description"
         case destinationPhoneNumber = "DestinationPhoneNumber"
         case instanceId = "InstanceId"
+        case name = "Name"
         case queueId = "QueueId"
+        case references = "References"
+        case relatedContactId = "RelatedContactId"
         case sourcePhoneNumber = "SourcePhoneNumber"
         case trafficType = "TrafficType"
     }
@@ -40327,14 +40964,29 @@ extension StartOutboundVoiceContactInput: Swift.Encodable {
         if let contactFlowId = self.contactFlowId {
             try encodeContainer.encode(contactFlowId, forKey: .contactFlowId)
         }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let destinationPhoneNumber = self.destinationPhoneNumber {
             try encodeContainer.encode(destinationPhoneNumber, forKey: .destinationPhoneNumber)
         }
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
         if let queueId = self.queueId {
             try encodeContainer.encode(queueId, forKey: .queueId)
+        }
+        if let references = references {
+            var referencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .references)
+            for (dictKey0, contactReferences0) in references {
+                try referencesContainer.encode(contactReferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let relatedContactId = self.relatedContactId {
+            try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
         }
         if let sourcePhoneNumber = self.sourcePhoneNumber {
             try encodeContainer.encode(sourcePhoneNumber, forKey: .sourcePhoneNumber)
@@ -40363,14 +41015,22 @@ public struct StartOutboundVoiceContactInput: Swift.Equatable {
     /// The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// A description of the voice contact that is shown to an agent in the Contact Control Panel (CCP).
+    public var description: Swift.String?
     /// The phone number of the customer, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
+    public var name: Swift.String?
     /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the flow is used. If you do not specify a queue, you must specify a source phone number.
     public var queueId: Swift.String?
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during voice contact creation.
+    public var references: [Swift.String:ConnectClientTypes.Reference]?
+    /// The contactId that is related to this contact. Linking voice, task, or chat by using RelatedContactID copies over contact attributes from the related contact to the new contact. All updates to user-defined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
+    public var relatedContactId: Swift.String?
     /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
     public var sourcePhoneNumber: Swift.String?
     /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
@@ -40382,9 +41042,13 @@ public struct StartOutboundVoiceContactInput: Swift.Equatable {
         campaignId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
         destinationPhoneNumber: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
         queueId: Swift.String? = nil,
+        references: [Swift.String:ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
         sourcePhoneNumber: Swift.String? = nil,
         trafficType: ConnectClientTypes.TrafficType? = nil
     )
@@ -40394,15 +41058,23 @@ public struct StartOutboundVoiceContactInput: Swift.Equatable {
         self.campaignId = campaignId
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
+        self.description = description
         self.destinationPhoneNumber = destinationPhoneNumber
         self.instanceId = instanceId
+        self.name = name
         self.queueId = queueId
+        self.references = references
+        self.relatedContactId = relatedContactId
         self.sourcePhoneNumber = sourcePhoneNumber
         self.trafficType = trafficType
     }
 }
 
 struct StartOutboundVoiceContactInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let references: [Swift.String:ConnectClientTypes.Reference]?
+    let relatedContactId: Swift.String?
     let destinationPhoneNumber: Swift.String?
     let contactFlowId: Swift.String?
     let instanceId: Swift.String?
@@ -40422,15 +41094,36 @@ extension StartOutboundVoiceContactInputBody: Swift.Decodable {
         case campaignId = "CampaignId"
         case clientToken = "ClientToken"
         case contactFlowId = "ContactFlowId"
+        case description = "Description"
         case destinationPhoneNumber = "DestinationPhoneNumber"
         case instanceId = "InstanceId"
+        case name = "Name"
         case queueId = "QueueId"
+        case references = "References"
+        case relatedContactId = "RelatedContactId"
         case sourcePhoneNumber = "SourcePhoneNumber"
         case trafficType = "TrafficType"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let referencesContainer = try containerValues.decodeIfPresent([Swift.String: ConnectClientTypes.Reference?].self, forKey: .references)
+        var referencesDecoded0: [Swift.String:ConnectClientTypes.Reference]? = nil
+        if let referencesContainer = referencesContainer {
+            referencesDecoded0 = [Swift.String:ConnectClientTypes.Reference]()
+            for (key0, reference0) in referencesContainer {
+                if let reference0 = reference0 {
+                    referencesDecoded0?[key0] = reference0
+                }
+            }
+        }
+        references = referencesDecoded0
+        let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
+        relatedContactId = relatedContactIdDecoded
         let destinationPhoneNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPhoneNumber)
         destinationPhoneNumber = destinationPhoneNumberDecoded
         let contactFlowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactFlowId)
@@ -41890,6 +42583,117 @@ extension ConnectClientTypes {
 
 }
 
+extension TagContactInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, contactTagMap0) in tags {
+                try tagsContainer.encode(contactTagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/contact/tags"
+    }
+}
+
+public struct TagContactInput: Swift.Equatable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The tags to be assigned to the contact resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Authorization is not supported by this tag.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.tags = tags
+    }
+}
+
+struct TagContactInputBody: Swift.Equatable {
+    let contactId: Swift.String?
+    let instanceId: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagContactInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactId = "ContactId"
+        case instanceId = "InstanceId"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, contacttagvalue0) in tagsContainer {
+                if let contacttagvalue0 = contacttagvalue0 {
+                    tagsDecoded0?[key0] = contacttagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagContactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagContactOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags
@@ -41919,7 +42723,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -43039,7 +43843,7 @@ extension ConnectClientTypes {
         ///
         /// * UPDATE_IN_PROGRESS means the previous [UpdateTrafficDistribution](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateTrafficDistribution.html) operation is still in progress and has not yet completed.
         public var status: ConnectClientTypes.TrafficDistributionGroupStatus?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(
@@ -43486,6 +44290,92 @@ extension ConnectClientTypes {
     }
 }
 
+extension UntagContactInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            tagKeys.forEach { queryItemValue in
+                let queryItem = ClientRuntime.URLQueryItem(name: "TagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UntagContactInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let contactId = contactId else {
+            return nil
+        }
+        return "/contact/tags/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())"
+    }
+}
+
+public struct UntagContactInput: Swift.Equatable {
+    /// The identifier of the contact in this instance of Amazon Connect.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagContactInputBody: Swift.Equatable {
+}
+
+extension UntagContactInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UntagContactOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagContactOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagContactOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -43700,6 +44590,54 @@ enum UpdateAgentStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension ConnectClientTypes.UpdateCaseActionDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fields = "Fields"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
+            for fieldvalue0 in fields {
+                try fieldsContainer.encode(fieldvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.FieldValue?].self, forKey: .fields)
+        var fieldsDecoded0:[ConnectClientTypes.FieldValue]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [ConnectClientTypes.FieldValue]()
+            for structure0 in fieldsContainer {
+                if let structure0 = structure0 {
+                    fieldsDecoded0?.append(structure0)
+                }
+            }
+        }
+        fields = fieldsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// The UpdateCase action definition.
+    public struct UpdateCaseActionDefinition: Swift.Equatable {
+        /// An array of objects with Field ID and Value data.
+        /// This member is required.
+        public var fields: [ConnectClientTypes.FieldValue]?
+
+        public init(
+            fields: [ConnectClientTypes.FieldValue]? = nil
+        )
+        {
+            self.fields = fields
+        }
+    }
+
 }
 
 extension UpdateContactAttributesInput: Swift.Encodable {
@@ -49706,7 +50644,7 @@ extension ConnectClientTypes {
         public var routingProfileId: Swift.String?
         /// The identifiers of the user's security profiles.
         public var securityProfileIds: [Swift.String]?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
         /// The name of the user.
         public var username: Swift.String?
@@ -50502,7 +51440,7 @@ extension ConnectClientTypes {
         /// The current state of the custom vocabulary.
         /// This member is required.
         public var state: ConnectClientTypes.VocabularyState?
-        /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String:Swift.String]?
 
         public init(

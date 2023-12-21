@@ -2130,11 +2130,11 @@ extension ClassifyDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ClassifyDocumentInput: Swift.Equatable {
-    /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
+    /// Use the Bytes parameter to input a text, PDF, Word or image file. When you classify a document using a custom model, you can also use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document using the prompt safety classifier, use the Text parameter for input. Provide the input document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file bytes for you. The maximum length of this field depends on the input document type. For details, see [ Inputs for real-time custom analysis](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html) in the Comprehend Developer Guide. If you use the Bytes parameter, do not use the Text parameter.
     public var bytes: ClientRuntime.Data?
     /// Provides configuration parameters to override the default actions for extracting text from PDF documents and image files.
     public var documentReaderConfig: ComprehendClientTypes.DocumentReaderConfig?
-    /// The Amazon Resource Number (ARN) of the endpoint. For prompt classification, Amazon Comprehend provides the endpoint ARN: zzz. For custom classification, you create an endpoint for your custom model. For more information, see [Using Amazon Comprehend endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
+    /// The Amazon Resource Number (ARN) of the endpoint. For prompt safety classification, Amazon Comprehend provides the endpoint ARN. For more information about prompt safety classifiers, see [Prompt safety classification](https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification) in the Amazon Comprehend Developer Guide For custom classification, you create an endpoint for your custom model. For more information, see [Using Amazon Comprehend endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
     /// This member is required.
     public var endpointArn: Swift.String?
     /// The document text to be analyzed. If you enter text using this parameter, do not use the Bytes parameter.
@@ -2211,7 +2211,7 @@ extension ClassifyDocumentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ClassifyDocumentOutput: Swift.Equatable {
-    /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. For prompt classification, the response includes a single class (UNDESIRED_PROMPT), along with a confidence score. A higher confidence score indicates that the input prompt is undesired in nature.
+    /// The classes used by the document being analyzed. These are used for models trained in multi-class mode. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. For prompt safety classification, the response includes only two classes (SAFE_PROMPT and UNSAFE_PROMPT), along with a confidence score for each class. The value range of the score is zero to one, where one is the highest confidence.
     public var classes: [ComprehendClientTypes.DocumentClass]?
     /// Extraction information about the document. This field is present in the response only if your request includes the Byte parameter.
     public var documentMetadata: ComprehendClientTypes.DocumentMetadata?
@@ -2219,7 +2219,7 @@ public struct ClassifyDocumentOutput: Swift.Equatable {
     public var documentType: [ComprehendClientTypes.DocumentTypeListItem]?
     /// Page-level errors that the system detected while processing the input document. The field is empty if the system encountered no errors.
     public var errors: [ComprehendClientTypes.ErrorsListItem]?
-    /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
+    /// The labels used in the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not mutually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
     public var labels: [ComprehendClientTypes.DocumentLabel]?
     /// Warnings detected while processing the input document. The response includes a warning if there is a mismatch between the input document type and the model type associated with the endpoint that you specified. The response can also include warnings for individual pages that have a mismatch. The field is empty if the system generated no warnings.
     public var warnings: [ComprehendClientTypes.WarningsListItem]?
@@ -2792,7 +2792,7 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     /// The language of the input documents. You can specify any of the languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class mode, which identifies one and only one class for each document, or multi-label mode, which identifies one or more labels for each document. In multi-label mode, multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
+    /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class (single-label) mode or multi-label mode. Multi-class mode identifies a single class label for each document and multi-label mode identifies one or more class labels for each document. Multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
     public var mode: ComprehendClientTypes.DocumentClassifierMode?
     /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
@@ -7512,7 +7512,7 @@ public struct DetectToxicContentInput: Swift.Equatable {
     /// The language of the input text. Currently, English is the only supported language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// A list of up to 10 text strings. The maximum size for the list is 10 KB.
+    /// A list of up to 10 text strings. Each string has a maximum size of 1 KB, and the maximum size of the list is 10 KB.
     /// This member is required.
     public var textSegments: [ComprehendClientTypes.TextSegment]?
 
@@ -8816,11 +8816,7 @@ extension ComprehendClientTypes {
 }
 
 extension ComprehendClientTypes {
-    /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
-    ///
-    /// * TABLES - Returns additional information about any tables that are detected in the input document.
-    ///
-    /// * FORMS - Returns additional information about any forms that are detected in the input document.
+    /// TABLES or FORMS
     public enum DocumentReadFeatureTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
         case tables
@@ -8954,9 +8950,9 @@ extension ComprehendClientTypes {
         public var documentReadMode: ComprehendClientTypes.DocumentReadMode?
         /// Specifies the type of Amazon Textract features to apply. If you chose TEXTRACT_ANALYZE_DOCUMENT as the read action, you must specify one or both of the following values:
         ///
-        /// * TABLES - Returns information about any tables that are detected in the input document.
+        /// * TABLES - Returns additional information about any tables that are detected in the input document.
         ///
-        /// * FORMS - Returns information and the data from any forms that are detected in the input document.
+        /// * FORMS - Returns additional information about any forms that are detected in the input document.
         public var featureTypes: [ComprehendClientTypes.DocumentReadFeatureTypes]?
 
         public init(
@@ -11012,7 +11008,7 @@ extension ComprehendClientTypes.EntityTypesListItem: Swift.Codable {
 extension ComprehendClientTypes {
     /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer.
     public struct EntityTypesListItem: Swift.Equatable {
-        /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
+        /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), and , (comma).
         /// This member is required.
         public var type: Swift.String?
 
@@ -12465,17 +12461,23 @@ extension ComprehendClientTypes.InvalidRequestDetail: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Provides additional detail about why the request failed:
-    ///
-    /// * Document size is too large - Check the size of your file and resubmit the request.
-    ///
-    /// * Document type is not supported - Check the file type and resubmit the request.
-    ///
-    /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
-    ///
-    /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+    /// Provides additional detail about why the request failed.
     public struct InvalidRequestDetail: Swift.Equatable {
-        /// Reason code is INVALID_DOCUMENT.
+        /// Reason codes include the following values:
+        ///
+        /// * DOCUMENT_SIZE_EXCEEDED - Document size is too large. Check the size of your file and resubmit the request.
+        ///
+        /// * UNSUPPORTED_DOC_TYPE - Document type is not supported. Check the file type and resubmit the request.
+        ///
+        /// * PAGE_LIMIT_EXCEEDED - Too many pages in the document. Check the number of pages in your file and resubmit the request.
+        ///
+        /// * TEXTRACT_ACCESS_DENIED - Access denied to Amazon Textract. Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+        ///
+        /// * NOT_TEXTRACT_JSON - Document is not Amazon Textract JSON format. Verify the format and resubmit the request.
+        ///
+        /// * MISMATCHED_TOTAL_PAGE_COUNT - Check the number of pages in your file and resubmit the request.
+        ///
+        /// * INVALID_DOCUMENT - Invalid document. Check the file and resubmit the request.
         public var reason: ComprehendClientTypes.InvalidRequestDetailReason?
 
         public init(
@@ -12549,15 +12551,7 @@ extension InvalidRequestException {
 public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Provides additional detail about why the request failed:
-        ///
-        /// * Document size is too large - Check the size of your file and resubmit the request.
-        ///
-        /// * Document type is not supported - Check the file type and resubmit the request.
-        ///
-        /// * Too many pages in the document - Check the number of pages in your file and resubmit the request.
-        ///
-        /// * Access denied to Amazon Textract - Verify that your account has permission to use Amazon Textract API operations and resubmit the request.
+        /// Provides additional detail about why the request failed.
         public internal(set) var detail: ComprehendClientTypes.InvalidRequestDetail? = nil
         public internal(set) var message: Swift.String? = nil
         public internal(set) var reason: ComprehendClientTypes.InvalidRequestReason? = nil
@@ -22223,11 +22217,11 @@ extension ComprehendClientTypes.ToxicLabels: Swift.Codable {
 }
 
 extension ComprehendClientTypes {
-    /// Toxicity analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide
+    /// Toxicity analysis result for one string. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
     public struct ToxicLabels: Swift.Equatable {
         /// Array of toxic content types identified in the string.
         public var labels: [ComprehendClientTypes.ToxicContent]?
-        /// Overall toxicity score for the string.
+        /// Overall toxicity score for the string. Value range is zero to one, where one is the highest confidence.
         public var toxicity: Swift.Float?
 
         public init(
@@ -22257,7 +22251,7 @@ extension UnsupportedLanguageException {
     }
 }
 
-/// Amazon Comprehend can't process the language of the input text. For custom entity recognition APIs, only English, Spanish, French, Italian, German, or Portuguese are accepted. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
+/// Amazon Comprehend can't process the language of the input text. For a list of supported languages, [Supported languages](https://docs.aws.amazon.com/comprehend/latest/dg/supported-languages.html) in the Comprehend Developer Guide.
 public struct UnsupportedLanguageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

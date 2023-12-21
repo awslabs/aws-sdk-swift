@@ -503,6 +503,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNeptune](../../../../../swift/api/awsneptune/latest)
 
+[AWSNeptuneGraph](../../../../../swift/api/awsneptunegraph/latest)
+
 [AWSNeptunedata](../../../../../swift/api/awsneptunedata/latest)
 
 [AWSNetworkFirewall](../../../../../swift/api/awsnetworkfirewall/latest)

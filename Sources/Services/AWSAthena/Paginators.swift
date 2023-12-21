@@ -108,7 +108,8 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         return ListDatabasesInput(
             catalogName: self.catalogName,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )}
 }
 
@@ -138,7 +139,8 @@ extension ListDataCatalogsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListDataCatalogsInput {
         return ListDataCatalogsInput(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )}
 }
 
@@ -304,7 +306,8 @@ extension ListTableMetadataInput: ClientRuntime.PaginateToken {
             databaseName: self.databaseName,
             expression: self.expression,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workGroup: self.workGroup
         )}
 }
 

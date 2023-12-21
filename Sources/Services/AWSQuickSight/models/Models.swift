@@ -10241,6 +10241,7 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         case referenceLines = "ReferenceLines"
         case secondaryYAxisDisplayOptions = "SecondaryYAxisDisplayOptions"
         case secondaryYAxisLabelOptions = "SecondaryYAxisLabelOptions"
+        case singleAxisOptions = "SingleAxisOptions"
         case sortConfiguration = "SortConfiguration"
         case tooltip = "Tooltip"
         case visualPalette = "VisualPalette"
@@ -10290,6 +10291,9 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         if let secondaryYAxisLabelOptions = self.secondaryYAxisLabelOptions {
             try encodeContainer.encode(secondaryYAxisLabelOptions, forKey: .secondaryYAxisLabelOptions)
         }
+        if let singleAxisOptions = self.singleAxisOptions {
+            try encodeContainer.encode(singleAxisOptions, forKey: .singleAxisOptions)
+        }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
         }
@@ -10321,6 +10325,8 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptionsDecoded
         let secondaryYAxisLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .secondaryYAxisLabelOptions)
         secondaryYAxisLabelOptions = secondaryYAxisLabelOptionsDecoded
+        let singleAxisOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SingleAxisOptions.self, forKey: .singleAxisOptions)
+        singleAxisOptions = singleAxisOptionsDecoded
         let colorLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .colorLabelOptions)
         colorLabelOptions = colorLabelOptionsDecoded
         let legendDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LegendOptions.self, forKey: .legend)
@@ -10382,6 +10388,8 @@ extension QuickSightClientTypes {
         public var secondaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions?
         /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's secondary y-axis(line) field well.
         public var secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The settings of a chart's single axis configuration.
+        public var singleAxisOptions: QuickSightClientTypes.SingleAxisOptions?
         /// The sort configuration of a ComboChartVisual.
         public var sortConfiguration: QuickSightClientTypes.ComboChartSortConfiguration?
         /// The legend display setup of the visual.
@@ -10403,6 +10411,7 @@ extension QuickSightClientTypes {
             referenceLines: [QuickSightClientTypes.ReferenceLine]? = nil,
             secondaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            singleAxisOptions: QuickSightClientTypes.SingleAxisOptions? = nil,
             sortConfiguration: QuickSightClientTypes.ComboChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
@@ -10421,6 +10430,7 @@ extension QuickSightClientTypes {
             self.referenceLines = referenceLines
             self.secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptions
             self.secondaryYAxisLabelOptions = secondaryYAxisLabelOptions
+            self.singleAxisOptions = singleAxisOptions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
             self.visualPalette = visualPalette
@@ -12580,6 +12590,7 @@ extension CreateDashboardInput: Swift.Encodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
+        case linkEntities = "LinkEntities"
         case linkSharingConfiguration = "LinkSharingConfiguration"
         case name = "Name"
         case parameters = "Parameters"
@@ -12603,6 +12614,12 @@ extension CreateDashboardInput: Swift.Encodable {
             var folderArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .folderArns)
             for arn0 in folderArns {
                 try folderArnsContainer.encode(arn0)
+            }
+        }
+        if let linkEntities = linkEntities {
+            var linkEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkEntities)
+            for linkentityarn0 in linkEntities {
+                try linkEntitiesContainer.encode(linkentityarn0)
             }
         }
         if let linkSharingConfiguration = self.linkSharingConfiguration {
@@ -12672,6 +12689,8 @@ public struct CreateDashboardInput: Swift.Equatable {
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
     /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
     public var folderArns: [Swift.String]?
+    /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
+    public var linkEntities: [Swift.String]?
     /// A structure that contains the permissions of a shareable link to the dashboard.
     public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
     /// The display name of the dashboard.
@@ -12698,6 +12717,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
         definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
         folderArns: [Swift.String]? = nil,
+        linkEntities: [Swift.String]? = nil,
         linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration? = nil,
         name: Swift.String? = nil,
         parameters: QuickSightClientTypes.Parameters? = nil,
@@ -12714,6 +12734,7 @@ public struct CreateDashboardInput: Swift.Equatable {
         self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
         self.folderArns = folderArns
+        self.linkEntities = linkEntities
         self.linkSharingConfiguration = linkSharingConfiguration
         self.name = name
         self.parameters = parameters
@@ -12739,6 +12760,7 @@ struct CreateDashboardInputBody: Swift.Equatable {
     let validationStrategy: QuickSightClientTypes.ValidationStrategy?
     let folderArns: [Swift.String]?
     let linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
+    let linkEntities: [Swift.String]?
 }
 
 extension CreateDashboardInputBody: Swift.Decodable {
@@ -12746,6 +12768,7 @@ extension CreateDashboardInputBody: Swift.Decodable {
         case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case folderArns = "FolderArns"
+        case linkEntities = "LinkEntities"
         case linkSharingConfiguration = "LinkSharingConfiguration"
         case name = "Name"
         case parameters = "Parameters"
@@ -12810,6 +12833,17 @@ extension CreateDashboardInputBody: Swift.Decodable {
         folderArns = folderArnsDecoded0
         let linkSharingConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LinkSharingConfiguration.self, forKey: .linkSharingConfiguration)
         linkSharingConfiguration = linkSharingConfigurationDecoded
+        let linkEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .linkEntities)
+        var linkEntitiesDecoded0:[Swift.String]? = nil
+        if let linkEntitiesContainer = linkEntitiesContainer {
+            linkEntitiesDecoded0 = [Swift.String]()
+            for string0 in linkEntitiesContainer {
+                if let string0 = string0 {
+                    linkEntitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        linkEntities = linkEntitiesDecoded0
     }
 }
 
@@ -17857,6 +17891,7 @@ extension QuickSightClientTypes.Dashboard: Swift.Codable {
         case dashboardId = "DashboardId"
         case lastPublishedTime = "LastPublishedTime"
         case lastUpdatedTime = "LastUpdatedTime"
+        case linkEntities = "LinkEntities"
         case name = "Name"
         case version = "Version"
     }
@@ -17877,6 +17912,12 @@ extension QuickSightClientTypes.Dashboard: Swift.Codable {
         }
         if let lastUpdatedTime = self.lastUpdatedTime {
             try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let linkEntities = linkEntities {
+            var linkEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkEntities)
+            for linkentityarn0 in linkEntities {
+                try linkEntitiesContainer.encode(linkentityarn0)
+            }
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -17902,6 +17943,17 @@ extension QuickSightClientTypes.Dashboard: Swift.Codable {
         lastPublishedTime = lastPublishedTimeDecoded
         let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
         lastUpdatedTime = lastUpdatedTimeDecoded
+        let linkEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .linkEntities)
+        var linkEntitiesDecoded0:[Swift.String]? = nil
+        if let linkEntitiesContainer = linkEntitiesContainer {
+            linkEntitiesDecoded0 = [Swift.String]()
+            for string0 in linkEntitiesContainer {
+                if let string0 = string0 {
+                    linkEntitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        linkEntities = linkEntitiesDecoded0
     }
 }
 
@@ -17918,6 +17970,8 @@ extension QuickSightClientTypes {
         public var lastPublishedTime: ClientRuntime.Date?
         /// The last time that this dashboard was updated.
         public var lastUpdatedTime: ClientRuntime.Date?
+        /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
+        public var linkEntities: [Swift.String]?
         /// A display name for the dashboard.
         public var name: Swift.String?
         /// Version.
@@ -17929,6 +17983,7 @@ extension QuickSightClientTypes {
             dashboardId: Swift.String? = nil,
             lastPublishedTime: ClientRuntime.Date? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
+            linkEntities: [Swift.String]? = nil,
             name: Swift.String? = nil,
             version: QuickSightClientTypes.DashboardVersion? = nil
         )
@@ -17938,6 +17993,7 @@ extension QuickSightClientTypes {
             self.dashboardId = dashboardId
             self.lastPublishedTime = lastPublishedTime
             self.lastUpdatedTime = lastUpdatedTime
+            self.linkEntities = linkEntities
             self.name = name
             self.version = version
         }
@@ -45882,6 +45938,7 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         case secondaryYAxisDisplayOptions = "SecondaryYAxisDisplayOptions"
         case secondaryYAxisLabelOptions = "SecondaryYAxisLabelOptions"
         case series = "Series"
+        case singleAxisOptions = "SingleAxisOptions"
         case smallMultiplesOptions = "SmallMultiplesOptions"
         case sortConfiguration = "SortConfiguration"
         case tooltip = "Tooltip"
@@ -45941,6 +45998,9 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
                 try seriesContainer.encode(seriesitem0)
             }
         }
+        if let singleAxisOptions = self.singleAxisOptions {
+            try encodeContainer.encode(singleAxisOptions, forKey: .singleAxisOptions)
+        }
         if let smallMultiplesOptions = self.smallMultiplesOptions {
             try encodeContainer.encode(smallMultiplesOptions, forKey: .smallMultiplesOptions)
         }
@@ -45997,6 +46057,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptionsDecoded
         let secondaryYAxisLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .secondaryYAxisLabelOptions)
         secondaryYAxisLabelOptions = secondaryYAxisLabelOptionsDecoded
+        let singleAxisOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SingleAxisOptions.self, forKey: .singleAxisOptions)
+        singleAxisOptions = singleAxisOptionsDecoded
         let defaultSeriesSettingsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LineChartDefaultSeriesSettings.self, forKey: .defaultSeriesSettings)
         defaultSeriesSettings = defaultSeriesSettingsDecoded
         let seriesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.SeriesItem?].self, forKey: .series)
@@ -46070,6 +46132,8 @@ extension QuickSightClientTypes {
         public var secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The series item configuration of a line chart.
         public var series: [QuickSightClientTypes.SeriesItem]?
+        /// The settings of a chart's single axis configuration.
+        public var singleAxisOptions: QuickSightClientTypes.SingleAxisOptions?
         /// The small multiples setup for the visual.
         public var smallMultiplesOptions: QuickSightClientTypes.SmallMultiplesOptions?
         /// The sort configuration of a line chart.
@@ -46098,6 +46162,7 @@ extension QuickSightClientTypes {
             secondaryYAxisDisplayOptions: QuickSightClientTypes.LineSeriesAxisDisplayOptions? = nil,
             secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             series: [QuickSightClientTypes.SeriesItem]? = nil,
+            singleAxisOptions: QuickSightClientTypes.SingleAxisOptions? = nil,
             smallMultiplesOptions: QuickSightClientTypes.SmallMultiplesOptions? = nil,
             sortConfiguration: QuickSightClientTypes.LineChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
@@ -46119,6 +46184,7 @@ extension QuickSightClientTypes {
             self.secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptions
             self.secondaryYAxisLabelOptions = secondaryYAxisLabelOptions
             self.series = series
+            self.singleAxisOptions = singleAxisOptions
             self.smallMultiplesOptions = smallMultiplesOptions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
@@ -63751,6 +63817,7 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
         case legend = "Legend"
+        case sortConfiguration = "SortConfiguration"
         case tooltip = "Tooltip"
         case visualPalette = "VisualPalette"
         case xAxisDisplayOptions = "XAxisDisplayOptions"
@@ -63769,6 +63836,9 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
+        }
+        if let sortConfiguration = self.sortConfiguration {
+            try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
         }
         if let tooltip = self.tooltip {
             try encodeContainer.encode(tooltip, forKey: .tooltip)
@@ -63794,6 +63864,8 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fieldWellsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ScatterPlotFieldWells.self, forKey: .fieldWells)
         fieldWells = fieldWellsDecoded
+        let sortConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ScatterPlotSortConfiguration.self, forKey: .sortConfiguration)
+        sortConfiguration = sortConfigurationDecoded
         let xAxisLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .xAxisLabelOptions)
         xAxisLabelOptions = xAxisLabelOptionsDecoded
         let xAxisDisplayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AxisDisplayOptions.self, forKey: .xAxisDisplayOptions)
@@ -63822,6 +63894,8 @@ extension QuickSightClientTypes {
         public var fieldWells: QuickSightClientTypes.ScatterPlotFieldWells?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
+        /// The sort configuration of a scatter plot.
+        public var sortConfiguration: QuickSightClientTypes.ScatterPlotSortConfiguration?
         /// The legend display setup of the visual.
         public var tooltip: QuickSightClientTypes.TooltipOptions?
         /// The palette (chart color) display setup of the visual.
@@ -63839,6 +63913,7 @@ extension QuickSightClientTypes {
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.ScatterPlotFieldWells? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
+            sortConfiguration: QuickSightClientTypes.ScatterPlotSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil,
             xAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
@@ -63850,6 +63925,7 @@ extension QuickSightClientTypes {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.legend = legend
+            self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
             self.visualPalette = visualPalette
             self.xAxisDisplayOptions = xAxisDisplayOptions
@@ -63901,6 +63977,41 @@ extension QuickSightClientTypes {
         {
             self.scatterPlotCategoricallyAggregatedFieldWells = scatterPlotCategoricallyAggregatedFieldWells
             self.scatterPlotUnaggregatedFieldWells = scatterPlotUnaggregatedFieldWells
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.ScatterPlotSortConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scatterPlotLimitConfiguration = "ScatterPlotLimitConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scatterPlotLimitConfiguration = self.scatterPlotLimitConfiguration {
+            try encodeContainer.encode(scatterPlotLimitConfiguration, forKey: .scatterPlotLimitConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scatterPlotLimitConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ItemsLimitConfiguration.self, forKey: .scatterPlotLimitConfiguration)
+        scatterPlotLimitConfiguration = scatterPlotLimitConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The sort configuration of a scatter plot.
+    public struct ScatterPlotSortConfiguration: Swift.Equatable {
+        /// The limit configuration of the visual display for an axis.
+        public var scatterPlotLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration?
+
+        public init(
+            scatterPlotLimitConfiguration: QuickSightClientTypes.ItemsLimitConfiguration? = nil
+        )
+        {
+            self.scatterPlotLimitConfiguration = scatterPlotLimitConfiguration
         }
     }
 
@@ -67572,6 +67683,70 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.SingleAxisOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case yAxisOptions = "YAxisOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let yAxisOptions = self.yAxisOptions {
+            try encodeContainer.encode(yAxisOptions, forKey: .yAxisOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let yAxisOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.YAxisOptions.self, forKey: .yAxisOptions)
+        yAxisOptions = yAxisOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The settings of a chart's single axis configuration.
+    public struct SingleAxisOptions: Swift.Equatable {
+        /// The Y axis options of a single axis configuration.
+        public var yAxisOptions: QuickSightClientTypes.YAxisOptions?
+
+        public init(
+            yAxisOptions: QuickSightClientTypes.YAxisOptions? = nil
+        )
+        {
+            self.yAxisOptions = yAxisOptions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum SingleYAxisOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case primaryYAxis
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SingleYAxisOption] {
+            return [
+                .primaryYAxis,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .primaryYAxis: return "PRIMARY_Y_AXIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SingleYAxisOption(rawValue: rawValue) ?? SingleYAxisOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.SliderControlDisplayOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case infoIconLabelOptions = "InfoIconLabelOptions"
@@ -68595,6 +68770,7 @@ extension QuickSightClientTypes {
     /// A structure that describes the Amazon S3 settings to use to save the generated dashboard snapshot.
     public struct SnapshotS3DestinationConfiguration: Swift.Equatable {
         /// A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.
+        /// This member is required.
         public var bucketConfiguration: QuickSightClientTypes.S3BucketConfiguration?
 
         public init(
@@ -79634,6 +79810,176 @@ extension UpdateDashboardInputBody: Swift.Decodable {
     }
 }
 
+extension UpdateDashboardLinksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkEntities = "LinkEntities"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let linkEntities = linkEntities {
+            var linkEntitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkEntities)
+            for linkentityarn0 in linkEntities {
+                try linkEntitiesContainer.encode(linkentityarn0)
+            }
+        }
+    }
+}
+
+extension UpdateDashboardLinksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let awsAccountId = awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = dashboardId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/linked-entities"
+    }
+}
+
+public struct UpdateDashboardLinksInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account that contains the dashboard whose links you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
+    /// This member is required.
+    public var linkEntities: [Swift.String]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        linkEntities: [Swift.String]? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.linkEntities = linkEntities
+    }
+}
+
+struct UpdateDashboardLinksInputBody: Swift.Equatable {
+    let linkEntities: [Swift.String]?
+}
+
+extension UpdateDashboardLinksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkEntities = "LinkEntities"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .linkEntities)
+        var linkEntitiesDecoded0:[Swift.String]? = nil
+        if let linkEntitiesContainer = linkEntitiesContainer {
+            linkEntitiesDecoded0 = [Swift.String]()
+            for string0 in linkEntitiesContainer {
+                if let string0 = string0 {
+                    linkEntitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        linkEntities = linkEntitiesDecoded0
+    }
+}
+
+extension UpdateDashboardLinksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDashboardLinksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dashboardArn = output.dashboardArn
+            self.linkEntities = output.linkEntities
+            self.requestId = output.requestId
+        } else {
+            self.dashboardArn = nil
+            self.linkEntities = nil
+            self.requestId = nil
+        }
+        self.status = httpResponse.statusCode.rawValue
+    }
+}
+
+public struct UpdateDashboardLinksOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the dashboard.
+    public var dashboardArn: Swift.String?
+    /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
+    public var linkEntities: [Swift.String]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        dashboardArn: Swift.String? = nil,
+        linkEntities: [Swift.String]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.dashboardArn = dashboardArn
+        self.linkEntities = linkEntities
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+struct UpdateDashboardLinksOutputBody: Swift.Equatable {
+    let requestId: Swift.String?
+    let status: Swift.Int
+    let dashboardArn: Swift.String?
+    let linkEntities: [Swift.String]?
+}
+
+extension UpdateDashboardLinksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dashboardArn = "DashboardArn"
+        case linkEntities = "LinkEntities"
+        case requestId = "RequestId"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .status) ?? 0
+        status = statusDecoded
+        let dashboardArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dashboardArn)
+        dashboardArn = dashboardArnDecoded
+        let linkEntitiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .linkEntities)
+        var linkEntitiesDecoded0:[Swift.String]? = nil
+        if let linkEntitiesContainer = linkEntitiesContainer {
+            linkEntitiesDecoded0 = [Swift.String]()
+            for string0 in linkEntitiesContainer {
+                if let string0 = string0 {
+                    linkEntitiesDecoded0?.append(string0)
+                }
+            }
+        }
+        linkEntities = linkEntitiesDecoded0
+    }
+}
+
+enum UpdateDashboardLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateDashboardOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -87508,4 +87854,40 @@ extension QuickSightClientTypes {
             self = WordCloudWordScaling(rawValue: rawValue) ?? WordCloudWordScaling.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.YAxisOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case yAxis = "YAxis"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let yAxis = self.yAxis {
+            try encodeContainer.encode(yAxis.rawValue, forKey: .yAxis)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let yAxisDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SingleYAxisOption.self, forKey: .yAxis)
+        yAxis = yAxisDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options that are available for a single Y axis in a chart.
+    public struct YAxisOptions: Swift.Equatable {
+        /// The Y axis type to be used in the chart. If you choose PRIMARY_Y_AXIS, the primary Y Axis is located on the leftmost vertical axis of the chart.
+        /// This member is required.
+        public var yAxis: QuickSightClientTypes.SingleYAxisOption?
+
+        public init(
+            yAxis: QuickSightClientTypes.SingleYAxisOption? = nil
+        )
+        {
+            self.yAxis = yAxis
+        }
+    }
+
 }
