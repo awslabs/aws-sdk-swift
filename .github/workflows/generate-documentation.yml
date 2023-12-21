@@ -61,7 +61,7 @@ jobs:
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials for publish role
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.CD_API_REFS_PUBLISH_ROLE_ARN }}
@@ -87,4 +87,15 @@ jobs:
             --if-match "$KVS_ETAG" \
             --key latest \
             --value "$VERSION"
+      - name: Configure AWS Credentials for invalidation role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.CD_API_REFS_INVALIDATE_ROLE_ARN }}
+          aws-region: us-east-1
+          role-chaining: true
+      - name: Invalidate sdk.amazonaws.com cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ secrets.CD_CLOUDFRONT_PUBLIC_DISTRIBUTION_ID }}"
+            --paths "/swift/*"
 
