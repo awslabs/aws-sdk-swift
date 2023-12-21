@@ -49,7 +49,7 @@ jobs:
           else
             echo "Version forced to 0.24.0"
             echo "VERSION=0.24.0" >> "$GITHUB_ENV"
-            echo "version-0.24.0" >> "$GITHUB_OUTPUT"
+            echo "version=0.24.0" >> "$GITHUB_OUTPUT"
             # echo "Error: runs on a tag only"
             # exit 1
           fi
