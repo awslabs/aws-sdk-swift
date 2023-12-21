@@ -75,11 +75,8 @@ TOTAL_JOBS="$3"
 # convert comma separated ignore list to array
 IGNORE=($(echo $4 | tr ',' '\n'))
 
-echo "Dumping packages"
-dump=$(swift package dump-package)
-
-echo "Finding packages"
-packages=$(echo $dump |  jq '.products[].name')
+echo "Finding package names, unquoting names, sorting"
+packages=$(swift package dump-package | jq '.products[].name' | sed 's/"//g' | sort)
 
 echo "Complete list of packages:"
 echo $packages
@@ -92,9 +89,6 @@ for package in $packages; do
         current=$((current + 1))
         continue
     fi
-
-    # remove quotes
-    package=$(echo $package | sed 's/"//g')
 
     # skip if in ignore list
     if [[ " ${IGNORE[@]} " =~ " ${package} " ]]; then
