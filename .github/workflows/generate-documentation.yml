@@ -93,6 +93,7 @@ jobs:
           role-to-assume: ${{ secrets.CD_API_REFS_INVALIDATE_ROLE_ARN }}
           aws-region: us-east-1
           role-chaining: true
+          role-skip-session-tagging: true
       - name: Invalidate sdk.amazonaws.com cache
         run: |
           aws cloudfront create-invalidation \
