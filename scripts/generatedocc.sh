@@ -81,6 +81,9 @@ dump=$(swift package dump-package)
 echo "Finding packages"
 packages=$(echo $dump |  jq '.products[].name')
 
+echo "Complete list of packages:"
+echo $packages
+
 # loop through each package with index
 current=0
 for package in $packages; do
