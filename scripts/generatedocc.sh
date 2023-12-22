@@ -78,9 +78,6 @@ IGNORE=($(echo $4 | tr ',' '\n'))
 echo "Finding package names, unquoting names, sorting"
 packages=$(swift package dump-package | jq '.products[].name' | sed 's/"//g' | sort)
 
-echo "Complete list of packages:"
-echo $packages
-
 # loop through each package with index
 current=0
 for package in $packages; do
