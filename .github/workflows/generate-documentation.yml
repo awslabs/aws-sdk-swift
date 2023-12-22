@@ -97,6 +97,6 @@ jobs:
       - name: Invalidate sdk.amazonaws.com cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id "${{ secrets.CD_CLOUDFRONT_PUBLIC_DISTRIBUTION_ID }}"
+            --distribution-id "${{ secrets.CD_CLOUDFRONT_PUBLIC_DISTRIBUTION_ID }}" \
             --paths "/swift/*"
 
